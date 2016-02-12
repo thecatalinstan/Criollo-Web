@@ -10,6 +10,8 @@
 		93E4DACED7A2814DDB1325F5 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */; };
 		ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
+		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
+		ADF3C9DA1C6DDAFB00C0D5BC /* CWLandingPageViewController.html in Resources */ = {isa = PBXBuildFile; fileRef = ADF3C9D91C6DDAFB00C0D5BC /* CWLandingPageViewController.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,9 @@
 		ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		ADD680021C6CBEC600FC41EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADD680091C6CBEC600FC41EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADF3C9D51C6DDA9800C0D5BC /* CWLandingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLandingPageViewController.h; sourceTree = "<group>"; };
+		ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLandingPageViewController.m; sourceTree = "<group>"; };
+		ADF3C9D91C6DDAFB00C0D5BC /* CWLandingPageViewController.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = CWLandingPageViewController.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +78,7 @@
 		ADD67FFD1C6CBEC600FC41EE /* Criollo Web */ = {
 			isa = PBXGroup;
 			children = (
+				ADF3C9D81C6DDAAE00C0D5BC /* Views */,
 				ADD67FFE1C6CBEC600FC41EE /* AppDelegate.h */,
 				ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */,
 				ADD680091C6CBEC600FC41EE /* Info.plist */,
@@ -87,6 +93,16 @@
 				ADD680021C6CBEC600FC41EE /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ADF3C9D81C6DDAAE00C0D5BC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ADF3C9D51C6DDA9800C0D5BC /* CWLandingPageViewController.h */,
+				ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */,
+				ADF3C9D91C6DDAFB00C0D5BC /* CWLandingPageViewController.html */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +134,7 @@
 		ADD67FF31C6CBEC600FC41EE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = CW;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Criollo.io;
 				TargetAttributes = {
@@ -149,6 +166,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADF3C9DA1C6DDAFB00C0D5BC /* CWLandingPageViewController.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
+				ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */,
 				ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

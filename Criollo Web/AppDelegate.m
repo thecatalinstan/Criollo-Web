@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CWLandingPageViewController.h"
 
 #define PortNumber          10781
 #define LogConnections          0
@@ -27,8 +28,10 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.server = [[CRHTTPServer alloc] initWithDelegate:self];
 
-    [self.server addBlock:self.server.notFoundBlock forPath:@"/"];
+    // Homepage
+    [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
+    // Static resources folder
     [self.server addStaticDirectoryAtPath:@"." forPath:@"/pub" options:CRStaticDirectoryServingOptionsAutoIndex|CRStaticDirectoryServingOptionsFollowSymlinks|CRStaticDirectoryServingOptionsCacheFiles];
 
     [self startServer];
