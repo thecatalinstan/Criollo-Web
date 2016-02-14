@@ -8,16 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		93E4DACED7A2814DDB1325F5 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */; };
+		AD7290EB1C7059030079AD76 /* style.css in Public Resources */ = {isa = PBXBuildFile; fileRef = AD7290E71C7058C20079AD76 /* style.css */; };
 		ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
 		ADF3C9DA1C6DDAFB00C0D5BC /* CWLandingPageViewController.html in Resources */ = {isa = PBXBuildFile; fileRef = ADF3C9D91C6DDAFB00C0D5BC /* CWLandingPageViewController.html */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AD7290EA1C7058F50079AD76 /* Public Resources */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Public;
+			dstSubfolderSpec = 7;
+			files = (
+				AD7290EB1C7059030079AD76 /* style.css in Public Resources */,
+			);
+			name = "Public Resources";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Criollo_Web.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71B7991AFA0D8C745A129030 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 		8BE0020376C25449AA34CF50 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
+		AD7290E71C7058C20079AD76 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = Public/style.css; sourceTree = "<group>"; };
 		ADD67FFB1C6CBEC600FC41EE /* Criollo Web.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Criollo Web.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADD67FFE1C6CBEC600FC41EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -57,6 +73,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AD7290E91C7058C90079AD76 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				AD7290E71C7058C20079AD76 /* style.css */,
+			);
+			name = Public;
+			sourceTree = "<group>";
+		};
 		ADD67FF21C6CBEC600FC41EE = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +107,7 @@
 				ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */,
 				ADD680091C6CBEC600FC41EE /* Info.plist */,
 				ADD680011C6CBEC600FC41EE /* Supporting Files */,
+				AD7290E91C7058C90079AD76 /* Public */,
 			);
 			path = "Criollo Web";
 			sourceTree = "<group>";
@@ -118,6 +143,7 @@
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				74F2AF479DD5ABFE3E3AA013 /* Embed Pods Frameworks */,
 				E76231703290585E916297CE /* Copy Pods Resources */,
+				AD7290EA1C7058F50079AD76 /* Public Resources */,
 			);
 			buildRules = (
 			);

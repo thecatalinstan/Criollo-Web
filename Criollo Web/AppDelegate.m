@@ -32,7 +32,8 @@
     [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
     // Static resources folder
-    [self.server addStaticDirectoryAtPath:@"." forPath:@"/pub" options:CRStaticDirectoryServingOptionsAutoIndex|CRStaticDirectoryServingOptionsFollowSymlinks|CRStaticDirectoryServingOptionsCacheFiles];
+    NSString* publicResourcesFolder = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Public"];
+    [self.server addStaticDirectoryAtPath:publicResourcesFolder forPath:@"/static" options:CRStaticDirectoryServingOptionsAutoIndex|CRStaticDirectoryServingOptionsCacheFiles];
 
     [self startServer];
 }
