@@ -12,6 +12,8 @@
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
+    self.templateVariables[@"title"] = [NSBundle mainBundle].executablePath.lastPathComponent;
+
     return [super presentViewControllerWithRequest:request response:response];
 }
 

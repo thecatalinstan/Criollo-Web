@@ -105,7 +105,6 @@
 				ADF3C9D81C6DDAAE00C0D5BC /* Views */,
 				ADD67FFE1C6CBEC600FC41EE /* AppDelegate.h */,
 				ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */,
-				ADD680091C6CBEC600FC41EE /* Info.plist */,
 				ADD680011C6CBEC600FC41EE /* Supporting Files */,
 				AD7290E91C7058C90079AD76 /* Public */,
 			);
@@ -115,6 +114,7 @@
 		ADD680011C6CBEC600FC41EE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADD680091C6CBEC600FC41EE /* Info.plist */,
 				ADD680021C6CBEC600FC41EE /* main.m */,
 			);
 			name = "Supporting Files";
