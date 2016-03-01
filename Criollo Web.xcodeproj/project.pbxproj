@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		93E4DACED7A2814DDB1325F5 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */; };
-		AD7290EB1C7059030079AD76 /* style.css in Public Resources */ = {isa = PBXBuildFile; fileRef = AD7290E71C7058C20079AD76 /* style.css */; };
+		AD712D2C1C7DEC43007DC35C /* default.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD712D2A1C7DE248007DC35C /* default.js */; };
+		AD7DF10F1C7D07A000501AE8 /* style.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = ADB53C7F1C7D06F6009B6FE3 /* style.css */; };
 		ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
@@ -16,15 +17,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AD7290EA1C7058F50079AD76 /* Public Resources */ = {
+		AD3A3E2F1C7D081D0048F16C /* Copy Public Images */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Public/images;
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			name = "Copy Public Images";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AD7290EA1C7058F50079AD76 /* Copy Public Resources */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Public;
 			dstSubfolderSpec = 7;
 			files = (
-				AD7290EB1C7059030079AD76 /* style.css in Public Resources */,
+				AD712D2C1C7DEC43007DC35C /* default.js in Copy Public Resources */,
+				AD7DF10F1C7D07A000501AE8 /* style.css in Copy Public Resources */,
 			);
-			name = "Public Resources";
+			name = "Copy Public Resources";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -33,7 +45,8 @@
 		0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Criollo_Web.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71B7991AFA0D8C745A129030 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 		8BE0020376C25449AA34CF50 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
-		AD7290E71C7058C20079AD76 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = Public/style.css; sourceTree = "<group>"; };
+		AD712D2A1C7DE248007DC35C /* default.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = default.js; path = Public/default.js; sourceTree = "<group>"; };
+		ADB53C7F1C7D06F6009B6FE3 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = Public/style.css; sourceTree = "<group>"; };
 		ADD67FFB1C6CBEC600FC41EE /* Criollo Web.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Criollo Web.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADD67FFE1C6CBEC600FC41EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -76,7 +89,8 @@
 		AD7290E91C7058C90079AD76 /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				AD7290E71C7058C20079AD76 /* style.css */,
+				AD712D2A1C7DE248007DC35C /* default.js */,
+				ADB53C7F1C7D06F6009B6FE3 /* style.css */,
 			);
 			name = Public;
 			sourceTree = "<group>";
@@ -143,7 +157,8 @@
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				74F2AF479DD5ABFE3E3AA013 /* Embed Pods Frameworks */,
 				E76231703290585E916297CE /* Copy Pods Resources */,
-				AD7290EA1C7058F50079AD76 /* Public Resources */,
+				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
+				AD3A3E2F1C7D081D0048F16C /* Copy Public Images */,
 			);
 			buildRules = (
 			);
@@ -358,6 +373,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = "Criollo Web/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.criollo.Criollo-Web";

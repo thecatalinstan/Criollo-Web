@@ -10,8 +10,8 @@
 #import "CWLandingPageViewController.h"
 
 #define PortNumber          10781
-#define LogConnections          0
-#define LogRequests             0
+#define LogConnections          1
+#define LogRequests             1
 
 @interface AppDelegate ()  <CRServerDelegate> {
 
@@ -52,5 +52,21 @@
         [CRApp terminate:nil];
     }
 }
+
+#if LogConnections
+- (void)server:(CRServer *)server didAcceptConnection:(CRConnection *)connection {
+    [CRApp logFormat:@" * Accepted connection from %@:%d", connection.remoteAddress, connection.remotePort];
+}
+
+- (void)server:(CRServer *)server didCloseConnection:(CRConnection *)connection {
+    [CRApp logFormat:@" * Disconnected %@:%d", connection.remoteAddress, connection.remotePort];
+}
+#endif
+
+#if LogRequests
+- (void)server:(CRServer *)server didFinishRequest:(CRRequest *)request {
+    [CRApp logFormat:@" * %@ %@ - %lu - %@", request.response.connection.remoteAddress, request, request.response.statusCode, request.env[@"HTTP_USER_AGENT"]];
+}
+#endif
 
 @end
