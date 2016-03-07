@@ -10,7 +10,7 @@
 #import "CWLandingPageViewController.h"
 
 #define PortNumber          10781
-#define LogConnections          1
+#define LogConnections          0
 #define LogRequests             1
 
 @interface AppDelegate ()  <CRServerDelegate> {
@@ -65,7 +65,11 @@
 
 #if LogRequests
 - (void)server:(CRServer *)server didFinishRequest:(CRRequest *)request {
-    [CRApp logFormat:@" * %@ %@ - %lu - %@", request.response.connection.remoteAddress, request, request.response.statusCode, request.env[@"HTTP_USER_AGENT"]];
+    NSString* contentLength = [request.response valueForHTTPHeaderField:@"Content-Length"];
+    NSString* userAgent = request.env[@"HTTP_USER_AGENT"];
+    NSString* remoteAddress = request.connection.remoteAddress;
+    NSUInteger statusCode = request.response.statusCode;
+    [CRApp logFormat:@"%@ %@ - %lu %@ - %@", remoteAddress, request, statusCode, contentLength ? : @"-", userAgent];
 }
 #endif
 
