@@ -26,7 +26,7 @@
 			fileType = pattern.proxy;
 			isEditable = 1;
 			outputFiles = (
-				"$(INPUT_FILE_BASE).html",
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).html",
 			);
 			script = "jade -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
 		};
@@ -186,6 +186,7 @@
 				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
 				74F2AF479DD5ABFE3E3AA013 /* Embed Pods Frameworks */,
 				E76231703290585E916297CE /* Copy Pods Resources */,
+				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
 			);
 			buildRules = (
 				AD7280901C908DCE007A7FA6 /* PBXBuildRule */,
@@ -273,6 +274,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Compiled Public Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DST_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\nSRC_DIR=\"$DERIVED_FILE_DIR\"\n\nfunction file_basename {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME%.*}\"\n}\n\nfunction file_extension {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME##*.}\"\n}\n\nfunction mapped_extension {\n    case $1 in\n    \"styl\" )\n    echo \"css\"\n    ;;\n    \"jade\" )\n    echo \"html\"\n    ;;\n    esac\n}\n\nls -1 \"$DST_DIR\"  | while read INPUT_FILE_NAME ; do\n    INPUT_FILE_BASE=\"`file_basename $INPUT_FILE_NAME`\"\n    INPUT_FILE_EXTENSION=\"`file_extension $INPUT_FILE_NAME`\"\n\n    SRC_FILE_EXTENSION=\"`mapped_extension $INPUT_FILE_EXTENSION`\"\n    if [ -z \"$SRC_FILE_EXTENSION\" ] ; then\n    continue\n    fi\n\n    SRC_FILE=\"$INPUT_FILE_BASE.$SRC_FILE_EXTENSION\"\n    cp \"$SRC_DIR/$SRC_FILE\" \"$DST_DIR/$SRC_FILE\"\n    rm \"$DST_DIR/$INPUT_FILE_NAME\"\ndone";
 		};
 		E76231703290585E916297CE /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
