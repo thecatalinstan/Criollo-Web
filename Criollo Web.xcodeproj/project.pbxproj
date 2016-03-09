@@ -11,6 +11,8 @@
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
 		AD7280931C90911E007A7FA6 /* CWLandingPageViewController.jade in Sources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
+		AD7C64E91C90A2A600DBB48B /* CWLandingPageViewController.jade in Resources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */; };
+		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
@@ -26,7 +28,7 @@
 			outputFiles = (
 				"$(INPUT_FILE_BASE).html",
 			);
-			script = "#!/bin/bash\nOUT_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"\nmkdir -p \"$OUT_DIR\"\ncd \"$INPUT_FILE_DIR\"\njade -o \"$OUT_DIR\" \"$INPUT_FILE_NAME\"\n\n";
+			script = "jade -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
 		};
 		AD7396921C90747700D9F4B3 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
@@ -35,9 +37,9 @@
 			fileType = pattern.proxy;
 			isEditable = 1;
 			outputFiles = (
-				"$(INPUT_FILE_BASE).css",
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).css",
 			);
-			script = "#!/bin/bash\nOUT_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public/\"\nmkdir -p \"$OUT_DIR\"\ncd \"$INPUT_FILE_DIR\"\nstylus -c -u nib -o \"$OUT_DIR\" \"$INPUT_FILE_NAME\"\n\n\n";
+			script = "stylus -c -u nib -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
 		};
 /* End PBXBuildRule section */
 
@@ -48,6 +50,7 @@
 			dstPath = Public;
 			dstSubfolderSpec = 7;
 			files = (
+				AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */,
 			);
 			name = "Copy Public Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
+				AD7C64E91C90A2A600DBB48B /* CWLandingPageViewController.jade in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
