@@ -28,7 +28,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).html",
 			);
-			script = "jade -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
+			script = "jade -p \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
 		};
 		AD7396921C90747700D9F4B3 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
@@ -39,7 +39,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).css",
 			);
-			script = "stylus -c -u nib -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
+			script = "stylus -c -r -u nib -I \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
 		};
 /* End PBXBuildRule section */
 
