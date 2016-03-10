@@ -33,7 +33,7 @@
 
     // Static resources folder
     NSString* publicResourcesFolder = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Public"];
-    [self.server addStaticDirectoryAtPath:publicResourcesFolder forPath:@"/static" options:CRStaticDirectoryServingOptionsAutoIndex|CRStaticDirectoryServingOptionsCacheFiles];
+    [self.server addStaticDirectoryAtPath:publicResourcesFolder forPath:CWStaticDirPath options:CRStaticDirectoryServingOptionsAutoIndex|CRStaticDirectoryServingOptionsCacheFiles];
 
     [self startServer];
 }

@@ -1,12 +1,62 @@
-<!DOCTYPE html>
-html
-	head
-		meta(charset="utf-8")
-		title {{title}}
-		meta(name="viewport",content="width=device-width, initial-scale=1.0")
-		meta(name="description",content="{{meta-description}}")
-		meta(name="keywords",content="{{meta-keywords}}")
-		meta(name="author",content="criollo.io")
-		link(rel="stylesheet",href="/static/default.css",type="text/css")
-	body
-		h1 {{title}}
+doctype html
+html(lang="en")
+
+  head
+    meta(charset="utf-8")
+    title {{title}}
+    meta(name="viewport",content="width=device-width, initial-scale=1.0")
+    meta(name="description",content="{{meta-description}}")
+    meta(name="keywords",content="{{meta-keywords}}")
+    meta(name="author",content="criollo.io")
+    link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Raleway:400,400italic,700,700italic|Ruda:400,700,900")
+    link(rel="stylesheet",href="{{static-dir}}/default.css",type="text/css")
+
+  body
+
+    header.masthead
+      .logo(title="{{title}}")
+        a(href="/")
+          img(src="{{static-dir}}")
+      h2 A powerful Cocoa based web application framework for OS X and iOS
+
+    section.details
+      p Criollo helps create standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift. And you can use technologies you know and love: Grand Central Dispatch, NSURLSession, CoreImage etc. It's as easy as this:
+
+      .hello-world
+        .code Hello world ObjC
+        p ... and in Swift:
+        .code Hello world Swift
+
+    section.why
+      h2 Why?
+      p Criollo was created in order to take advantage of the truly awesome tools and APIs that OS X and iOS provide and serve content produced with them over the web.
+      p It incorporates an HTTP web server and a&nbsp;
+        a(href="http://fastcgi.com",target="_blank") FastCGI
+        |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for *speed*.
+
+//- h2 How to Use
+
+//- Criollo can easily be embedded as a web-server inside your OS X or iOS app, should you be in need of such a feature, however it was designed to create standalone, long-lived daemon style apps. It is fully [`launchd`](http://launchd.info/) compatible and replicates the lifecycle and behaviour of `NSApplication`, so that the learning curve should be as smooth as possible.
+
+//- See the [Hello World Multi Target example](https://github.com/thecatalinstan/Criollo/tree/master/Examples/HelloWorld-MultiTarget) for a demo of the two usage patterns.
+
+
+
+
+//-   ```objective-c
+//-   const CRServer* &server = [[CRHTTPServer alloc] init];
+//- [server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+//-     [response sendString:@"Hello world!"];
+//- } forPath:@"/"];
+//- [server startListening];
+//- ```
+
+//-
+
+//- ```swift
+//- let server:CRServer = CRHTTPServer()
+//- server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -> Void in
+//-   response.sendString("Hello world!")
+//- }, forPath: "/")
+//- server.startListening()
+//- ```

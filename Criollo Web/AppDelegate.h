@@ -8,6 +8,8 @@
 
 #import <Criollo/Criollo.h>
 
+#define CWStaticDirPath @"/static"
+
 @interface AppDelegate : NSObject <CRApplicationDelegate>
 
 @end

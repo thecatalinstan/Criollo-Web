@@ -7,12 +7,44 @@
 //
 
 #import "CWLandingPageViewController.h"
+#import "AppDelegate.h"
+
+@interface CWLandingPageViewController () {
+
+}
+
+//+ (NSDictionary *) mainMenuItems;
+
+@end
 
 @implementation CWLandingPageViewController
 
+//+ (NSDictionary *)mainMenuItems {
+//    static NSDictionary* mainMenuItems;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        mainMenuItems = @{
+//            "Getting Started"
+//        };
+//    });
+//    return mainMenuItems;
+//}
+
+
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
-    self.templateVariables[@"title"] = [NSBundle mainBundle].executablePath.lastPathComponent;
+//    [NSBundle mainBundle].executablePath.lastPathComponent;
+
+    NSString* productTitle = @"Criollo";
+    NSString* productSubtitle = @"A powerful Cocoa based web application framework for OS X and iOS.";
+
+    self.templateVariables[@"static-dir"] = CWStaticDirPath;
+    self.templateVariables[@"title"] = productTitle;
+    self.templateVariables[@"meta-description"] = @"Criollo helps create self-contained web applications that deliver content directly over HTTP or behind a web server (through FastCGI) - all the while leveraging the technologies you know and love: GCD, NSURLSession, CoreImage etc.";
+    self.templateVariables[@"meta-keywords"] = @"criollo, objective-c, swift, web, framework, HTTP, FCGI, FastCGI, server";
+    self.templateVariables[@"product-title"] = productTitle;
+    self.templateVariables[@"product-subtitle"] = productSubtitle;
+    self.templateVariables[@"main-menu"] = @"";
 
     return [super presentViewControllerWithRequest:request response:response];
 }

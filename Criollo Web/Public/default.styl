@@ -1,12 +1,81 @@
-@import 'nib'
+@import reset
+@import nib
 
-criollo-orange = #cc8339
+// Color definitions
+criollo-light-gray        = #fcfcfc
+criollo-dark-gray         = #333333
+criollo-orange            = #cc8339
+criollo-light-orange      = #f0af6c
+criollo-dark-orange       = #633b28
 
+// Layout colors and fonts
+body-color                = criollo-dark-gray
+masthead-color            = criollo-light-gray
+masthead-background-color = criollo-orange
+heading-color             = criollo-dark-orange
+link-color                = criollo-orange
+link-hover-color          = criollo-light-orange
+footer-color              = criollo-light-gray
+footer-background-color   = criollo-dark-orange
+footer-link-color         = link-color
+footer-link-hover-color   = link-hover-color
+
+// Fonts
+body-font-family          = Helvetica, sans-serif
+heading-font-family       = "Ruda", "Trebuchet MS", Verdana, sans-serif
 
 
 body,
 html
   width 100%
   height 100%
-  background-color criollo-orange
+
+body
+  font-family body-font-family
+  font-size 20px
+  color criollo-dark-gray
+
+h1
+  font-size 2.8em
+
+h2
+  font-size 1.6em
+
+h3
+  font-size 1em
+
+h1, h2, h3
+  font-family heading-font-family
+  font-weight bold
+  line-height 1.5em
+  letter-spacing -0.05em
+  color heading-color
+
+p, div
+  font-size 0.9em
+
+p
+  margin 0.5em 0
+  line-height 1.5em
+
+a
+  color link-color
+  text-decoration underline
+  transition color 0.25s ease-in-out 0
+
+a:hover
+  color link-hover-color
+
+body
+
+  .masthead
+    background-color masthead-background-color
+    text-align center
+
+    h1, h2
+      color masthead-color
+
+    h2
+      font-weight normal
+
 
