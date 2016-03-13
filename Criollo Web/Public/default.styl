@@ -122,12 +122,21 @@ body
     background-color footer-background-color
     color footer-color
     font-size 1em
+    padding-bottom 0
+
+    a
+      color footer-link-color
+      text-decoration none
+
+      &:hover
+        color footer-link-hover-color
+        text-decoration underline
 
     .col
       display inline-block
       width 18em
       vertical-align top
-      margin 2em 1em
+      margin 2em 1em 2em 1em
 
       h3
         color footer-heading-color
@@ -138,11 +147,11 @@ body
           font-size 0.85em
           line-height 1.3em
 
-          a
-            color footer-link-color
-            text-decoration none
 
-            &:hover
-              color footer-link-hover-color
-              text-decoration underline
+    .copyright
+      font-size 0.76em
+      line-height 1em
+      border-top 1px solid criollo-light-orange
+      padding 0
+      margin-top 1em
 
