@@ -45,6 +45,7 @@
     self.templateVariables[@"product-title"] = productTitle;
     self.templateVariables[@"product-subtitle"] = productSubtitle;
     self.templateVariables[@"main-menu"] = @"";
+    self.templateVariables[@"github-url"] = CWGitHubURL;
 
     return [super presentViewControllerWithRequest:request response:response];
 }

@@ -10,53 +10,86 @@ html(lang="en")
     meta(name="author",content="criollo.io")
     link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Raleway:400,400italic,700,700italic|Ruda:400,700,900")
     link(rel="stylesheet",href="{{static-dir}}/default.css",type="text/css")
+    link(rel="shortcut icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
+    link(rel="icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
 
   body
 
     header.masthead
-      .logo(title="{{title}}")
-        a(href="/")
-          img(src="{{static-dir}}")
-      h2 A powerful Cocoa based web application framework for OS X and iOS
+      .content
+        .logo(title="{{title}}")
+          a(href="/")
+            img(src="{{static-dir}}/LOGO.PNG",width="300",hright="120")
+        h2 A powerful Cocoa based web application framework for OS X and iOS
+        p Criollo helps create standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift. And you can use technologies you know and love: Grand Central Dispatch, NSURLSession, CoreImage etc.
 
     section.details
-      p Criollo helps create standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift. And you can use technologies you know and love: Grand Central Dispatch, NSURLSession, CoreImage etc. It's as easy as this:
+      .content
+        p It's as easy as this:
 
-      .hello-world
-        .code Hello world ObjC
-        p ... and in Swift:
-        .code Hello world Swift
+        .hello-world
+
+          code
+            //- ```objective-c
+            //- const CRServer* &amp;server = [[CRHTTPServer alloc] init];
+            //- [server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+            //-     [response sendString:@"Hello world!"];
+            //- } forPath:@"/"];
+            //- [server startListening];
+            //- ```
+
+          p ... and in Swift:
+
+          code
+            //- ```swift
+            //- let server:CRServer = CRHTTPServer()
+            //-   server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -> Void inresponse.sendString("Hello world!")
+            //- }, forPath: "/")
+            //- server.startListening()
+            //- ```
 
     section.why
-      h2 Why?
-      p Criollo was created in order to take advantage of the truly awesome tools and APIs that OS X and iOS provide and serve content produced with them over the web.
-      p It incorporates an HTTP web server and a&nbsp;
-        a(href="http://fastcgi.com",target="_blank") FastCGI
-        |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for *speed*.
+      .content
+        h2 Why?
+        p Criollo was created in order to take advantage of the truly awesome tools and APIs that OS X and iOS provide and serve content produced with them over the web.
+        p It incorporates an HTTP web server and a&nbsp;
+          a(href="http://fastcgi.com",target="_blank") FastCGI
+          |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.
 
-//- h2 How to Use
+    section.how
+      .content
+        h2 How to Use
+        p Criollo can easily be embedded as a web-server inside your OS X or iOS app, should you be in need of such a feature, however it was designed to create standalone, long-lived daemon style apps.
+        p It is fully &nbsp;
+          a(href="http://launchd.info/",target="_blank") launchd
+          |&nbsp;compatible and replicates the lifecycle and behaviour of NSApplication, so that the learning curve should be as smooth as possible.
 
-//- Criollo can easily be embedded as a web-server inside your OS X or iOS app, should you be in need of such a feature, however it was designed to create standalone, long-lived daemon style apps. It is fully [`launchd`](http://launchd.info/) compatible and replicates the lifecycle and behaviour of `NSApplication`, so that the learning curve should be as smooth as possible.
+    section.getting-started
+      .content
+        h2 Getting Started
+        p Head over to the&nbsp;
+          a(href="{{github-url}}",target="_blank") GitHub Project Page
+          |&nbsp;, check out the &nbsp;
+          a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Getting Started Guide
+          |&nbsp;and the
+          a(href="{{github-url}}/wiki",target="_blank") Wiki
+          |.
 
-//- See the [Hello World Multi Target example](https://github.com/thecatalinstan/Criollo/tree/master/Examples/HelloWorld-MultiTarget) for a demo of the two usage patterns.
-
-
-
-
-//-   ```objective-c
-//-   const CRServer* &server = [[CRHTTPServer alloc] init];
-//- [server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-//-     [response sendString:@"Hello world!"];
-//- } forPath:@"/"];
-//- [server startListening];
-//- ```
-
-//-
-
-//- ```swift
-//- let server:CRServer = CRHTTPServer()
-//- server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -> Void in
-//-   response.sendString("Hello world!")
-//- }, forPath: "/")
-//- server.startListening()
-//- ```
+    footer.footer
+      .content
+        .col
+          h3 Get Criollo
+          ul
+            li
+              a(href="{{github-url}}",target="_blank") GitHub Project Page
+            li
+              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") This Website on GitHub
+            li
+              a(href="http://cocoapods.org/pods/Criollo",target="_blank") Criollo on CocoaPods.org
+        .col
+          h3 Get in Touch
+          ul
+            li
+              a(href="https://twitter.com/Criolloio",target="_blank") Twitter: @criolloio
+            li
+              a(href="mailto:criollo@criollo.io") Send us an e-mail

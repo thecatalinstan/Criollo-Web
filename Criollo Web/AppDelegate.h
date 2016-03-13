@@ -8,7 +8,8 @@
 
 #import <Criollo/Criollo.h>
 
-#define CWStaticDirPath @"/static"
+#define CWGitHubURL             @"https://github.com/thecatalinstan/Criollo"
+#define CWStaticDirPath         @"/static"
 
 @interface AppDelegate : NSObject <CRApplicationDelegate>
 
