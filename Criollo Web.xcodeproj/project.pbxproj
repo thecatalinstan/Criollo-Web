@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		93E4DACED7A2814DDB1325F5 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */; };
+		AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA96C1C96004B005206A1 /* logo.png */; };
+		AD0BA9851C9600BC005206A1 /* favicon-120.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9701C960068005206A1 /* favicon-120.png */; };
+		AD0BA9861C9600C5005206A1 /* favicon-128.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9711C960068005206A1 /* favicon-128.png */; };
+		AD0BA9871C9600C7005206A1 /* favicon-144.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9721C960068005206A1 /* favicon-144.png */; };
+		AD0BA9881C9600CB005206A1 /* favicon-152.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9731C960068005206A1 /* favicon-152.png */; };
+		AD0BA9891C9600CE005206A1 /* favicon-195.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9741C960068005206A1 /* favicon-195.png */; };
+		AD0BA98A1C9600D1005206A1 /* favicon-228.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9751C960068005206A1 /* favicon-228.png */; };
+		AD0BA98B1C9600D5005206A1 /* favicon-57.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9761C960068005206A1 /* favicon-57.png */; };
+		AD0BA98C1C9600DC005206A1 /* favicon-72.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9771C960068005206A1 /* favicon-72.png */; };
+		AD0BA98D1C9600E1005206A1 /* favicon-96.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9781C960068005206A1 /* favicon-96.png */; };
+		AD0BA98E1C9600FB005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9791C960068005206A1 /* favicon.ico */; };
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
 		AD7280931C90911E007A7FA6 /* CWLandingPageViewController.jade in Sources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
@@ -51,6 +62,16 @@
 			dstSubfolderSpec = 7;
 			files = (
 				AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */,
+				AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */,
+				AD0BA9851C9600BC005206A1 /* favicon-120.png in Copy Public Resources */,
+				AD0BA9861C9600C5005206A1 /* favicon-128.png in Copy Public Resources */,
+				AD0BA9871C9600C7005206A1 /* favicon-144.png in Copy Public Resources */,
+				AD0BA9881C9600CB005206A1 /* favicon-152.png in Copy Public Resources */,
+				AD0BA9891C9600CE005206A1 /* favicon-195.png in Copy Public Resources */,
+				AD0BA98B1C9600D5005206A1 /* favicon-57.png in Copy Public Resources */,
+				AD0BA98C1C9600DC005206A1 /* favicon-72.png in Copy Public Resources */,
+				AD0BA98A1C9600D1005206A1 /* favicon-228.png in Copy Public Resources */,
+				AD0BA98D1C9600E1005206A1 /* favicon-96.png in Copy Public Resources */,
 			);
 			name = "Copy Public Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,11 +83,22 @@
 		71B7991AFA0D8C745A129030 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 		8BE0020376C25449AA34CF50 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
+		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		AD0BA9701C960068005206A1 /* favicon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-120.png"; sourceTree = "<group>"; };
+		AD0BA9711C960068005206A1 /* favicon-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-128.png"; sourceTree = "<group>"; };
+		AD0BA9721C960068005206A1 /* favicon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-144.png"; sourceTree = "<group>"; };
+		AD0BA9731C960068005206A1 /* favicon-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-152.png"; sourceTree = "<group>"; };
+		AD0BA9741C960068005206A1 /* favicon-195.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-195.png"; sourceTree = "<group>"; };
+		AD0BA9751C960068005206A1 /* favicon-228.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-228.png"; sourceTree = "<group>"; };
+		AD0BA9761C960068005206A1 /* favicon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-57.png"; sourceTree = "<group>"; };
+		AD0BA9771C960068005206A1 /* favicon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-72.png"; sourceTree = "<group>"; };
+		AD0BA9781C960068005206A1 /* favicon-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-96.png"; sourceTree = "<group>"; };
+		AD0BA9791C960068005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AD712D2A1C7DE248007DC35C /* default.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = default.js; path = Public/default.js; sourceTree = "<group>"; };
+		AD712D2A1C7DE248007DC35C /* default.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = default.js; sourceTree = "<group>"; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.jade; sourceTree = "<group>"; };
-		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = default.styl; path = Public/default.styl; sourceTree = "<group>"; };
-		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = reset.styl; path = Public/reset.styl; sourceTree = "<group>"; };
+		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
+		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reset.styl; sourceTree = "<group>"; };
 		ADC098871C90F6D4009CC72F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ADD67FFB1C6CBEC600FC41EE /* Criollo Web.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Criollo Web.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADD67FFE1C6CBEC600FC41EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -106,6 +138,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AD0BA96E1C960068005206A1 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				AD0BA96C1C96004B005206A1 /* logo.png */,
+				AD0BA96F1C960068005206A1 /* favicon */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		AD0BA96F1C960068005206A1 /* favicon */ = {
+			isa = PBXGroup;
+			children = (
+				AD0BA9701C960068005206A1 /* favicon-120.png */,
+				AD0BA9711C960068005206A1 /* favicon-128.png */,
+				AD0BA9721C960068005206A1 /* favicon-144.png */,
+				AD0BA9731C960068005206A1 /* favicon-152.png */,
+				AD0BA9741C960068005206A1 /* favicon-195.png */,
+				AD0BA9751C960068005206A1 /* favicon-228.png */,
+				AD0BA9761C960068005206A1 /* favicon-57.png */,
+				AD0BA9771C960068005206A1 /* favicon-72.png */,
+				AD0BA9781C960068005206A1 /* favicon-96.png */,
+				AD0BA9791C960068005206A1 /* favicon.ico */,
+			);
+			path = favicon;
+			sourceTree = "<group>";
+		};
 		AD4A13F41C9068AC00A3616E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,10 +175,11 @@
 		AD7290E91C7058C90079AD76 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				AD0BA96E1C960068005206A1 /* images */,
 				ADC098891C90F953009CC72F /* JS */,
 				ADC098881C90F947009CC72F /* CSS */,
 			);
-			name = Public;
+			path = Public;
 			sourceTree = "<group>";
 		};
 		ADC098881C90F947009CC72F /* CSS */ = {
@@ -257,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD0BA98E1C9600FB005206A1 /* favicon.ico in Resources */,
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
 				AD7C64E91C90A2A600DBB48B /* CWLandingPageViewController.jade in Resources */,
 			);
