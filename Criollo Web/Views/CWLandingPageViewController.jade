@@ -20,12 +20,23 @@ html(lang="en")
         .logo(title="{{title}}")
           a(href="/")
             img(src="{{static-dir}}/LOGO.PNG",width="300",hright="120")
-        h2 A powerful Cocoa based web application framework for OS X and iOS
-        p Criollo helps create standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with.
-
+        h2 A powerful Cocoa based web application framework
+          br
+          |&nbsp;for OS X and iOS
+        .subscribe-form
+          form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
     section.details
       .content
-        p It's as easy as this:
+        p.shields
+          a(href="http://cocoadocs.org/docsets/Criollo")
+            img(src="https://img.shields.io/cocoapods/v/Criollo.svg?style=flat",alt="Version Status")
+          a(href="http://cocoapods.org/?q=Criollo")
+            img(src="http://img.shields.io/cocoapods/p/Criollo.svg?style=flat",alt="Platform")
+          a(href="https://opensource.org/licenses/MIT")
+            img(src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat",alt="MIT License")
+          a(href="http://twitter.com/Criolloio")
+            img(src="https://img.shields.io/badge/twitter-@Criolloio-orange.svg?style=flat",alt="Twitter")
+        p Criollo helps create really fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with. It's as easy as this:
 
         .hello-world
 

@@ -33,8 +33,6 @@
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
-//    [NSBundle mainBundle].executablePath.lastPathComponent;
-
     NSString* productTitle = @"Criollo";
     NSString* productSubtitle = @"A powerful Cocoa based web application framework for OS X and iOS.";
 
@@ -46,6 +44,9 @@
     self.templateVariables[@"product-subtitle"] = productSubtitle;
     self.templateVariables[@"main-menu"] = @"";
     self.templateVariables[@"github-url"] = CWGitHubURL;
+    self.templateVariables[@"token"] = request.cookies[CWSessionCookie] ? : @"";
+    self.templateVariables[@"list-id"] = @"";
+    self.templateVariables[@"subscribe"] = CWSubscribePath;
 
     return [super presentViewControllerWithRequest:request response:response];
 }

@@ -28,16 +28,33 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     self.server = [[CRHTTPServer alloc] initWithDelegate:self];
 
+    NSBundle* bundle = [NSBundle mainBundle];
+    NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@</h2>", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+
+    // Session and identity block
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        // Server HTTP header
+        [response setValue:serverSpec forHTTPHeaderField:@"Server"];
+
+        // Session cookie
+        if ( ! request.cookies[CWSessionCookie] ) {
+            NSString* token = [NSUUID UUID].UUIDString;
+            [response setCookie:CWSessionCookie value:token path:@"/" expires:nil domain:nil secure:NO];
+        }
+
+        completionHandler();
+    }];
+
     // Homepage
     [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
 
     // favicon.ico
-    NSString* faviconPath = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
+    NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];
     [self.server mountStaticFileAtPath:faviconPath forPath:@"/favicon.ico"];
 
     // Static resources folder
-    NSString* publicResourcesFolder = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Public"];
+    NSString* publicResourcesFolder = [bundle.resourcePath stringByAppendingPathComponent:@"Public"];
     [self.server mountStaticDirectoryAtPath:publicResourcesFolder forPath:CWStaticDirPath options:CRStaticDirectoryServingOptionsAutoIndex|CRStaticDirectoryServingOptionsCacheFiles|CRStaticDirectoryServingOptionsAutoIndex];
 
     [self startServer];

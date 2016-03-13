@@ -19,6 +19,7 @@
 		AD0BA98C1C9600DC005206A1 /* favicon-72.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9771C960068005206A1 /* favicon-72.png */; };
 		AD0BA98D1C9600E1005206A1 /* favicon-96.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9781C960068005206A1 /* favicon-96.png */; };
 		AD0BA98E1C9600FB005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9791C960068005206A1 /* favicon.ico */; };
+		AD0BA9991C9629A6005206A1 /* general.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* general.js */; };
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
 		AD7280931C90911E007A7FA6 /* CWLandingPageViewController.jade in Sources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
@@ -61,6 +62,7 @@
 			dstPath = Public;
 			dstSubfolderSpec = 7;
 			files = (
+				AD0BA9991C9629A6005206A1 /* general.js in Copy Public Resources */,
 				AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */,
 				AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */,
 				AD0BA9851C9600BC005206A1 /* favicon-120.png in Copy Public Resources */,
@@ -94,8 +96,8 @@
 		AD0BA9771C960068005206A1 /* favicon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-72.png"; sourceTree = "<group>"; };
 		AD0BA9781C960068005206A1 /* favicon-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favicon-96.png"; sourceTree = "<group>"; };
 		AD0BA9791C960068005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
+		AD0BA9971C962922005206A1 /* general.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = general.js; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AD712D2A1C7DE248007DC35C /* default.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = default.js; sourceTree = "<group>"; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.jade; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
 		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reset.styl; sourceTree = "<group>"; };
@@ -194,7 +196,7 @@
 		ADC098891C90F953009CC72F /* JS */ = {
 			isa = PBXGroup;
 			children = (
-				AD712D2A1C7DE248007DC35C /* default.js */,
+				AD0BA9971C962922005206A1 /* general.js */,
 			);
 			name = JS;
 			sourceTree = "<group>";
@@ -266,6 +268,7 @@
 				74F2AF479DD5ABFE3E3AA013 /* Embed Pods Frameworks */,
 				E76231703290585E916297CE /* Copy Pods Resources */,
 				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
+				AD0BA99A1C962ECA005206A1 /* Uglify */,
 			);
 			buildRules = (
 				AD7280901C908DCE007A7FA6 /* PBXBuildRule */,
@@ -355,6 +358,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		AD0BA99A1C962ECA005206A1 /* Uglify */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Uglify;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#SRC_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\n\n#uglify -s \"$SRC_DIR/*.js\" -o \"$DERIVED_FILE_DIR/uglified.js\"\n#if [ -f \"$DERIVED_FILE_DIR/uglified.js\" ] ; then\n#    mv \"$DERIVED_FILE_DIR/uglified.js\" \"$SRC_DIR/default.js\"\n#fi\n";
+			showEnvVarsInLog = 0;
+		};
 		ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -367,7 +385,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DST_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\nSRC_DIR=\"$DERIVED_FILE_DIR\"\n\nfunction file_basename {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME%.*}\"\n}\n\nfunction file_extension {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME##*.}\"\n}\n\nfunction mapped_extension {\n    case $1 in\n    \"styl\" )\n    echo \"css\"\n    ;;\n    \"jade\" )\n    echo \"html\"\n    ;;\n    esac\n}\n\nls -1 \"$DST_DIR\"  | while read INPUT_FILE_NAME ; do\n    INPUT_FILE_BASE=\"`file_basename $INPUT_FILE_NAME`\"\n    INPUT_FILE_EXTENSION=\"`file_extension $INPUT_FILE_NAME`\"\n\n    SRC_FILE_EXTENSION=\"`mapped_extension $INPUT_FILE_EXTENSION`\"\n    if [ -z \"$SRC_FILE_EXTENSION\" ] ; then\n    continue\n    fi\n\n    SRC_FILE=\"$INPUT_FILE_BASE.$SRC_FILE_EXTENSION\"\n    cp \"$SRC_DIR/$SRC_FILE\" \"$DST_DIR/$SRC_FILE\"\n    rm \"$DST_DIR/$INPUT_FILE_NAME\"\ndone";
+			shellScript = "DST_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\nSRC_DIR=\"$DERIVED_FILE_DIR\"\n\nfunction file_basename {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME%.*}\"\n}\n\nfunction file_extension {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME##*.}\"\n}\n\nfunction mapped_extension {\n    case $1 in\n        \"styl\" )\n            echo \"css\"\n            ;;\n        \"jade\" )\n            echo \"html\"\n            ;;\n    esac\n}\n\nls -1 \"$DST_DIR\"  | while read INPUT_FILE_NAME ; do\n    INPUT_FILE_BASE=\"`file_basename $INPUT_FILE_NAME`\"\n    INPUT_FILE_EXTENSION=\"`file_extension $INPUT_FILE_NAME`\"\n\n    SRC_FILE_EXTENSION=\"`mapped_extension $INPUT_FILE_EXTENSION`\"\n    if [ -z \"$SRC_FILE_EXTENSION\" ] ; then\n        continue\n    fi\n\n    SRC_FILE=\"$INPUT_FILE_BASE.$SRC_FILE_EXTENSION\"\n    if [ ! -f \"$SRC_DIR/$SRC_FILE\" ] ; then\n        continue\n    fi\n   cp -f \"$SRC_DIR/$SRC_FILE\" \"$DST_DIR/$SRC_FILE\"\n    if [ \"$SRC_FILE_EXTENSION\" != \"$INPUT_FILE_EXTENSION\" ] ; then\n       rm \"$DST_DIR/$INPUT_FILE_NAME\"\n   fi\ndone";
 		};
 		E76231703290585E916297CE /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
