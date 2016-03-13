@@ -70,20 +70,18 @@ a:hover
 body
 
   section
-    min-height 400px
+    min-height 300px
     padding 3em 2em
     border-bottom 1px solid criollo-light-gray
     text-align center
     vertical-alignment middle
 
   header
-    min-height 600px
     padding 3em 2em
     text-align center
     vertical-alignment middle
 
   footer
-    min-height 300px
     padding 2em
     text-align center
     vertical-alignment top
@@ -96,14 +94,16 @@ body
       width 100%
       min-width 300px
       max-width 1100px
-      background-color red
+      height 100%
+      vertical-align middle
 
   .masthead
     background-color masthead-background-color
     text-align center
 
     .logo
-      margin-top 20em
+      margin-top 5em
+      margin-bottom 2em
 
     h1, h2
       color masthead-color
@@ -111,19 +111,38 @@ body
     h2
       font-weight normal
 
+    p
+      color masthead-color
+
+  section
+    h2
+      margin-top 1.4em
+
   .footer
     background-color footer-background-color
     color footer-color
-    font-size 0.96em
+    font-size 1em
 
-    h3
-      color footer-heading-color
+    .col
+      display inline-block
+      width 18em
+      vertical-align top
+      margin 2em 1em
 
-    a
-      color footer-link-color
-      text-decoration none
+      h3
+        color footer-heading-color
+        margin-bottom 0.25em
 
-      &:hover
-        color footer-link-hover-color
-        text-decoration underline
+      ul
+        li
+          font-size 0.85em
+          line-height 1.3em
+
+          a
+            color footer-link-color
+            text-decoration none
+
+            &:hover
+              color footer-link-hover-color
+              text-decoration underline
 
