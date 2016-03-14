@@ -26,6 +26,7 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+
     self.server = [[CRHTTPServer alloc] initWithDelegate:self];
 
     NSBundle* bundle = [NSBundle mainBundle];

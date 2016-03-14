@@ -8,8 +8,6 @@ html(lang="en")
     meta(name="description",content="{{meta-description}}")
     meta(name="keywords",content="{{meta-keywords}}")
     meta(name="author",content="criollo.io")
-    link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Raleway:400,400italic,700,700italic|Ruda:400,700,900")
-    link(rel="stylesheet",href="{{static-dir}}/default.css",type="text/css")
     link(rel="shortcut icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
     link(rel="icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
 
@@ -29,36 +27,33 @@ html(lang="en")
     section.details
       .content
         p.shields
-          a(href="http://cocoadocs.org/docsets/Criollo")
+          a(href="http://cocoadocs.org/docsets/Criollo",target="_blank")
             img(src="https://img.shields.io/cocoapods/v/Criollo.svg?style=flat",alt="Version Status")
-          a(href="http://cocoapods.org/?q=Criollo")
+          a(href="http://cocoapods.org/?q=Criollo",target="_blank")
             img(src="http://img.shields.io/cocoapods/p/Criollo.svg?style=flat",alt="Platform")
-          a(href="https://opensource.org/licenses/MIT")
+          a(href="https://opensource.org/licenses/MIT",target="_blank")
             img(src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat",alt="MIT License")
-          a(href="http://twitter.com/Criolloio")
+          a(href="http://twitter.com/Criolloio",target="_blank")
             img(src="https://img.shields.io/badge/twitter-@Criolloio-orange.svg?style=flat",alt="Twitter")
         p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with. It's as easy as this:
 
         .hello-world
 
-          code
-            //- ```objective-c
-            //- const CRServer* &amp;server = [[CRHTTPServer alloc] init];
-            //- [server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-            //-     [response sendString:@"Hello world!"];
-            //- } forPath:@"/"];
-            //- [server startListening];
-            //- ```
+          pre
+            code.objc CRServer* server = [[CRHTTPServer alloc] init];
+              |[server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+              |   [response send:@"Hello world!"];
+              |} forPath:@"/"];
+              |[server startListening];
 
           p ... and in Swift:
 
-          code
-            //- ```swift
-            //- let server:CRServer = CRHTTPServer()
-            //-   server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -> Void inresponse.sendString("Hello world!")
-            //- }, forPath: "/")
-            //- server.startListening()
-            //- ```
+          pre
+            code.swift let server:CRServer = CRHTTPServer()
+              |server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -&gt; Void in
+              |   response.send("Hello world!")
+              |}, forPath: "/")
+              |server.startListening()
 
     section.getting-started
       .content
@@ -114,3 +109,9 @@ html(lang="en")
             |. &copy; Copyright 2012-2016&nbsp;
             a(href="https://twitter.com/catalinstan",target="_blank") Cătălin Stan
             |.
+
+    link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Raleway:400,400italic,700,700italic|Ruda:400,700,900")
+    link(rel="stylesheet",href="{{static-dir}}/default.css",type="text/css")
+    link(rel="stylesheet",href="{{static-dir}}/monokai-sublime.css",type="text/css")
+    script(src="{{static-dir}}/highlight.pack.js")
+    script hljs.initHighlightingOnLoad()

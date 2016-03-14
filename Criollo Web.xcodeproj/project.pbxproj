@@ -17,6 +17,9 @@
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7C64E91C90A2A600DBB48B /* CWLandingPageViewController.jade in Resources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */; };
 		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
+		AD7D7FB61C96493000DBBF4C /* highlight.pack.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7D7FB01C96490E00DBBF4C /* highlight.pack.js */; };
+		AD7D7FB71C96493000DBBF4C /* monokai-sublime.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7D7FB11C96490E00DBBF4C /* monokai-sublime.css */; };
+		AD7D7FB81C96493000DBBF4C /* monokai.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7D7FB21C96490E00DBBF4C /* monokai.css */; };
 		ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
@@ -58,6 +61,9 @@
 				AD0BA9991C9629A6005206A1 /* general.js in Copy Public Resources */,
 				AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */,
 				AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */,
+				AD7D7FB61C96493000DBBF4C /* highlight.pack.js in Copy Public Resources */,
+				AD7D7FB71C96493000DBBF4C /* monokai-sublime.css in Copy Public Resources */,
+				AD7D7FB81C96493000DBBF4C /* monokai.css in Copy Public Resources */,
 			);
 			name = "Copy Public Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,6 +82,9 @@
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.jade; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
+		AD7D7FB01C96490E00DBBF4C /* highlight.pack.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = highlight.pack.js; sourceTree = "<group>"; };
+		AD7D7FB11C96490E00DBBF4C /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "monokai-sublime.css"; sourceTree = "<group>"; };
+		AD7D7FB21C96490E00DBBF4C /* monokai.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = monokai.css; sourceTree = "<group>"; };
 		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reset.styl; sourceTree = "<group>"; };
 		ADC098871C90F6D4009CC72F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ADD67FFB1C6CBEC600FC41EE /* Criollo Web.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Criollo Web.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +156,9 @@
 		ADC098881C90F947009CC72F /* CSS */ = {
 			isa = PBXGroup;
 			children = (
+				AD7D7FB01C96490E00DBBF4C /* highlight.pack.js */,
+				AD7D7FB11C96490E00DBBF4C /* monokai-sublime.css */,
+				AD7D7FB21C96490E00DBBF4C /* monokai.css */,
 				ADC098851C90E79B009CC72F /* reset.styl */,
 				AD7396901C9073A700D9F4B3 /* default.styl */,
 			);
