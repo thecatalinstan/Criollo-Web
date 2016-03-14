@@ -90,7 +90,7 @@
 - (void)server:(CRServer *)server didFinishRequest:(CRRequest *)request {
     NSString* contentLength = [request.response valueForHTTPHeaderField:@"Content-Length"];
     NSString* userAgent = request.env[@"HTTP_USER_AGENT"];
-    NSString* remoteAddress = request.connection.remoteAddress;
+    NSString* remoteAddress = request.env[@"HTTP_X_FORWARDED_FOR"] ? : request.connection.remoteAddress;
     NSUInteger statusCode = request.response.statusCode;
     [CRApp logFormat:@"%@ %@ - %lu %@ - %@", remoteAddress, request, statusCode, contentLength ? : @"-", userAgent];
 }

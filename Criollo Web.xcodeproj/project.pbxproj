@@ -20,6 +20,7 @@
 		AD7D7FB61C96493000DBBF4C /* highlight.pack.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7D7FB01C96490E00DBBF4C /* highlight.pack.js */; };
 		AD7D7FB71C96493000DBBF4C /* monokai-sublime.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7D7FB11C96490E00DBBF4C /* monokai-sublime.css */; };
 		AD7D7FB81C96493000DBBF4C /* monokai.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7D7FB21C96490E00DBBF4C /* monokai.css */; };
+		AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */; };
 		ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
@@ -292,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
+				AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */,
 				AD7C64E91C90A2A600DBB48B /* CWLandingPageViewController.jade in Resources */,
 				AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */,
 			);

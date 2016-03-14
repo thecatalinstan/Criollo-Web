@@ -10,7 +10,7 @@
 	<string>io.criollo.Criollo-Web</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>&quot;/WebApplications/Criollo Web.app/Contents/MacOS/Criollo Web&quot;</string>
+		<string>/WebApplications/Criollo Web.app/Contents/MacOS/Criollo Web</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
