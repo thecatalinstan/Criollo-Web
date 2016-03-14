@@ -1,0 +1,117 @@
+doctype html
+html(lang="en")
+
+  head
+    meta(charset="utf-8")
+    title {{title}}
+    meta(name="viewport",content="width=device-width, initial-scale=1.0")
+    meta(name="description",content="{{meta-description}}")
+    meta(name="keywords",content="{{meta-keywords}}")
+    meta(name="author",content="criollo.io")
+    link(rel="shortcut icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
+    link(rel="icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
+
+  body
+
+    header.masthead
+      .content
+        .logo(title="{{title}}")
+          a(href="/")
+            img(src="{{static-dir}}/LOGO.PNG",width="300",hright="120")
+        h2 A powerful Cocoa based web application framework
+          br
+          |&nbsp;for OS X and iOS
+        .subscribe-form
+          form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
+
+    section.details
+      .content
+        p.shields
+          a(href="http://cocoadocs.org/docsets/Criollo",target="_blank")
+            img(src="https://img.shields.io/cocoapods/v/Criollo.svg?style=flat",alt="Version Status")
+          a(href="http://cocoapods.org/?q=Criollo",target="_blank")
+            img(src="http://img.shields.io/cocoapods/p/Criollo.svg?style=flat",alt="Platform")
+          a(href="https://opensource.org/licenses/MIT",target="_blank")
+            img(src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat",alt="MIT License")
+          a(href="http://twitter.com/Criolloio",target="_blank")
+            img(src="https://img.shields.io/badge/twitter-@Criolloio-orange.svg?style=flat",alt="Twitter")
+        p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with. It's as easy as this:
+
+        .hello-world
+
+          pre
+            code.objc CRServer* server = [[CRHTTPServer alloc] init];
+              |[server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+              |   [response send:@"Hello world!"];
+              |} forPath:@"/"];
+              |[server startListening];
+
+          p ... and in Swift:
+
+          pre
+            code.swift let server:CRServer = CRHTTPServer()
+              |server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -&gt; Void in
+              |   response.send("Hello world!")
+              |}, forPath: "/")
+              |server.startListening()
+
+    section.getting-started
+      .content
+        h2 Getting Started
+        p Head over to the&nbsp;
+          a(href="{{github-url}}",target="_blank") GitHub Project Page
+          |, check out the&nbsp;
+          a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Getting Started Guide
+          |&nbsp;and the&nbsp;
+          a(href="{{github-url}}/wiki",target="_blank") Wiki
+          |.
+        p
+          a.github-button(href="{{github-url}}",target="_blank",title="Check out Criollo on GitHub")
+            img(src="{{static-dir}}/GitHub-Mark-64px.png",alt="GitHub Project Page")
+
+    section.how
+      .content
+        h2 How to Use
+        p Criollo can easily be embedded as a web-server inside your OS X or iOS app, should you be in need of such a feature, however it was designed to create standalone, long-lived daemon style apps.
+        p It is fully &nbsp;
+          a(href="http://launchd.info/",target="_blank") launchd
+          |&nbsp;compatible and replicates the lifecycle and behaviour of NSApplication, so that the learning curve should be as smooth as possible.
+
+    section.why
+      .content
+        h2 Why?
+        p Criollo was created in order to take advantage of the truly awesome tools and APIs that OS X and iOS provide and serve content produced with them over the web.
+        p It incorporates an HTTP web server and a&nbsp;
+          a(href="http://fastcgi.com",target="_blank") FastCGI
+          |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.
+
+    footer.footer
+      .content
+        .col
+          h3 Get Criollo
+          ul
+            li
+              a(href="{{github-url}}",target="_blank") Check oiut the GitHub Project Page
+            li
+              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") Clong this Website on GitHub
+            li
+              a(href="http://cocoapods.org/pods/Criollo",target="_blank") Criollo on CocoaPods.org
+        .col
+          h3 Get in Touch
+          ul
+            li
+              a(href="https://twitter.com/Criolloio",target="_blank") Follow us on Twitter @criolloio
+            li
+              a(href="mailto:criollo@criollo.io") Send us an e-mail
+        .copyright
+          p Criollo is released under the&nbsp;
+            a(href="https://opensource.org/licenses/MIT",target="_blank") MIT License
+            |. &copy; Copyright 2012-2016&nbsp;
+            a(href="https://twitter.com/catalinstan",target="_blank") Cătălin Stan
+            |.
+
+    link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Raleway:400,400italic,700,700italic|Ruda:400,700,900")
+    link(rel="stylesheet",href="{{static-dir}}/default.css",type="text/css")
+    link(rel="stylesheet",href="{{static-dir}}/monokai-sublime.css",type="text/css")
+    script(src="{{static-dir}}/highlight.pack.js")
+    script hljs.initHighlightingOnLoad()

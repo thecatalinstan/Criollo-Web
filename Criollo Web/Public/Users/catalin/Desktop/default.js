@@ -1,0 +1,1 @@
+var mailchimp=function(){return{subscribe:function(a,b,c){return console.log(arguments),!1}}};document.onload=function(){mailchimp().subscribe()};

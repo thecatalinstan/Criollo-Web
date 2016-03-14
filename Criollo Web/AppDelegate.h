@@ -8,6 +8,11 @@
 
 #import <Criollo/Criollo.h>
 
+#define CWGitHubURL             @"https://github.com/thecatalinstan/Criollo"
+#define CWSubscribePath         @"/subscribe"
+#define CWSessionCookie         @"cwsession"
+#define CWStaticDirPath         @"/static"
+
 @interface AppDelegate : NSObject <CRApplicationDelegate>
 
 @end
