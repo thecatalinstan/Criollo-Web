@@ -25,6 +25,7 @@ html(lang="en")
           |&nbsp;for OS X and iOS
         .subscribe-form
           form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
+
     section.details
       .content
         p.shields
@@ -64,11 +65,14 @@ html(lang="en")
         h2 Getting Started
         p Head over to the&nbsp;
           a(href="{{github-url}}",target="_blank") GitHub Project Page
-          |, check out the &nbsp;
+          |, check out the&nbsp;
           a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Getting Started Guide
-          |&nbsp;and the
+          |&nbsp;and the&nbsp;
           a(href="{{github-url}}/wiki",target="_blank") Wiki
           |.
+        p
+          a.github-button(href="{{github-url}}",target="_blank",title="Check out Criollo on GitHub")
+            img(src="{{static-dir}}/GitHub-Mark-64px.png",alt="GitHub Project Page")
 
     section.how
       .content
