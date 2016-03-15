@@ -15,5 +15,8 @@
 
 @interface AppDelegate : NSObject <CRApplicationDelegate>
 
++ (nullable NSString *)IPAddress;
++ (nonnull NSString *)systemInfo;
+
 @end
 

@@ -25,6 +25,8 @@ footer-heading-color      = white
 body-font-family          = Helvetica, sans-serif
 heading-font-family       = "Ruda", "Trebuchet MS", Verdana, sans-serif
 
+// Sizes
+phone-cutoff              = 667px
 
 body,
 html
@@ -57,7 +59,7 @@ body
   font-size 1.2em
 
 p
-  margin 1.5em 0
+  margin 1.5em
   line-height 1.5em
 
 a
@@ -71,47 +73,67 @@ a:hover
 body
 
   section
-    min-height 300px
-    padding 3em 2em
+    min-height 18.75em
+    padding 3em 0
     border-bottom 1px solid criollo-light-gray
     text-align center
-    vertical-alignment middle
+    vertical-align middle
     background-color white
 
+    @media screen and (max-width: phone-cutoff)
+      padding 0.5em 0
+
   header
-    padding 3em 2em
+    padding 3em 0
     text-align center
-    vertical-alignment middle
+    vertical-align middle
+
+    @media screen and (max-width: phone-cutoff)
+      padding 0.5em 0
 
   footer
-    padding 2em
+    padding 2em 0
     text-align center
-    vertical-alignment top
+    vertical-align top
+
+    @media screen and (max-width: phone-cutoff)
+      padding 0
 
   section,
   footer,
   header
     .content
       margin 0 auto
-      width 100%
       min-width 300px
-      max-width 1100px
+      max-width 1136px
       height 100%
       vertical-align middle
+      box-sizing border-box
 
   .masthead
     background-color masthead-background-color
     text-align center
     min-height 30em
 
+    @media screen and (max-width: phone-cutoff)
+      min-height 20em
+
     .content
       width 80%
-      min-width 280px
+      max-width 320px
       max-width 960px
 
     .logo
-      margin-top 8em
-      margin-bottom 3em
+      width 300px
+      height 115px
+      margin 8em auto 3em auto
+
+      @media screen and (max-width: phone-cutoff)
+        margin 4em auto 1.5em auto
+
+    h2
+      @media screen and (max-width: phone-cutoff)
+        font-size 1.5em
 
     h1, h2
       color masthead-color
@@ -138,14 +160,15 @@ body
           margin 0 0.25em
 
       .hello-world
-        padding 2em 1em 0 1em
+        padding 2em 1em
 
         code
           text-align left
           font-family Menlo, Monaco, fixed
           font-size 0.9em
           line-height 1.5em
-          padding 1.5em
+          padding 1.5em 1em
+          box-sizing border-box
 
     // &.getting-started
 
@@ -169,9 +192,11 @@ body
 
     .col
       display inline-block
-      width 18em
       vertical-align top
-      margin 2em 1em 2em 1em
+      margin 2em
+
+      @media screen and (max-width: phone-cutoff)
+        margin 2em 1em 0 1em
 
       h3
         color footer-heading-color
@@ -180,11 +205,10 @@ body
       ul
         li
           font-size 0.85em
-          line-height 1.3em
-
+          line-height 1.5em
 
     .copyright
-      font-size 0.76em
+      font-size 0.7em
       line-height 1em
       border-top 1px solid criollo-light-orange
       padding 0
