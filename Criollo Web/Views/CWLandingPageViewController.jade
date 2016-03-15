@@ -8,6 +8,19 @@ html(lang="en")
     meta(name="description",content="{{meta-description}}")
     meta(name="keywords",content="{{meta-keywords}}")
     meta(name="author",content="criollo.io")
+    meta(property="og:title",content="{{title}}")
+    meta(property="og:image",content="{{image}}")
+    meta(property="og:image:url",content="{{image}}")
+    meta(property="og:image:width",content="1024")
+    meta(property="og:url",content="https://criollo.io/")
+    meta(property="og:type",content="website")
+    meta(property="og:description",content="{{meta-description}}")
+    meta(name="twitter:card",content="summary_large_image")
+    meta(name="twitter:site",content="@criolloio")
+    meta(name="twitter:title",content="{{title}}")
+    meta(name="twitter:description",content="{{meta-description}}")
+    meta(name="twitter:image",content="{{image}}")
+    meta(name="twitter:image:src",content="{{image}}")
     link(rel="shortcut icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
     link(rel="icon",href="/favicon.ico",type="image/vnd.microsoft.icon")
 
@@ -17,7 +30,7 @@ html(lang="en")
       .content
         .logo(title="{{title}}")
           a(href="/")
-            img(src="{{static-dir}}/LOGO.PNG",width="300",hright="120")
+            img(src="{{static-dir}}/logo.png",width="300",hright="120")
         h2 A powerful Cocoa based web application framework
           br
           |&nbsp;for OS X and iOS
@@ -30,7 +43,7 @@ html(lang="en")
           a(href="http://cocoadocs.org/docsets/Criollo",target="_blank")
             img(src="https://img.shields.io/cocoapods/v/Criollo.svg?style=flat",alt="Version Status")
           a(href="http://cocoapods.org/?q=Criollo",target="_blank")
-            img(src="http://img.shields.io/cocoapods/p/Criollo.svg?style=flat",alt="Platform")
+            img(src="https://img.shields.io/cocoapods/p/Criollo.svg?style=flat",alt="Platform")
           a(href="https://opensource.org/licenses/MIT",target="_blank")
             img(src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat",alt="MIT License")
           a(href="http://twitter.com/Criolloio",target="_blank")
@@ -41,7 +54,7 @@ html(lang="en")
 
           pre
             code.objc CRServer* server = [[CRHTTPServer alloc] init];
-              |[server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+              |[server addBlock:^(CRRequest *request, CRResponse *response, CRRouteCompletionBlock completionHandler) {
               |   [response send:@"Hello world!"];
               |} forPath:@"/"];
               |[server startListening];
@@ -50,7 +63,7 @@ html(lang="en")
 
           pre
             code.swift let server:CRServer = CRHTTPServer()
-              |server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -&gt; Void in
+              |server.addBlock({ (request, response, completionHandler) -&gt; Void in
               |   response.send("Hello world!")
               |}, forPath: "/")
               |server.startListening()
@@ -91,9 +104,9 @@ html(lang="en")
           h3 Get Criollo
           ul
             li
-              a(href="{{github-url}}",target="_blank") Check oiut the GitHub Project Page
+              a(href="{{github-url}}",target="_blank") Check out the GitHub Project Page
             li
-              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") Clong this Website on GitHub
+              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") Clone this Website on GitHub
             li
               a(href="http://cocoapods.org/pods/Criollo",target="_blank") Criollo on CocoaPods.org
         .col
@@ -115,3 +128,4 @@ html(lang="en")
     link(rel="stylesheet",href="{{static-dir}}/monokai-sublime.css",type="text/css")
     script(src="{{static-dir}}/highlight.pack.js")
     script hljs.initHighlightingOnLoad()
+    script (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-75138662-1', 'auto');ga('send', 'pageview');
