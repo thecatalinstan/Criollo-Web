@@ -47,6 +47,7 @@
     self.templateVariables[@"token"] = request.cookies[CWSessionCookie] ? : @"";
     self.templateVariables[@"list-id"] = @"";
     self.templateVariables[@"subscribe"] = CWSubscribePath;
+    self.templateVariables[@"image"] = [NSString stringWithFormat:@"%@://%@%@%@/criollo-icon-square-padded.png", request.URL.scheme, request.URL.host, request.URL.port ? [NSString stringWithFormat:@":%@", request.URL.port] : @"", CWStaticDirPath];
 
     return [super presentViewControllerWithRequest:request response:response];
 }
