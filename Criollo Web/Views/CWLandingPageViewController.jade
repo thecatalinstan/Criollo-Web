@@ -41,7 +41,7 @@ html(lang="en")
 
           pre
             code.objc CRServer* server = [[CRHTTPServer alloc] init];
-              |[server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+              |[server addBlock:^(CRRequest *request, CRResponse *response, CRRouteCompletionBlock completionHandler) {
               |   [response send:@"Hello world!"];
               |} forPath:@"/"];
               |[server startListening];
@@ -50,7 +50,7 @@ html(lang="en")
 
           pre
             code.swift let server:CRServer = CRHTTPServer()
-              |server.addBlock({ (request:CRRequest, response:CRResponse, completionHandler:CRRouteCompletionBlock) -&gt; Void in
+              |server.addBlock({ (request, response, completionHandler) -&gt; Void in
               |   response.send("Hello world!")
               |}, forPath: "/")
               |server.startListening()
