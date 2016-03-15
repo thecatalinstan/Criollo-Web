@@ -19,11 +19,9 @@
 #define LogRequests             1
 
 
-@interface AppDelegate () <CRServerDelegate> {
-}
+@interface AppDelegate () <CRServerDelegate>
 
 @property (nonatomic, strong, nonnull) CRHTTPServer *server;
-
 - (void)startServer;
 
 @end
@@ -32,7 +30,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-    self.server = [[CRHTTPServer alloc] initWithDelegate:self];
+    BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
+    Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
+    self.server = [[serverClass alloc] initWithDelegate:self];
 
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@</h2>", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
@@ -45,7 +45,7 @@
         // Session cookie
         if ( ! request.cookies[CWSessionCookie] ) {
             NSString* token = [NSUUID UUID].UUIDString;
-            [response setCookie:CWSessionCookie value:token path:@"/" expires:nil domain:nil secure:NO];
+            [response setCookie:CWSessionCookie value:token path:@"/" expires:nil domain:nil secure:YES];
         }
 
         completionHandler();
@@ -127,7 +127,9 @@
     NSString* userAgent = request.env[@"HTTP_USER_AGENT"];
     NSString* remoteAddress = request.env[@"HTTP_X_FORWARDED_FOR"].length > 0 ? request.env[@"HTTP_X_FORWARDED_FOR"] : request.connection.remoteAddress;
     NSUInteger statusCode = request.response.statusCode;
-    [CRApp logFormat:@"%@ %@ %@ - %lu %@ - %@", [NSDate date], remoteAddress, request, statusCode, contentLength ? : @"-", userAgent];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [CRApp logFormat:@"%@ %@ %@ - %lu %@ - %@", [NSDate date], remoteAddress, request, statusCode, contentLength ? : @"-", userAgent];
+    });
 }
 #endif
 
