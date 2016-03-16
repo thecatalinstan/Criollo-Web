@@ -184,6 +184,9 @@
     dispatch_once(&onceToken, ^{
         NSBundle *criolloBundle = [NSBundle bundleForClass:[CRServer class]];
         criolloVersion = [criolloBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        if ( criolloVersion == nil ) {
+            criolloVersion = CWCriolloVersion;
+        }
     });
     return criolloVersion;
 }
