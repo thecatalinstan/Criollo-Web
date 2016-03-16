@@ -34,8 +34,12 @@ html(lang="en")
         h2 A powerful Cocoa based web application framework
           br
           |&nbsp;for OS X and iOS
-        .subscribe-form
-          form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
+        .get-started
+          a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Get Started
+          a(href="{{github-url}}/archive/{{criollo-ver}}.zip") Download v{{criollo-ver}}
+
+        //- .subscribe-form
+        //-   form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
 
     section.details
       .content
@@ -104,11 +108,22 @@ html(lang="en")
           h3 Get Criollo
           ul
             li
-              a(href="{{github-url}}",target="_blank") Check out the GitHub Project Page
+              a(href="{{github-url}}/archive/{{criollo-ver}}.zip",target="_blank") Download Source Code
             li
-              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") Clone this Website on GitHub
+              a(href="{{github-url}}#cloning-the-repo",target="_blank") Clone the GitHub Repo
             li
               a(href="http://cocoapods.org/pods/Criollo",target="_blank") Criollo on CocoaPods.org
+        .col
+          h3 Documentation
+          ul
+            li
+              a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Getting Started
+            li
+              a(href="{{github-url}}/wiki",target="_blank") Criollo Wiki
+            li
+              a(href="http://cocoadocs.org/docsets/Criollo/{{criollo-ver}}/",target="_blank") API Reference
+            li
+              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") Clone this Website on GitHub
         .col
           h3 Get in Touch
           ul

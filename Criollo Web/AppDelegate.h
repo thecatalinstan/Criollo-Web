@@ -17,6 +17,7 @@
 
 + (nullable NSString *)IPAddress;
 + (nonnull NSString *)systemInfo;
++ (nonnull NSString *)criolloVersion;
 
 @end
 

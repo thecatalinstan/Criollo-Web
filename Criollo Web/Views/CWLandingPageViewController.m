@@ -30,7 +30,6 @@
 //    return mainMenuItems;
 //}
 
-
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
     NSString* productTitle = @"Criollo";
@@ -48,6 +47,7 @@
     self.templateVariables[@"list-id"] = @"";
     self.templateVariables[@"subscribe"] = CWSubscribePath;
     self.templateVariables[@"image"] = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.env[@"REQUEST_URI"]];
+    self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
 
     return [super presentViewControllerWithRequest:request response:response];
 }

@@ -178,4 +178,14 @@
     return systemInfo;
 }
 
++ (NSString *)criolloVersion {
+    static NSString* criolloVersion;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSBundle *criolloBundle = [NSBundle bundleForClass:[CRServer class]];
+        criolloVersion = [criolloBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    });
+    return criolloVersion;
+}
+
 @end
