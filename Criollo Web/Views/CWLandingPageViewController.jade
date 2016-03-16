@@ -36,7 +36,7 @@ html(lang="en")
           |&nbsp;for OS X and iOS
         .get-started
           a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Get Started
-          a(href="{{github-url}}/archive/{{criollo-ver}}.zip") Download v{{criollo-ver}}
+          a(href="{{github-url}}/archive/{{criollo-ver}}.zip") Download ver. {{criollo-ver}}
 
         //- .subscribe-form
         //-   form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
@@ -80,11 +80,22 @@ html(lang="en")
           |, check out the&nbsp;
           a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Getting Started Guide
           |&nbsp;and the&nbsp;
-          a(href="{{github-url}}/wiki",target="_blank") Wiki
+          a(href="{{github-url}}/wiki",target="_blank") Criollo Wiki
           |.
-        p
+          br
+          | This landing page is also made using Criollo - ver. {{criollo-ver}} - and it is available for your cloning pleasure on&nbsp;
+          a(href="{{criollo-web-github-url}}",target="_blank") GitHub
+          |.
+        p.external-links
           a.github-button(href="{{github-url}}",target="_blank",title="Check out Criollo on GitHub")
             img(src="{{static-dir}}/GitHub-Mark-64px.png",alt="GitHub Project Page")
+            span Criollo
+            small ver. {{criollo-ver}}
+          a.criollo-web-icon(href="{{criollo-web-github-url}}",target="_blank",title="Check out Criollo Web on GitHub")
+            img(src="{{static-dir}}/criollo-web-icon.png",alt="Criollo Web Project Page")
+            span Criollo Web
+            small ver. {{criollo-web-ver}}
+
 
     section.how
       .content
@@ -123,7 +134,7 @@ html(lang="en")
             li
               a(href="http://cocoadocs.org/docsets/Criollo/{{criollo-ver}}/",target="_blank") API Reference
             li
-              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") Clone this Website on GitHub
+              a(href="{{criollo-web-github-url}}",target="_blank") Clone this Website on GitHub
         .col
           h3 Get in Touch
           ul

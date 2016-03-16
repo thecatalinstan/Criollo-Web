@@ -188,4 +188,14 @@
     return criolloVersion;
 }
 
++ (NSString *)bundleVersion {
+    static NSString* bundleVersion;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSBundle *bundle = [NSBundle mainBundle];
+        bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    });
+    return bundleVersion;
+}
+
 @end

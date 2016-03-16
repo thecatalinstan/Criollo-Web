@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		93E4DACED7A2814DDB1325F5 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */; };
+		AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD089EE51C998E6E007434A1 /* criollo-web-icon.png */; };
 		AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA96C1C96004B005206A1 /* logo.png */; };
 		AD0BA9991C9629A6005206A1 /* general.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* general.js */; };
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
@@ -59,6 +60,7 @@
 			dstSubfolderSpec = 7;
 			files = (
 				ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */,
+				AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */,
 				AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */,
 				AD0BA9991C9629A6005206A1 /* general.js in Copy Public Resources */,
 				AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */,
@@ -76,6 +78,7 @@
 		71B7991AFA0D8C745A129030 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 		8BE0020376C25449AA34CF50 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
+		AD089EE51C998E6E007434A1 /* criollo-web-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-web-icon.png"; sourceTree = "<group>"; };
 		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AD0BA9971C962922005206A1 /* general.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = general.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
@@ -129,6 +132,7 @@
 		AD0BA96E1C960068005206A1 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AD089EE51C998E6E007434A1 /* criollo-web-icon.png */,
 				ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */,
 				AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */,
 				AD0BA96C1C96004B005206A1 /* logo.png */,
