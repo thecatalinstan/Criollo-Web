@@ -13,6 +13,7 @@
 #define CWSubscribePath         @"/subscribe"
 #define CWSessionCookie         @"cwsession"
 #define CWStaticDirPath         @"/static"
+#define CWCriolloVersion        @"0.1.12"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface AppDelegate : NSObject <CRApplicationDelegate>
