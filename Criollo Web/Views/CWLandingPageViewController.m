@@ -30,7 +30,6 @@
 //    return mainMenuItems;
 //}
 
-
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
     NSString* productTitle = @"Criollo";
@@ -44,10 +43,13 @@
     self.templateVariables[@"product-subtitle"] = productSubtitle;
     self.templateVariables[@"main-menu"] = @"";
     self.templateVariables[@"github-url"] = CWGitHubURL;
+    self.templateVariables[@"criollo-web-github-url"] = CWWebGitHubURL;
     self.templateVariables[@"token"] = request.cookies[CWSessionCookie] ? : @"";
     self.templateVariables[@"list-id"] = @"";
     self.templateVariables[@"subscribe"] = CWSubscribePath;
-    self.templateVariables[@"image"] = [NSString stringWithFormat:@"%@://%@%@%@/criollo-icon-square-padded.png", request.URL.scheme, request.URL.host, request.URL.port ? [NSString stringWithFormat:@":%@", request.URL.port] : @"", CWStaticDirPath];
+    self.templateVariables[@"image"] = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.env[@"REQUEST_URI"]];
+    self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
+    self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
 
     return [super presentViewControllerWithRequest:request response:response];
 }

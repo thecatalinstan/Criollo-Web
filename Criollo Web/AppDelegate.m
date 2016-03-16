@@ -35,7 +35,7 @@
     self.server = [[serverClass alloc] initWithDelegate:self];
 
     NSBundle* bundle = [NSBundle mainBundle];
-    NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@</h2>", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 
     // Session and identity block
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
@@ -54,6 +54,14 @@
     // Homepage
     [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
+    // robot.txt
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* robotsString = @"User-agent: *\nAllow:\n";
+        [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
+        [response send:robotsString];
+        completionHandler();
+    } forPath:@"/robots.txt"];
 
     // favicon.ico
     NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];
@@ -61,7 +69,7 @@
 
     // Static resources folder
     NSString* publicResourcesFolder = [bundle.resourcePath stringByAppendingPathComponent:@"Public"];
-    [self.server mountStaticDirectoryAtPath:publicResourcesFolder forPath:CWStaticDirPath options:CRStaticDirectoryServingOptionsCacheFiles|CRStaticDirectoryServingOptionsAutoIndex];
+    [self.server mountStaticDirectoryAtPath:publicResourcesFolder forPath:CWStaticDirPath options:CRStaticDirectoryServingOptionsCacheFiles];
 
     [self startServer];
 }
@@ -168,6 +176,26 @@
         systemInfo = [NSString stringWithFormat:@"%s %s %s %s %s", unameStruct.sysname, unameStruct.nodename, unameStruct.release, unameStruct.version, unameStruct.machine];
     });
     return systemInfo;
+}
+
++ (NSString *)criolloVersion {
+    static NSString* criolloVersion;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSBundle *criolloBundle = [NSBundle bundleForClass:[CRServer class]];
+        criolloVersion = [criolloBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    });
+    return criolloVersion;
+}
+
++ (NSString *)bundleVersion {
+    static NSString* bundleVersion;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSBundle *bundle = [NSBundle mainBundle];
+        bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    });
+    return bundleVersion;
 }
 
 @end

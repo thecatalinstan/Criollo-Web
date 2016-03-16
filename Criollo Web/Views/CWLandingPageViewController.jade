@@ -30,12 +30,16 @@ html(lang="en")
       .content
         .logo(title="{{title}}")
           a(href="/")
-            img(src="{{static-dir}}/logo.png",width="300",hright="120")
+            img(src="{{static-dir}}/logo.png",width="300",height="120",alt="")
         h2 A powerful Cocoa based web application framework
           br
           |&nbsp;for OS X and iOS
-        .subscribe-form
-          form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
+        .get-started
+          a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Get Started
+          a(href="{{github-url}}/archive/{{criollo-ver}}.zip") Download ver. {{criollo-ver}}
+
+        //- .subscribe-form
+        //-   form#subscribe-form(action="{{subscribe}}",onsubmit="return subscribe(this,'{{token}}','{{list-id}}')")
 
     section.details
       .content
@@ -76,11 +80,22 @@ html(lang="en")
           |, check out the&nbsp;
           a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Getting Started Guide
           |&nbsp;and the&nbsp;
-          a(href="{{github-url}}/wiki",target="_blank") Wiki
+          a(href="{{github-url}}/wiki",target="_blank") Criollo Wiki
           |.
-        p
+          br
+          | This landing page is also made using Criollo - ver. {{criollo-ver}} - and it is available for your cloning pleasure on&nbsp;
+          a(href="{{criollo-web-github-url}}",target="_blank") GitHub
+          |.
+        p.external-links
           a.github-button(href="{{github-url}}",target="_blank",title="Check out Criollo on GitHub")
             img(src="{{static-dir}}/GitHub-Mark-64px.png",alt="GitHub Project Page")
+            span Criollo
+            small ver. {{criollo-ver}}
+          a.criollo-web-icon(href="{{criollo-web-github-url}}",target="_blank",title="Check out Criollo Web on GitHub")
+            img(src="{{static-dir}}/criollo-web-icon.png",alt="Criollo Web Project Page")
+            span Criollo Web
+            small ver. {{criollo-web-ver}}
+
 
     section.how
       .content
@@ -104,18 +119,29 @@ html(lang="en")
           h3 Get Criollo
           ul
             li
-              a(href="{{github-url}}",target="_blank") Check out the GitHub Project Page
+              a(href="{{github-url}}/archive/{{criollo-ver}}.zip",target="_blank") Download Source Code
             li
-              a(href="https://github.com/thecatalinstan/Criollo-Web",target="_blank") Clone this Website on GitHub
+              a(href="{{github-url}}#cloning-the-repo",target="_blank") Clone the GitHub Repo
             li
               a(href="http://cocoapods.org/pods/Criollo",target="_blank") Criollo on CocoaPods.org
+        .col
+          h3 Documentation
+          ul
+            li
+              a(href="{{github-url}}/wiki/Getting-Started",target="_blank") Getting Started
+            li
+              a(href="{{github-url}}/wiki",target="_blank") Criollo Wiki
+            li
+              a(href="http://cocoadocs.org/docsets/Criollo/{{criollo-ver}}/",target="_blank") API Reference
+            li
+              a(href="{{criollo-web-github-url}}",target="_blank") Clone this Website on GitHub
         .col
           h3 Get in Touch
           ul
             li
-              a(href="https://twitter.com/Criolloio",target="_blank") Follow us on Twitter @criolloio
+              a(href="https://twitter.com/Criolloio",target="_blank") Follow @criolloio
             li
-              a(href="mailto:criollo@criollo.io") Send us an e-mail
+              a(href="mailto:criollo@criollo.io") Drop a Line
         .copyright
           p Criollo is released under the&nbsp;
             a(href="https://opensource.org/licenses/MIT",target="_blank") MIT License
@@ -123,7 +149,7 @@ html(lang="en")
             a(href="https://twitter.com/catalinstan",target="_blank") Cătălin Stan
             |.
 
-    link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Raleway:400,400italic,700,700italic|Ruda:400,700,900")
+    link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Ruda:400,700,900")
     link(rel="stylesheet",href="{{static-dir}}/default.css",type="text/css")
     link(rel="stylesheet",href="{{static-dir}}/monokai-sublime.css",type="text/css")
     script(src="{{static-dir}}/highlight.pack.js")

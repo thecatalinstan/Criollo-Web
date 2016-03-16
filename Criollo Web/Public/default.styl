@@ -32,10 +32,13 @@ body,
 html
   width 100%
   height 100%
-  font-size 16px
-  background-color criollo-orange
+
+// html
+  // background-color criollo-orange
+  // background-image linear-gradient(to bottom, criollo-orange 0%,criollo-orange 25%,white 25%,white 75%,criollo-dark-orange 75%,criollo-dark-orange 100%)
 
 body
+  font-size 16px
   font-family body-font-family
   color criollo-dark-gray
 
@@ -65,7 +68,7 @@ p
 a
   color link-color
   text-decoration underline
-  transition color 0.25s ease-in-out 0
+  transition all 0.25s ease-in-out 0
 
 a:hover
   color link-hover-color
@@ -102,6 +105,8 @@ body
   section,
   footer,
   header
+    // display none
+
     .content
       margin 0 auto
       min-width 300px
@@ -123,26 +128,58 @@ body
       max-width 320px
       max-width 960px
 
-    .logo
-      width 300px
-      height 115px
-      margin 8em auto 3em auto
+      .logo
+        width 300px
+        height 115px
+        margin 5em auto 3em auto
+        transform-style preserve-3d
 
-      @media screen and (max-width: phone-cutoff)
-        margin 4em auto 1.5em auto
+        @media screen and (max-width: phone-cutoff)
+          margin 1.5em auto 1.5em auto
+          transform scale(0.75)
 
-    h2
-      @media screen and (max-width: phone-cutoff)
-        font-size 1.5em
+      h2
+        @media screen and (max-width: phone-cutoff)
+          font-size 1.5em
 
-    h1, h2
-      color masthead-color
+      h1, h2
+        color masthead-color
 
-    h2
-      font-weight normal
+      h2
+        font-weight normal
 
-    p
-      color masthead-color
+      p
+        color masthead-color
+
+      .get-started
+        margin-top 4em
+        margin-bottom 1em
+
+        @media screen and (max-width: phone-cutoff)
+          margin-top 2em
+          margin-bottom 0
+
+        a
+          display inline-block
+          min-width 10em
+          height 3.5em
+          line-height @height
+          margin 0 1em
+          padding 0 1em
+          background-color criollo-dark-orange
+          color criollo-light-gray
+          font-family heading-font-family
+          font-size 1.1em
+          text-decoration none
+
+          @media screen and (max-width: phone-cutoff)
+            margin-bottom 1em
+
+          &:hover
+            background-color criollo-light-gray
+            color criollo-dark-orange
+            text-decoration underline
+
 
   section
 
@@ -171,7 +208,47 @@ body
           box-sizing border-box
           overflow-scrolling touch
 
-    // &.getting-started
+    &.getting-started
+
+      .external-links
+        padding-top 2em
+
+        @media screen and (max-width: phone-cutoff)
+            padding-top 1em
+
+        a
+          display inline-block
+          vertical-align top
+          width 6em
+          padding 1em
+          text-align center
+          text-decoration none
+
+          &:hover
+            text-decoration none
+            background-color criollo-light-gray
+
+            span
+              text-decoration underline
+
+          img
+            width 4em
+            height @width
+            margin 0 auto 0.5em auto
+            display block
+
+          span
+            display block
+            font-family heading-font-family
+
+          small
+            display block
+            font-size 0.6em
+            line-height 1em
+            color criollo-dark-gray
+
+          // &.github-button
+          // &.criollo-web-icon
 
     //   .github-button
     //     padding 10px
@@ -183,35 +260,39 @@ body
     font-size 1em
     padding-bottom 0
 
-    a
-      color footer-link-color
-      text-decoration none
+    .content
 
-      &:hover
-        color footer-link-hover-color
-        text-decoration underline
+      a
+        color footer-link-color
+        text-decoration none
 
-    .col
-      display inline-block
-      vertical-align top
-      margin 2em
+        &:hover
+          color footer-link-hover-color
+          text-decoration underline
 
-      @media screen and (max-width: phone-cutoff)
-        margin 2em 1em 0 1em
+      .col
+        display inline-block
+        vertical-align top
+        margin 2em
+        width 13em
 
-      h3
-        color footer-heading-color
-        margin-bottom 0.25em
+        @media screen and (max-width: phone-cutoff)
+          margin 2em 1em 0 1em
 
-      ul
-        li
-          font-size 0.85em
-          line-height 1.5em
+        h3
+          color footer-heading-color
+          margin-bottom 0.25em
 
-    .copyright
-      font-size 0.7em
-      line-height 1em
-      border-top 1px solid criollo-light-orange
-      padding 0
-      margin-top 2em
+        ul
+          li
+            font-size 0.8em
+            line-height 1.5em
+
+
+      .copyright
+        font-size 0.8em
+        line-height 1em
+        border-top 1px solid criollo-light-orange
+        padding 0
+        margin-top 2em
 
