@@ -22,6 +22,7 @@
 @interface AppDelegate () <CRServerDelegate>
 
 @property (nonatomic, strong, nonnull) CRHTTPServer *server;
+
 - (void)startServer;
 
 @end
@@ -37,7 +38,7 @@
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 
-    // Session and identity block
+    // Set some headers
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
         [response setValue:serverSpec forHTTPHeaderField:@"X-Criollo-Server"];
@@ -47,6 +48,9 @@
             NSString* token = [NSUUID UUID].UUIDString;
             [response setCookie:CWSessionCookie value:token path:@"/" expires:nil domain:nil secure:YES];
         }
+
+        // Cache
+        [response setValue:[AppDelegate ETag] forHTTPHeaderField:@"ETag"];
 
         completionHandler();
     }];
@@ -199,6 +203,15 @@
         bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     });
     return bundleVersion;
+}
+
++ (NSString *)ETag {
+    static NSString* ETag;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        ETag = [NSUUID UUID].UUIDString;
+    });
+    return ETag;
 }
 
 @end
