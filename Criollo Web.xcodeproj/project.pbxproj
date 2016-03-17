@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A5692751C9B200D003C99EC /* logoWithTextLight.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3A5692741C9B200D003C99EC /* logoWithTextLight.svg */; };
-		3A5692771C9B2012003C99EC /* logoDark.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3A5692761C9B2012003C99EC /* logoDark.svg */; };
 		3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692741C9B200D003C99EC /* logoWithTextLight.svg */; };
 		3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692761C9B2012003C99EC /* logoDark.svg */; };
 		93E4DACED7A2814DDB1325F5 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9A7ABF4849169236905C2C /* Pods_Criollo_Web.framework */; };
@@ -313,10 +311,8 @@
 			files = (
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
 				AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */,
-				3A5692751C9B200D003C99EC /* logoWithTextLight.svg in Resources */,
 				AD7C64E91C90A2A600DBB48B /* CWLandingPageViewController.jade in Resources */,
 				AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */,
-				3A5692771C9B2012003C99EC /* logoDark.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
