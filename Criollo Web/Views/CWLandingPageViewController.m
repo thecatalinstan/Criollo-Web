@@ -50,6 +50,7 @@
     self.templateVariables[@"image"] = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.env[@"REQUEST_URI"]];
     self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
     self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
+    self.templateVariables[@"etag"] = [AppDelegate ETag];
 
     return [super presentViewControllerWithRequest:request response:response];
 }
