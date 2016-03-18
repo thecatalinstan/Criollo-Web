@@ -39,6 +39,7 @@
     NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 
     // Set some headers
+    NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[AppDelegate ETag]];
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
         [response setValue:serverSpec forHTTPHeaderField:@"X-Criollo-Server"];
@@ -50,7 +51,9 @@
         }
 
         // Cache
-        [response setValue:[AppDelegate ETag] forHTTPHeaderField:@"ETag"];
+        if ( request.URL.pathExtension.length > 0 ) {
+            [response setValue:ETagHeaderSpec forHTTPHeaderField:@"ETag"];
+        }
 
         completionHandler();
     }];
@@ -209,7 +212,7 @@
     static NSString* ETag;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        ETag = [NSUUID UUID].UUIDString;
+        ETag = [[NSUUID UUID].UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""].lowercaseString;
     });
     return ETag;
 }
