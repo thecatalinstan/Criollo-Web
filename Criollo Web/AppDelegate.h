@@ -17,8 +17,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSDate *processStartTime;
-
 @interface AppDelegate : NSObject <CRApplicationDelegate>
 
 + (nullable NSString *)IPAddress;
@@ -26,8 +24,11 @@ static NSDate *processStartTime;
 + (NSString *)systemInfo;
 + (NSString *)systemVersion;
 
++ (NSString *)processName;
 + (NSString *)processRunningTime;
 + (NSString *)memoryInfo:(NSError *__autoreleasing*)error;
+
++ (NSString *)requestsServed;
 
 + (NSString *)criolloVersion;
 + (NSString *)bundleVersion;

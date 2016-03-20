@@ -26,17 +26,18 @@ NS_ASSUME_NONNULL_END
     if ( error != nil ) {
         memoryInfo = error.localizedDescription;
         dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [CRApp logFormat:@"%@", error];
+            [CRApp logErrorFormat:@"%@", error];
         });
     }
-    NSString* processName = [NSProcessInfo processInfo].processName;
-    NSString* processVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString* processName = [AppDelegate processName];
+    NSString* processVersion = [AppDelegate bundleVersion];
     NSString* runningTime = [AppDelegate processRunningTime];
     NSString* unameSystemVersion = [AppDelegate systemVersion];
+    NSString * requestsServed = [AppDelegate requestsServed];
     if ( memoryInfo ) {
-        processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@", processName, processVersion, memoryInfo, runningTime, unameSystemVersion];
+        processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
     } else {
-        processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@", processName, processVersion, runningTime, unameSystemVersion];
+        processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
     }
 
     return processInfo;

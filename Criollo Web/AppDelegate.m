@@ -18,8 +18,11 @@
 #define LogConnections          0
 #define LogRequests             1
 
-
 NS_ASSUME_NONNULL_BEGIN
+
+static NSDate *processStartTime;
+static NSUInteger requestsServed;
+
 @interface AppDelegate () <CRServerDelegate>
 
 @property (nonatomic, strong) CRHTTPServer *server;
@@ -33,6 +36,7 @@ NS_ASSUME_NONNULL_END
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
     processStartTime = [NSDate date];
+    requestsServed = 0;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -146,10 +150,11 @@ NS_ASSUME_NONNULL_END
 - (void)server:(CRServer *)server didFinishRequest:(CRRequest *)request {
     NSString* contentLength = [request.response valueForHTTPHeaderField:@"Content-Length"];
     NSString* userAgent = request.env[@"HTTP_USER_AGENT"];
-    NSString* remoteAddress = request.env[@"HTTP_X_FORWARDED_FOR"].length > 0 ? request.env[@"HTTP_X_FORWARDED_FOR"] : request.connection.remoteAddress;
+    NSString* remoteAddress = request.env[@"HTTP_X_FORWARDED_FOR"].length > 0 ? request.env[@"HTTP_X_FORWARDED_FOR"] : request.env[@"REMOTE_ADDR"];
     NSUInteger statusCode = request.response.statusCode;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [CRApp logFormat:@"%@ %@ %@ - %lu %@ - %@", [NSDate date], remoteAddress, request, statusCode, contentLength ? : @"-", userAgent];
+        requestsServed++;
     });
 }
 #endif
@@ -202,6 +207,15 @@ NS_ASSUME_NONNULL_END
     return publicSystemInfo;
 }
 
++ (NSString *)processName {
+    static NSString* processName;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        processName = [NSProcessInfo processInfo].processName;
+    });
+    return processName;
+}
+
 + (NSString *)processRunningTime {
     NSTimeInterval processRunningTime = processStartTime.timeIntervalSinceNow;
     NSString* processRunningTimeString;
@@ -230,6 +244,35 @@ NS_ASSUME_NONNULL_END
         *error = [NSError errorWithDomain:[NSProcessInfo processInfo].processName code:-1 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%s",mach_error_string(kerr)]}];
         return nil;
     }
+}
+
++ (NSString *)requestsServed {
+    static NSNumberFormatter* formatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSNumberFormatter alloc] init];
+        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+        formatter.maximumFractionDigits = 1;
+    });
+    NSArray<NSString *> * units = @[@"", @"K", @"M", @"B", @"trillion", @"quadrillion", @"quintillion", @"quintillion", @"sextilion", @"septillion", @"octillion", @"nonillion", @"decillion", @"undecillion", @"duodecillion", @"tredecillion", @"quatttuor-decillion", @"quindecillion", @"sexdecillion", @"septen-decillion", @"octodecillion", @"novemdecillion", @"vigintillion"];
+
+    __block double requestCount = requestsServed;
+    __block NSString *unit = @"";
+
+    if ( requestCount >= pow(1000, units.count) ) {
+        requestCount = requestCount / pow(1000, units.count - 1);
+        unit = units.lastObject;
+    } else {
+        [units enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            unit = obj;
+            if ( requestCount < pow(1000, idx + 1) ) {
+                requestCount = requestCount / pow(1000, idx);
+                *stop = YES;
+            }
+        }];
+    }
+
+    return [NSString stringWithFormat:@"about %@ %@", [formatter stringFromNumber:@(requestCount)], unit];
 }
 
 + (NSString *)criolloVersion {
