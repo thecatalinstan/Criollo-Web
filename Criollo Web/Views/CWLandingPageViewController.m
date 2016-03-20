@@ -9,26 +9,38 @@
 #import "CWLandingPageViewController.h"
 #import "AppDelegate.h"
 
-@interface CWLandingPageViewController () {
+NS_ASSUME_NONNULL_BEGIN
+@interface CWLandingPageViewController ()
 
-}
-
-//+ (NSDictionary *) mainMenuItems;
+- (NSString *)processInfo;
 
 @end
+NS_ASSUME_NONNULL_END
 
 @implementation CWLandingPageViewController
 
-//+ (NSDictionary *)mainMenuItems {
-//    static NSDictionary* mainMenuItems;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        mainMenuItems = @{
-//            "Getting Started"
-//        };
-//    });
-//    return mainMenuItems;
-//}
+- (NSString *)processInfo {
+    NSString* processInfo = @"".mutableCopy;
+    NSError* error;
+    NSString* memoryInfo = [AppDelegate memoryInfo:&error];
+    if ( error != nil ) {
+        memoryInfo = error.localizedDescription;
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [CRApp logFormat:@"%@", error];
+        });
+    }
+    NSString* processName = [NSProcessInfo processInfo].processName;
+    NSString* processVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSString* runningTime = [AppDelegate processRunningTime];
+    NSString* unameSystemVersion = [AppDelegate systemVersion];
+    if ( memoryInfo ) {
+        processInfo = [NSString stringWithFormat:@"%@ %@ using %@, running for %@ on %@", processName, processVersion, memoryInfo, runningTime, unameSystemVersion];
+    } else {
+        processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@", processName, processVersion, runningTime, unameSystemVersion];
+    }
+
+    return processInfo;
+}
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
@@ -51,6 +63,7 @@
     self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
     self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
     self.templateVariables[@"etag"] = [AppDelegate ETag];
+    self.templateVariables[@"process-info"] = self.processInfo;
 
     return [super presentViewControllerWithRequest:request response:response];
 }
