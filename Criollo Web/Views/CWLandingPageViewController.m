@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_END
     NSString* runningTime = [AppDelegate processRunningTime];
     NSString* unameSystemVersion = [AppDelegate systemVersion];
     if ( memoryInfo ) {
-        processInfo = [NSString stringWithFormat:@"%@ %@ using %@, running for %@ on %@", processName, processVersion, memoryInfo, runningTime, unameSystemVersion];
+        processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@", processName, processVersion, memoryInfo, runningTime, unameSystemVersion];
     } else {
         processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@", processName, processVersion, runningTime, unameSystemVersion];
     }
