@@ -1,5 +1,6 @@
-@import reset
 @import nib
+@import reset
+@import monokai-sublime
 
 // Color definitions
 criollo-light-gray        = #f0f0f0
@@ -24,6 +25,7 @@ footer-heading-color      = white
 // Fonts
 body-font-family          = Helvetica, sans-serif
 heading-font-family       = "Ruda", "Trebuchet MS", Verdana, sans-serif
+monotype-font-family      = Menlo, Monaco, fixed
 
 // Sizes
 phone-cutoff              = 667px
@@ -254,6 +256,22 @@ body
     //   .github-button
     //     padding 10px
     //     border 1px solid criollo-orange
+
+    &.process-info
+      height auto
+      max-height auto
+      min-height 0
+      background-color alpha(criollo-light-orange, 0.85)
+      padding-top 0.75em
+      padding-bottom 0.5em
+
+      .content
+        font-family monotype-font-family
+        font-size 0.65em
+
+        p
+          margin 0
+          line-height 1.5em
 
   .footer
     background-color footer-background-color

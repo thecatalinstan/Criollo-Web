@@ -113,6 +113,10 @@ html(lang="en")
           a(href="http://fastcgi.com",target="_blank") FastCGI
           |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.
 
+    section.process-info
+      .content
+        p {{process-info}}
+
     footer.footer
       .content
         .col
@@ -151,7 +155,6 @@ html(lang="en")
 
     link(rel="stylesheet",type="text/css",href="https://fonts.googleapis.com/css?family=Ruda:400,700,900")
     link(rel="stylesheet",href="{{static-dir}}/default.css?{{etag}}",type="text/css")
-    link(rel="stylesheet",href="{{static-dir}}/monokai-sublime.css?{{etag}}",type="text/css")
     script(src="{{static-dir}}/highlight.pack.js?{{etag}}")
     script hljs.initHighlightingOnLoad()
     script (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-75138662-1', 'auto');ga('send', 'pageview');

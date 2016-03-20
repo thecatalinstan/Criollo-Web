@@ -19,15 +19,21 @@
 #define LogRequests             1
 
 
+NS_ASSUME_NONNULL_BEGIN
 @interface AppDelegate () <CRServerDelegate>
 
-@property (nonatomic, strong, nonnull) CRHTTPServer *server;
+@property (nonatomic, strong) CRHTTPServer *server;
 
 - (void)startServer;
 
 @end
+NS_ASSUME_NONNULL_END
 
 @implementation AppDelegate
+
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
+    processStartTime = [NSDate date];
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
@@ -183,6 +189,47 @@
         systemInfo = [NSString stringWithFormat:@"%s %s %s %s %s", unameStruct.sysname, unameStruct.nodename, unameStruct.release, unameStruct.version, unameStruct.machine];
     });
     return systemInfo;
+}
+
++ (NSString*)systemVersion {
+    static NSString* publicSystemInfo;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        struct utsname unameStruct;
+        uname(&unameStruct);
+        publicSystemInfo = [NSString stringWithFormat:@"%s %s/%s", unameStruct.sysname, unameStruct.release, unameStruct.machine];
+    });
+    return publicSystemInfo;
+}
+
++ (NSString *)processRunningTime {
+    NSTimeInterval processRunningTime = processStartTime.timeIntervalSinceNow;
+    NSString* processRunningTimeString;
+
+    static NSDateComponentsFormatter *formatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateComponentsFormatter alloc] init];
+        formatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
+        formatter.includesApproximationPhrase = YES;
+        formatter.includesTimeRemainingPhrase = NO;
+        formatter.allowedUnits = NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond|NSCalendarUnitDay|NSCalendarUnitMonth|NSCalendarUnitYear;
+    });
+
+    processRunningTimeString = [formatter stringFromTimeInterval:fabs(processRunningTime)];
+    return processRunningTimeString.lowercaseString;
+}
+
++ (NSString *)memoryInfo:(NSError * _Nullable __autoreleasing *)error {
+    struct task_basic_info info;
+    mach_msg_type_number_t size = sizeof(info);
+    kern_return_t kerr = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&info, &size);
+    if( kerr == KERN_SUCCESS ) {
+        return [NSByteCountFormatter stringFromByteCount:info.resident_size countStyle:NSByteCountFormatterCountStyleMemory];
+    } else {
+        *error = [NSError errorWithDomain:[NSProcessInfo processInfo].processName code:-1 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%s",mach_error_string(kerr)]}];
+        return nil;
+    }
 }
 
 + (NSString *)criolloVersion {
