@@ -13,7 +13,7 @@
 #define CWSubscribePath         @"/subscribe"
 #define CWSessionCookie         @"cwsession"
 #define CWStaticDirPath         @"/static"
-#define CWCriolloVersion        @"0.1.12"
+#define CWCriolloVersion        @"0.1.13"
 
 NS_ASSUME_NONNULL_BEGIN
 
