@@ -32,11 +32,14 @@ static NSUInteger requestsServed;
 @end
 NS_ASSUME_NONNULL_END
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    dispatch_queue_t backgroundQueue;
+}
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
     processStartTime = [NSDate date];
     requestsServed = 0;
+    backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -138,26 +141,37 @@ NS_ASSUME_NONNULL_END
 
 #if LogConnections
 - (void)server:(CRServer *)server didAcceptConnection:(CRConnection *)connection {
-    [CRApp logFormat:@" * Accepted connection from %@:%d", connection.remoteAddress, connection.remotePort];
+    NSString* remoteAddress = connection.remoteAddress.copy;
+    NSUInteger remotePort = connection.remotePort;
+    dispatch_async( backgroundQueue, ^{
+        [CRApp logFormat:@"Accepted connection from %@:%d", remoteAddress, remotePort];
+    });
 }
 
 - (void)server:(CRServer *)server didCloseConnection:(CRConnection *)connection {
-    [CRApp logFormat:@" * Disconnected %@:%d", connection.remoteAddress, connection.remotePort];
+    NSString* remoteAddress = connection.remoteAddress.copy;
+    NSUInteger remotePort = connection.remotePort;
+    dispatch_async( backgroundQueue, ^{
+        [CRApp logFormat:@"Disconnected %@:%d", remoteAddress, remotePort];
+    });
 }
 #endif
 
-#if LogRequests
+
 - (void)server:(CRServer *)server didFinishRequest:(CRRequest *)request {
+#if LogRequests
     NSString* contentLength = [request.response valueForHTTPHeaderField:@"Content-Length"];
     NSString* userAgent = request.env[@"HTTP_USER_AGENT"];
     NSString* remoteAddress = request.env[@"HTTP_X_FORWARDED_FOR"].length > 0 ? request.env[@"HTTP_X_FORWARDED_FOR"] : request.env[@"REMOTE_ADDR"];
     NSUInteger statusCode = request.response.statusCode;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async( backgroundQueue, ^{
         [CRApp logFormat:@"%@ %@ %@ - %lu %@ - %@", [NSDate date], remoteAddress, request, statusCode, contentLength ? : @"-", userAgent];
+    });
+#endif
+    dispatch_async( backgroundQueue, ^{
         requestsServed++;
     });
 }
-#endif
 
 #pragma mark - Utils
 
@@ -257,6 +271,7 @@ NS_ASSUME_NONNULL_END
     NSArray<NSString *> * units = @[@"", @"K", @"M", @"B", @"trillion", @"quadrillion", @"quintillion", @"quintillion", @"sextilion", @"septillion", @"octillion", @"nonillion", @"decillion", @"undecillion", @"duodecillion", @"tredecillion", @"quatttuor-decillion", @"quindecillion", @"sexdecillion", @"septen-decillion", @"octodecillion", @"novemdecillion", @"vigintillion"];
 
     __block double requestCount = requestsServed;
+//    __block double requestCount = INT64_MAX;
     __block NSString *unit = @"";
 
     if ( requestCount >= pow(1000, units.count) ) {
