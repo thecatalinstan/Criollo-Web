@@ -70,7 +70,8 @@ NS_ASSUME_NONNULL_END
     }];
 
     // Homepage
-    [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
+    CWLandingPageViewController* landingPageController = [[CWLandingPageViewController alloc] initWithNibName:nil bundle:nil];
+    [self.server addBlock:landingPageController.routeBlock forPath:@"/"];
 
     // robot.txt
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
