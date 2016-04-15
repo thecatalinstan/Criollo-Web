@@ -6,6 +6,9 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
+@import CSOddFormatters;
+@import CSSystemInfoHelper;
+
 #import "CWLandingPageViewController.h"
 #import "AppDelegate.h"
 
@@ -21,18 +24,11 @@ NS_ASSUME_NONNULL_END
 
 - (NSString *)processInfo {
     NSString* processInfo = @"".mutableCopy;
-    NSError* error;
-    NSString* memoryInfo = [AppDelegate memoryInfo:&error];
-    if ( error != nil ) {
-        memoryInfo = error.localizedDescription;
-        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [CRApp logErrorFormat:@"%@", error];
-        });
-    }
+    NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
     NSString* processName = [AppDelegate processName];
     NSString* processVersion = [AppDelegate bundleVersion];
     NSString* runningTime = [AppDelegate processRunningTime];
-    NSString* unameSystemVersion = [AppDelegate systemVersion];
+    NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
     NSString * requestsServed = [AppDelegate requestsServed];
     if ( memoryInfo ) {
         processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
