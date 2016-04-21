@@ -70,8 +70,7 @@ NS_ASSUME_NONNULL_END
     }];
 
     // Homepage
-    CWLandingPageViewController* landingPageController = [[CWLandingPageViewController alloc] initWithNibName:nil bundle:nil];
-    [self.server addBlock:landingPageController.routeBlock forPath:@"/"];
+    [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
     // robot.txt
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
@@ -185,10 +184,9 @@ NS_ASSUME_NONNULL_END
 
 + (NSString *)processName {
     static NSString* processName;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( processName == nil ) {
         processName = [NSProcessInfo processInfo].processName;
-    });
+    }
     return processName;
 }
 
@@ -202,33 +200,30 @@ NS_ASSUME_NONNULL_END
 
 + (NSString *)criolloVersion {
     static NSString* criolloVersion;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( criolloVersion == nil ) {
         NSBundle *criolloBundle = [NSBundle bundleForClass:[CRServer class]];
         criolloVersion = [criolloBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         if ( criolloVersion == nil ) {
             criolloVersion = CWCriolloVersion;
         }
-    });
+    }
     return criolloVersion;
 }
 
 + (NSString *)bundleVersion {
     static NSString* bundleVersion;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( bundleVersion == nil ) {
         NSBundle *bundle = [NSBundle mainBundle];
         bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    });
+    }
     return bundleVersion;
 }
 
 + (NSString *)ETag {
     static NSString* ETag;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( ETag == nil ) {
         ETag = [[NSUUID UUID].UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""].lowercaseString;
-    });
+    }
     return ETag;
 }
 

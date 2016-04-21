@@ -23,13 +23,13 @@ NS_ASSUME_NONNULL_END
 @implementation CWLandingPageViewController
 
 - (NSString *)processInfo {
-    NSString* processInfo = @"".mutableCopy;
     NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
     NSString* processName = [AppDelegate processName];
     NSString* processVersion = [AppDelegate bundleVersion];
     NSString* runningTime = [AppDelegate processRunningTime];
     NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
     NSString * requestsServed = [AppDelegate requestsServed];
+    NSString* processInfo;
     if ( memoryInfo ) {
         processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
     } else {
