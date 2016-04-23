@@ -22,6 +22,14 @@ NS_ASSUME_NONNULL_END
 
 @implementation CWLandingPageViewController
 
++ (NSString *)imagePath:(NSString *)URL {
+    static NSString * imagePath;
+    if (!imagePath) {
+        imagePath = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", URL];
+    }
+    return imagePath;
+}
+
 - (NSString *)processInfo {
     NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
     NSString* processName = [AppDelegate processName];
@@ -53,10 +61,10 @@ NS_ASSUME_NONNULL_END
     self.templateVariables[@"main-menu"] = @"";
     self.templateVariables[@"github-url"] = CWGitHubURL;
     self.templateVariables[@"criollo-web-github-url"] = CWWebGitHubURL;
-    self.templateVariables[@"token"] = request.cookies[CWSessionCookie] ? : @"";
+//    self.templateVariables[@"token"] = request.cookies[CWSessionCookie] ? : @"";
     self.templateVariables[@"list-id"] = @"";
     self.templateVariables[@"subscribe"] = CWSubscribePath;
-    self.templateVariables[@"image"] = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.env[@"REQUEST_URI"]];
+    self.templateVariables[@"image"] = [CWLandingPageViewController imagePath:request.env[@"REQUEST_URI"]];
     self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
     self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
     self.templateVariables[@"etag"] = [AppDelegate ETag];
