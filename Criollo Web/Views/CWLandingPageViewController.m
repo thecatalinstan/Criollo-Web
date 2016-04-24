@@ -15,37 +15,11 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface CWLandingPageViewController ()
 
-- (NSString *)processInfo;
 
 @end
 NS_ASSUME_NONNULL_END
 
 @implementation CWLandingPageViewController
-
-+ (NSString *)imagePath:(NSString *)URL {
-    static NSString * imagePath;
-    if (!imagePath) {
-        imagePath = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", URL];
-    }
-    return imagePath;
-}
-
-- (NSString *)processInfo {
-    NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
-    NSString* processName = [AppDelegate processName];
-    NSString* processVersion = [AppDelegate bundleVersion];
-    NSString* runningTime = [AppDelegate processRunningTime];
-    NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
-    NSString * requestsServed = [AppDelegate requestsServed];
-    NSString* processInfo;
-    if ( memoryInfo ) {
-        processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
-    } else {
-        processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
-    }
-
-    return processInfo;
-}
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
@@ -61,14 +35,16 @@ NS_ASSUME_NONNULL_END
     self.templateVariables[@"main-menu"] = @"";
     self.templateVariables[@"github-url"] = CWGitHubURL;
     self.templateVariables[@"criollo-web-github-url"] = CWWebGitHubURL;
-//    self.templateVariables[@"token"] = request.cookies[CWSessionCookie] ? : @"";
     self.templateVariables[@"list-id"] = @"";
     self.templateVariables[@"subscribe"] = CWSubscribePath;
-    self.templateVariables[@"image"] = [CWLandingPageViewController imagePath:request.env[@"REQUEST_URI"]];
+    static NSString * imagePath;
+    if (!imagePath) {
+        imagePath = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.URL];
+    }
+    self.templateVariables[@"image"] = imagePath;
     self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
     self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
     self.templateVariables[@"etag"] = [AppDelegate ETag];
-    self.templateVariables[@"process-info"] = self.processInfo;
 
     return [super presentViewControllerWithRequest:request response:response];
 }

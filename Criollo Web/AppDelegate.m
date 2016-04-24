@@ -81,6 +81,24 @@ NS_ASSUME_NONNULL_END
         completionHandler();
     } forPath:@"/robots.txt"];
 
+    // info
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
+        NSString* processName = [AppDelegate processName];
+        NSString* processVersion = [AppDelegate bundleVersion];
+        NSString* runningTime = [AppDelegate processRunningTime];
+        NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
+        NSString * requestsServed = [AppDelegate requestsServed];
+        NSString* processInfo;
+        if ( memoryInfo ) {
+            processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
+        } else {
+            processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
+        }
+        [response sendString:processInfo];
+    } forPath:@"/info"];
+
+
     // favicon.ico
     NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];
     [self.server mountStaticFileAtPath:faviconPath forPath:@"/favicon.ico"];
