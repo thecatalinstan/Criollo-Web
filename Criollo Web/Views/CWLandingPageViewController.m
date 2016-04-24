@@ -6,42 +6,20 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
+@import CSOddFormatters;
+@import CSSystemInfoHelper;
+
 #import "CWLandingPageViewController.h"
 #import "AppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface CWLandingPageViewController ()
 
-- (NSString *)processInfo;
 
 @end
 NS_ASSUME_NONNULL_END
 
 @implementation CWLandingPageViewController
-
-- (NSString *)processInfo {
-    NSString* processInfo = @"".mutableCopy;
-    NSError* error;
-    NSString* memoryInfo = [AppDelegate memoryInfo:&error];
-    if ( error != nil ) {
-        memoryInfo = error.localizedDescription;
-        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [CRApp logErrorFormat:@"%@", error];
-        });
-    }
-    NSString* processName = [AppDelegate processName];
-    NSString* processVersion = [AppDelegate bundleVersion];
-    NSString* runningTime = [AppDelegate processRunningTime];
-    NSString* unameSystemVersion = [AppDelegate systemVersion];
-    NSString * requestsServed = [AppDelegate requestsServed];
-    if ( memoryInfo ) {
-        processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
-    } else {
-        processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
-    }
-
-    return processInfo;
-}
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
@@ -57,14 +35,16 @@ NS_ASSUME_NONNULL_END
     self.templateVariables[@"main-menu"] = @"";
     self.templateVariables[@"github-url"] = CWGitHubURL;
     self.templateVariables[@"criollo-web-github-url"] = CWWebGitHubURL;
-    self.templateVariables[@"token"] = request.cookies[CWSessionCookie] ? : @"";
     self.templateVariables[@"list-id"] = @"";
     self.templateVariables[@"subscribe"] = CWSubscribePath;
-    self.templateVariables[@"image"] = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.env[@"REQUEST_URI"]];
+    static NSString * imagePath;
+    if (!imagePath) {
+        imagePath = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.URL];
+    }
+    self.templateVariables[@"image"] = imagePath;
     self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
     self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
     self.templateVariables[@"etag"] = [AppDelegate ETag];
-    self.templateVariables[@"process-info"] = self.processInfo;
 
     return [super presentViewControllerWithRequest:request response:response];
 }

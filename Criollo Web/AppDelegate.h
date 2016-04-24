@@ -19,19 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AppDelegate : NSObject <CRApplicationDelegate>
 
-+ (nullable NSString *)IPAddress;
-
-+ (NSString *)systemInfo;
-+ (NSString *)systemVersion;
-
 + (NSString *)processName;
 + (NSString *)processRunningTime;
-+ (NSString *)memoryInfo:(NSError *__autoreleasing*)error;
 
 + (NSString *)requestsServed;
 
 + (NSString *)criolloVersion;
 + (NSString *)bundleVersion;
+
 + (NSString *)ETag;
 
 @end
