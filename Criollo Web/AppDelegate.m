@@ -6,17 +6,15 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
+@import CSSystemInfoHelper;
+@import CSOddFormatters;
+
 #import "AppDelegate.h"
 #import "CWLandingPageViewController.h"
 
-#include <stdio.h>
-#include <ifaddrs.h>
-#include <arpa/inet.h>
-#include <sys/utsname.h>
-
 #define PortNumber          10781
 #define LogConnections          0
-#define LogRequests             1
+#define LogRequests             0
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -85,6 +83,24 @@ NS_ASSUME_NONNULL_END
         completionHandler();
     } forPath:@"/robots.txt"];
 
+    // info
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
+        NSString* processName = [AppDelegate processName];
+        NSString* processVersion = [AppDelegate bundleVersion];
+        NSString* runningTime = [AppDelegate processRunningTime];
+        NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
+        NSString * requestsServed = [AppDelegate requestsServed];
+        NSString* processInfo;
+        if ( memoryInfo ) {
+            processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
+        } else {
+            processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
+        }
+        [response sendString:processInfo];
+    } forPath:@"/info"];
+
+
     // favicon.ico
     NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];
     [self.server mountStaticFileAtPath:faviconPath forPath:@"/favicon.ico"];
@@ -119,11 +135,7 @@ NS_ASSUME_NONNULL_END
     if ( [self.server startListening:&serverError portNumber:PortNumber] ) {
 
         // Get server ip address
-
-        NSString* address = [AppDelegate IPAddress];
-        if ( !address ) {
-            address = @"127.0.0.1";
-        }
+        NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
 
         // Set the base url. This is only for logging
         NSURL* baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%d", address, PortNumber]];
@@ -190,150 +202,48 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Utils
 
-+ (NSString *)IPAddress {
-    static NSString* address;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        struct ifaddrs *interfaces = NULL;
-        struct ifaddrs *temp_addr = NULL;
-        int success = 0;
-        success = getifaddrs(&interfaces);
-        if (success == 0) {
-            temp_addr = interfaces;
-            while(temp_addr != NULL) {
-                if(temp_addr->ifa_addr->sa_family == AF_INET) {
-                    if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
-                        address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-                    }
-                }
-                temp_addr = temp_addr->ifa_next;
-            }
-        }
-        freeifaddrs(interfaces);
-    });
-    return address;
-}
-
-+ (NSString*)systemInfo {
-    static NSString* systemInfo;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        struct utsname unameStruct;
-        uname(&unameStruct);
-        systemInfo = [NSString stringWithFormat:@"%s %s %s %s %s", unameStruct.sysname, unameStruct.nodename, unameStruct.release, unameStruct.version, unameStruct.machine];
-    });
-    return systemInfo;
-}
-
-+ (NSString*)systemVersion {
-    static NSString* publicSystemInfo;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        struct utsname unameStruct;
-        uname(&unameStruct);
-        publicSystemInfo = [NSString stringWithFormat:@"%s %s/%s", unameStruct.sysname, unameStruct.release, unameStruct.machine];
-    });
-    return publicSystemInfo;
-}
-
 + (NSString *)processName {
     static NSString* processName;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( processName == nil ) {
         processName = [NSProcessInfo processInfo].processName;
-    });
+    }
     return processName;
 }
 
 + (NSString *)processRunningTime {
-    NSTimeInterval processRunningTime = processStartTime.timeIntervalSinceNow;
-    NSString* processRunningTimeString;
-
-    static NSDateComponentsFormatter *formatter;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        formatter = [[NSDateComponentsFormatter alloc] init];
-        formatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
-        formatter.includesApproximationPhrase = YES;
-        formatter.includesTimeRemainingPhrase = NO;
-        formatter.allowedUnits = NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond|NSCalendarUnitDay|NSCalendarUnitMonth|NSCalendarUnitYear;
-    });
-
-    processRunningTimeString = [formatter stringFromTimeInterval:fabs(processRunningTime)];
-    return processRunningTimeString.lowercaseString;
-}
-
-+ (NSString *)memoryInfo:(NSError * _Nullable __autoreleasing *)error {
-    struct task_basic_info info;
-    mach_msg_type_number_t size = sizeof(info);
-    kern_return_t kerr = task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&info, &size);
-    if( kerr == KERN_SUCCESS ) {
-        return [NSByteCountFormatter stringFromByteCount:info.resident_size countStyle:NSByteCountFormatterCountStyleMemory];
-    } else {
-        *error = [NSError errorWithDomain:[NSProcessInfo processInfo].processName code:-1 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%s",mach_error_string(kerr)]}];
-        return nil;
-    }
+    return [CSTimeIntervalFormatter stringFromTimeInterval:processStartTime.timeIntervalSinceNow].lowercaseString;
 }
 
 + (NSString *)requestsServed {
-    static NSNumberFormatter* formatter;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        formatter = [[NSNumberFormatter alloc] init];
-        formatter.numberStyle = NSNumberFormatterDecimalStyle;
-        formatter.maximumFractionDigits = 1;
-    });
-    NSArray<NSString *> * units = @[@"", @"K", @"M", @"B", @"trillion", @"quadrillion", @"quintillion", @"quintillion", @"sextilion", @"septillion", @"octillion", @"nonillion", @"decillion", @"undecillion", @"duodecillion", @"tredecillion", @"quatttuor-decillion", @"quindecillion", @"sexdecillion", @"septen-decillion", @"octodecillion", @"novemdecillion", @"vigintillion"];
-
-    __block double requestCount = requestsServed;
-//    __block double requestCount = INT64_MAX;
-    __block NSString *unit = @"";
-
-    if ( requestCount >= pow(1000, units.count) ) {
-        requestCount = requestCount / pow(1000, units.count - 1);
-        unit = units.lastObject;
-    } else {
-        [units enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            unit = obj;
-            if ( requestCount < pow(1000, idx + 1) ) {
-                requestCount = requestCount / pow(1000, idx);
-                *stop = YES;
-            }
-        }];
-    }
-
-    return [NSString stringWithFormat:@"about %@ %@", [formatter stringFromNumber:@(requestCount)], unit];
+    return [NSString stringWithFormat:@"about %@", [CSLargeNumberFormatter stringFromNumber:@(requestsServed)]];
 }
 
 + (NSString *)criolloVersion {
     static NSString* criolloVersion;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( criolloVersion == nil ) {
         NSBundle *criolloBundle = [NSBundle bundleForClass:[CRServer class]];
         criolloVersion = [criolloBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         if ( criolloVersion == nil ) {
             criolloVersion = CWCriolloVersion;
         }
-    });
+    }
     return criolloVersion;
 }
 
 + (NSString *)bundleVersion {
     static NSString* bundleVersion;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( bundleVersion == nil ) {
         NSBundle *bundle = [NSBundle mainBundle];
         bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    });
+    }
     return bundleVersion;
 }
 
 + (NSString *)ETag {
     static NSString* ETag;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( ETag == nil ) {
         ETag = [[NSUUID UUID].UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""].lowercaseString;
-    });
+    }
     return ETag;
 }
 

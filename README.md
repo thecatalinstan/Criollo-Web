@@ -2,12 +2,14 @@
 
 This is the [Criollo.io](https://criollo.io) website.
 
-## Running
+## Building
 
-I use jade and stylus for html and css so, we need to install the compilers, which are `npm` packages :(.
+A number of npm packages are used as dependencies for client side javascript, as well as jade and stylus templates so ...
 
 ```sh
-sudo npm -g install jade stylus nib
+npm install
+pods install
+open Criollo\ Web.xcworkspace
 ```
 
-Other than that
+Other than that ...
