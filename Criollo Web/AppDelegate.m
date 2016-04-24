@@ -14,7 +14,7 @@
 
 #define PortNumber          10781
 #define LogConnections          0
-#define LogRequests             0
+#define LogRequests             1
 
 NS_ASSUME_NONNULL_BEGIN
 
