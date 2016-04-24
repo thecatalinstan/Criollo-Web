@@ -15,6 +15,7 @@
 		AD0BA9991C9629A6005206A1 /* app.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
+		AD3B68FC1CCC532400563E22 /* rollup-config.js in Resources */ = {isa = PBXBuildFile; fileRef = AD3B68FB1CCC532400563E22 /* rollup-config.js */; };
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
 		AD6240831CCC4A69008BE8B2 /* monokai-sublime.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */; };
 		AD7280931C90911E007A7FA6 /* CWLandingPageViewController.jade in Sources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */; };
@@ -63,7 +64,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).js",
 			);
-			script = "\"$PROJECT_DIR/node_modules/rollup/bin/rollup\" -c \"$PROJECT_DIR/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\"";
+			script = "\"$PROJECT_DIR/node_modules/rollup/bin/rollup\" -c \"$PROJECT_DIR/Criollo Web/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\"";
 		};
 /* End PBXBuildRule section */
 
@@ -102,6 +103,7 @@
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
 		AD0BA9A21C96387C005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
+		AD3B68FB1CCC532400563E22 /* rollup-config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "rollup-config.js"; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "monokai-sublime.css"; path = "node_modules/highlight.js/styles/monokai-sublime.css"; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.jade; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 		ADD680011C6CBEC600FC41EE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD3B68FB1CCC532400563E22 /* rollup-config.js */,
 				ADE63E491CCC504F006FC170 /* package.json */,
 				ADC098871C90F6D4009CC72F /* README.md */,
 				AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */,
@@ -317,6 +320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD3B68FC1CCC532400563E22 /* rollup-config.js in Resources */,
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
 				AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */,
 				AD7C64E91C90A2A600DBB48B /* CWLandingPageViewController.jade in Resources */,
