@@ -211,7 +211,7 @@ NS_ASSUME_NONNULL_END
 }
 
 + (NSString *)processRunningTime {
-    return [CSTimeIntervalFormatter stringFromTimeInterval:processStartTime.timeIntervalSinceNow].lowercaseString;
+    return [CSTimeIntervalFormatter stringFromTimeInterval:-processStartTime.timeIntervalSinceNow].lowercaseString;
 }
 
 + (NSString *)requestsServed {
