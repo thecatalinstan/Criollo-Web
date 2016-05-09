@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_END
 
 @implementation CWLandingPageViewController
 
-- (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
-    self.templateVariables[@"list-id"] = @"";
-    return [super presentViewControllerWithRequest:request response:response];
-}
+//- (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
+//    self.templateVariables[@"list-id"] = @"";
+//    return [super presentViewControllerWithRequest:request response:response];
+//}
 
 @end
