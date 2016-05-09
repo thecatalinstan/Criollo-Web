@@ -50,7 +50,6 @@ NS_ASSUME_NONNULL_END
     NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 
     // Set some headers
-    NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[AppDelegate ETag]];
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
         [response setValue:serverSpec forHTTPHeaderField:@"X-Criollo-Server"];
@@ -61,6 +60,29 @@ NS_ASSUME_NONNULL_END
             [response setCookie:CWSessionCookie value:token path:@"/" expires:nil domain:nil secure:YES];
         }
 
+        completionHandler();
+    }];
+
+    // info
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
+        NSString* processName = [AppDelegate processName];
+        NSString* processVersion = [AppDelegate bundleVersion];
+        NSString* runningTime = [AppDelegate processRunningTime];
+        NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
+        NSString * requestsServed = [AppDelegate requestsServed];
+        NSString* processInfo;
+        if ( memoryInfo ) {
+            processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
+        } else {
+            processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
+        }
+        [response sendString:processInfo];
+    } forPath:@"/info"];
+
+    // Cache headers
+    NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[AppDelegate ETag]];
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Cache
         if ( request.URL.pathExtension.length > 0 ) {
             [response setValue:ETagHeaderSpec forHTTPHeaderField:@"ETag"];
@@ -80,24 +102,6 @@ NS_ASSUME_NONNULL_END
         [response send:robotsString];
         completionHandler();
     } forPath:@"/robots.txt"];
-
-    // info
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
-        NSString* processName = [AppDelegate processName];
-        NSString* processVersion = [AppDelegate bundleVersion];
-        NSString* runningTime = [AppDelegate processRunningTime];
-        NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
-        NSString * requestsServed = [AppDelegate requestsServed];
-        NSString* processInfo;
-        if ( memoryInfo ) {
-            processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
-        } else {
-            processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
-        }
-        [response sendString:processInfo];
-    } forPath:@"/info"];
-
 
     // favicon.ico
     NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];

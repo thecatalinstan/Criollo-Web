@@ -6,7 +6,7 @@ hljs.initHighlightingOnLoad()
 const getInfo = _ => {
   $.ajax({
     dataType: 'text',
-    url: '/info'
+    url: `/info?${Math.random()}`
   }).done((text) => {
     $($('.process-info .content p')[0]).text(text)
     setTimeout(getInfo, 3000)
