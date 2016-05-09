@@ -87,7 +87,7 @@ body
           padding-top 0.5em
 
 
-  section
+  &>section
     padding 3em 0
     min-height 18.75em
     border-bottom 1px solid criollo-light-gray
@@ -103,7 +103,7 @@ body
       @media screen and (max-width: phone-cutoff)
         padding-top 1.5em
 
-  header
+  &>header
     padding 3em 0
     text-align center
     vertical-align middle
@@ -111,7 +111,7 @@ body
     @media screen and (max-width: phone-cutoff)
       padding 0.5em 0
 
-  footer
+  &>footer
     padding 2em 0
     text-align center
     vertical-align top
@@ -119,10 +119,10 @@ body
     @media screen and (max-width: phone-cutoff)
       padding 0
 
-  section,
-  footer,
-  header,
-  nav
+  &>section,
+  &>footer,
+  &>header,
+  &>nav
     .content
       margin 0 auto
       min-width 300px
@@ -405,3 +405,35 @@ body
         padding 0
         margin-top 2em
 
+
+body.blog
+  .article
+    padding 2em 0
+    border-bottom 1px solid criollo-light-gray
+
+    &:first-of-type
+      padding-top 0
+
+    &:last-of-type
+      border none
+
+    .article-header
+
+      .article-title
+        a
+          color heading-color
+          text-decoration none
+          &:hover
+            color link-color
+            text-decoration none
+
+      .article-info
+        margin 0
+        font-size 0.75em
+
+    .article-body
+      margin 1.5em 0
+
+  // .article-footer
+  //   .sharing
+  //   .permalink

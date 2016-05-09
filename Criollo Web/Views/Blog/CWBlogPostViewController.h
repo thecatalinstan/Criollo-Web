@@ -8,6 +8,6 @@
 
 #import <Criollo/Criollo.h>
 
-@interface CWBlogPostView : CRView
+@interface CWBlogPostViewController : CRViewController
 
 @end

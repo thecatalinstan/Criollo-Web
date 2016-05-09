@@ -6,8 +6,8 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-#import "CWBlogPostView.h"
+#import "CWBlogPostViewController.h"
 
-@implementation CWBlogPostView
+@implementation CWBlogPostViewController
 
 @end
