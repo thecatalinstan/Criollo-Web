@@ -288,6 +288,7 @@
 				TargetAttributes = {
 					ADD67FFA1C6CBEC600FC41EE = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = JNX7A8G939;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -507,7 +508,7 @@
 			baseConfigurationReference = 9A52070AD4E37C06B5EFFBF7 /* Pods-Criollo Web.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Criollo Web/Info.plist";
 				INSTALL_PATH = /WebApplications;
@@ -522,7 +523,7 @@
 			baseConfigurationReference = 68EEDC7103159948943099EC /* Pods-Criollo Web.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = "Criollo Web/Info.plist";
