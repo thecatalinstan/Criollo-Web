@@ -18,7 +18,8 @@ $(document).ready(_ => {
 
   let mastheadLogo = $('.masthead .logo')
   let mainMenu = $('nav.main-menu')
-  if (mastheadLogo) {
+
+  if (mastheadLogo.length) {
     $(window).scroll(_ => {
       var scroll = $(window).scrollTop()
       if (scroll >= mastheadLogo.offset().top - mainMenu.height()) {
@@ -37,10 +38,13 @@ $(document).ready(_ => {
         }
       }
     })
+
   } else {
+
     if (!mainMenu.hasClass('scrolled')) {
       mainMenu.addClass('scrolled')
     }
+
   }
 
 })
