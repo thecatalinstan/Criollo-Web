@@ -5,6 +5,8 @@ html(lang="en")
 
   body
 
+    include ./Shared/Menu.jade
+
     header.masthead
       .content
         .logo(title="{{title}}")
@@ -48,7 +50,7 @@ html(lang="en")
               |}, forPath: "/")
               |server.startListening()
 
-    section.getting-started
+    section#getting-started.getting-started
       .content
         h2 Getting Started
         p Head over to the&nbsp;

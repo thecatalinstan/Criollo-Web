@@ -21,6 +21,8 @@ footer-background-color   = criollo-dark-orange
 footer-link-color         = link-hover-color
 footer-link-hover-color   = white
 footer-heading-color      = white
+menu-link-color           = criollo-light-gray
+menu-link-hover-color     = white
 
 // Fonts
 body-font-family          = Helvetica, sans-serif
@@ -34,10 +36,6 @@ body,
 html
   width 100%
   height 100%
-
-// html
-  // background-color criollo-orange
-  // background-image linear-gradient(to bottom, criollo-orange 0%,criollo-orange 25%,white 25%,white 75%,criollo-dark-orange 75%,criollo-dark-orange 100%)
 
 body
   font-size 16px
@@ -106,9 +104,8 @@ body
 
   section,
   footer,
-  header
-    // display none
-
+  header,
+  nav
     .content
       margin 0 auto
       min-width 300px
@@ -116,6 +113,85 @@ body
       height 100%
       vertical-align middle
       box-sizing border-box
+
+  .main-menu
+    background-color masthead-background-color
+    text-align center
+    height auto
+    width 100%
+    position fixed
+
+    .content
+      width 80%
+      max-width 960px
+      padding 1em 0
+      text-align left
+
+      @media screen and (max-width: phone-cutoff)
+        padding 0.25em 0
+
+      .logo
+        display none
+        width 30%
+        height 2em
+        margin 0
+        vertical-align middle
+
+        @media screen and (max-width: phone-cutoff)
+          height 1em
+
+        a
+          img
+            height 100%
+
+      ul
+        display inline-block
+        vertical-align middle
+        width 100%
+        text-align center
+        height 2em
+        margin 0
+        padding 0
+        font-family heading-font-family
+        font-size 0.86em
+        font-weight 300
+
+        @media screen and (max-width: phone-cutoff)
+          height 1em
+
+        li
+          vertical-align middle
+          display inline-block
+          margin 0 0.75em
+          padding 0
+          height 100%
+          line-height 100%
+
+          a
+            line-height 2em
+            margin 0
+            padding 0
+            color menu-link-color
+            text-decoration none
+
+            &:hover
+              color menu-link-hover-color
+              text-decoration underline
+
+    &.scrolled
+      .content
+        .logo
+          display inline-block
+
+        ul
+          width 70%
+          text-align right
+
+          li
+            padding 0
+            margin 0 0 0 1.5em
+
+
 
   .masthead
     background-color masthead-background-color
@@ -125,17 +201,22 @@ body
     @media screen and (max-width: phone-cutoff)
       min-height 20em
 
+
     .content
       width 80%
-      max-width 320px
       max-width 960px
 
       .logo
         margin 5em auto 3em auto
+        opacity 1
+        transition opacity 0.25s ease-in-out
 
         @media screen and (max-width: phone-cutoff)
           margin 1.5em auto 1.5em auto
           transform scale(0.75)
+
+        &.scrolled
+          opacity 0
 
         img
           width 100%
@@ -204,7 +285,7 @@ body
 
         code
           text-align left
-          font-family Menlo, Monaco, fixed
+          font-family monotype-font-family
           font-size 0.9em
           line-height 1.5em
           padding 1.5em 1em
@@ -249,13 +330,6 @@ body
             font-size 0.6em
             line-height 1em
             color criollo-dark-gray
-
-          // &.github-button
-          // &.criollo-web-icon
-
-    //   .github-button
-    //     padding 10px
-    //     border 1px solid criollo-orange
 
     &.process-info
       height auto

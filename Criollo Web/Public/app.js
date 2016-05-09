@@ -15,4 +15,32 @@ const getInfo = _ => {
 
 $(document).ready(_ => {
   getInfo()
+
+  let mastheadLogo = $('.masthead .logo')
+  let mainMenu = $('nav.main-menu')
+  if (mastheadLogo) {
+    $(window).scroll(_ => {
+      var scroll = $(window).scrollTop()
+      if (scroll >= mastheadLogo.offset().top - mainMenu.height()) {
+        if (!mainMenu.hasClass('scrolled')) {
+          mainMenu.addClass('scrolled')
+        }
+        if (!mastheadLogo.hasClass('scrolled')) {
+          mastheadLogo.addClass('scrolled')
+        }
+      } else {
+        if (mainMenu.hasClass('scrolled')) {
+          mainMenu.removeClass('scrolled')
+        }
+        if (mastheadLogo.hasClass('scrolled')) {
+          mastheadLogo.removeClass('scrolled')
+        }
+      }
+    })
+  } else {
+    if (!mainMenu.hasClass('scrolled')) {
+      mainMenu.addClass('scrolled')
+    }
+  }
+
 })
