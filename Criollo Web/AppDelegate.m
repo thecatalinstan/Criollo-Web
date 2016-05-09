@@ -50,7 +50,6 @@ NS_ASSUME_NONNULL_END
     NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 
     // Set some headers
-    NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[AppDelegate ETag]];
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
         [response setValue:serverSpec forHTTPHeaderField:@"X-Criollo-Server"];
@@ -61,27 +60,8 @@ NS_ASSUME_NONNULL_END
             [response setCookie:CWSessionCookie value:token path:@"/" expires:nil domain:nil secure:YES];
         }
 
-        // Cache
-        if ( request.URL.pathExtension.length > 0 ) {
-            [response setValue:ETagHeaderSpec forHTTPHeaderField:@"ETag"];
-        }
-
         completionHandler();
     }];
-
-    // Homepage
-    CWLandingPageViewController* landingPageViewController = [[CWLandingPageViewController alloc] initWithNibName:nil bundle:nil];
-    [self.server addBlock:landingPageViewController.routeBlock forPath:@"/"];
-//    [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
-
-    // robot.txt
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* robotsString = @"User-agent: *\nAllow:\n";
-        [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
-        [response send:robotsString];
-        completionHandler();
-    } forPath:@"/robots.txt"];
 
     // info
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
@@ -100,6 +80,28 @@ NS_ASSUME_NONNULL_END
         [response sendString:processInfo];
     } forPath:@"/info"];
 
+    // Cache headers
+    NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[AppDelegate ETag]];
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        // Cache
+        if ( request.URL.pathExtension.length > 0 ) {
+            [response setValue:ETagHeaderSpec forHTTPHeaderField:@"ETag"];
+        }
+
+        completionHandler();
+    }];
+
+    // Homepage
+    [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
+
+    // robot.txt
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* robotsString = @"User-agent: *\nAllow:\n";
+        [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
+        [response send:robotsString];
+        completionHandler();
+    } forPath:@"/robots.txt"];
 
     // favicon.ico
     NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];
