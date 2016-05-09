@@ -16,6 +16,7 @@
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
+		AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5F021F1CE0936000D810B6 /* CWLayoutViewController.m */; };
 		AD6240831CCC4A69008BE8B2 /* monokai-sublime.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */; };
 		AD7280931C90911E007A7FA6 /* CWLandingPageViewController.jade in Sources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
@@ -106,6 +107,10 @@
 		AD0BA9A21C96387C005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		AD3B68FB1CCC532400563E22 /* rollup-config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "rollup-config.js"; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD5F021A1CE091B100D810B6 /* Footer.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Footer.jade; sourceTree = "<group>"; };
+		AD5F021B1CE091B100D810B6 /* Header.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Header.jade; sourceTree = "<group>"; };
+		AD5F021E1CE0936000D810B6 /* CWLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLayoutViewController.h; sourceTree = "<group>"; };
+		AD5F021F1CE0936000D810B6 /* CWLayoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLayoutViewController.m; sourceTree = "<group>"; };
 		AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "monokai-sublime.css"; path = "node_modules/highlight.js/styles/monokai-sublime.css"; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.jade; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
@@ -176,6 +181,17 @@
 				AD4A13F51C9068DD00A3616E /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		AD5F02191CE091B100D810B6 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				AD5F021E1CE0936000D810B6 /* CWLayoutViewController.h */,
+				AD5F021F1CE0936000D810B6 /* CWLayoutViewController.m */,
+				AD5F021A1CE091B100D810B6 /* Footer.jade */,
+				AD5F021B1CE091B100D810B6 /* Header.jade */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		AD6240821CCC4A51008BE8B2 /* Contrib */ = {
@@ -255,6 +271,7 @@
 		ADF3C9D81C6DDAAE00C0D5BC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AD5F02191CE091B100D810B6 /* Shared */,
 				ADF3C9D51C6DDA9800C0D5BC /* CWLandingPageViewController.h */,
 				ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */,
 				AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */,
@@ -431,6 +448,7 @@
 			files = (
 				AD7396931C90767D00D9F4B3 /* default.styl in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
+				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,
 				ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */,
 				AD7280931C90911E007A7FA6 /* CWLandingPageViewController.jade in Sources */,
 				ADD294851CB936BC006458AF /* CWBlogPostView.m in Sources */,
