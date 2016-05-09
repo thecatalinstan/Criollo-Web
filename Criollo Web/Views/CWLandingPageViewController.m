@@ -6,11 +6,7 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-@import CSOddFormatters;
-@import CSSystemInfoHelper;
-
 #import "CWLandingPageViewController.h"
-#import "AppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface CWLandingPageViewController ()
@@ -22,30 +18,7 @@ NS_ASSUME_NONNULL_END
 @implementation CWLandingPageViewController
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
-
-    NSString* productTitle = @"Criollo";
-    NSString* productSubtitle = @"A powerful Cocoa based web application framework for OS X and iOS.";
-
-    self.templateVariables[@"static-dir"] = CWStaticDirPath;
-    self.templateVariables[@"title"] = [productTitle stringByAppendingString:@" - web application framework for OS X and iOS"];
-    self.templateVariables[@"meta-description"] = @"Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with.";
-    self.templateVariables[@"meta-keywords"] = @"criollo, objective-c, swift, web, framework, HTTP, FCGI, FastCGI, server";
-    self.templateVariables[@"product-title"] = productTitle;
-    self.templateVariables[@"product-subtitle"] = productSubtitle;
-    self.templateVariables[@"main-menu"] = @"";
-    self.templateVariables[@"github-url"] = CWGitHubURL;
-    self.templateVariables[@"criollo-web-github-url"] = CWWebGitHubURL;
     self.templateVariables[@"list-id"] = @"";
-    self.templateVariables[@"subscribe"] = CWSubscribePath;
-    static NSString * imagePath;
-    if (!imagePath) {
-        imagePath = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.URL];
-    }
-    self.templateVariables[@"image"] = imagePath;
-    self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
-    self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
-    self.templateVariables[@"etag"] = [AppDelegate ETag];
-
     return [super presentViewControllerWithRequest:request response:response];
 }
 

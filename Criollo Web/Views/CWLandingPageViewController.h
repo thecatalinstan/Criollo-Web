@@ -7,7 +7,8 @@
 //
 
 #import <Criollo/Criollo.h>
+#import "CWLayoutViewController.h"
 
-@interface CWLandingPageViewController : CRViewController
+@interface CWLandingPageViewController : CWLayoutViewController
 
 @end
