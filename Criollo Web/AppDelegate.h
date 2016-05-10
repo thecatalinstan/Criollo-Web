@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AppDelegate : NSObject <CRApplicationDelegate>
 
++ (NSString *)serverSpecString;
+
 + (NSString *)processName;
 + (NSString *)processRunningTime;
 

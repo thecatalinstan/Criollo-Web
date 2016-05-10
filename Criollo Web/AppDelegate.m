@@ -45,21 +45,18 @@ NS_ASSUME_NONNULL_END
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-//#ifndef DEBUG
+#ifndef DEBUG
     [Fabric with:@[[Crashlytics class]]];
-//#endif
+#endif
 
     BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
     self.server = [[serverClass alloc] initWithDelegate:self];
 
-    NSBundle* bundle = [NSBundle mainBundle];
-    NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
-
     // Set some headers
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
-        [response setValue:serverSpec forHTTPHeaderField:@"X-Criollo-Server"];
+        [response setValue:[AppDelegate serverSpecString] forHTTPHeaderField:@"X-Criollo-Server"];
 
         // Session cookie
         if ( ! request.cookies[CWSessionCookie] ) {
@@ -114,11 +111,11 @@ NS_ASSUME_NONNULL_END
     } forPath:@"/robots.txt"];
 
     // favicon.ico
-    NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];
+    NSString* faviconPath = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
     [self.server mountStaticFileAtPath:faviconPath forPath:@"/favicon.ico"];
 
     // Static resources folder
-    NSString* publicResourcesFolder = [bundle.resourcePath stringByAppendingPathComponent:@"Public"];
+    NSString* publicResourcesFolder = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Public"];
     [self.server mountStaticDirectoryAtPath:publicResourcesFolder forPath:CWStaticDirPath options:CRStaticDirectoryServingOptionsCacheFiles];
 
     [self startServer];
@@ -213,6 +210,15 @@ NS_ASSUME_NONNULL_END
 }
 
 #pragma mark - Utils
+
++ (NSString *)serverSpecString {
+    static NSString* serverSpecString;
+    if ( serverSpecString == nil ) {
+        NSBundle* bundle = [NSBundle mainBundle];
+        serverSpecString = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    }
+    return serverSpecString;
+}
 
 + (NSString *)processName {
     static NSString* processName;
