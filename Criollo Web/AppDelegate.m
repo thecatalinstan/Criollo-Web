@@ -11,6 +11,7 @@
 
 #import "AppDelegate.h"
 #import "CWLandingPageViewController.h"
+#import "CWBlogViewController.h"
 
 #define PortNumber          10781
 #define LogConnections          0
@@ -93,6 +94,9 @@ NS_ASSUME_NONNULL_END
 
     // Homepage
     [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
+
+    // Blog
+    [self.server addController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:@"/blog"];
 
     // robot.txt
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {

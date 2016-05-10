@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+
+  include ../Shared/Header.jade
+
+  body.blog
+
+    include ../Shared/Menu.jade
+
+    section.blog
+      .content
+
+        {{posts}}
+
+        aside.sidebar
+          {{sidebar}}
+
+    include ../Shared/Footer.jade
