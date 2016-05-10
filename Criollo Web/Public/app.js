@@ -26,15 +26,9 @@ $(document).ready(_ => {
         if (!mainMenu.hasClass('scrolled')) {
           mainMenu.addClass('scrolled')
         }
-        if (!mastheadLogo.hasClass('scrolled')) {
-          mastheadLogo.addClass('scrolled')
-        }
       } else {
         if (mainMenu.hasClass('scrolled')) {
           mainMenu.removeClass('scrolled')
-        }
-        if (mastheadLogo.hasClass('scrolled')) {
-          mastheadLogo.removeClass('scrolled')
         }
       }
     })

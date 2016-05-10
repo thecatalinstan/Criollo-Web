@@ -3,34 +3,38 @@
 @import nib
 
 // Color definitions
-criollo-light-gray        = #f0f0f0
-criollo-dark-gray         = #666666
-criollo-orange            = #cc8339
-criollo-light-orange      = #f0af6c
-criollo-dark-orange       = #633b28
+criollo-light-gray                  = #f0f0f0
+criollo-dark-gray                   = #666666
+criollo-orange                      = #cc8339
+criollo-light-orange                = #f0af6c
+criollo-dark-orange                 = #633b28
 
 // Layout colors and fonts
-body-color                = criollo-dark-gray
-masthead-color            = criollo-light-gray
-masthead-background-color = criollo-orange
-heading-color             = criollo-dark-orange
-link-color                = criollo-orange
-link-hover-color          = criollo-light-orange
-footer-color              = criollo-light-gray
-footer-background-color   = criollo-dark-orange
-footer-link-color         = link-hover-color
-footer-link-hover-color   = white
-footer-heading-color      = white
-menu-link-color           = criollo-light-gray
-menu-link-hover-color     = white
+body-color                          = criollo-dark-gray
+masthead-color                      = criollo-light-gray
+masthead-background-color           = criollo-orange
+heading-color                       = criollo-dark-orange
+link-color                          = criollo-orange
+link-hover-color                    = criollo-light-orange
+footer-color                        = criollo-light-gray
+footer-background-color             = criollo-dark-orange
+footer-link-color                   = link-hover-color
+footer-link-hover-color             = white
+footer-heading-color                = white
+menu-background-color               = criollo-orange
+menu-link-color                     = criollo-light-gray
+menu-link-hover-color               = white
+menu-scrolled-background-color      = criollo-dark-orange
+menu-scrolled-link-color            = criollo-light-gray
+menu-scrolled-link-hover-color      = white
 
 // Fonts
-body-font-family          = Helvetica, sans-serif
-heading-font-family       = "Ruda", "Trebuchet MS", Verdana, sans-serif
-monotype-font-family      = Menlo, Monaco, fixed
+body-font-family                    = Helvetica, sans-serif
+heading-font-family                 = "Ruda", "Trebuchet MS", Verdana, sans-serif
+monotype-font-family                = Menlo, Monaco, fixed
 
 // Sizes
-phone-cutoff              = 667px
+phone-cutoff                        = 667px
 
 body,
 html
@@ -132,11 +136,12 @@ body
       box-sizing border-box
 
   .main-menu
-    background-color masthead-background-color
+    background-color menu-background-color
     text-align center
     height auto
     width 100%
     position fixed
+    transition background-color 0.25s ease-in-out
 
     .content
       width 80%
@@ -145,7 +150,7 @@ body
       text-align left
 
       @media screen and (max-width: phone-cutoff)
-        padding 0.25em 0
+        padding 0.5em 0
 
       .logo
         display none
@@ -165,16 +170,17 @@ body
         display inline-block
         vertical-align middle
         width 100%
-        text-align center
         height 2em
         margin 0
         padding 0
         font-family heading-font-family
-        font-size 0.86em
+        font-size 1em
         font-weight 300
+        text-align center
+        white-space nowrap
 
         @media screen and (max-width: phone-cutoff)
-          font-size 0.6em
+          font-size 0.75em
 
         li
           vertical-align middle
@@ -199,6 +205,8 @@ body
               text-decoration underline
 
     &.scrolled
+      background-color menu-scrolled-background-color
+
       .content
         .logo
           display inline-block
@@ -218,6 +226,11 @@ body
             padding 0
             margin 0 0 0 0.75em
 
+            a
+              color menu-scrolled-link-color
+
+              &:hover
+                color menu-scrolled-link-hover-color
 
   .masthead
     background-color masthead-background-color
@@ -227,22 +240,17 @@ body
     @media screen and (max-width: phone-cutoff)
       min-height 20em
 
-
     .content
       width 80%
       max-width 960px
 
       .logo
-        margin 5em auto 3em auto
+        margin 8em auto 3em auto
         opacity 1
-        transition opacity 0.25s ease-in-out
 
         @media screen and (max-width: phone-cutoff)
-          margin 1.5em auto 1.5em auto
-          transform scale(0.75)
-
-        &.scrolled
-          opacity 0
+          margin 4em 2em 1.5em 2em
+          max-width 75%
 
         img
           width 100%
@@ -362,17 +370,18 @@ body
       max-height auto
       min-height 0
       background-color alpha(criollo-light-orange, 0.85)
-      padding-top 0.75em 0
+      padding 0.5em 0
 
       .content
         font-family monotype-font-family
         font-size 0.65em
         padding 0 1em
         text-align center
+        vertical-align middle
 
         p
           margin 0
-          line-height 1.5em
+          line-height 1.25em
 
   .footer
     background-color footer-background-color
