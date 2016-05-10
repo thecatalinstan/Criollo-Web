@@ -149,7 +149,7 @@ body
 
       .logo
         display none
-        width 30%
+        width 0
         height 2em
         margin 0
         vertical-align middle
@@ -174,7 +174,7 @@ body
         font-weight 300
 
         @media screen and (max-width: phone-cutoff)
-          height 1em
+          font-size 0.6em
 
         li
           vertical-align middle
@@ -183,6 +183,9 @@ body
           padding 0
           height 100%
           line-height 100%
+
+          @media screen and (max-width: phone-cutoff)
+            margin 0 0.5em
 
           a
             line-height 2em
@@ -199,14 +202,21 @@ body
       .content
         .logo
           display inline-block
+          width 30%
+
+          @media screen and (max-width: phone-cutoff)
+            width 25%
 
         ul
           width 70%
           text-align right
 
+          @media screen and (max-width: phone-cutoff)
+            width 75%
+
           li
             padding 0
-            margin 0 0 0 1.5em
+            margin 0 0 0 0.75em
 
 
   .masthead
@@ -352,12 +362,13 @@ body
       max-height auto
       min-height 0
       background-color alpha(criollo-light-orange, 0.85)
-      padding-top 0.75em
-      padding-bottom 0.5em
+      padding-top 0.75em 0
 
       .content
         font-family monotype-font-family
         font-size 0.65em
+        padding 0 1em
+        text-align center
 
         p
           margin 0
@@ -408,7 +419,7 @@ body
 
 body.blog
   .article
-    padding 2em 0
+    padding 2em 1em
     border-bottom 1px solid criollo-light-gray
 
     &:first-of-type
