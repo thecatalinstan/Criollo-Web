@@ -253,12 +253,12 @@
 		ADD67FFD1C6CBEC600FC41EE /* Criollo Web */ = {
 			isa = PBXGroup;
 			children = (
+				AD7290E91C7058C90079AD76 /* Public */,
 				ADF3C9D81C6DDAAE00C0D5BC /* Views */,
 				ADD67FFE1C6CBEC600FC41EE /* AppDelegate.h */,
 				ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */,
 				AD4A13F41C9068AC00A3616E /* Resources */,
 				ADD680011C6CBEC600FC41EE /* Supporting Files */,
-				AD7290E91C7058C90079AD76 /* Public */,
 			);
 			path = "Criollo Web";
 			sourceTree = "<group>";
@@ -279,11 +279,11 @@
 		ADF3C9D81C6DDAAE00C0D5BC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				ADD294861CB936CD006458AF /* Blog */,
 				AD5F02191CE091B100D810B6 /* Shared */,
 				ADF3C9D51C6DDA9800C0D5BC /* CWLandingPageViewController.h */,
 				ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */,
 				AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */,
-				ADD294861CB936CD006458AF /* Blog */,
 			);
 			path = Views;
 			sourceTree = "<group>";
