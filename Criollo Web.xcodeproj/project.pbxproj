@@ -304,6 +304,7 @@
 				AD0BA99A1C962ECA005206A1 /* Uglify */,
 				D5FF51E3D50CE42441209675 /* 📦 Embed Pods Frameworks */,
 				DBB4089A85D83D89F6253C5B /* 📦 Copy Pods Resources */,
+				AD51FF821CE21EC500F09203 /* Crashlytics */,
 			);
 			buildRules = (
 				ADD5F4A81CCC3A37006019FF /* PBXBuildRule */,
@@ -403,6 +404,20 @@
 			shellPath = /bin/sh;
 			shellScript = "#SRC_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\n\n#uglify -s \"$SRC_DIR/*.js\" -o \"$DERIVED_FILE_DIR/uglified.js\"\n#if [ -f \"$DERIVED_FILE_DIR/uglified.js\" ] ; then\n#    mv \"$DERIVED_FILE_DIR/uglified.js\" \"$SRC_DIR/default.js\"\n#fi\n";
 			showEnvVarsInLog = 0;
+		};
+		AD51FF821CE21EC500F09203 /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Crashlytics;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 41b2b87be52ab143a0c7a2fe9c4d179d3799509a d6ca98ecb5a4aa4a03ebb1d823fcb18cf0bf3b20b7df7390e6873d435c0d147f";
 		};
 		ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -556,6 +571,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = "Criollo Web/Info.plist";
 				INSTALL_PATH = /WebApplications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

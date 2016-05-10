@@ -8,6 +8,8 @@
 
 @import CSSystemInfoHelper;
 @import CSOddFormatters;
+@import Fabric;
+@import Crashlytics;
 
 #import "AppDelegate.h"
 #import "CWLandingPageViewController.h"
@@ -42,6 +44,10 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+
+//#ifndef DEBUG
+    [Fabric with:@[[Crashlytics class]]];
+//#endif
 
     BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];

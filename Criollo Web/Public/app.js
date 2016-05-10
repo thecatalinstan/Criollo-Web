@@ -32,13 +32,9 @@ $(document).ready(_ => {
         }
       }
     })
-
   } else {
-
     if (!mainMenu.hasClass('scrolled')) {
       mainMenu.addClass('scrolled')
     }
-
   }
-
 })
