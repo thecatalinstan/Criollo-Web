@@ -8,6 +8,6 @@ target 'Criollo Web' do
     pod 'CSSystemInfoHelper', '~> 1.2'
     pod 'Fabric', '~> 1.6.7'
     pod 'MMMarkdown', '~> 0.5'
-    pod 'Realm', '~> 0.98'
+#    pod 'Realm', '~> 0.102'
 end
 

@@ -10,11 +10,19 @@
 		3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692741C9B200D003C99EC /* logoWithTextLight.svg */; };
 		3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692761C9B2012003C99EC /* logoDark.svg */; };
 		3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3ACC94C01C9BFAEF000C6180 /* githubMark.svg */; };
+		8F24DA6880439D0DAE213543 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E43F5B3F5ED56D50F21616C /* Pods_Criollo_Web.framework */; };
 		AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD089EE51C998E6E007434A1 /* criollo-web-icon.png */; };
 		AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA96C1C96004B005206A1 /* logo.png */; };
 		AD0BA9991C9629A6005206A1 /* app.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
+		AD41F03A1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F02F1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m */; };
+		AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */; };
+		AD41F03C1CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0331CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m */; };
+		AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0351CE48C10001ADEAC /* CWBlogTag.m */; };
+		AD41F03E1CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0371CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m */; };
+		AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0391CE48C10001ADEAC /* CWBlogPost.m */; };
+		AD41F0431CE48C3A001ADEAC /* CWBlog.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0411CE48C3A001ADEAC /* CWBlog.xcdatamodeld */; };
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
 		AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5F021F1CE0936000D810B6 /* CWLayoutViewController.m */; };
 		AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5F02221CE0BC3500D810B6 /* CWBlogViewController.m */; };
@@ -33,7 +41,6 @@
 		ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */; };
 		ADE63E4A1CCC504F006FC170 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = ADE63E491CCC504F006FC170 /* package.json */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
-		BDAFC6DDAEFB581F7D87496E /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF41F16406ECD25DE8F315FF /* Pods_Criollo_Web.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -96,11 +103,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E43F5B3F5ED56D50F21616C /* Pods_Criollo_Web.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Criollo_Web.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A5692741C9B200D003C99EC /* logoWithTextLight.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = logoWithTextLight.svg; sourceTree = "<group>"; };
 		3A5692761C9B2012003C99EC /* logoDark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = logoDark.svg; sourceTree = "<group>"; };
 		3ACC94C01C9BFAEF000C6180 /* githubMark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = githubMark.svg; sourceTree = "<group>"; };
-		68EEDC7103159948943099EC /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
-		9A52070AD4E37C06B5EFFBF7 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
 		AD089EE51C998E6E007434A1 /* criollo-web-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-web-icon.png"; sourceTree = "<group>"; };
 		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
@@ -108,6 +114,19 @@
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
 		AD0BA9A21C96387C005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		AD3B68FB1CCC532400563E22 /* rollup-config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "rollup-config.js"; sourceTree = "<group>"; };
+		AD41F02E1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWBlogAuthor+CoreDataProperties.h"; sourceTree = "<group>"; };
+		AD41F02F1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWBlogAuthor+CoreDataProperties.m"; sourceTree = "<group>"; };
+		AD41F0301CE48C10001ADEAC /* CWBlogAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogAuthor.h; sourceTree = "<group>"; };
+		AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogAuthor.m; sourceTree = "<group>"; };
+		AD41F0321CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWBlogTag+CoreDataProperties.h"; sourceTree = "<group>"; };
+		AD41F0331CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWBlogTag+CoreDataProperties.m"; sourceTree = "<group>"; };
+		AD41F0341CE48C10001ADEAC /* CWBlogTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogTag.h; sourceTree = "<group>"; };
+		AD41F0351CE48C10001ADEAC /* CWBlogTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogTag.m; sourceTree = "<group>"; };
+		AD41F0361CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWBlogPost+CoreDataProperties.h"; sourceTree = "<group>"; };
+		AD41F0371CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWBlogPost+CoreDataProperties.m"; sourceTree = "<group>"; };
+		AD41F0381CE48C10001ADEAC /* CWBlogPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogPost.h; sourceTree = "<group>"; };
+		AD41F0391CE48C10001ADEAC /* CWBlogPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogPost.m; sourceTree = "<group>"; };
+		AD41F0421CE48C3A001ADEAC /* CWBlog.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CWBlog.xcdatamodel; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD5F021A1CE091B100D810B6 /* Footer.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Footer.jade; sourceTree = "<group>"; };
 		AD5F021B1CE091B100D810B6 /* Header.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Header.jade; sourceTree = "<group>"; };
@@ -119,6 +138,7 @@
 		AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "monokai-sublime.css"; path = "node_modules/highlight.js/styles/monokai-sublime.css"; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.jade; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
+		AD8FE0B91CE477E70085612C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../../../Library/Developer/Xcode/DerivedData/Criollo_Web-bxldpoilqgcohudzadiiettgdbiy/Build/Products/Debug/Realm/Realm.framework"; sourceTree = "<group>"; };
 		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reset.styl; sourceTree = "<group>"; };
 		ADC098871C90F6D4009CC72F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ADD294831CB936BC006458AF /* CWBlogPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogPostViewController.h; path = Blog/CWBlogPostViewController.h; sourceTree = "<group>"; };
@@ -133,7 +153,8 @@
 		ADE63E491CCC504F006FC170 /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = package.json; sourceTree = SOURCE_ROOT; };
 		ADF3C9D51C6DDA9800C0D5BC /* CWLandingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLandingPageViewController.h; sourceTree = "<group>"; };
 		ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLandingPageViewController.m; sourceTree = "<group>"; };
-		BF41F16406ECD25DE8F315FF /* Pods_Criollo_Web.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Criollo_Web.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7EC43093A26933D86E49BDF /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
+		C86876D50B9A81C15A9D0912 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,28 +162,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDAFC6DDAEFB581F7D87496E /* Pods_Criollo_Web.framework in Frameworks */,
+				8F24DA6880439D0DAE213543 /* Pods_Criollo_Web.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B4AB3685CC022DAC9266374 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B7EC43093A26933D86E49BDF /* Pods-Criollo Web.debug.xcconfig */,
+				C86876D50B9A81C15A9D0912 /* Pods-Criollo Web.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		709A6020531EDF3F8726A547 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BF41F16406ECD25DE8F315FF /* Pods_Criollo_Web.framework */,
+				AD8FE0B91CE477E70085612C /* Realm.framework */,
+				1E43F5B3F5ED56D50F21616C /* Pods_Criollo_Web.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A5DFB38D93BDF54B0CF64249 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9A52070AD4E37C06B5EFFBF7 /* Pods-Criollo Web.debug.xcconfig */,
-				68EEDC7103159948943099EC /* Pods-Criollo Web.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		AD0BA96E1C960068005206A1 /* Images */ = {
@@ -178,6 +200,14 @@
 				AD0BA9A21C96387C005206A1 /* favicon.ico */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		AD41F0401CE48C3A001ADEAC /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				AD41F0411CE48C3A001ADEAC /* CWBlog.xcdatamodeld */,
+			);
+			path = DataModels;
 			sourceTree = "<group>";
 		};
 		AD4A13F41C9068AC00A3616E /* Resources */ = {
@@ -219,6 +249,25 @@
 			path = Public;
 			sourceTree = "<group>";
 		};
+		ADB5244A1CE466490044C9C3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AD41F0301CE48C10001ADEAC /* CWBlogAuthor.h */,
+				AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */,
+				AD41F02E1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.h */,
+				AD41F02F1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m */,
+				AD41F0341CE48C10001ADEAC /* CWBlogTag.h */,
+				AD41F0351CE48C10001ADEAC /* CWBlogTag.m */,
+				AD41F0321CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.h */,
+				AD41F0331CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m */,
+				AD41F0381CE48C10001ADEAC /* CWBlogPost.h */,
+				AD41F0391CE48C10001ADEAC /* CWBlogPost.m */,
+				AD41F0361CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.h */,
+				AD41F0371CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		ADD294861CB936CD006458AF /* Blog */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,8 +286,8 @@
 			children = (
 				ADD67FFD1C6CBEC600FC41EE /* Criollo Web */,
 				ADD67FFC1C6CBEC600FC41EE /* Products */,
-				A5DFB38D93BDF54B0CF64249 /* Pods */,
 				709A6020531EDF3F8726A547 /* Frameworks */,
+				3B4AB3685CC022DAC9266374 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -253,8 +302,10 @@
 		ADD67FFD1C6CBEC600FC41EE /* Criollo Web */ = {
 			isa = PBXGroup;
 			children = (
-				AD7290E91C7058C90079AD76 /* Public */,
+				AD41F0401CE48C3A001ADEAC /* DataModels */,
+				ADB5244A1CE466490044C9C3 /* Models */,
 				ADF3C9D81C6DDAAE00C0D5BC /* Views */,
+				AD7290E91C7058C90079AD76 /* Public */,
 				ADD67FFE1C6CBEC600FC41EE /* AppDelegate.h */,
 				ADD67FFF1C6CBEC600FC41EE /* AppDelegate.m */,
 				AD4A13F41C9068AC00A3616E /* Resources */,
@@ -295,16 +346,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADD6800C1C6CBEC600FC41EE /* Build configuration list for PBXNativeTarget "Criollo Web" */;
 			buildPhases = (
-				0DDB61A4951753B451EA1794 /* 📦 Check Pods Manifest.lock */,
+				FA1DDB4F045F478B4113BA9A /* 📦 Check Pods Manifest.lock */,
 				ADD67FF71C6CBEC600FC41EE /* Sources */,
 				ADD67FF81C6CBEC600FC41EE /* Frameworks */,
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
 				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
 				AD0BA99A1C962ECA005206A1 /* Uglify */,
-				D5FF51E3D50CE42441209675 /* 📦 Embed Pods Frameworks */,
-				DBB4089A85D83D89F6253C5B /* 📦 Copy Pods Resources */,
 				AD51FF821CE21EC500F09203 /* Crashlytics */,
+				339AF7D27633BDB44379C147 /* 📦 Embed Pods Frameworks */,
+				A9ED9BC5124B0BF5AE3CF1B5 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 				ADD5F4A81CCC3A37006019FF /* PBXBuildRule */,
@@ -375,19 +426,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0DDB61A4951753B451EA1794 /* 📦 Check Pods Manifest.lock */ = {
+		339AF7D27633BDB44379C147 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9ED9BC5124B0BF5AE3CF1B5 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AD0BA99A1C962ECA005206A1 /* Uglify */ = {
@@ -433,34 +499,19 @@
 			shellPath = /bin/sh;
 			shellScript = "DST_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\nSRC_DIR=\"$DERIVED_FILE_DIR\"\n\nfunction file_basename {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME%.*}\"\n}\n\nfunction file_extension {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME##*.}\"\n}\n\nfunction mapped_extension {\n    case $1 in\n        \"styl\" )\n            echo \"css\"\n            ;;\n        \"jade\" )\n            echo \"html\"\n            ;;\n        \"js\" )\n            echo \"js\"\n            ;;\n    esac\n}\n\nls -1 \"$DST_DIR\"  | while read INPUT_FILE_NAME ; do\n    INPUT_FILE_BASE=\"`file_basename $INPUT_FILE_NAME`\"\n    INPUT_FILE_EXTENSION=\"`file_extension $INPUT_FILE_NAME`\"\n\n    SRC_FILE_EXTENSION=\"`mapped_extension $INPUT_FILE_EXTENSION`\"\n    if [ -z \"$SRC_FILE_EXTENSION\" ] ; then\n        continue\n    fi\n\n    SRC_FILE=\"$INPUT_FILE_BASE.$SRC_FILE_EXTENSION\"\n    if [ ! -f \"$SRC_DIR/$SRC_FILE\" ] ; then\n        continue\n    fi\n   cp -f \"$SRC_DIR/$SRC_FILE\" \"$DST_DIR/$SRC_FILE\"\n    if [ \"$SRC_FILE_EXTENSION\" != \"$INPUT_FILE_EXTENSION\" ] ; then\n       rm \"$DST_DIR/$INPUT_FILE_NAME\"\n   fi\ndone";
 		};
-		D5FF51E3D50CE42441209675 /* 📦 Embed Pods Frameworks */ = {
+		FA1DDB4F045F478B4113BA9A /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DBB4089A85D83D89F6253C5B /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -471,11 +522,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD5F02261CE0BD6100D810B6 /* CWBlogPostViewController.jade in Sources */,
+				AD41F03A1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m in Sources */,
+				AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */,
+				AD41F03C1CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m in Sources */,
+				AD41F03E1CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m in Sources */,
 				AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */,
 				AD7396931C90767D00D9F4B3 /* default.styl in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
 				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,
 				ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */,
+				AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */,
+				AD41F0431CE48C3A001ADEAC /* CWBlog.xcdatamodeld in Sources */,
+				AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */,
 				ADD294851CB936BC006458AF /* CWBlogPostViewController.m in Sources */,
 				ADD680001C6CBEC600FC41EE /* AppDelegate.m in Sources */,
 				ADD5F4A71CCC3908006019FF /* app.js in Sources */,
@@ -566,12 +624,18 @@
 		};
 		ADD6800D1C6CBEC600FC41EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A52070AD4E37C06B5EFFBF7 /* Pods-Criollo Web.debug.xcconfig */;
+			baseConfigurationReference = B7EC43093A26933D86E49BDF /* Pods-Criollo Web.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+				);
 				INFOPLIST_FILE = "Criollo Web/Info.plist";
 				INSTALL_PATH = /WebApplications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -582,12 +646,18 @@
 		};
 		ADD6800E1C6CBEC600FC41EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 68EEDC7103159948943099EC /* Pods-Criollo Web.release.xcconfig */;
+			baseConfigurationReference = C86876D50B9A81C15A9D0912 /* Pods-Criollo Web.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_OPTIMIZATION_LEVEL = fast;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+				);
 				INFOPLIST_FILE = "Criollo Web/Info.plist";
 				INSTALL_PATH = /WebApplications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -618,6 +688,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AD41F0411CE48C3A001ADEAC /* CWBlog.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AD41F0421CE48C3A001ADEAC /* CWBlog.xcdatamodel */,
+			);
+			currentVersion = AD41F0421CE48C3A001ADEAC /* CWBlog.xcdatamodel */;
+			path = CWBlog.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = ADD67FF31C6CBEC600FC41EE /* Project object */;
 }
