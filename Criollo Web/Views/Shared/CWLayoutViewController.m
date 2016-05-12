@@ -7,7 +7,7 @@
 //
 
 #import "CWLayoutViewController.h"
-#import "AppDelegate.h"
+#import "CWAppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface CWLayoutViewController ()
@@ -33,9 +33,9 @@ static NSString * imagePath;
     }
     self.templateVariables[@"static-dir"] = CWStaticDirPath;
     self.templateVariables[@"image"] = imagePath;
-    self.templateVariables[@"criollo-ver"] = [AppDelegate criolloVersion];
-    self.templateVariables[@"criollo-web-ver"] = [AppDelegate bundleVersion];
-    self.templateVariables[@"etag"] = [AppDelegate ETag];
+    self.templateVariables[@"criollo-ver"] = [CWAppDelegate criolloVersion];
+    self.templateVariables[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
+    self.templateVariables[@"etag"] = [CWAppDelegate ETag];
 
     return [super presentViewControllerWithRequest:request response:response];
 

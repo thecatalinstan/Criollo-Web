@@ -11,7 +11,7 @@
 @import Fabric;
 @import Crashlytics;
 
-#import "AppDelegate.h"
+#import "CWAppDelegate.h"
 #import "CWLandingPageViewController.h"
 #import "CWBlogViewController.h"
 
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSDate *processStartTime;
 static NSUInteger requestsServed;
 
-@interface AppDelegate () <CRServerDelegate>
+@interface CWAppDelegate () <CRServerDelegate>
 
 @property (nonatomic, strong) CRHTTPServer *server;
 
@@ -33,7 +33,7 @@ static NSUInteger requestsServed;
 @end
 NS_ASSUME_NONNULL_END
 
-@implementation AppDelegate {
+@implementation CWAppDelegate {
     dispatch_queue_t backgroundQueue;
 }
 
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_END
     // Set some headers
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
-        [response setValue:[AppDelegate serverSpecString] forHTTPHeaderField:@"X-Criollo-Server"];
+        [response setValue:[CWAppDelegate serverSpecString] forHTTPHeaderField:@"X-Criollo-Server"];
 
         // Session cookie
         if ( ! request.cookies[CWSessionCookie] ) {
@@ -70,11 +70,11 @@ NS_ASSUME_NONNULL_END
     // info
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
-        NSString* processName = [AppDelegate processName];
-        NSString* processVersion = [AppDelegate bundleVersion];
-        NSString* runningTime = [AppDelegate processRunningTime];
+        NSString* processName = [CWAppDelegate processName];
+        NSString* processVersion = [CWAppDelegate bundleVersion];
+        NSString* runningTime = [CWAppDelegate processRunningTime];
         NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
-        NSString * requestsServed = [AppDelegate requestsServed];
+        NSString * requestsServed = [CWAppDelegate requestsServed];
         NSString* processInfo;
         if ( memoryInfo ) {
             processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_END
     } forPath:@"/info"];
 
     // Cache headers
-    NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[AppDelegate ETag]];
+    NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Cache
         if ( request.URL.pathExtension.length > 0 ) {

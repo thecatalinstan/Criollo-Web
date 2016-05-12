@@ -7,8 +7,10 @@
 //
 
 @import Criollo;
-#import "AppDelegate.h"
+#import "CWAppDelegate.h"
 
 int main(int argc, const char * argv[]) {
-    return CRApplicationMain(argc, argv, [AppDelegate new]);
+    @autoreleasepool {
+        return CRApplicationMain(argc, argv, [CWAppDelegate new]);
+    }
 }

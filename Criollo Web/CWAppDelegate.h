@@ -17,7 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AppDelegate : NSObject <CRApplicationDelegate>
+@interface CWAppDelegate : NSObject <CRApplicationDelegate>
 
 + (NSString *)serverSpecString;
 
