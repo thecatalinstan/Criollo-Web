@@ -6,7 +6,7 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-@import Criollo;
+#import <Criollo/Criollo.h>
 #import "CWAppDelegate.h"
 
 int main(int argc, const char * argv[]) {

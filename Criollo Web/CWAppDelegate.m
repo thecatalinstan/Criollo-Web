@@ -6,14 +6,15 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-@import CSSystemInfoHelper;
-@import CSOddFormatters;
-@import Fabric;
-@import Crashlytics;
+#import <CSSystemInfoHelper/CSSystemInfoHelper.h>
+#import <CSOddFormatters/CSOddFormatters.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 #import "CWAppDelegate.h"
 #import "CWLandingPageViewController.h"
 #import "CWBlogViewController.h"
+#import "CWBlog.h"
 
 #define PortNumber          10781
 #define LogConnections          0
@@ -27,8 +28,10 @@ static NSUInteger requestsServed;
 @interface CWAppDelegate () <CRServerDelegate>
 
 @property (nonatomic, strong) CRHTTPServer *server;
+@property (nonatomic, strong) CWBlog* blog;
 
 - (void)startServer;
+- (void)setupBaseDirectory;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -41,13 +44,19 @@ NS_ASSUME_NONNULL_END
     processStartTime = [NSDate date];
     requestsServed = 0;
     backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
+
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-#ifndef DEBUG
+//#ifndef DEBUG
+//#endif
+
     [Fabric with:@[[Crashlytics class]]];
-#endif
+    [self setupBaseDirectory];
+    [self setupBlog];
 
     BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
@@ -175,6 +184,45 @@ NS_ASSUME_NONNULL_END
     }
 }
 
+- (void)setupBaseDirectory {
+    NSError* error = nil;
+    BOOL shouldFail = NO;
+    NSURL* baseDirectory = [CWAppDelegate baseDirectory];
+    NSString* failureReason = @"There was an error creating or loading the application's saved data.";
+
+    NSDictionary *properties = [baseDirectory resourceValuesForKeys:@[NSURLIsDirectoryKey] error:&error];
+    if (properties) {
+        if (![properties[NSURLIsDirectoryKey] boolValue]) {
+            failureReason = @"Expected a folder to store application data, found a file.";
+            shouldFail = YES;
+        }
+    } else if (error.code == NSFileReadNoSuchFileError) {
+        error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:baseDirectory.path withIntermediateDirectories:YES attributes:nil error:&error];
+    }
+
+    if (shouldFail || error) {
+        if ( error ) {
+            failureReason = error.localizedDescription;
+        }
+        [CRApp logErrorFormat:@"%@ Failed to set up application directory %@. %@", [NSDate date], baseDirectory, failureReason];
+        [CRApp terminate:nil];
+    } else {
+        [CRApp logFormat:@"%@ Successfully set up application directory %@.", [NSDate date], baseDirectory.path];
+    }
+}
+
+- (void)setupBlog {
+    NSError* error;
+    _blog = [[CWBlog alloc] initWithBaseDirectory:[CWAppDelegate baseDirectory] error:&error];
+    if (error) {
+        [CRApp logErrorFormat:@"%@ Failed to set up the blog. %@", [NSDate date], error.localizedDescription];
+        [CRApp terminate:nil];
+    } else {
+        [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
+    }
+}
+
 #if LogConnections
 - (void)server:(CRServer *)server didAcceptConnection:(CRConnection *)connection {
     NSString* remoteAddress = connection.remoteAddress.copy;
@@ -263,6 +311,19 @@ NS_ASSUME_NONNULL_END
         ETag = [[NSUUID UUID].UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""].lowercaseString;
     }
     return ETag;
+}
+
++ (NSURL *)baseDirectory {
+    static NSURL* baseDirectory;
+    if ( baseDirectory == nil ) {
+        baseDirectory = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask].lastObject;
+        baseDirectory = [baseDirectory URLByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
+    }
+    return baseDirectory;
+}
+
++ (CWBlog *)sharedBlog {
+    return ((CWAppDelegate*)[CRApp delegate]).blog;
 }
 
 @end

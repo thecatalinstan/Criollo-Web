@@ -15,8 +15,9 @@
 #define CWStaticDirPath         @"/static"
 #define CWCriolloVersion        @"0.1.14"
 
-NS_ASSUME_NONNULL_BEGIN
+@class CWBlog;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CWAppDelegate : NSObject <CRApplicationDelegate>
 
 + (NSString *)serverSpecString;
@@ -30,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)bundleVersion;
 
 + (NSString *)ETag;
+
++ (NSURL *)baseDirectory;
++ (CWBlog *)sharedBlog;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -130,6 +130,7 @@
 		AD41F0421CE48C3A001ADEAC /* CWBlog.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CWBlog.xcdatamodel; sourceTree = "<group>"; };
 		AD41F0441CE48DCE001ADEAC /* CWBlog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlog.h; sourceTree = "<group>"; };
 		AD41F0451CE48DCE001ADEAC /* CWBlog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlog.m; sourceTree = "<group>"; };
+		AD41F0671CE4A68D001ADEAC /* Criollo Web.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Criollo Web.entitlements"; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD5F021A1CE091B100D810B6 /* Footer.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Footer.jade; sourceTree = "<group>"; };
 		AD5F021B1CE091B100D810B6 /* Header.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Header.jade; sourceTree = "<group>"; };
@@ -305,6 +306,7 @@
 		ADD67FFD1C6CBEC600FC41EE /* Criollo Web */ = {
 			isa = PBXGroup;
 			children = (
+				AD41F0671CE4A68D001ADEAC /* Criollo Web.entitlements */,
 				AD41F0401CE48C3A001ADEAC /* DataModels */,
 				ADB5244A1CE466490044C9C3 /* Models */,
 				ADF3C9D81C6DDAAE00C0D5BC /* Views */,
@@ -389,7 +391,7 @@
 						DevelopmentTeam = JNX7A8G939;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -633,6 +635,7 @@
 			baseConfigurationReference = B7EC43093A26933D86E49BDF /* Pods-Criollo Web.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Criollo Web/Criollo Web.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -655,6 +658,7 @@
 			baseConfigurationReference = C86876D50B9A81C15A9D0912 /* Pods-Criollo Web.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Criollo Web/Criollo Web.entitlements";
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_OPTIMIZATION_LEVEL = fast;
