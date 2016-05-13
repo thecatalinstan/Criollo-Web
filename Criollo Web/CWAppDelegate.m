@@ -32,6 +32,7 @@ static NSUInteger requestsServed;
 
 - (void)startServer;
 - (void)setupBaseDirectory;
+- (void)setupBlog;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -134,9 +135,39 @@ NS_ASSUME_NONNULL_END
     static CRApplicationTerminateReply reply;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        // Delay the shutdown for a bit
         reply = CRTerminateLater;
+
+        // Close server connections
+        [CRApp logFormat:@"%@ Closing server connections.", [NSDate date]];
         [self.server closeAllConnections:^{
-            reply = CRTerminateNow;
+
+            // Stop the server and close the socket cleanly
+            [CRApp logFormat:@"%@ Sutting down server.", [NSDate date]];
+            [self.server stopListening];
+
+            // Save the blog managed context
+            [CRApp logFormat:@"%@ Saving blog MOC changes.", [NSDate date]];
+            [self.blog.managedObjectContext performBlock:^{
+                NSError* error = nil;
+                if ( ![self.blog saveManagedObjectContext:&error] )  {
+                    [CRApp logErrorFormat:@"%@ Unable to save the blog MOC. %@. Trying again in 5 seconds.", [NSDate date], error.localizedDescription];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+                        [self.blog.managedObjectContext performBlock:^{
+                            NSError* error = nil;
+                            if ( ![self.blog saveManagedObjectContext:&error] ) {
+                                [CRApp logErrorFormat:@"%@ Unable to save the blog context. %@. No firther attepts to save will be made. Some data might have been lost.", [NSDate date], error.localizedDescription];
+                            } else {
+                                [CRApp logFormat:@"%@ Successfully saved blog MOC.", [NSDate date]];
+                            }
+                            reply = CRTerminateNow;
+                        }];
+                    });
+                } else {
+                    reply = CRTerminateNow;
+                }
+            }];
         }];
     });
     return reply;
@@ -219,7 +250,14 @@ NS_ASSUME_NONNULL_END
         [CRApp logErrorFormat:@"%@ Failed to set up the blog. %@", [NSDate date], error.localizedDescription];
         [CRApp terminate:nil];
     } else {
-        [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
+        error = nil;
+        [self.blog importUsersFromDefaults:&error];
+        if ( error ) {
+            [CRApp logErrorFormat:@"%@ Failed to import users from defaults. %@", [NSDate date], error.localizedDescription];
+            [CRApp terminate:nil];
+        } else {
+            [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
+        }
     }
 }
 
@@ -317,7 +355,7 @@ NS_ASSUME_NONNULL_END
     static NSURL* baseDirectory;
     if ( baseDirectory == nil ) {
         baseDirectory = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask].lastObject;
-        baseDirectory = [baseDirectory URLByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
+        baseDirectory = [baseDirectory URLByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(__bridge NSString*)kCFBundleNameKey]];
     }
     return baseDirectory;
 }

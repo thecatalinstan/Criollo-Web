@@ -7,6 +7,17 @@
 //
 
 #import "CWBlog.h"
+#import "CWBlogAuthor.h"
+#import "CWAppDelegate.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface CWBlog ()
+
+
+@end
+
+NS_ASSUME_NONNULL_END
 
 @implementation CWBlog
 
@@ -44,4 +55,40 @@
     }
     return self;
 }
+
+- (void)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
+    [[NSUserDefaults standardUserDefaults ] synchronize];
+    NSDictionary * defaultsUsers = [[NSUserDefaults standardUserDefaults] dictionaryForKey:CWDefaultsUsersKey];
+    if ( !defaultsUsers ) {
+        return;
+    }
+
+    [self.managedObjectContext performBlockAndWait:^{
+        [defaultsUsers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id _Nonnull obj, BOOL * _Nonnull stop) {
+            NSError * fetchError = nil;
+            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key inManagedObjectContext:self.managedObjectContext error:&fetchError];
+            if ( fetchError ) {
+                *stop = YES;
+            } else if ( !author ) {
+                author = [[CWBlogAuthor alloc] initWithEntity:[NSEntityDescription entityForName:NSStringFromClass([CWBlogAuthor class]) inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+                author.user = key;
+            };
+        }];
+        *error = nil;
+        [self saveManagedObjectContext:error];
+    }];
+}
+
+- (BOOL)saveManagedObjectContext:(NSError * _Nullable __autoreleasing *)error {
+    BOOL result = YES;
+
+    if (self.managedObjectContext.hasChanges) {
+        *error = nil;
+        result = [self.managedObjectContext save:error];
+    }
+
+    return result;
+}
+
+
 @end

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogAuthor : NSManagedObject
 
-// Insert code here to declare functionality of your managed object subclass
++ (nullable instancetype)fetchAuthorForUsername:(NSString *)username inManagedObjectContext:(NSManagedObjectContext *)context error:(NSError * __autoreleasing *)error;
 
 @end
 

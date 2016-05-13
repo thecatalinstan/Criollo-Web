@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#define CWBlogErrorDomain   @"CWBlogErrorDomain"
+#define CWBlogError         101
+
 NS_ASSUME_NONNULL_BEGIN
 @interface CWBlog : NSObject
 
@@ -19,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) NSURL *baseDirectory;
 
 - (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error;
+
+- (BOOL)saveManagedObjectContext:(NSError * __autoreleasing *)error;
+
+- (void)importUsersFromDefaults:(NSError * __autoreleasing *)error;
 
 @end
 NS_ASSUME_NONNULL_END

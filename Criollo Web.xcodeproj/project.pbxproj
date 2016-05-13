@@ -130,7 +130,6 @@
 		AD41F0421CE48C3A001ADEAC /* CWBlog.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CWBlog.xcdatamodel; sourceTree = "<group>"; };
 		AD41F0441CE48DCE001ADEAC /* CWBlog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlog.h; sourceTree = "<group>"; };
 		AD41F0451CE48DCE001ADEAC /* CWBlog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlog.m; sourceTree = "<group>"; };
-		AD41F0671CE4A68D001ADEAC /* Criollo Web.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Criollo Web.entitlements"; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD5F021A1CE091B100D810B6 /* Footer.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Footer.jade; sourceTree = "<group>"; };
 		AD5F021B1CE091B100D810B6 /* Header.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Header.jade; sourceTree = "<group>"; };
@@ -143,6 +142,7 @@
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.jade */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.jade; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
 		AD8FE0B91CE477E70085612C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../../../Library/Developer/Xcode/DerivedData/Criollo_Web-bxldpoilqgcohudzadiiettgdbiy/Build/Products/Debug/Realm/Realm.framework"; sourceTree = "<group>"; };
+		ADB9D1651CE5C72A002F35B5 /* Criollo Web.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Criollo Web.entitlements"; sourceTree = "<group>"; };
 		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reset.styl; sourceTree = "<group>"; };
 		ADC098871C90F6D4009CC72F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ADD294831CB936BC006458AF /* CWBlogPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogPostViewController.h; path = Blog/CWBlogPostViewController.h; sourceTree = "<group>"; };
@@ -306,7 +306,6 @@
 		ADD67FFD1C6CBEC600FC41EE /* Criollo Web */ = {
 			isa = PBXGroup;
 			children = (
-				AD41F0671CE4A68D001ADEAC /* Criollo Web.entitlements */,
 				AD41F0401CE48C3A001ADEAC /* DataModels */,
 				ADB5244A1CE466490044C9C3 /* Models */,
 				ADF3C9D81C6DDAAE00C0D5BC /* Views */,
@@ -324,12 +323,13 @@
 		ADD680011C6CBEC600FC41EE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ADD680021C6CBEC600FC41EE /* main.m */,
 				AD3B68FB1CCC532400563E22 /* rollup-config.js */,
 				ADE63E491CCC504F006FC170 /* package.json */,
 				ADC098871C90F6D4009CC72F /* README.md */,
 				AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */,
 				ADD680091C6CBEC600FC41EE /* Info.plist */,
-				ADD680021C6CBEC600FC41EE /* main.m */,
+				ADB9D1651CE5C72A002F35B5 /* Criollo Web.entitlements */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
