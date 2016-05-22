@@ -14,6 +14,7 @@
 #import "CWAppDelegate.h"
 #import "CWLandingPageViewController.h"
 #import "CWBlogViewController.h"
+#import "CWLoginPageViewController.h"
 #import "CWBlog.h"
 
 #define PortNumber          10781
@@ -127,14 +128,14 @@ NS_ASSUME_NONNULL_END
         [response finish];
     } forPath:@"/authenticate" HTTPMethod:CRHTTPMethodPost];
 
-    // Signout
+    // De-authenticate
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
         [response setStatusCode:200 description:nil];
         [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
         [response setValue:@"0" forHTTPHeaderField:@"Content-Length"];
         [response finish];
-    } forPath:@"/signout"];
+    } forPath:@"/authenticate" HTTPMethod:CRHTTPMethodDelete];
 
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];
@@ -151,6 +152,9 @@ NS_ASSUME_NONNULL_END
 
     // Blog
     [self.server addController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:@"/blog"];
+
+    // Login page
+    [self.server addController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:@"/login"];
 
     // robot.txt
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {

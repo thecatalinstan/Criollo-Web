@@ -1,0 +1,19 @@
+doctype html
+html(lang="en")
+
+  include ./Shared/Header.jade
+
+  body.login
+
+    include ./Shared/Menu.jade
+
+    section.login
+      .content
+        h2 Login
+        .form
+          input#user(type="text",name="user",placeholder="Username")
+          input#password(type="password",name="password",placeholder="Password")
+          button#login Login
+
+
+    include ./Shared/Footer.jade

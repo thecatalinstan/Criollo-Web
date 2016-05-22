@@ -90,6 +90,48 @@ body
         @media screen and (max-width: phone-cutoff)
           padding-top 0.5em
 
+  &.login
+
+    section
+      text-align center
+      width 100%
+      max-width auto !important
+
+      .content
+        width 100%
+        max-width auto !important
+
+        .form
+          background-color criollo-light-orange
+          display block
+          padding 25px 20px 20px 20px
+          text-align center
+          margin-top 40px
+
+          input
+            display block
+            margin 20px auto
+            outline none
+            font-size 1em
+            font-family monotype-font-family
+            font-weight 300
+            padding 10px 20px
+            border none
+
+          button
+            display block
+            margin 20px auto
+            font-size 1em
+            padding 10px 20px
+            background-color criollo-dark-orange
+            color white
+            border none
+            transition all 0.25s ease-in-out 0
+            cursor pointer
+
+            &:hover
+              background-color white
+              color criollo-dark-orange
 
   &>section
     padding 3em 0
@@ -144,8 +186,6 @@ body
     transition background-color 0.25s ease-in-out
 
     .content
-      // width 80%
-      // max-width 960px
       padding 1em
       text-align left
 
