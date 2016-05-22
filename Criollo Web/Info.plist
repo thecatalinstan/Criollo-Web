@@ -36,6 +36,8 @@
 			</dict>
 		</array>
 	</dict>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.developer-tools</string>
 	<key>LSBackgroundOnly</key>
 	<true/>
 	<key>LSMinimumSystemVersion</key>

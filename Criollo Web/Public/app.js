@@ -14,11 +14,13 @@ const getInfo = _ => {
 }
 
 $(document).ready(_ => {
+
+  // Footer info
   getInfo()
 
+  // Menu
   let mastheadLogo = $('.masthead .logo')
   let mainMenu = $('nav.main-menu')
-
   if (mastheadLogo.length) {
     $(window).scroll(_ => {
       var scroll = $(window).scrollTop()
@@ -37,4 +39,24 @@ $(document).ready(_ => {
       mainMenu.addClass('scrolled')
     }
   }
+
+  // Login form
+  let loginForm = $('#login-form')
+  if (loginForm) {
+    console.log(loginForm)
+    $('#login-button').on('click', (e) => {
+      $.ajax({
+        dataType: 'json',
+        url: `/authenticate?${Math.random()}`,
+        method: 'post',
+        data: {
+          username: $('#username').value,
+          password: $('#password').value
+        }
+      }).done((text) => {
+        console.log('cool')
+      })
+    })
+  }
+
 })

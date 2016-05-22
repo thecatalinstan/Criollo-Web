@@ -97,6 +97,9 @@ NS_ASSUME_NONNULL_END
 
     // Authentication
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+
+        NSLog(@"%@", request.body);
+
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
 
         BOOL shouldFail = NO;

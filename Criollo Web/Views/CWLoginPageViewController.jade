@@ -8,12 +8,14 @@ html(lang="en")
     include ./Shared/Menu.jade
 
     section.login
+
       .content
+
         h2 Login
-        .form
-          input#user(type="text",name="user",placeholder="Username")
+        .form#login-form
+          input#username(type="text",name="username",placeholder="Username")
           input#password(type="password",name="password",placeholder="Password")
-          button#login Login
+          button#login-button Login
 
 
     include ./Shared/Footer.jade
