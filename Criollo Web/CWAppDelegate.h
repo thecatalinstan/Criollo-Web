@@ -16,6 +16,8 @@
 #define CWCriolloVersion        @"0.1.14"
 #define CWDefaultsUsersKey      @"Users"
 
+#define CWUserCookie            @"cwuser"
+
 @class CWBlog;
 
 NS_ASSUME_NONNULL_BEGIN

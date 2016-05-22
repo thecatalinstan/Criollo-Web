@@ -94,6 +94,48 @@ NS_ASSUME_NONNULL_END
         [response sendString:processInfo];
     } forPath:@"/info"];
 
+    // Authentication
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
+
+        BOOL shouldFail = NO;
+        NSDictionary<NSString *, NSString *>* sentCredentials = (NSDictionary *)request.body;
+
+        if ( !sentCredentials ) {
+            shouldFail = YES;
+        } else {
+            [[NSUserDefaults standardUserDefaults ] synchronize];
+            NSDictionary * defaultsUsers = [[NSUserDefaults standardUserDefaults] dictionaryForKey:CWDefaultsUsersKey];
+            if ( !defaultsUsers ) {
+                shouldFail = YES;
+            } else {
+                NSString *password = defaultsUsers[sentCredentials[@"user"]];
+                if ( ![password isEqualToString:sentCredentials[@"password"]] ) {
+                    shouldFail  = YES;
+                }
+            }
+        }
+
+        if ( shouldFail ) {
+            [response setStatusCode:401 description:nil];
+            [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
+        } else {
+            [response setStatusCode:200 description:nil];
+            [response setCookie:CWUserCookie value:sentCredentials[@"user"] path:@"/" expires:nil domain:nil secure:NO];
+        }
+        [response setValue:@"0" forHTTPHeaderField:@"Content-Length"];
+        [response finish];
+    } forPath:@"/authenticate" HTTPMethod:CRHTTPMethodPost];
+
+    // Signout
+    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
+        [response setStatusCode:200 description:nil];
+        [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
+        [response setValue:@"0" forHTTPHeaderField:@"Content-Length"];
+        [response finish];
+    } forPath:@"/signout"];
+
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
@@ -101,7 +143,6 @@ NS_ASSUME_NONNULL_END
         if ( request.URL.pathExtension.length > 0 ) {
             [response setValue:ETagHeaderSpec forHTTPHeaderField:@"ETag"];
         }
-
         completionHandler();
     }];
 
