@@ -1,0 +1,9 @@
+doctype html
+html(lang="en")
+  include ../Shared/Header.pug
+  body.blog
+    include ../Shared/Menu.pug
+    section.blog
+      .content {{posts}}
+        aside.sidebar {{sidebar}}
+    include ../Shared/Footer.pug

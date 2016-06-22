@@ -1,12 +1,8 @@
 doctype html
 html(lang="en")
-
-  include ./Shared/Header.jade
-
+  include ./Shared/Header.pug
   body.landing
-
-    include ./Shared/Menu.jade
-
+    include ./Shared/Menu.pug
     header.masthead
       .content
         .logo(title="{{title}}")
@@ -18,7 +14,6 @@ html(lang="en")
         .get-started
           a(href="{{github-url}}/wiki/Getting-Started") Get Started
           a(href="{{github-url}}/archive/{{criollo-ver}}.zip") Download ver. {{criollo-ver}}
-
     section.details
       .content
         p.shields
@@ -31,25 +26,20 @@ html(lang="en")
           a(href="http://twitter.com/Criolloio")
             img(src="https://img.shields.io/badge/twitter-@Criolloio-orange.svg?style=flat",alt="Twitter")
         p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with. It's as easy as this:
-
         .hello-world
-
           pre
             code.objc CRServer* server = [[CRHTTPServer alloc] init];
               |[server addBlock:^(CRRequest *request, CRResponse *response, CRRouteCompletionBlock completionHandler) {
               |   [response send:@"Hello world!"];
               |} forPath:@"/"];
               |[server startListening];
-
           p ... and in Swift:
-
           pre
             code.swift let server:CRServer = CRHTTPServer()
               |server.addBlock({ (request, response, completionHandler) -&gt; Void in
               |   response.send("Hello world!")
               |}, forPath: "/")
               |server.startListening()
-
     section#getting-started.getting-started
       .content
         h2 Getting Started
@@ -73,8 +63,6 @@ html(lang="en")
             img(src="{{static-dir}}/githubMark.svg?{{etag}}",alt="Criollo Web Project Page")
             span criollo.io
             small (this website)
-
-
     section.how
       .content
         h2 How to Use
@@ -82,7 +70,6 @@ html(lang="en")
         p It is fully &nbsp;
           a(href="http://launchd.info/") launchd
           |&nbsp;compatible and replicates the lifecycle and behaviour of NSApplication, so that the learning curve should be as smooth as possible.
-
     section.why
       .content
         h2 Why?
@@ -90,5 +77,4 @@ html(lang="en")
         p It incorporates an HTTP web server and a&nbsp;
           a(href="http://fastcgi.com") FastCGI
           |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.
-
-    include ./Shared/Footer.jade
+    include ./Shared/Footer.pug
