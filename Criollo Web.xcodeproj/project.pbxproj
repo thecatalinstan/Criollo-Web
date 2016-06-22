@@ -361,7 +361,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADD6800C1C6CBEC600FC41EE /* Build configuration list for PBXNativeTarget "Criollo Web" */;
 			buildPhases = (
-				FA1DDB4F045F478B4113BA9A /* 📦 Check Pods Manifest.lock */,
+				FA1DDB4F045F478B4113BA9A /* [CP] Check Pods Manifest.lock */,
 				ADD67FF71C6CBEC600FC41EE /* Sources */,
 				ADD67FF81C6CBEC600FC41EE /* Frameworks */,
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
@@ -369,8 +369,8 @@
 				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
 				AD0BA99A1C962ECA005206A1 /* Uglify */,
 				AD51FF821CE21EC500F09203 /* Crashlytics */,
-				339AF7D27633BDB44379C147 /* 📦 Embed Pods Frameworks */,
-				A9ED9BC5124B0BF5AE3CF1B5 /* 📦 Copy Pods Resources */,
+				339AF7D27633BDB44379C147 /* [CP] Embed Pods Frameworks */,
+				A9ED9BC5124B0BF5AE3CF1B5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 				ADD5F4A81CCC3A37006019FF /* PBXBuildRule */,
@@ -442,14 +442,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		339AF7D27633BDB44379C147 /* 📦 Embed Pods Frameworks */ = {
+		339AF7D27633BDB44379C147 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,14 +457,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A9ED9BC5124B0BF5AE3CF1B5 /* 📦 Copy Pods Resources */ = {
+		A9ED9BC5124B0BF5AE3CF1B5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,14 +515,14 @@
 			shellPath = /bin/sh;
 			shellScript = "DST_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\nSRC_DIR=\"$DERIVED_FILE_DIR\"\n\nfunction file_basename {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME%.*}\"\n}\n\nfunction file_extension {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME##*.}\"\n}\n\nfunction mapped_extension {\n    case $1 in\n        \"styl\" )\n            echo \"css\"\n            ;;\n        \"jade\" )\n            echo \"html\"\n            ;;\n        \"js\" )\n            echo \"js\"\n            ;;\n    esac\n}\n\nls -1 \"$DST_DIR\"  | while read INPUT_FILE_NAME ; do\n    INPUT_FILE_BASE=\"`file_basename $INPUT_FILE_NAME`\"\n    INPUT_FILE_EXTENSION=\"`file_extension $INPUT_FILE_NAME`\"\n\n    SRC_FILE_EXTENSION=\"`mapped_extension $INPUT_FILE_EXTENSION`\"\n    if [ -z \"$SRC_FILE_EXTENSION\" ] ; then\n        continue\n    fi\n\n    SRC_FILE=\"$INPUT_FILE_BASE.$SRC_FILE_EXTENSION\"\n    if [ ! -f \"$SRC_DIR/$SRC_FILE\" ] ; then\n        continue\n    fi\n   cp -f \"$SRC_DIR/$SRC_FILE\" \"$DST_DIR/$SRC_FILE\"\n    if [ \"$SRC_FILE_EXTENSION\" != \"$INPUT_FILE_EXTENSION\" ] ; then\n       rm \"$DST_DIR/$INPUT_FILE_NAME\"\n   fi\ndone";
 		};
-		FA1DDB4F045F478B4113BA9A /* 📦 Check Pods Manifest.lock */ = {
+		FA1DDB4F045F478B4113BA9A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
