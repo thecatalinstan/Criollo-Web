@@ -115,6 +115,9 @@
 		AD0BA83C1D1C1D9500F0C865 /* notifications.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notifications.styl; sourceTree = "<group>"; };
 		AD0BA83F1D1C1EB100F0C865 /* globals.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = globals.styl; sourceTree = "<group>"; };
 		AD0BA8401D1C1EB100F0C865 /* menu.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = menu.styl; sourceTree = "<group>"; };
+		AD0BA8451D1C26A400F0C865 /* login.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = login.js; sourceTree = "<group>"; };
+		AD0BA8461D1C26A400F0C865 /* login.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login.styl; sourceTree = "<group>"; };
+		AD0BA8471D1C26A400F0C865 /* stats.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stats.js; sourceTree = "<group>"; };
 		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
@@ -217,6 +220,15 @@
 			name = Notifications;
 			sourceTree = "<group>";
 		};
+		AD0BA84B1D1C26AB00F0C865 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AD0BA8451D1C26A400F0C865 /* login.js */,
+				AD0BA8461D1C26A400F0C865 /* login.styl */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		AD0BA96E1C960068005206A1 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,10 +283,12 @@
 		AD7290E91C7058C90079AD76 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				AD0BA84B1D1C26AB00F0C865 /* Login */,
 				AD0BA8431D1C207100F0C865 /* Menu */,
 				AD0BA8441D1C207700F0C865 /* Notifications */,
 				AD0BA96E1C960068005206A1 /* Images */,
 				AD6240821CCC4A51008BE8B2 /* Contrib */,
+				AD0BA8471D1C26A400F0C865 /* stats.js */,
 				AD0BA9971C962922005206A1 /* app.js */,
 				AD0BA83F1D1C1EB100F0C865 /* globals.styl */,
 				AD7396901C9073A700D9F4B3 /* default.styl */,
