@@ -10,7 +10,7 @@ notification-padding-vertical = 15px
 notification-padding-horizontal = 10px
 
 notification-close-size = 10px
-notification-close-spacing = 5px
+notification-close-spacing = 0
 
 body
 
@@ -27,10 +27,16 @@ body
       padding notification-padding-vertical notification-padding-horizontal
       border-radius (notification-padding-horizontal / 2)
       border 1px solid #ccc
-      border-left (notification-padding-horizontal / 2) solid #ccc
+      border-left notification-padding-horizontal solid #ccc
       background-color #efefef
       color #333
       font-size 0.8em
+      opacity 1
+      transition all 0.5s ease-in-out
+
+      &.hidden
+        left (notification-spacing + notification-width)
+        opacity 0
 
       &.info
         border-left-color notification-color-info
@@ -50,16 +56,15 @@ body
         overflow hidden
         line-height @width
         font-size @width
-        color #333
+        color #999
         position absolute
-        right (notification-close-spacing + 1)
-        top (notification-close-spacing + 1)
+        right (notification-close-spacing + 1px)
+        top (notification-close-spacing + 1px)
         cursor pointer
-        transition opacity 0.3s ease-in-out
-        opacity 1
+        transition color 0.3s ease-in-out
 
         &:hover
-          opacity 0.5
+          color #333
 
       .notification-title
         color black

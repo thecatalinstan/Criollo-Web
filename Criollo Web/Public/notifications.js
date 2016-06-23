@@ -6,13 +6,13 @@ const displayNotification = (center, notification) => {
   center.notifications.push(notification)
 
   let element = $('<div/>', {
-    class: `notification ${notification.type}`,
+    class: `notification hidden ${notification.type}`,
     click: removeNotification.bind(null, center, notification, false),
   })
     .append($('<div/>', {
       class: 'notification-close',
       click: removeNotification.bind(null, center, notification, true),
-      text: 'X'
+      text: 'x'
     }))
     .append($('<div/>', {
       class: 'notification-title',
@@ -36,6 +36,10 @@ const displayNotification = (center, notification) => {
   center.timeouts.push(window.setTimeout(() => {
     removeNotification(center, notification)
   }, timeout))
+
+  window.setTimeout(() => {
+    element.removeClass('hidden')
+  }, 50)
 }
 
 const removeNotification = (center, notification, dismiss) => {
@@ -48,7 +52,10 @@ const removeNotification = (center, notification, dismiss) => {
   center.timeouts.splice(idx, 1)
 
   const element = $(notificationElements[notificationElements.length - idx - 1])
-  element.remove()
+  element.addClass('hidden')
+  window.setTimeout(() => {
+    element.remove()
+  }, 450)
 
   if (!dismiss && notification.cb) {
     notification.cb(notification)
