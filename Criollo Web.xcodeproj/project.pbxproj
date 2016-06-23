@@ -112,6 +112,7 @@
 		3ACC94C01C9BFAEF000C6180 /* githubMark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = githubMark.svg; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
 		AD089EE51C998E6E007434A1 /* criollo-web-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-web-icon.png"; sourceTree = "<group>"; };
+		AD0BA8391D1BEAD900F0C865 /* notifications.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = notifications.js; sourceTree = "<group>"; };
 		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
@@ -254,6 +255,7 @@
 				AD6240821CCC4A51008BE8B2 /* Contrib */,
 				AD7396901C9073A700D9F4B3 /* default.styl */,
 				AD0BA9971C962922005206A1 /* app.js */,
+				AD0BA8391D1BEAD900F0C865 /* notifications.js */,
 			);
 			path = Public;
 			sourceTree = "<group>";

@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import hljs from 'highlight.js'
+import notificationCenter from './notifications.js'
 
 hljs.initHighlightingOnLoad()
 
@@ -15,8 +16,11 @@ const getInfo = _ => {
 
 $(document).ready(_ => {
 
+  // Setup notification center
+  const defaultNotificationCenter = notificationCenter($(document.body))
+
   // Footer info
-  getInfo()
+  // getInfo()
 
   // Menu
   let mastheadLogo = $('.masthead .logo')
@@ -28,9 +32,15 @@ $(document).ready(_ => {
         if (!mainMenu.hasClass('scrolled')) {
           mainMenu.addClass('scrolled')
         }
+        if (!$(document.body).hasClass('scrolled')) {
+          $(document.body).addClass('scrolled')
+        }
       } else {
         if (mainMenu.hasClass('scrolled')) {
           mainMenu.removeClass('scrolled')
+        }
+        if ($(document.body).hasClass('scrolled')) {
+          $(document.body).removeClass('scrolled')
         }
       }
     })
@@ -38,25 +48,31 @@ $(document).ready(_ => {
     if (!mainMenu.hasClass('scrolled')) {
       mainMenu.addClass('scrolled')
     }
+    if (!$(document.body).hasClass('scrolled')) {
+      $(document.body).addClass('scrolled')
+    }
   }
 
   // Login form
   let loginForm = $('#login-form')
   if (loginForm) {
-    console.log(loginForm)
     $('#login-button').on('click', (e) => {
-      $.ajax({
-        dataType: 'json',
+      let opts = {
         url: `/authenticate?${Math.random()}`,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         method: 'post',
-        data: {
-          username: $('#username').value,
-          password: $('#password').value
-        }
-      }).done((text) => {
-        console.log('cool')
+        data: JSON.stringify({
+          username: $('#username').val(),
+          password: $('#password').val()
+        })
+      };
+      $.ajax(opts).done((text) => {
+        defaultNotificationCenter.info(`Welcome, ${text}!`)
+      }).fail((err) => {
+        console.log()
+        defaultNotificationCenter.error('Login failed')
       })
     })
   }
-
 })
