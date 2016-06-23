@@ -3,12 +3,12 @@ import $ from 'jquery'
 const defaultTimeout = 3000
 
 const displayNotification = (center, notification) => {
-  center.notifications.push(notification)
 
   let element = $('<div/>', {
-    class: `notification hidden ${notification.type}`,
-    click: removeNotification.bind(null, center, notification, false),
-  })
+      id: `notification-${notification.id}`,
+      class: `notification hidden ${notification.type}`,
+      click: removeNotification.bind(null, center, notification, false),
+    })
     .append($('<div/>', {
       class: 'notification-close',
       click: removeNotification.bind(null, center, notification, true),
@@ -19,43 +19,29 @@ const displayNotification = (center, notification) => {
       text: notification.title
     }));
 
-  if ( notification.text ) {
+  if (notification.text) {
     element.append($('<div/>', {
       class: 'notification-text',
       text: notification.text
     }))
   }
-
   center.element.prepend(element)
 
-  let timeout = notification.timeout
-  if (isNaN(timeout)) {
-    timeout = defaultTimeout
-  }
+  window.setTimeout(removeNotification.bind(null, center, notification), isNaN(notification.timeout) ? defaultTimeout : notification.timeout)
+  window.setTimeout(_ => element.removeClass('hidden'), 0)
 
-  center.timeouts.push(window.setTimeout(() => {
-    removeNotification(center, notification)
-  }, timeout))
-
-  window.setTimeout(() => {
-    element.removeClass('hidden')
-  }, 50)
+  return element
 }
 
 const removeNotification = (center, notification, dismiss) => {
-  let notificationElements = center.element.find('.notification')
-  let idx = center.notifications.indexOf(notification)
+  if ( !center.notifications[notification.id] ) {
+    return
+  }
 
-  center.notifications.splice(idx, 1)
+  delete center.notifications[notification.id]
 
-  window.clearTimeout(center.timeouts[idx])
-  center.timeouts.splice(idx, 1)
-
-  const element = $(notificationElements[notificationElements.length - idx - 1])
-  element.addClass('hidden')
-  window.setTimeout(() => {
-    element.remove()
-  }, 450)
+  notification.element.addClass('hidden')
+  window.setTimeout(notification.element.remove, 450)
 
   if (!dismiss && notification.cb) {
     notification.cb(notification)
@@ -69,16 +55,17 @@ const postNotification = (center, type, title, text, timeout, cb) => {
     text: text,
     timeout: parseInt(timeout, 10),
     cb: cb,
+    id: Math.round(Math.random() * 1000000)
   }
 
   notification.element = displayNotification(center, notification)
+
+  center.notifications[notification.id] = notification
 }
 
 export default (parent, id) => {
-
   const center = {
-    notifications: [],
-    timeouts: []
+    notifications: {}
   }
 
   center.info = postNotification.bind(null, center, 'info')
