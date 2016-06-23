@@ -40,7 +40,6 @@
 		ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */; };
-		ADE63E4A1CCC504F006FC170 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = ADE63E491CCC504F006FC170 /* package.json */; };
 		ADF347001CF1F7BE00EFC211 /* CWLoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF346FF1CF1F7BE00EFC211 /* CWLoginPageViewController.m */; };
 		ADF347021CF1F7F800EFC211 /* CWLoginPageViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = ADF347011CF1F7F800EFC211 /* CWLoginPageViewController.pug */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
@@ -113,6 +112,8 @@
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
 		AD089EE51C998E6E007434A1 /* criollo-web-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-web-icon.png"; sourceTree = "<group>"; };
 		AD0BA8391D1BEAD900F0C865 /* notifications.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = notifications.js; sourceTree = "<group>"; };
+		AD0BA83B1D1C1D9500F0C865 /* menu.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = menu.js; sourceTree = "<group>"; };
+		AD0BA83C1D1C1D9500F0C865 /* notifications.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notifications.styl; sourceTree = "<group>"; };
 		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
@@ -255,7 +256,9 @@
 				AD6240821CCC4A51008BE8B2 /* Contrib */,
 				AD7396901C9073A700D9F4B3 /* default.styl */,
 				AD0BA9971C962922005206A1 /* app.js */,
+				AD0BA83B1D1C1D9500F0C865 /* menu.js */,
 				AD0BA8391D1BEAD900F0C865 /* notifications.js */,
+				AD0BA83C1D1C1D9500F0C865 /* notifications.styl */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -437,7 +440,6 @@
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
 				AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */,
 				AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */,
-				ADE63E4A1CCC504F006FC170 /* package.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

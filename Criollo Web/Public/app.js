@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import hljs from 'highlight.js'
 import notificationCenter from './notifications.js'
+import menu from './menu.js'
 
 hljs.initHighlightingOnLoad()
 
@@ -23,35 +24,7 @@ $(document).ready(_ => {
   // getInfo()
 
   // Menu
-  let mastheadLogo = $('.masthead .logo')
-  let mainMenu = $('nav.main-menu')
-  if (mastheadLogo.length) {
-    $(window).scroll(_ => {
-      var scroll = $(window).scrollTop()
-      if (scroll >= mastheadLogo.offset().top - mainMenu.height()) {
-        if (!mainMenu.hasClass('scrolled')) {
-          mainMenu.addClass('scrolled')
-        }
-        if (!$(document.body).hasClass('scrolled')) {
-          $(document.body).addClass('scrolled')
-        }
-      } else {
-        if (mainMenu.hasClass('scrolled')) {
-          mainMenu.removeClass('scrolled')
-        }
-        if ($(document.body).hasClass('scrolled')) {
-          $(document.body).removeClass('scrolled')
-        }
-      }
-    })
-  } else {
-    if (!mainMenu.hasClass('scrolled')) {
-      mainMenu.addClass('scrolled')
-    }
-    if (!$(document.body).hasClass('scrolled')) {
-      $(document.body).addClass('scrolled')
-    }
-  }
+  menu.setup()
 
   // Login form
   let loginForm = $('#login-form')
