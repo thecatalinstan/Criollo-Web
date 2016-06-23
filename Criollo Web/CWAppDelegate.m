@@ -98,10 +98,7 @@ NS_ASSUME_NONNULL_END
     // Authentication
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
 
-        NSLog(@"%@", request.body);
-
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
-
         BOOL shouldFail = NO;
         NSDictionary<NSString *, NSString *>* sentCredentials = (NSDictionary *)request.body;
 
@@ -113,7 +110,7 @@ NS_ASSUME_NONNULL_END
             if ( !defaultsUsers ) {
                 shouldFail = YES;
             } else {
-                NSString *password = defaultsUsers[sentCredentials[@"user"]];
+                NSString *password = defaultsUsers[sentCredentials[@"username"]];
                 if ( ![password isEqualToString:sentCredentials[@"password"]] ) {
                     shouldFail  = YES;
                 }
@@ -125,7 +122,7 @@ NS_ASSUME_NONNULL_END
             [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
         } else {
             [response setStatusCode:200 description:nil];
-            [response setCookie:CWUserCookie value:sentCredentials[@"user"] path:@"/" expires:nil domain:nil secure:NO];
+            [response setCookie:CWUserCookie value:sentCredentials[@"username"] path:@"/" expires:nil domain:nil secure:NO];
         }
         [response setValue:@"0" forHTTPHeaderField:@"Content-Length"];
         [response finish];
@@ -134,11 +131,11 @@ NS_ASSUME_NONNULL_END
     // De-authenticate
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
-        [response setStatusCode:200 description:nil];
         [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
         [response setValue:@"0" forHTTPHeaderField:@"Content-Length"];
+        [response setValue:@"/" forHTTPHeaderField:@"Location"];
         [response finish];
-    } forPath:@"/authenticate" HTTPMethod:CRHTTPMethodDelete];
+    } forPath:@"/deauthenticate" HTTPMethod:CRHTTPMethodDelete];
 
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];
