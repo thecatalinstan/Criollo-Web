@@ -1,6 +1,8 @@
 import $ from 'jquery'
 
-const defaultTimeout = 3000
+const
+  defaultTimeout = 3000,
+  offscreenPoint = 320
 
 const displayNotification = (center, notification) => {
 
@@ -9,6 +11,7 @@ const displayNotification = (center, notification) => {
       class: `notification hidden ${notification.type}`,
       click: removeNotification.bind(null, center, notification, false),
     })
+    .css('left', `${offscreenPoint}px`)
     .append($('<div/>', {
       class: 'notification-close',
       click: removeNotification.bind(null, center, notification, true),
@@ -27,21 +30,23 @@ const displayNotification = (center, notification) => {
   }
   center.element.prepend(element)
 
-  window.setTimeout(removeNotification.bind(null, center, notification), isNaN(notification.timeout) ? defaultTimeout : notification.timeout)
-  window.setTimeout(_ => element.removeClass('hidden'), 0)
+  element.animate({ left: 0 }, () => {
+    window.setTimeout(removeNotification.bind(null, center, notification), isNaN(notification.timeout) ? defaultTimeout : notification.timeout)
+  })
+
 
   return element
 }
 
 const removeNotification = (center, notification, dismiss) => {
-  if ( !center.notifications[notification.id] ) {
+  if (!center.notifications[notification.id]) {
     return
   }
 
-  delete center.notifications[notification.id]
-
-  notification.element.addClass('hidden')
-  window.setTimeout(notification.element.remove, 450)
+  notification.element.animate({ opacity: 0, left: offscreenPoint }, () => {
+    notification.element.remove()
+    delete center.notifications[notification.id]
+  });
 
   if (!dismiss && notification.cb) {
     notification.cb(notification)
