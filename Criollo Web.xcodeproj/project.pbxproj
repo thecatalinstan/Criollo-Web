@@ -114,6 +114,8 @@
 		AD0BA8391D1BEAD900F0C865 /* notifications.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = notifications.js; sourceTree = "<group>"; };
 		AD0BA83B1D1C1D9500F0C865 /* menu.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = menu.js; sourceTree = "<group>"; };
 		AD0BA83C1D1C1D9500F0C865 /* notifications.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notifications.styl; sourceTree = "<group>"; };
+		AD0BA83F1D1C1EB100F0C865 /* globals.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = globals.styl; sourceTree = "<group>"; };
+		AD0BA8401D1C1EB100F0C865 /* menu.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = menu.styl; sourceTree = "<group>"; };
 		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
@@ -254,8 +256,10 @@
 			children = (
 				AD0BA96E1C960068005206A1 /* Images */,
 				AD6240821CCC4A51008BE8B2 /* Contrib */,
-				AD7396901C9073A700D9F4B3 /* default.styl */,
 				AD0BA9971C962922005206A1 /* app.js */,
+				AD0BA83F1D1C1EB100F0C865 /* globals.styl */,
+				AD7396901C9073A700D9F4B3 /* default.styl */,
+				AD0BA8401D1C1EB100F0C865 /* menu.styl */,
 				AD0BA83B1D1C1D9500F0C865 /* menu.js */,
 				AD0BA8391D1BEAD900F0C865 /* notifications.js */,
 				AD0BA83C1D1C1D9500F0C865 /* notifications.styl */,

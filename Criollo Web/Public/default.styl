@@ -1,14 +1,9 @@
 @import "monokai-sublime.css"
 @import reset
 @import nib
+@import globals
 @import notifications
-
-// Color definitions
-criollo-light-gray                  = #f0f0f0
-criollo-dark-gray                   = #666666
-criollo-orange                      = #cc8339
-criollo-light-orange                = #f0af6c
-criollo-dark-orange                 = #633b28
+@import menu
 
 // Layout colors and fonts
 body-color                          = criollo-dark-gray
@@ -22,20 +17,6 @@ footer-background-color             = criollo-dark-orange
 footer-link-color                   = link-hover-color
 footer-link-hover-color             = white
 footer-heading-color                = white
-menu-background-color               = criollo-orange
-menu-link-color                     = criollo-light-gray
-menu-link-hover-color               = white
-menu-scrolled-background-color      = criollo-dark-orange
-menu-scrolled-link-color            = criollo-light-gray
-menu-scrolled-link-hover-color      = white
-
-// Fonts
-body-font-family                    = "Helvetica Neue", Helvetica, sans-serif
-heading-font-family                 = "Ruda", "Trebuchet MS", Verdana, sans-serif
-monotype-font-family                = Menlo, Monaco, monospace
-
-// Sizes
-phone-cutoff                        = 667px
 
 body,
 html
@@ -186,101 +167,6 @@ body
       height 100%
       vertical-align middle
       box-sizing border-box
-
-  .main-menu
-    background-color menu-background-color
-    text-align center
-    height auto
-    width 100%
-    position fixed
-    transition background-color 0.25s ease-in-out
-
-    .content
-      padding 1em
-      text-align left
-
-      @media screen and (max-width: phone-cutoff)
-        padding 0.5em 1em
-
-      .logo
-        display none
-        width 0
-        height 2em
-        margin 0
-        vertical-align middle
-
-        @media screen and (max-width: phone-cutoff)
-          height 1em
-
-        a
-          img
-            height 100%
-
-      ul
-        display inline-block
-        vertical-align middle
-        width 100%
-        height 2em
-        margin 0
-        padding 0
-        font-family heading-font-family
-        font-size 1em
-        font-weight 300
-        text-align center
-        white-space nowrap
-
-        @media screen and (max-width: phone-cutoff)
-          font-size 0.75em
-
-        li
-          vertical-align middle
-          display inline-block
-          margin 0 0.75em
-          padding 0
-          height 100%
-          line-height 100%
-
-          @media screen and (max-width: phone-cutoff)
-            margin 0 0.5em
-
-          a
-            line-height 2em
-            margin 0
-            padding 0
-            color menu-link-color
-            text-decoration none
-
-            &:hover
-              color menu-link-hover-color
-              text-decoration underline
-
-    &.scrolled
-      background-color menu-scrolled-background-color
-
-      .content
-        .logo
-          display inline-block
-          width 30%
-
-          @media screen and (max-width: phone-cutoff)
-            width 25%
-
-        ul
-          width 70%
-          text-align right
-
-          @media screen and (max-width: phone-cutoff)
-            width 75%
-
-          li
-            padding 0
-            margin 0 0 0 0.75em
-
-            a
-              color menu-scrolled-link-color
-
-              &:hover
-                color menu-scrolled-link-hover-color
 
   .masthead
     background-color masthead-background-color
