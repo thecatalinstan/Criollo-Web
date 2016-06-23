@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-const defaultTimeout = 30000
+const defaultTimeout = 3000
 
 const displayNotification = (center, notification) => {
   center.notifications.push(notification)
