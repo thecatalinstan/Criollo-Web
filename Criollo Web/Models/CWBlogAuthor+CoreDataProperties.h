@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CWBlogAuthor (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *user;
-@property (nullable, nonatomic, retain) NSString *display_name;
+@property (nullable, nonatomic, retain) NSString *displayName;
 @property (nullable, nonatomic, retain) NSString *email;
 @property (nullable, nonatomic, retain) NSSet<NSManagedObject *> *posts;
 

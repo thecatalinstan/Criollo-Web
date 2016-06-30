@@ -31,6 +31,8 @@
 		AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = ADD294871CB936EE006458AF /* CWBlogPostViewController.pug */; };
 		AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */; };
 		AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113CB1D251C39005B8208 /* CWAPIController.m */; };
+		AD6113D61D254BA0005B8208 /* CWModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113D51D254BA0005B8208 /* CWModel.m */; };
+		AD6113D91D254C90005B8208 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113D81D254C90005B8208 /* CWUser.m */; };
 		AD6240831CCC4A69008BE8B2 /* monokai-sublime.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
@@ -149,6 +151,10 @@
 		AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CWBlogViewController.pug; path = Blog/CWBlogViewController.pug; sourceTree = "<group>"; };
 		AD6113CA1D251C39005B8208 /* CWAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWAPIController.h; path = API/CWAPIController.h; sourceTree = "<group>"; };
 		AD6113CB1D251C39005B8208 /* CWAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWAPIController.m; path = API/CWAPIController.m; sourceTree = "<group>"; };
+		AD6113D41D254BA0005B8208 /* CWModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWModel.h; path = API/CWModel.h; sourceTree = "<group>"; };
+		AD6113D51D254BA0005B8208 /* CWModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWModel.m; path = API/CWModel.m; sourceTree = "<group>"; };
+		AD6113D71D254C90005B8208 /* CWUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWUser.h; path = API/CWUser.h; sourceTree = "<group>"; };
+		AD6113D81D254C90005B8208 /* CWUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWUser.m; path = API/CWUser.m; sourceTree = "<group>"; };
 		AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "monokai-sublime.css"; path = "node_modules/highlight.js/styles/monokai-sublime.css"; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.pug; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
@@ -277,8 +283,12 @@
 		AD6113CD1D251CCF005B8208 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				AD6113D41D254BA0005B8208 /* CWModel.h */,
+				AD6113D51D254BA0005B8208 /* CWModel.m */,
 				AD6113CA1D251C39005B8208 /* CWAPIController.h */,
 				AD6113CB1D251C39005B8208 /* CWAPIController.m */,
+				AD6113D71D254C90005B8208 /* CWUser.h */,
+				AD6113D81D254C90005B8208 /* CWUser.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -591,6 +601,7 @@
 				AD41F03A1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m in Sources */,
 				AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */,
 				AD41F03C1CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m in Sources */,
+				AD6113D91D254C90005B8208 /* CWUser.m in Sources */,
 				AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */,
 				AD41F03E1CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m in Sources */,
 				AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */,
@@ -603,6 +614,7 @@
 				ADF347001CF1F7BE00EFC211 /* CWLoginPageViewController.m in Sources */,
 				AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */,
 				ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */,
+				AD6113D61D254BA0005B8208 /* CWModel.m in Sources */,
 				AD7396931C90767D00D9F4B3 /* default.styl in Sources */,
 				ADD5F4A71CCC3908006019FF /* app.js in Sources */,
 			);
