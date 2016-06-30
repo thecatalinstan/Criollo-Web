@@ -14,9 +14,6 @@
 #define CWSessionCookie         @"cwsession"
 #define CWStaticDirPath         @"/static"
 #define CWCriolloVersion        @"0.1.14"
-#define CWDefaultsUsersKey      @"Users"
-
-#define CWUserCookie            @"cwuser"
 
 @class CWBlog;
 

@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <Criollo/Criollo.h>
 
+#define CWUserCookie            @"cwuser"
+#define CWAPIUsrnameKey         @"username"
+#define CWAPIPasswordKey        @"password"
+
 @interface CWAPIController : NSObject
 
 + (CWAPIController *)sharedController;

@@ -10,7 +10,6 @@
 
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
-#import "CWAppDelegate.h"
 #import "CWUser.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -59,27 +58,11 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
-    [[NSUserDefaults standardUserDefaults ] synchronize];
-    NSArray<NSString *> * defaultsUsers = [[NSUserDefaults standardUserDefaults] arrayForKey:CWDefaultsUsersKey];
-    if ( !defaultsUsers ) {
-        return;
-    }
-
     [self.managedObjectContext performBlockAndWait:^{
-        [defaultsUsers enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-
-            JSONModelError * jsonModelError = nil;
-            CWUser * user = [[CWUser alloc] initWithString:obj error:&jsonModelError];
+        [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
 
             *error = nil;
-            if ( jsonModelError ) {
-                *error = jsonModelError.copy;
-                *stop = YES;
-                return;
-            }
-
-            *error = nil;
-            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:user.username inManagedObjectContext:self.managedObjectContext error:error];
+            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key inManagedObjectContext:self.managedObjectContext error:error];
             if ( *error ) {
                 *stop = YES;
                 return;

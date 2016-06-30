@@ -33,6 +33,8 @@
 		AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113CB1D251C39005B8208 /* CWAPIController.m */; };
 		AD6113D61D254BA0005B8208 /* CWModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113D51D254BA0005B8208 /* CWModel.m */; };
 		AD6113D91D254C90005B8208 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113D81D254C90005B8208 /* CWUser.m */; };
+		AD6113DE1D2556BD005B8208 /* CWAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113DB1D2556BD005B8208 /* CWAPIError.m */; };
+		AD6113DF1D2556BD005B8208 /* CWAPIResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113DD1D2556BD005B8208 /* CWAPIResponse.m */; };
 		AD6240831CCC4A69008BE8B2 /* monokai-sublime.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
@@ -155,6 +157,10 @@
 		AD6113D51D254BA0005B8208 /* CWModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWModel.m; path = API/CWModel.m; sourceTree = "<group>"; };
 		AD6113D71D254C90005B8208 /* CWUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWUser.h; path = API/CWUser.h; sourceTree = "<group>"; };
 		AD6113D81D254C90005B8208 /* CWUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWUser.m; path = API/CWUser.m; sourceTree = "<group>"; };
+		AD6113DA1D2556BD005B8208 /* CWAPIError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWAPIError.h; path = API/CWAPIError.h; sourceTree = "<group>"; };
+		AD6113DB1D2556BD005B8208 /* CWAPIError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWAPIError.m; path = API/CWAPIError.m; sourceTree = "<group>"; };
+		AD6113DC1D2556BD005B8208 /* CWAPIResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWAPIResponse.h; path = API/CWAPIResponse.h; sourceTree = "<group>"; };
+		AD6113DD1D2556BD005B8208 /* CWAPIResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWAPIResponse.m; path = API/CWAPIResponse.m; sourceTree = "<group>"; };
 		AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "monokai-sublime.css"; path = "node_modules/highlight.js/styles/monokai-sublime.css"; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.pug; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
@@ -285,10 +291,14 @@
 			children = (
 				AD6113D41D254BA0005B8208 /* CWModel.h */,
 				AD6113D51D254BA0005B8208 /* CWModel.m */,
-				AD6113CA1D251C39005B8208 /* CWAPIController.h */,
-				AD6113CB1D251C39005B8208 /* CWAPIController.m */,
 				AD6113D71D254C90005B8208 /* CWUser.h */,
 				AD6113D81D254C90005B8208 /* CWUser.m */,
+				AD6113CA1D251C39005B8208 /* CWAPIController.h */,
+				AD6113CB1D251C39005B8208 /* CWAPIController.m */,
+				AD6113DA1D2556BD005B8208 /* CWAPIError.h */,
+				AD6113DB1D2556BD005B8208 /* CWAPIError.m */,
+				AD6113DC1D2556BD005B8208 /* CWAPIResponse.h */,
+				AD6113DD1D2556BD005B8208 /* CWAPIResponse.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -614,7 +624,9 @@
 				ADF347001CF1F7BE00EFC211 /* CWLoginPageViewController.m in Sources */,
 				AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */,
 				ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */,
+				AD6113DF1D2556BD005B8208 /* CWAPIResponse.m in Sources */,
 				AD6113D61D254BA0005B8208 /* CWModel.m in Sources */,
+				AD6113DE1D2556BD005B8208 /* CWAPIError.m in Sources */,
 				AD7396931C90767D00D9F4B3 /* default.styl in Sources */,
 				ADD5F4A71CCC3908006019FF /* app.js in Sources */,
 			);
