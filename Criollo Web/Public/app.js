@@ -22,7 +22,7 @@ $(document).ready(_ => {
   login.setup((payload) => {
     defaultNotificationCenter.info(`Welcome, ${text}!`)
   }, (err) => {
-    defaultNotificationCenter.error('Login failed')
+    defaultNotificationCenter.error('Login failed', 'Check your username and password and try again.')
   })
 
 })
