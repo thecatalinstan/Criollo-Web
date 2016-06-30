@@ -16,6 +16,7 @@
 #import "CWBlogViewController.h"
 #import "CWLoginPageViewController.h"
 #import "CWBlog.h"
+#import "CWAPIController.h"
 
 #define PortNumber          10781
 #define LogConnections          0
@@ -78,7 +79,7 @@ NS_ASSUME_NONNULL_END
         completionHandler();
     }];
 
-    // info
+    // Info
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
         NSString* processName = [CWAppDelegate processName];
@@ -95,47 +96,10 @@ NS_ASSUME_NONNULL_END
         [response sendString:processInfo];
     } forPath:@"/info"];
 
-    // Authentication
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    // API
 
-        [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
-        BOOL shouldFail = NO;
-        NSDictionary<NSString *, NSString *>* sentCredentials = (NSDictionary *)request.body;
+    [self.server addBlock:[CWAPIController sharedController].routeBlock forPath:@"/api" HTTPMethod:CRHTTPMethodAll recursive:YES];
 
-        if ( !sentCredentials ) {
-            shouldFail = YES;
-        } else {
-            [[NSUserDefaults standardUserDefaults ] synchronize];
-            NSDictionary * defaultsUsers = [[NSUserDefaults standardUserDefaults] dictionaryForKey:CWDefaultsUsersKey];
-            if ( !defaultsUsers ) {
-                shouldFail = YES;
-            } else {
-                NSString *password = defaultsUsers[sentCredentials[@"username"]];
-                if ( ![password isEqualToString:sentCredentials[@"password"]] ) {
-                    shouldFail  = YES;
-                }
-            }
-        }
-
-        if ( shouldFail ) {
-            [response setStatusCode:401 description:nil];
-            [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
-        } else {
-            [response setStatusCode:200 description:nil];
-            [response setCookie:CWUserCookie value:sentCredentials[@"username"] path:@"/" expires:nil domain:nil secure:NO];
-        }
-        [response setValue:@"0" forHTTPHeaderField:@"Content-Length"];
-        [response finish];
-    } forPath:@"/authenticate" HTTPMethod:CRHTTPMethodPost];
-
-    // De-authenticate
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Encoding"];
-        [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
-        [response setValue:@"0" forHTTPHeaderField:@"Content-Length"];
-        [response setValue:@"/" forHTTPHeaderField:@"Location"];
-        [response finish];
-    } forPath:@"/deauthenticate" HTTPMethod:CRHTTPMethodDelete];
 
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];

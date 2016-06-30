@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Xcode 7.0">
     <entity name="CWBlogAuthor" representedClassName="CWBlogAuthor" syncable="YES">
-        <attribute name="display_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="user" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CWBlogPost" inverseName="author" inverseEntity="CWBlogPost" syncable="YES"/>
@@ -20,8 +20,8 @@
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CWBlogPost" inverseName="tags" inverseEntity="CWBlogPost" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CWBlogPost" positionX="-54" positionY="-9" width="128" height="150"/>
         <element name="CWBlogAuthor" positionX="-36" positionY="54" width="128" height="105"/>
+        <element name="CWBlogPost" positionX="-54" positionY="-9" width="128" height="150"/>
         <element name="CWBlogTag" positionX="-18" positionY="90" width="128" height="75"/>
     </elements>
 </model>

@@ -6,14 +6,15 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
+#import <JSONModel/JSONModel.h>
+
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
-#import "CWAppDelegate.h"
+#import "CWUser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlog ()
-
 
 @end
 
@@ -57,23 +58,25 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
-    [[NSUserDefaults standardUserDefaults ] synchronize];
-    NSDictionary * defaultsUsers = [[NSUserDefaults standardUserDefaults] dictionaryForKey:CWDefaultsUsersKey];
-    if ( !defaultsUsers ) {
-        return;
-    }
-
     [self.managedObjectContext performBlockAndWait:^{
-        [defaultsUsers enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id _Nonnull obj, BOOL * _Nonnull stop) {
-            NSError * fetchError = nil;
-            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key inManagedObjectContext:self.managedObjectContext error:&fetchError];
-            if ( fetchError ) {
+        [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
+
+            *error = nil;
+            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key inManagedObjectContext:self.managedObjectContext error:error];
+            if ( *error ) {
                 *stop = YES;
-            } else if ( !author ) {
+                return;
+            }
+
+            if ( !author ) {
                 author = [[CWBlogAuthor alloc] initWithEntity:[NSEntityDescription entityForName:NSStringFromClass([CWBlogAuthor class]) inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-                author.user = key;
-            };
+            }
+
+            author.user = user.username;
+            author.email = user.email;
+            author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         }];
+        
         *error = nil;
         [self saveManagedObjectContext:error];
     }];

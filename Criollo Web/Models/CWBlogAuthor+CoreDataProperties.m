@@ -14,7 +14,7 @@
 @implementation CWBlogAuthor (CoreDataProperties)
 
 @dynamic user;
-@dynamic display_name;
+@dynamic displayName;
 @dynamic email;
 @dynamic posts;
 
