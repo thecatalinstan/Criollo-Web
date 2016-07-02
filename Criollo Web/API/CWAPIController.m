@@ -13,6 +13,7 @@
 #import "CWUser.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface CWAPIController ()
 
 @property (nonatomic, strong, readonly) dispatch_queue_t isolationQueue;
@@ -24,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)failWithError:(NSError * _Nullable)error request:(CRRequest *)request response:(CRResponse *)response;
 
 @end
+
 NS_ASSUME_NONNULL_END
 
 @implementation CWAPIController
@@ -66,6 +68,7 @@ NS_ASSUME_NONNULL_END
     [response setValue:[NSString stringWithFormat:@"%lu", (unsigned long)jsonData.length] forHTTPHeaderField:@"Content-length"];
     [response sendData:jsonData];
 }
+
 #pragma mark - Routes
 
 - (CRRouteBlock)routeBlock {
@@ -76,15 +79,26 @@ NS_ASSUME_NONNULL_END
             self.authenticateBlock(request, response, completionHandler);
         } else if ( [predicate isEqualToString:@"logout"] ) {
             self.deauthenticateBlock(request, response, completionHandler);
+        } else if ( [predicate isEqualToString:@"me"] ) {
+            CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+            CWAPIResponse * apiResponse;
+            if ( currentUser ) {
+                NSMutableDictionary* payload = currentUser.toDictionary.mutableCopy;
+                [payload removeObjectForKey:@"password"];
+                apiResponse = [CWAPIResponse successResponseWithData:payload];
+            } else {
+                [response setStatusCode:401 description:nil];
+                apiResponse = [CWAPIResponse failureResponseWithError:nil];
+            }
+            [response sendData:apiResponse.toJSONData];
         } else {
-            [response sendData:[CWAPIResponse successResponseWithData:nil].toJSONData];
+            [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
             completionHandler();
         }
     };
 }
 
 - (CRRouteBlock)authenticateBlock {
-
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWUser * user;
         CWAPIResponse * apiResponse;
@@ -100,8 +114,13 @@ NS_ASSUME_NONNULL_END
             apiResponse = [CWAPIResponse failureResponseWithError:[NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorLoginFailed userInfo:@{NSLocalizedDescriptionKey: @"Invalid username or password"}]];
         } else {
             [response setStatusCode:200 description:nil];
-            [response setCookie:CWUserCookie value:user.username path:@"/" expires:nil domain:nil secure:NO];
-            apiResponse = [CWAPIResponse successResponseWithData:user];
+
+            NSMutableDictionary* payload = user.toDictionary.mutableCopy;
+            [payload removeObjectForKey:@"password"];
+            apiResponse = [CWAPIResponse successResponseWithData:payload];
+
+            NSString *token = [CWUser authenticationTokenForUser:user];
+            [response setCookie:CWUserCookie value:token path:@"/" expires:nil domain:nil secure:NO];
         }
 
         NSData * responseData = apiResponse.toJSONData;
@@ -119,6 +138,5 @@ NS_ASSUME_NONNULL_END
         [response sendData:responseData];
     };
 }
-
 
 @end

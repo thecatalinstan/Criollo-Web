@@ -13,9 +13,15 @@
 #define CWAPIUsrnameKey         @"username"
 #define CWAPIPasswordKey        @"password"
 
+@class CWUser;
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CWAPIController : NSObject
 
 + (CWAPIController *)sharedController;
 - (CRRouteBlock)routeBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

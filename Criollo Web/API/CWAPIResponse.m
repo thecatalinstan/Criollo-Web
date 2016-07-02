@@ -30,7 +30,7 @@
 }
 
 + (instancetype)failureResponseWithError:(NSError *)error {
-    return [[CWAPIResponse alloc] initWithSucces:NO data:nil error:CWAPIErrorFromNSError(error)];
+    return [[CWAPIResponse alloc] initWithSucces:NO data:nil error:error ? CWAPIErrorFromNSError(error) : nil];
 }
 
 @end
