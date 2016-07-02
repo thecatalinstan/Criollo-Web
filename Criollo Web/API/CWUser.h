@@ -19,10 +19,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSString<Optional> * firstName;
 @property (nonatomic, strong, nullable) NSString<Optional> * lastName;
 @property (nonatomic, strong) NSString * email;
+@property (nonatomic, strong) NSString<Ignore> * tokenHash;
 
 + (NSDictionary<NSString *, CWUser *> *)allUsers;
 
-+ (CWUser * _Nullable)authenticateWithUsername:(NSString * _Nullable)username password:(NSString * _Nullable)password;
++ (nullable CWUser *)authenticateWithUsername:(NSString * _Nullable)username password:(NSString * _Nullable)password;
+
++ (NSString *)authenticationTokenForUser:(CWUser *)user;
++ (CWUser *)authenticatedUserForToken:(NSString *)token;
+
 @end
 
 NS_ASSUME_NONNULL_END

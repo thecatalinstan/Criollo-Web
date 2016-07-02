@@ -7,8 +7,18 @@
 //
 
 #import <Criollo/Criollo.h>
+#import <CSSystemInfoHelper/CSSystemInfoHelper.h>
+#import <RNCryptor/RNCryptor-Swift.h>
 
 #import "CWUser.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface CWUser ()
+
+@end
+
+NS_ASSUME_NONNULL_END
 
 @implementation CWUser
 
@@ -22,6 +32,7 @@
         [defaultsUsers enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             JSONModelError * jsonModelError = nil;
             CWUser * user = [[CWUser alloc] initWithString:obj error:&jsonModelError];
+            user.tokenHash = [NSString stringWithFormat:@"%@%@%@", user.email, user.password, user.username];
 
             if ( jsonModelError ) {
                 [CRApp logErrorFormat:@"Error parsing user JSON: %@", jsonModelError];
@@ -39,6 +50,33 @@
     if ( ![user.password isEqualToString:password] ) {
         user = nil;
     }
+    return user;
+}
+
+
++ (NSString *)authenticationTokenForUser:(CWUser *)user {
+    NSData* tokenHashData = [user.tokenHash dataUsingEncoding:NSUTF8StringEncoding];
+    NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
+
+    return [[RNCryptor encryptData:tokenHashData password:password] base64EncodedStringWithOptions:0];
+}
+
++ (CWUser *)authenticatedUserForToken:(NSString *)token {
+    NSData* tokenData = [[NSData alloc] initWithBase64EncodedString:token options:0];
+    NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
+
+    NSError* decriptionError;
+    NSData* tokenHashData = [RNCryptor decryptData:tokenData password:password error:&decriptionError];
+    if ( !tokenHashData ) {
+        [CRApp logErrorFormat:@"%@", decriptionError.localizedDescription];
+        return nil;
+    }
+
+    NSString* plainTextTokenHash = [[NSString alloc] initWithData:tokenHashData encoding:NSUTF8StringEncoding];
+    CWUser* user = [[CWUser allUsers].allValues filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(CWUser * _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [evaluatedObject.tokenHash isEqualToString:plainTextTokenHash];
+    }]].firstObject;
+
     return user;
 }
 
