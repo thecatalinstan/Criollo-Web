@@ -47,6 +47,8 @@
 		ADF347001CF1F7BE00EFC211 /* CWLoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF346FF1CF1F7BE00EFC211 /* CWLoginPageViewController.m */; };
 		ADF347021CF1F7F800EFC211 /* CWLoginPageViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = ADF347011CF1F7F800EFC211 /* CWLoginPageViewController.pug */; };
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
+		ADFA57101D27E644002FB626 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFA570F1D27E644002FB626 /* NSData+AES.m */; };
+		ADFA57131D27E66B002FB626 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFA57121D27E66B002FB626 /* NSString+MD5.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -183,6 +185,10 @@
 		ADF347011CF1F7F800EFC211 /* CWLoginPageViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLoginPageViewController.pug; sourceTree = "<group>"; };
 		ADF3C9D51C6DDA9800C0D5BC /* CWLandingPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLandingPageViewController.h; sourceTree = "<group>"; };
 		ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLandingPageViewController.m; sourceTree = "<group>"; };
+		ADFA570E1D27E644002FB626 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
+		ADFA570F1D27E644002FB626 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
+		ADFA57111D27E66B002FB626 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		ADFA57121D27E66B002FB626 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		B7EC43093A26933D86E49BDF /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
 		C86876D50B9A81C15A9D0912 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -381,6 +387,7 @@
 		ADD67FFD1C6CBEC600FC41EE /* Criollo Web */ = {
 			isa = PBXGroup;
 			children = (
+				ADFA570D1D27E644002FB626 /* Contrib */,
 				AD6113CD1D251CCF005B8208 /* API */,
 				AD41F0401CE48C3A001ADEAC /* DataModels */,
 				ADB5244A1CE466490044C9C3 /* Models */,
@@ -423,6 +430,17 @@
 				ADF347011CF1F7F800EFC211 /* CWLoginPageViewController.pug */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		ADFA570D1D27E644002FB626 /* Contrib */ = {
+			isa = PBXGroup;
+			children = (
+				ADFA570E1D27E644002FB626 /* NSData+AES.h */,
+				ADFA570F1D27E644002FB626 /* NSData+AES.m */,
+				ADFA57111D27E66B002FB626 /* NSString+MD5.h */,
+				ADFA57121D27E66B002FB626 /* NSString+MD5.m */,
+			);
+			path = Contrib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -625,10 +643,12 @@
 				AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */,
 				ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */,
 				AD6113DF1D2556BD005B8208 /* CWAPIResponse.m in Sources */,
+				ADFA57131D27E66B002FB626 /* NSString+MD5.m in Sources */,
 				AD6113D61D254BA0005B8208 /* CWModel.m in Sources */,
 				AD6113DE1D2556BD005B8208 /* CWAPIError.m in Sources */,
 				AD7396931C90767D00D9F4B3 /* default.styl in Sources */,
 				ADD5F4A71CCC3908006019FF /* app.js in Sources */,
+				ADFA57101D27E644002FB626 /* NSData+AES.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
