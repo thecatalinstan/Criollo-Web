@@ -20,7 +20,10 @@ $(document).ready(_ => {
 
   // Login form
   login.setup((payload) => {
-    defaultNotificationCenter.info(`Welcome, ${text}!`)
+    defaultNotificationCenter.confirm(`Welcome, ${payload.data['first-name']}!`)
+    window.setTimeout(_ => {
+      window.location.href = "/api"
+    }, 1000)
   }, (err) => {
     defaultNotificationCenter.error('Login failed', 'Check your username and password and try again.')
   })
