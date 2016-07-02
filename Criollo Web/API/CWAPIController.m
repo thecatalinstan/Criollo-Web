@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWAPIResponse * apiResponse = [CWAPIResponse successResponseWithData:nil];
         NSData * responseData = apiResponse.toJSONData;
-        [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
+        [response setCookie:CWUserCookie value:@"deleted" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
         [response setValue:@(responseData.length).stringValue forHTTPHeaderField:@"Content-Length"];
         [response sendData:responseData];
     };
