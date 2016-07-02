@@ -8,7 +8,7 @@ login.setup = (success, failure) => {
   }
   $('#login-button').on('click', (e) => {
     $.ajax({
-        url: `/authenticate?${Math.random()}`,
+        url: `/api/login?${Math.random()}`,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         method: 'post',
