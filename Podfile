@@ -9,6 +9,7 @@ target 'Criollo Web' do
     pod 'Fabric', '~> 1.6.7'
     pod 'JSONModel', '~> 1.2'
     pod 'MMMarkdown', '~> 0.5'
-#    pod 'Realm', '~> 0.102'
+    pod 'Realm', '~> 0.102'
+    pod 'RNCryptor', '~> 4.0'
 end
 
