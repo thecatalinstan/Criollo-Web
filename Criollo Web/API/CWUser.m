@@ -8,9 +8,10 @@
 
 #import <Criollo/Criollo.h>
 #import <CSSystemInfoHelper/CSSystemInfoHelper.h>
-#import <RNCryptor/RNCryptor-Swift.h>
 
 #import "CWUser.h"
+#import "NSData+AES.h"
+#import "NSString+MD5.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,7 +33,7 @@ NS_ASSUME_NONNULL_END
         [defaultsUsers enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             JSONModelError * jsonModelError = nil;
             CWUser * user = [[CWUser alloc] initWithString:obj error:&jsonModelError];
-            user.tokenHash = [NSString stringWithFormat:@"%@%@%@", user.email, user.password, user.username];
+            user.tokenHash = [NSString stringWithFormat:@"%@%@%@", user.email, user.password, user.username].MD5Stirng;
 
             if ( jsonModelError ) {
                 [CRApp logErrorFormat:@"Error parsing user JSON: %@", jsonModelError];
@@ -55,20 +56,26 @@ NS_ASSUME_NONNULL_END
 
 
 + (NSString *)authenticationTokenForUser:(CWUser *)user {
+    if ( user == nil ) {
+        return nil;
+    }
+
     NSData* tokenHashData = [user.tokenHash dataUsingEncoding:NSUTF8StringEncoding];
     NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
 
-    return [[RNCryptor encryptData:tokenHashData password:password] base64EncodedStringWithOptions:0];
+    return [[tokenHashData AES128EncryptedDataWithKey:password] base64EncodedStringWithOptions:0];
 }
 
 + (CWUser *)authenticatedUserForToken:(NSString *)token {
+    if ( token.length == 0 ) {
+        return nil;
+    }
+
     NSData* tokenData = [[NSData alloc] initWithBase64EncodedString:token options:0];
     NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
 
-    NSError* decriptionError;
-    NSData* tokenHashData = [RNCryptor decryptData:tokenData password:password error:&decriptionError];
+    NSData* tokenHashData = [tokenData AES128DecryptedDataWithKey:password];
     if ( !tokenHashData ) {
-        [CRApp logErrorFormat:@"%@", decriptionError.localizedDescription];
         return nil;
     }
 
