@@ -69,37 +69,11 @@ NS_ASSUME_NONNULL_END
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
         [response setValue:[CWAppDelegate serverSpecString] forHTTPHeaderField:@"X-Criollo-Server"];
-
-        // Session cookie
-        if ( ! request.cookies[CWSessionCookie] ) {
-            NSString* token = [NSUUID UUID].UUIDString;
-            [response setCookie:CWSessionCookie value:token path:@"/" expires:nil domain:nil secure:YES];
-        }
-
         completionHandler();
     }];
 
-    // Info
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
-        NSString* processName = [CWAppDelegate processName];
-        NSString* processVersion = [CWAppDelegate bundleVersion];
-        NSString* runningTime = [CWAppDelegate processRunningTime];
-        NSString* unameSystemVersion = [CSSystemInfoHelper sharedHelper].systemVersionString;
-        NSString * requestsServed = [CWAppDelegate requestsServed];
-        NSString* processInfo;
-        if ( memoryInfo ) {
-            processInfo = [NSString stringWithFormat:@"%@ %@ using %@ of memory, running for %@ on %@. Served %@ requests.", processName, processVersion, memoryInfo, runningTime, unameSystemVersion, requestsServed];
-        } else {
-            processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
-        }
-        [response sendString:processInfo];
-    } forPath:@"/info"];
-
     // API
-
     [self.server addBlock:[CWAPIController sharedController].routeBlock forPath:@"/api" HTTPMethod:CRHTTPMethodAll recursive:YES];
-
 
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];
