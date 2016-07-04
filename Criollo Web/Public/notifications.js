@@ -1,14 +1,15 @@
 const
-  defaultTimeout = 3000,
+defaultTimeout = 3000,
   offscreenPoint = 320
 
 const displayNotification = (center, notification) => {
 
   let element = document.createElement('div')
   element.id = `notification-${notification.id}`
-  element.className = `notification hidden ${notification.type}`
+  element.className = `notification ${notification.type}`
   element.onclick = removeNotification.bind(null, center, notification, false)
-  // element.style.left = `${offscreenPoint}px`
+  element.style.left = `${offscreenPoint}px`
+  element.style.opacity = 0
 
   let closeButton = document.createElement('div')
   closeButton.className = 'notification-close'
@@ -30,9 +31,11 @@ const displayNotification = (center, notification) => {
 
   center.element.insertBefore(element, center.element.firstChild)
 
-  // element.animate({ left: 0 }, () => {
-    window.setTimeout(removeNotification.bind(null, center, notification), isNaN(notification.timeout) ? defaultTimeout : notification.timeout)
-  // })
+  window.setTimeout(() => {
+    element.style.left = 0
+    element.style.opacity = 1
+  }, 50)
+  window.setTimeout(removeNotification.bind(null, center, notification), isNaN(notification.timeout) ? defaultTimeout : notification.timeout)
 
   return element
 }
@@ -42,10 +45,12 @@ const removeNotification = (center, notification, dismiss) => {
     return
   }
 
-  // notification.element.animate({ opacity: 0, left: offscreenPoint }, () => {
+  notification.element.style.opacity = 0;
+  notification.element.style.left = `${offscreenPoint}px`
+  window.setTimeout(() => {
     center.element.removeChild(notification.element)
     delete center.notifications[notification.id]
-  // });
+  }, 300)
 
   if (!dismiss && notification.cb) {
     notification.cb(notification)

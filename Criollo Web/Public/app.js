@@ -15,10 +15,9 @@ window.onload = () => {
 
   // Login form
   login.setup((user) => {
-    defaultNotificationCenter.confirm(`Welcome, ${user['first-name']}!`)
-    window.setTimeout(_ => {
+    defaultNotificationCenter.confirm(`Welcome, ${user['first-name']}!`, 'You will be redirected in a moment ...', 1000, () => {
       window.location.href = "/api"
-    }, 1000)
+    })
   }, (err) => {
     defaultNotificationCenter.error('Login failed', 'Check your username and password and try again.')
   })
