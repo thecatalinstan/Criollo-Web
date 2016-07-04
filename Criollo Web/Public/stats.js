@@ -1,15 +1,16 @@
-import $ from 'jquery'
+import m from 'mithril'
 
 const getInfo = () => {
-  $.ajax({
+  m.request({
     url: `/api/info?${Math.random()}`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
-  }).done((response) => {
-
+  }).then( (response) => {
+    console.log(response)
   	let memoryUsage = response.data.memoryInfo > 0 ? ` using ${response.data.memoryInfo} of memory` : ""
-  	let processInfo = `${response.data.processName} ${response.data.processVersion}${memoryUsage}, running for ${response.data.runningTime} on ${response.data.unameSystemVersion}. Served ${response.data.requestsServed} requests.`
-    $($('.process-info .content p')[0]).text(processInfo)
+    let textContainer = document.querySelector('.process-info .content p')
+    console.log(textContainer)
+    textContainer.innerHTML = `${response.data.processName} ${response.data.processVersion}${memoryUsage}, running for ${response.data.runningTime} on ${response.data.unameSystemVersion}. Served ${response.data.requestsServed} requests.`
     window.setTimeout(getInfo, 3000)
   })
 }
