@@ -14,7 +14,7 @@ window.onload = () => {
   // const defaultNotificationCenter = notificationCenter($(document.body))
 
   // Footer info
-  stats.getInfo()
+  m.mount(document.getElementById('stats-info'), stats)
 
   // Menu
   // menu.setup()
