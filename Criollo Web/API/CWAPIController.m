@@ -6,6 +6,8 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
+#import <CSSystemInfoHelper/CSSystemInfoHelper.h>
+
 #import "CWAPIController.h"
 #import "CWAPIError.h"
 #import "CWAPIResponse.h"
@@ -91,6 +93,19 @@ NS_ASSUME_NONNULL_END
                 apiResponse = [CWAPIResponse failureResponseWithError:nil];
             }
             [response sendData:apiResponse.toJSONData];
+            completionHandler();
+        } else if ( [predicate isEqualToString:@"info"] ) {
+            NSMutableDictionary* payload = [NSMutableDictionary dictionary];
+
+            payload[@"processName"] = [CWAppDelegate processName];
+            payload[@"processVersion"] = [CWAppDelegate bundleVersion];
+            payload[@"runningTime"] = [CWAppDelegate processRunningTime];
+            payload[@"unameSystemVersion"] = [CSSystemInfoHelper sharedHelper].systemVersionString;
+            payload[@"requestsServed"] = [CWAppDelegate requestsServed];
+
+            payload[@"memoryInfo"] = [CSSystemInfoHelper sharedHelper].memoryUsageString ? : @"";
+            [response sendData:[CWAPIResponse successResponseWithData:payload].toJSONData];
+            completionHandler();
         } else {
             [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
             completionHandler();
@@ -105,7 +120,7 @@ NS_ASSUME_NONNULL_END
 
         NSDictionary<NSString *, NSString *>* credentials = (NSDictionary *)request.body;
         if ( credentials ) {
-            user = [CWUser authenticateWithUsername:credentials[CWAPIUsrnameKey] password:credentials[CWAPIPasswordKey]];
+            user = [CWUser authenticateWithUsername:credentials[CWAPIUsernameKey] password:credentials[CWAPIPasswordKey]];
         }
 
         if ( !user ) {

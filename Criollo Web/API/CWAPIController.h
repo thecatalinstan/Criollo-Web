@@ -10,7 +10,7 @@
 #import <Criollo/Criollo.h>
 
 #define CWUserCookie            @"cwuser"
-#define CWAPIUsrnameKey         @"username"
+#define CWAPIUsernameKey         @"username"
 #define CWAPIPasswordKey        @"password"
 
 @class CWUser;
