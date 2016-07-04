@@ -1,8 +1,8 @@
 import m from 'mithril'
 import hljs from 'highlight.js'
 import stats from './stats.js'
+import menu from './menu.js'
 // import notificationCenter from './notifications.js'
-// import menu from './menu.js'
 // import login from './login.js'
 
 window.m = m
@@ -17,7 +17,7 @@ window.onload = () => {
   m.mount(document.getElementById('stats-info'), stats)
 
   // Menu
-  // menu.setup()
+  menu.setup()
 
   // Login form
   // login.setup((payload) => {
