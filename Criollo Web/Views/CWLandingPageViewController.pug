@@ -28,14 +28,16 @@ html(lang="en")
         p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with. It's as easy as this:
         .hello-world
           pre
-            code.objc CRServer* server = [[CRHTTPServer alloc] init];
+            code.objc
+              |CRServer* server = [[CRHTTPServer alloc] init];
               |[server addBlock:^(CRRequest *request, CRResponse *response, CRRouteCompletionBlock completionHandler) {
               |   [response send:@"Hello world!"];
               |} forPath:@"/"];
               |[server startListening];
           p ... and in Swift:
           pre
-            code.swift let server:CRServer = CRHTTPServer()
+            code.swift
+              |let server:CRServer = CRHTTPServer()
               |server.addBlock({ (request, response, completionHandler) -&gt; Void in
               |   response.send("Hello world!")
               |}, forPath: "/")
@@ -77,4 +79,9 @@ html(lang="en")
         p It incorporates an HTTP web server and a&nbsp;
           a(href="http://fastcgi.com") FastCGI
           |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.
+    link(rel="stylesheet",href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/monokai-sublime.min.css")
+    //- script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js")
+    script(src="{{static-dir}}/highlight.pack.js")
+    script hljs.initHighlightingOnLoad()
+
     include ./Shared/Footer.pug
