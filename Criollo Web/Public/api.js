@@ -27,10 +27,10 @@ export default (config, success, failure) => {
       return
     }
 
-    if ( method != 'GET' ) {
-      request.setRequestHeader('Content-type', 'application/json');
-    }
     request.open(method, url)
+    if ( method != 'GET' ) {
+      request.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
+    }
 
     request.addEventListener('load', () => {
       if (request.status === 200) {

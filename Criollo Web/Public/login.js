@@ -1,25 +1,22 @@
-import $ from 'jquery'
+import api from './api.js'
 
 const login = {}
 
 login.setup = (success, failure) => {
-  if (!$('#login-button')) {
+  if (!document.getElementById('login-button')) {
     return
   }
-  $('#login-button').on('click', (e) => {
-    $.ajax({
-        url: `/api/login?${Math.random()}`,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        method: 'post',
-        data: JSON.stringify({
-          username: $('#username').val(),
-          password: $('#password').val()
-        })
+
+  document.getElementById('login-button').onclick = (e) => {
+    api({
+      url: `/api/login?${Math.random()}`,
+      method: 'post',
+      data: JSON.stringify({
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
       })
-      .done(success)
-      .fail(failure)
-  })
+    }, success, failure)
+  }
 }
 
 export default login
