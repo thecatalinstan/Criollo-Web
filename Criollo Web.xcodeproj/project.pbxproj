@@ -35,10 +35,10 @@
 		AD6113D91D254C90005B8208 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113D81D254C90005B8208 /* CWUser.m */; };
 		AD6113DE1D2556BD005B8208 /* CWAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113DB1D2556BD005B8208 /* CWAPIError.m */; };
 		AD6113DF1D2556BD005B8208 /* CWAPIResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113DD1D2556BD005B8208 /* CWAPIResponse.m */; };
-		AD6240831CCC4A69008BE8B2 /* monokai-sublime.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */; };
+		AD8AE26F1D2A986900AF868B /* highlight.pack.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD8AE26D1D2A983C00AF868B /* highlight.pack.js */; };
 		ADD294851CB936BC006458AF /* CWBlogPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD294841CB936BC006458AF /* CWBlogPostViewController.m */; };
 		ADD5F4A71CCC3908006019FF /* app.js in Sources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */; };
@@ -94,7 +94,7 @@
 			dstPath = Public;
 			dstSubfolderSpec = 7;
 			files = (
-				AD6240831CCC4A69008BE8B2 /* monokai-sublime.css in Copy Public Resources */,
+				AD8AE26F1D2A986900AF868B /* highlight.pack.js in Copy Public Resources */,
 				3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */,
 				3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */,
 				3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */,
@@ -166,6 +166,7 @@
 		AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "monokai-sublime.css"; path = "node_modules/highlight.js/styles/monokai-sublime.css"; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.pug; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
+		AD8AE26D1D2A983C00AF868B /* highlight.pack.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = highlight.pack.js; sourceTree = "<group>"; };
 		AD8FE0B91CE477E70085612C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../../../Library/Developer/Xcode/DerivedData/Criollo_Web-bxldpoilqgcohudzadiiettgdbiy/Build/Products/Debug/Realm/Realm.framework"; sourceTree = "<group>"; };
 		ADB9D1651CE5C72A002F35B5 /* Criollo Web.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Criollo Web.entitlements"; sourceTree = "<group>"; };
 		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reset.styl; sourceTree = "<group>"; };
@@ -328,6 +329,7 @@
 				AD6240821CCC4A51008BE8B2 /* Contrib */,
 				AD0BA8471D1C26A400F0C865 /* stats.js */,
 				AD0BA9971C962922005206A1 /* app.js */,
+				AD8AE26D1D2A983C00AF868B /* highlight.pack.js */,
 				AD0BA83F1D1C1EB100F0C865 /* globals.styl */,
 				AD7396901C9073A700D9F4B3 /* default.styl */,
 			);
