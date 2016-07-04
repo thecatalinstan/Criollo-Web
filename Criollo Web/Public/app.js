@@ -1,8 +1,7 @@
 import getStats from './stats.js'
 import menu from './menu.js'
 import login from './login.js'
-
-// import notificationCenter from './notifications.js'
+import notificationCenter from './notifications.js'
 
 window.onload = () => {
   // Footer info
@@ -12,18 +11,16 @@ window.onload = () => {
   menu.setup()
 
   // Setup notification center
-  // const defaultNotificationCenter = notificationCenter($(document.body))
+  const defaultNotificationCenter = notificationCenter(document.body)
 
   // Login form
-  login.setup((payload) => {
-    console.log(payload)
-    // defaultNotificationCenter.confirm(`Welcome, ${payload.data['first-name']}!`)
+  login.setup((user) => {
+    defaultNotificationCenter.confirm(`Welcome, ${user['first-name']}!`)
     window.setTimeout(_ => {
       window.location.href = "/api"
     }, 1000)
   }, (err) => {
-    console.log(err)
-    // defaultNotificationCenter.error('Login failed', 'Check your username and password and try again.')
+    defaultNotificationCenter.error('Login failed', 'Check your username and password and try again.')
   })
 
 }

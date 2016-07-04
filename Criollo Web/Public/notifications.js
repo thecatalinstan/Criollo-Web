@@ -1,39 +1,38 @@
-import $ from 'jquery'
-
 const
   defaultTimeout = 3000,
   offscreenPoint = 320
 
 const displayNotification = (center, notification) => {
 
-  let element = $('<div/>', {
-      id: `notification-${notification.id}`,
-      class: `notification hidden ${notification.type}`,
-      click: removeNotification.bind(null, center, notification, false),
-    })
-    .css('left', `${offscreenPoint}px`)
-    .append($('<div/>', {
-      class: 'notification-close',
-      click: removeNotification.bind(null, center, notification, true),
-      text: 'x'
-    }))
-    .append($('<div/>', {
-      class: 'notification-title',
-      text: notification.title
-    }));
+  let element = document.createElement('div')
+  element.id = `notification-${notification.id}`
+  element.className = `notification hidden ${notification.type}`
+  element.onclick = removeNotification.bind(null, center, notification, false)
+  // element.style.left = `${offscreenPoint}px`
+
+  let closeButton = document.createElement('div')
+  closeButton.className = 'notification-close'
+  closeButton.onclick = removeNotification.bind(null, center, notification, true)
+  closeButton.innerHTML = 'x'
+  element.appendChild(closeButton)
+
+  let titleDiv = document.createElement('div')
+  titleDiv.className = 'notification-title'
+  titleDiv.innerHTML = notification.title
+  element.appendChild(titleDiv)
 
   if (notification.text) {
-    element.append($('<div/>', {
-      class: 'notification-text',
-      text: notification.text
-    }))
+    let textDiv = document.createElement('div')
+    textDiv.className = 'notification-text'
+    textDiv.innerHTML = notification.text
+    element.appendChild(textDiv);
   }
-  center.element.prepend(element)
 
-  element.animate({ left: 0 }, () => {
+  center.element.insertBefore(element, center.element.firstChild)
+
+  // element.animate({ left: 0 }, () => {
     window.setTimeout(removeNotification.bind(null, center, notification), isNaN(notification.timeout) ? defaultTimeout : notification.timeout)
-  })
-
+  // })
 
   return element
 }
@@ -43,10 +42,10 @@ const removeNotification = (center, notification, dismiss) => {
     return
   }
 
-  notification.element.animate({ opacity: 0, left: offscreenPoint }, () => {
-    notification.element.remove()
+  // notification.element.animate({ opacity: 0, left: offscreenPoint }, () => {
+    center.element.removeChild(notification.element)
     delete center.notifications[notification.id]
-  });
+  // });
 
   if (!dismiss && notification.cb) {
     notification.cb(notification)
@@ -69,6 +68,7 @@ const postNotification = (center, type, title, text, timeout, cb) => {
 }
 
 export default (parent, id) => {
+
   const center = {
     notifications: {}
   }
@@ -79,8 +79,10 @@ export default (parent, id) => {
   center.confirm = postNotification.bind(null, center, 'confirm')
   center.notification = postNotification.bind(null, center)
 
-  center.element = $('<div/>', { id: id || 'notification-center-' + Math.floor(Math.random() * 1000), class: 'notification-center' })
-  parent.append(center.element)
+  center.element = document.createElement('div')
+  center.element.id = id || 'notification-center-' + Math.floor(Math.random() * 1000)
+  center.element.className = 'notification-center'
+  parent.appendChild(center.element)
 
   return center
 }
