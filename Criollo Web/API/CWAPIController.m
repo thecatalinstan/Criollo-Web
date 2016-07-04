@@ -120,7 +120,7 @@ NS_ASSUME_NONNULL_END
 
         NSDictionary<NSString *, NSString *>* credentials = (NSDictionary *)request.body;
         if ( credentials ) {
-            user = [CWUser authenticateWithUsername:credentials[CWAPIUsrnameKey] password:credentials[CWAPIPasswordKey]];
+            user = [CWUser authenticateWithUsername:credentials[CWAPIUsernameKey] password:credentials[CWAPIPasswordKey]];
         }
 
         if ( !user ) {
