@@ -12,7 +12,10 @@
 #define CWBlogErrorDomain   @"CWBlogErrorDomain"
 #define CWBlogError         101
 
+#define CWBlogPath          @"/blog"
+
 NS_ASSUME_NONNULL_BEGIN
+
 @interface CWBlog : NSObject
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -28,4 +31,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)importUsersFromDefaults:(NSError * __autoreleasing *)error;
 
 @end
+
 NS_ASSUME_NONNULL_END
