@@ -94,6 +94,8 @@ NS_ASSUME_NONNULL_END
             }
             [response sendData:apiResponse.toJSONData];
             completionHandler();
+        } else if ( [predicate isEqualToString:@"trace"] ) {
+            [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
         } else if ( [predicate isEqualToString:@"info"] ) {
             NSMutableDictionary* payload = [NSMutableDictionary dictionary];
 
