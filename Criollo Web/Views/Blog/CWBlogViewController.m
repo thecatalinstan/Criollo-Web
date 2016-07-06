@@ -18,7 +18,7 @@
 #define CWBlogNewPostPredicate      @"new"
 #define CWBlogArchivePredicate      @"archive"
 #define CWBlogTagPredicate          @"tag"
-#define CWBlogCategoryPredicate     @"category"
+//#define CWBlogCategoryPredicate     @"category"
 #define CWBlogAuthorPredicate       @"author"
 #define CWBlogNewPostPathPattern    @"^/blog/[0-9]{4}/[0-9]{2}/[a-zA-Z-]+"
 
@@ -67,10 +67,10 @@
         if ( [predicate isEqualToString:CWBlogNewPostPredicate] ) {
             [contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response]];
         } else {
-
             // All the other oredicates require a payload, so redirect if we don't have one
             NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
-            if ( payload.length == 0 && ([predicate isEqualToString:CWBlogTagPredicate] || [predicate isEqualToString:CWBlogCategoryPredicate] || [predicate isEqualToString:CWBlogAuthorPredicate]) ) {
+            if ( payload.length == 0 && ([predicate isEqualToString:CWBlogTagPredicate] || [predicate isEqualToString:CWBlogAuthorPredicate]) ) {
+                [response setStatusCode:301 description:nil];
                 [response setValue:CWBlogPath forHTTPHeaderField:@"Location"];
                 return nil;
             }
@@ -112,12 +112,12 @@
             } else if ( [predicate isEqualToString:CWBlogTagPredicate]) {
                 NSString* tag = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
                 fetchPredicate = [NSPredicate predicateWithFormat:@"tag.name = %@", tag];
-            } else if ( [predicate isEqualToString:CWBlogCategoryPredicate] ) {
-                NSString* category = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-                fetchPredicate = [NSPredicate predicateWithFormat:@"category.name = %@", category];
+//            } else if ( [predicate isEqualToString:CWBlogCategoryPredicate] ) {
+//                NSString* category = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
+//                fetchPredicate = [NSPredicate predicateWithFormat:@"category.name = %@", category];
             } else if ( [predicate isEqualToString:CWBlogAuthorPredicate] ) {
                 NSString* author = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-                fetchPredicate = [NSPredicate predicateWithFormat:@"author.name = %@", author];
+                fetchPredicate = [NSPredicate predicateWithFormat:@"author.user = %@", author];
             }
 
             NSError * error = nil;
@@ -135,6 +135,7 @@
                         }
                     }
                 }
+    
             } else {
                 [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
                     CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
