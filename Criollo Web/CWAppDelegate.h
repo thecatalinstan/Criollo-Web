@@ -18,6 +18,7 @@
 @class CWBlog;
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface CWAppDelegate : NSObject <CRApplicationDelegate>
 
 + (NSString *)serverSpecString;

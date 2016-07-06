@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_END
     [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
     // Blog
-    [self.server addController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath];
+    [self.server addController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath HTTPMethod:CRHTTPMethodAll recursive:YES];
 
     // Login page
     [self.server addController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:@"/login"];
