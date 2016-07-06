@@ -25,6 +25,8 @@
 		AD41F0431CE48C3A001ADEAC /* CWBlog.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0411CE48C3A001ADEAC /* CWBlog.xcdatamodeld */; };
 		AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0451CE48DCE001ADEAC /* CWBlog.m */; };
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
+		AD5200601D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD52005E1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m */; };
+		AD5200611D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD52005F1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug */; };
 		AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5F021F1CE0936000D810B6 /* CWLayoutViewController.m */; };
 		AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5F02221CE0BC3500D810B6 /* CWBlogViewController.m */; };
 		AD5F02271CE0BD8900D810B6 /* CWLandingPageViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.pug */; };
@@ -146,6 +148,9 @@
 		AD41F0441CE48DCE001ADEAC /* CWBlog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlog.h; sourceTree = "<group>"; };
 		AD41F0451CE48DCE001ADEAC /* CWBlog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlog.m; sourceTree = "<group>"; };
 		AD4A13F51C9068DD00A3616E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD52005D1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogPostDetailsViewController.h; path = Blog/CWBlogPostDetailsViewController.h; sourceTree = "<group>"; };
+		AD52005E1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWBlogPostDetailsViewController.m; path = Blog/CWBlogPostDetailsViewController.m; sourceTree = "<group>"; };
+		AD52005F1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CWBlogPostDetailsViewController.pug; path = Blog/CWBlogPostDetailsViewController.pug; sourceTree = "<group>"; };
 		AD5F021A1CE091B100D810B6 /* Footer.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Footer.pug; sourceTree = "<group>"; };
 		AD5F021B1CE091B100D810B6 /* Header.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Header.pug; sourceTree = "<group>"; };
 		AD5F021E1CE0936000D810B6 /* CWLayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLayoutViewController.h; sourceTree = "<group>"; };
@@ -358,6 +363,9 @@
 		ADD294861CB936CD006458AF /* Blog */ = {
 			isa = PBXGroup;
 			children = (
+				AD52005D1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.h */,
+				AD52005E1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m */,
+				AD52005F1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug */,
 				ADD294831CB936BC006458AF /* CWBlogPostViewController.h */,
 				ADD294841CB936BC006458AF /* CWBlogPostViewController.m */,
 				ADD294871CB936EE006458AF /* CWBlogPostViewController.pug */,
@@ -522,6 +530,7 @@
 				AD5F02271CE0BD8900D810B6 /* CWLandingPageViewController.pug in Resources */,
 				AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */,
 				ADF347021CF1F7F800EFC211 /* CWLoginPageViewController.pug in Resources */,
+				AD5200611D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug in Resources */,
 				AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */,
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
 				AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */,
@@ -637,6 +646,7 @@
 				AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
 				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,
+				AD5200601D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m in Sources */,
 				ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */,
 				AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */,
 				AD41F0431CE48C3A001ADEAC /* CWBlog.xcdatamodeld in Sources */,
