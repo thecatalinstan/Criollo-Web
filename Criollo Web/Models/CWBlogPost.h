@@ -17,6 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, strong) NSString * path;
 
++ (instancetype)blogPostWithHandle:(NSString *)handle;
++ (instancetype)blogPostWithHandle:(NSString *)handle year:(NSUInteger)year;
++ (instancetype)blogPostWithHandle:(NSString *)handle year:(NSUInteger)year month:(NSUInteger)month;
+
++ (nullable NSArray<CWBlogPost *> *)blogPostsWithPredicate:(NSPredicate * _Nullable)predicate error:(NSError * _Nullable __autoreleasing * _Nullable)error;
+
 @end
 
 NS_ASSUME_NONNULL_END
