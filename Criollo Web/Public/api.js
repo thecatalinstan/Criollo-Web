@@ -1,4 +1,4 @@
-export default (config, success, failure) => {
+const api = (config, success, failure) => {
 
     const url = config.url
     if (!url) {
@@ -35,7 +35,7 @@ export default (config, success, failure) => {
     request.addEventListener('load', () => {
       if (request.status === 200) {
 
-        let response = JSON.parse(request.responseText)
+        const response = JSON.parse(request.responseText)
         if ( response.success ) {
           success(response.data)
         } else {
@@ -48,3 +48,5 @@ export default (config, success, failure) => {
     request.addEventListener('error', failure, false)
     request.send(data)
 }
+
+export default api
