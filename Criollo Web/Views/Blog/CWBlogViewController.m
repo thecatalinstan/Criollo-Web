@@ -65,7 +65,14 @@
 
         // New post
         if ( [predicate isEqualToString:CWBlogNewPostPredicate] ) {
-            [contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response]];
+            CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+            if ( currentUser ) {
+                [contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response]];
+            } else {
+                [response setStatusCode:301 description:nil];
+                [response setValue:CWBlogPath forHTTPHeaderField:@"Location"];
+                return nil;
+            }
         } else {
             // All the other oredicates require a payload, so redirect if we don't have one
             NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
