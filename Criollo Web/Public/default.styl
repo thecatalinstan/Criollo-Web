@@ -4,6 +4,7 @@
 @import notifications
 @import menu
 @import login
+@import blog
 
 // Layout colors and fonts
 body-color                          = criollo-dark-gray
@@ -311,36 +312,3 @@ body
 
         p
           margin 1em
-
-
-body.blog
-  .article
-    padding 2em 1em
-    border-bottom 1px solid criollo-light-gray
-
-    &:first-of-type
-      padding-top 0
-
-    &:last-of-type
-      border none
-
-    .article-header
-
-      .article-title
-        a
-          color heading-color
-          text-decoration none
-          &:hover
-            color link-color
-            text-decoration none
-
-      .article-info
-        margin 0
-        font-size 0.70em
-
-    .article-body
-      margin 1.5em 0
-
-  // .article-footer
-  //   .sharing
-  //   .permalink
