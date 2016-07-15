@@ -1,5 +1,3 @@
-import api from './api.js'
-
 const blog = {}
 
 const titlePlaceholder = 'Post title'
@@ -9,7 +7,6 @@ const setupPlaceholder = (element, placeholder) => {
 
   element.style.opacity = 0.25
   element.innerHTML = placeholder
-  element.style.backgroundColor = 'red'
 
   element.onfocus = () => {
     if ( element.textContent.trim() == placeholder ) {
@@ -29,6 +26,11 @@ const setupPlaceholder = (element, placeholder) => {
 const setupContentEditable = () => {
   let postElement = document.querySelector('.content article.article')
   if ( !postElement ) {
+    return
+  }
+
+  const postId = postElement.dataset.post
+  if ( postId != '' ) {
     return
   }
 

@@ -22,9 +22,12 @@ window.onload = () => {
   })
 
   // Blog
-  blog.setup()
+  login.confirm( (data) => {
+    blog.setup()
+  }, (err) => {
+    console.error(err)
+  } )
 
   // Footer info
-  getStats(document.getElementById('stats-info'))
-
+  // getStats(document.getElementById('stats-info'))
 }
