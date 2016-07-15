@@ -13,7 +13,18 @@
 #import "CWBlogPost.h"
 #import "CWBlogAuthor.h"
 
+
+@interface CWBlogPostDetailsViewController ()
+
+@property (nonatomic, readonly, assign) BOOL isNewPost;
+
+@end
+
 @implementation CWBlogPostDetailsViewController
+
+- (BOOL)isNewPost {
+    return self.post == nil || self.post.objectID.isTemporaryID;
+}
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     return [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil post:nil];
@@ -34,6 +45,7 @@
     self.templateVariables[@"author"] = self.post.author.displayName ? : @"";
     self.templateVariables[@"date"] = self.post.date ? [CSTimeIntervalFormatter stringFromDate:[NSDate date] toDate:self.post.date] : @"";
     self.templateVariables[@"content"] = self.post.rendered_content ? : @"";
+    self.templateVariables[@"editable"] = self.isNewPost ? @" contenteditable=\"true\"" : @"";
 
     return [super presentViewControllerWithRequest:request response:response];
 }
