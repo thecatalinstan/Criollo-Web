@@ -19,4 +19,8 @@ login.setup = (success, failure) => {
   }
 }
 
+login.confirm = (success, failure) => {
+  api( { url: `/api/me?${Math.random()}` }, success, failure)
+}
+
 export default login
