@@ -1,9 +1,10 @@
 @import globals
 
 body.blog
+
   .article
-    padding 2em 1em
-    border-bottom 1px solid criollo-light-gray
+    padding 4em 1em
+    border-bottom 1px solid criollo-medium-gray
 
     &:first-of-type
       padding-top 0
@@ -14,6 +15,13 @@ body.blog
     .article-header
 
       .article-title
+
+        &[contenteditable="true"]
+          border 1px solid criollo-medium-gray
+          outline none
+          margin-bottom 0.1em
+          padding 0 0.07em
+
         a
           color heading-color
           text-decoration none
@@ -25,8 +33,24 @@ body.blog
         margin 0
         font-size 0.70em
 
+        .article-author
+          margin-left 0.5em
+
+        .article-date
+          margin-left 0.5em
+
+
     .article-body
       margin 1.5em 0
+
+    .article-body-editor
+      width 100%
+      height auto
+      min-height 300px
+      border 1px solid criollo-medium-gray
+      padding 0.5em
+      box-sizing border-box
+      outline none
 
   // .article-footer
   //   .sharing

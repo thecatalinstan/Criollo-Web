@@ -23,8 +23,10 @@ window.onload = () => {
 
   // Blog
   login.confirm( (data) => {
+    window.currentUser = data
     blog.setup()
   }, (err) => {
+    window.currentUser = null
     console.error(err)
   } )
 
