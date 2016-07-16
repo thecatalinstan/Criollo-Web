@@ -11,6 +11,10 @@
 #import "CWBlogTag.h"
 #import "CWBlog.h"
 #import "CWAppDelegate.h"
+#import "CWAPIBlogPost.h"
+#import "CWAPIBlogAuthor.h"
+#import "CWAPIBlogTag.h"
+#import "CWUser.h"
 
 @interface CWBlogPost () {
     NSString * _path;
@@ -24,6 +28,23 @@
 - (NSString *)path {
     NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.date];
     return [NSString stringWithFormat:@"%@/%ld/%ld/%@", CWBlogPath, (long)dateComponents.year, (long)dateComponents.month, self.handle];
+}
+
+- (CWAPIBlogPost *)APIBlogPost {
+    CWAPIBlogPost* apiBlogPost = [[CWAPIBlogPost alloc] init];
+    apiBlogPost.date = self.date;
+    apiBlogPost.title = self.title;
+    apiBlogPost.content = self.content;
+    apiBlogPost.renderedContent = self.renderedContent;
+    apiBlogPost.author = self.author.APIBlogAuthor;
+
+    NSMutableSet* tags = [NSMutableSet set];
+    [self.tags enumerateObjectsUsingBlock:^(CWBlogTag * _Nonnull obj, BOOL * _Nonnull stop) {
+        [tags addObject:obj.APIBlogTag];
+    }];
+    apiBlogPost.tags = tags;
+
+    return apiBlogPost;
 }
 
 + (instancetype)blogPostWithHandle:(NSString *)handle {
@@ -59,7 +80,6 @@
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
 
     __block CWBlogPost * post;
-
     [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
         NSError *error = nil;
         NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -67,11 +87,10 @@
             post = fetchedObjects.firstObject;
         }
     }];
-
     return post;
 }
 
-+ (NSArray<CWBlogPost *> *)blogPostsWithPredicate:(NSPredicate *)predicate error:(NSError *__autoreleasing  _Nullable *)error {
++ (NSArray<CWBlogPost *> *)fetchBlogPostsWithPredicate:(NSPredicate *)predicate error:(NSError *__autoreleasing  _Nullable *)error {
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogPost" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
@@ -92,6 +111,35 @@
     }];
 
     return posts;
+}
+
+
++ (instancetype)blogPostFromAPIBlogPost:(CWAPIBlogPost *)post {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogPost" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    CWBlogPost* newPost = [[CWBlogPost alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];;
+    newPost.date = post.date;
+    newPost.handle = post.handle;
+    newPost.title = post.title;
+    newPost.content = post.content;
+    newPost.renderedContent = post.renderedContent;
+
+    CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:post.author.user error:nil];
+    if ( !author ) {
+        author = [CWBlogAuthor blogAuthorFromAPIBlogAuthor:post.author];
+    }
+    newPost.author = author;
+
+    NSMutableSet* tags = [NSMutableSet set];
+    [post.tags enumerateObjectsUsingBlock:^(CWAPIBlogTag * _Nonnull obj, BOOL * _Nonnull stop) {
+        CWBlogTag* tag = [CWBlogTag fetchTagForName:obj.name error:nil];
+        if ( !tag ) {
+            tag = [CWBlogTag blogTagFromAPIBlogTag:obj];
+        }
+        [tags addObject:tag];
+    }];
+    newPost.tags = tags;
+    return newPost;
+
 }
 
 

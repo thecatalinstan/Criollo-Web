@@ -8,6 +8,7 @@ window.onload = () => {
 
   // Setup notification center
   const defaultNotificationCenter = notificationCenter(document.body)
+  window.defaultNotificationCenter = defaultNotificationCenter
 
   // Menu
   menu.setup()

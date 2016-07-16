@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWModel : JSONModel
 
+@property (nullable, nonatomic, strong) NSString<Optional> *uid;
+@property (nullable, nonatomic, strong) NSString<Optional> *path;
+
 @end
 
 NS_ASSUME_NONNULL_END

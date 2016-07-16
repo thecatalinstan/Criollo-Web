@@ -9,11 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class CWAPIBlogAuthor;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogAuthor : NSManagedObject
 
-+ (nullable instancetype)fetchAuthorForUsername:(NSString *)username inManagedObjectContext:(NSManagedObjectContext *)context error:(NSError * __autoreleasing *)error;
+@property (nonatomic, readonly, copy) CWAPIBlogAuthor* APIBlogAuthor;
+
++ (nullable instancetype)fetchAuthorForUsername:(NSString *)username error:(NSError * __autoreleasing *)error;
++ (instancetype)blogAuthorFromAPIBlogAuthor:(CWAPIBlogAuthor *)author;
 
 @end
 

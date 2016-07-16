@@ -128,7 +128,7 @@
             }
 
             NSError * error = nil;
-            NSArray<CWBlogPost *> * posts = [CWBlogPost blogPostsWithPredicate:fetchPredicate error:&error];
+            NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:fetchPredicate error:&error];
             if (posts.count == 0) {
                 [contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
                 // Check if there is a user and link to "add post"

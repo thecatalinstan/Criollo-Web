@@ -17,7 +17,7 @@
 @dynamic title;
 @dynamic handle;
 @dynamic content;
-@dynamic rendered_content;
+@dynamic renderedContent;
 @dynamic author;
 @dynamic tags;
 

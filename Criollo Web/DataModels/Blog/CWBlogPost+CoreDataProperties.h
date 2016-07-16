@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSString *handle;
 @property (nullable, nonatomic, retain) NSString *content;
-@property (nullable, nonatomic, retain) NSString *rendered_content;
+@property (nullable, nonatomic, retain) NSString *renderedContent;
 @property (nullable, nonatomic, retain) CWBlogAuthor *author;
 @property (nullable, nonatomic, retain) NSSet<CWBlogTag *> *tags;
 

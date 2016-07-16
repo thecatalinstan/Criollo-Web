@@ -3,8 +3,9 @@
 body.blog
 
   .article
-    padding 4em 1em
+    padding 2em 1em
     border-bottom 1px solid criollo-medium-gray
+    text-align left
 
     &:first-of-type
       padding-top 0
@@ -40,18 +41,32 @@ body.blog
           margin-left 0.5em
 
 
-    .article-body
+    .article-content
       margin 1.5em 0
 
-    .article-body-editor
+    .article-content-editor
       width 100%
       height auto
       min-height 300px
       border 1px solid criollo-medium-gray
+      margin-top 1em
       padding 0.5em
       box-sizing border-box
       outline none
 
-  // .article-footer
-  //   .sharing
-  //   .permalink
+    button
+      display block
+      margin 20px auto
+      font-family heading-font-family
+      font-size 1em
+      padding 10px 40px
+      background-color criollo-dark-orange
+      color white
+      border none
+      transition all 0.25s ease-in-out 0
+      cursor pointer
+      border 1px solid criollo-dark-orange
+
+      &:hover
+        background-color white
+        color criollo-dark-orange

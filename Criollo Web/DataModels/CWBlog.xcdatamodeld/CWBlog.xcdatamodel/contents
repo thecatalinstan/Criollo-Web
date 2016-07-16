@@ -10,7 +10,7 @@
         <attribute name="content" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="date" attributeType="Date" indexed="YES" syncable="YES"/>
         <attribute name="handle" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="rendered_content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="renderedContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="author" maxCount="1" deletionRule="Nullify" destinationEntity="CWBlogAuthor" inverseName="posts" inverseEntity="CWBlogAuthor" syncable="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CWBlogTag" inverseName="posts" inverseEntity="CWBlogTag" syncable="YES"/>

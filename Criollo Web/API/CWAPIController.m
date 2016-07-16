@@ -7,12 +7,22 @@
 //
 
 #import <CSSystemInfoHelper/CSSystemInfoHelper.h>
+#import <MMMarkdown/MMMarkdown.h>
 
 #import "CWAPIController.h"
 #import "CWAPIError.h"
 #import "CWAPIResponse.h"
 #import "CWAppDelegate.h"
 #import "CWUser.h"
+#import "CWAPIBlogTag.h"
+#import "CWAPIBlogAuthor.h"
+#import "CWAPIBlogPost.h"
+#import "CWBlogTag.h"
+#import "CWBlogAuthor.h"
+#import "CWBlogPost.h"
+#import "CWAppDelegate.h"
+#import "CWBlog.h"
+#import "NSString+URLUtils.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -77,37 +87,20 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
         NSString* predicate = request.URL.pathComponents.count > 2 ? request.URL.pathComponents[2] : @"";
+
+        // Login / Logout
         if ( [predicate isEqualToString:@"login"] ) {
             self.authenticateBlock(request, response, completionHandler);
         } else if ( [predicate isEqualToString:@"logout"] ) {
             self.deauthenticateBlock(request, response, completionHandler);
         } else if ( [predicate isEqualToString:@"me"] ) {
-            CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-            CWAPIResponse * apiResponse;
-            if ( currentUser ) {
-                NSMutableDictionary* payload = currentUser.toDictionary.mutableCopy;
-                [payload removeObjectForKey:@"password"];
-                apiResponse = [CWAPIResponse successResponseWithData:payload];
-            } else {
-                [response setStatusCode:401 description:nil];
-                apiResponse = [CWAPIResponse failureResponseWithError:nil];
-            }
-            [response sendData:apiResponse.toJSONData];
-            completionHandler();
+            self.meBlock(request, response, completionHandler);
         } else if ( [predicate isEqualToString:@"trace"] ) {
             [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
         } else if ( [predicate isEqualToString:@"info"] ) {
-            NSMutableDictionary* payload = [NSMutableDictionary dictionary];
-
-            payload[@"processName"] = [CWAppDelegate processName];
-            payload[@"processVersion"] = [CWAppDelegate bundleVersion];
-            payload[@"runningTime"] = [CWAppDelegate processRunningTime];
-            payload[@"unameSystemVersion"] = [CSSystemInfoHelper sharedHelper].systemVersionString;
-            payload[@"requestsServed"] = [CWAppDelegate requestsServed];
-
-            payload[@"memoryInfo"] = [CSSystemInfoHelper sharedHelper].memoryUsageString ? : @"";
-            [response sendData:[CWAPIResponse successResponseWithData:payload].toJSONData];
-            completionHandler();
+            self.infoBlock(request, response, completionHandler);
+        } else if ( [predicate isEqualToString:@"blog"] ) {
+            self.blogBlock(request, response, completionHandler);
         } else {
             [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
             completionHandler();
@@ -153,6 +146,94 @@ NS_ASSUME_NONNULL_END
         [response setCookie:CWUserCookie value:@"deleted" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
         [response setValue:@(responseData.length).stringValue forHTTPHeaderField:@"Content-Length"];
         [response sendData:responseData];
+    };
+}
+
+- (CRRouteBlock)meBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+        CWAPIResponse * apiResponse;
+        if ( currentUser ) {
+            NSMutableDictionary* payload = currentUser.toDictionary.mutableCopy;
+            [payload removeObjectForKey:@"password"];
+            apiResponse = [CWAPIResponse successResponseWithData:payload];
+        } else {
+            [response setStatusCode:401 description:nil];
+            apiResponse = [CWAPIResponse failureResponseWithError:nil];
+        }
+        [response sendData:apiResponse.toJSONData];
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)infoBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSMutableDictionary* payload = [NSMutableDictionary dictionary];
+
+        payload[@"processName"] = [CWAppDelegate processName];
+        payload[@"processVersion"] = [CWAppDelegate bundleVersion];
+        payload[@"runningTime"] = [CWAppDelegate processRunningTime];
+        payload[@"unameSystemVersion"] = [CSSystemInfoHelper sharedHelper].systemVersionString;
+        payload[@"requestsServed"] = [CWAppDelegate requestsServed];
+
+        payload[@"memoryInfo"] = [CSSystemInfoHelper sharedHelper].memoryUsageString ? : @"";
+        [response sendData:[CWAPIResponse successResponseWithData:payload].toJSONData];
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)blogBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
+        if ( [payload isEqualToString:@"posts"]) {
+            switch(request.method) {
+                case CRHTTPMethodPut: {
+                    __block BOOL shouldFail = NO;
+                    __block NSError* error;
+                    __block CWBlogPost* post;
+                    __block CWAPIBlogPost* responsePost;
+                    CWAPIBlogPost* apiPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
+                    if ( error ) {
+                        shouldFail = YES;
+                    } else {
+                        error = nil;
+                        NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:apiPost.content error:&error];
+                        if ( error ) {
+                            shouldFail = YES;
+                        } else {
+                            [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+                                post = [CWBlogPost blogPostFromAPIBlogPost:apiPost];
+                                post.renderedContent = renderedContent;
+                                post.date = [NSDate date];
+                                post.handle = post.title.URLFriendlyHandle;
+                                CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+                                if ( currentUser ) {
+                                    post.author = [CWBlogAuthor fetchAuthorForUsername:currentUser.username error:nil];
+                                }
+
+                                error = nil;
+                                [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
+                                shouldFail = error == nil;
+                                if ( !error ) {
+                                    responsePost = post.APIBlogPost;
+                                }
+                            }];
+                        }
+                    }
+
+                    if ( shouldFail ) {
+                        [response setStatusCode:500 description:nil];
+                        [response sendData:[CWAPIResponse failureResponseWithError:error].toJSONData];
+                    } else {
+                        [response sendData:[CWAPIResponse successResponseWithData:responsePost].toJSONData];
+                    }
+                    completionHandler();
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
     };
 }
 

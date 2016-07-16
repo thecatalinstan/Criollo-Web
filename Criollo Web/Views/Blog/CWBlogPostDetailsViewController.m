@@ -44,7 +44,7 @@
     self.templateVariables[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@", request.URL.scheme, request.URL.host, self.post.path] ? : @"";
     self.templateVariables[@"author"] = self.post.author.displayName ? : @"";
     self.templateVariables[@"date"] = self.post.date ? [CSTimeIntervalFormatter stringFromDate:[NSDate date] toDate:self.post.date] : @"";
-    self.templateVariables[@"content"] = self.post.rendered_content ? : @"";
+    self.templateVariables[@"content"] = self.post.renderedContent ? : @"";
     self.templateVariables[@"editable"] = self.isNewPost ? @" contenteditable=\"true\"" : @"";
 
     return [super presentViewControllerWithRequest:request response:response];

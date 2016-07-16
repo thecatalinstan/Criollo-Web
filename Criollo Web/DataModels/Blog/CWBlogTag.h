@@ -9,11 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class CWAPIBlogTag;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogTag : NSManagedObject
 
-// Insert code here to declare functionality of your managed object subclass
+@property (nonatomic, readonly, copy) CWAPIBlogTag* APIBlogTag;
+
++ (nullable instancetype)fetchTagForName:(NSString *)name error:(NSError * __autoreleasing *)error;
++ (instancetype)blogTagFromAPIBlogTag:(CWAPIBlogTag *)tag;
 
 @end
 

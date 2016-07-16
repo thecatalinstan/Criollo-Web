@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_END
         [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
 
             *error = nil;
-            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key inManagedObjectContext:self.managedObjectContext error:error];
+            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key error:error];
             if ( *error ) {
                 *stop = YES;
                 return;

@@ -9,19 +9,23 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CWBlogAuthor, CWBlogTag;
+@class CWBlogAuthor, CWBlogTag, CWAPIBlogPost;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogPost : NSManagedObject
 
 @property (nonatomic, readonly, strong) NSString * path;
+@property (nonatomic, readonly, copy) CWAPIBlogPost* APIBlogPost;
 
 + (instancetype)blogPostWithHandle:(NSString *)handle;
 + (instancetype)blogPostWithHandle:(NSString *)handle year:(NSUInteger)year;
 + (instancetype)blogPostWithHandle:(NSString *)handle year:(NSUInteger)year month:(NSUInteger)month;
 
-+ (nullable NSArray<CWBlogPost *> *)blogPostsWithPredicate:(NSPredicate * _Nullable)predicate error:(NSError * _Nullable __autoreleasing * _Nullable)error;
++ (nullable NSArray<CWBlogPost *> *)fetchBlogPostsWithPredicate:(NSPredicate * _Nullable)predicate error:(NSError * _Nullable __autoreleasing * _Nullable)error;
+
++ (instancetype)blogPostFromAPIBlogPost:(CWAPIBlogPost *)post;
+
 
 @end
 
