@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)saveManagedObjectContext:(NSError * __autoreleasing *)error;
 - (void)importUsersFromDefaults:(NSError * __autoreleasing *)error;
 
++ (NSString *)formattedDate:(NSDate *)date;
++ (NSString *)formattedTime:(NSDate *)date;
+
 @end
 
 NS_ASSUME_NONNULL_END

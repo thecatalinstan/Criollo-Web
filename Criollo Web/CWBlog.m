@@ -93,5 +93,27 @@ NS_ASSUME_NONNULL_END
     return result;
 }
 
++ (NSString *)formattedDate:(NSDate *)date {
+    static NSDateFormatter* dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.doesRelativeDateFormatting = YES;
+        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    });
+    return [dateFormatter stringFromDate:date];
+}
+
++ (NSString *)formattedTime:(NSDate *)date {
+    static NSDateFormatter* dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateStyle = NSDateFormatterNoStyle;
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    });
+    return [dateFormatter stringFromDate:date];
+}
 
 @end
