@@ -20,7 +20,7 @@
 #define CWBlogTagPredicate          @"tag"
 //#define CWBlogCategoryPredicate     @"category"
 #define CWBlogAuthorPredicate       @"author"
-#define CWBlogNewPostPathPattern    @"^/blog/[0-9]{4}/[0-9]{2}/[a-zA-Z-]+"
+#define CWBlogNewPostPathPattern    @"^/blog/[0-9]{4}/[0-9]{1,2}/[a-zA-Z-]+"
 
 @interface CWBlogViewController ()
 
@@ -35,7 +35,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSError* regexError;
-        blogPostRegex = [NSRegularExpression regularExpressionWithPattern:CWBlogNewPostPathPattern options:NSRegularExpressionCaseInsensitive|NSRegularExpressionIgnoreMetacharacters error:&regexError];
+        blogPostRegex = [NSRegularExpression regularExpressionWithPattern:CWBlogNewPostPathPattern options:NSRegularExpressionCaseInsensitive error:&regexError];
         if ( regexError ) {
             [CRApp logErrorFormat:@"%@", regexError];
         }
@@ -48,7 +48,7 @@
     NSMutableString* contents = [NSMutableString string];
 
     // Check for the path to a post
-    if ( [self.blogPathRegularExpression numberOfMatchesInString:request.URL.path options:0 range:NSMakeRange(0, request.URL.path.length)] == 1 ) {
+    if ( [self.blogPathRegularExpression numberOfMatchesInString:request.URL.path options:0 range:NSMakeRange(0, request.URL.path.length)] ) {
 
         NSUInteger year = request.URL.pathComponents[2].integerValue;
         NSUInteger month = request.URL.pathComponents[3].integerValue;

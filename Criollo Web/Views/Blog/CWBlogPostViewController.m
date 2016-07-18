@@ -49,9 +49,7 @@
         self.templateVariables[@"date"] = @"";
     }
     self.templateVariables[@"content"] = post.renderedContent? : @"";
-
-
-
+    
     return [super presentViewControllerWithRequest:request response:response];
 }
 

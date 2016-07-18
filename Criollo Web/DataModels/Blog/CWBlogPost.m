@@ -64,14 +64,14 @@
     if ( year == 0 || month == 0 ) {
         predicate = [NSPredicate predicateWithFormat:@"handle = %@", handle];
     } else {
-        NSDate* startDate = [[NSCalendar currentCalendar] dateWithEra:0 year:year month:month day:1 hour:0 minute:0 second:0 nanosecond:0];
+        NSDate* startDate = [[NSCalendar currentCalendar] dateWithEra:1 year:year month:month day:1 hour:0 minute:0 second:0 nanosecond:0];
         if ( month == 12 ) {
             year++;
             month = 1;
         } else {
             month++;
         }
-        NSDate* endDate = [[[NSCalendar currentCalendar] dateWithEra:0 year:year month:month day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
+        NSDate* endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:year month:month day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
         predicate = [NSPredicate predicateWithFormat:@"handle = %@ and date >= %@ and date <= %@", handle, startDate, endDate];
     }
     [fetchRequest setPredicate:predicate];
