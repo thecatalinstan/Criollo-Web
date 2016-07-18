@@ -15,6 +15,7 @@
 
 - (CWAPIBlogTag *)APIBlogTag {
     CWAPIBlogTag* apiBlogTag = [[CWAPIBlogTag alloc] init];
+    apiBlogTag.uid = self.objectID.URIRepresentation.absoluteString;
     apiBlogTag.name = self.name;
     return apiBlogTag;
 }

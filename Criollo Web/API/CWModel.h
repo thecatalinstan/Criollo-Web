@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, strong) NSString<Optional> *uid;
 @property (nullable, nonatomic, strong) NSString<Optional> *path;
+@property (nullable, nonatomic, strong) NSString<Optional> *publicPath;
 
 @end
 

@@ -20,7 +20,7 @@ const savePost = (post, success, failure) => {
   const postElement = document.querySelector('.content article.article')
   api({
     url: `/api/blog/posts?${Math.random()}`,
-    method: 'put',
+    method: post.uid ? 'post' : 'put',
     data: JSON.stringify(post)
   }, success, failure)
 }
@@ -55,11 +55,13 @@ const setupPlaceholder = (element, placeholder) => {
 const setupEditor = () => {
   const postElement = document.querySelector('.content article.article')
   if ( !postElement ) {
+    console.log(`There is no post element. Exiting.`)
     return
   }
 
-  const postId = postElement.dataset.post
+  let postId = postElement.dataset.post
   if ( postId != '' ) {
+    console.log(`Post id is ${postId}. Exiting.`)
     return
   }
 
@@ -88,11 +90,28 @@ const setupEditor = () => {
   }
 
   // Create a 'pre' that we can edit the markdown in
-  const contentEditor = document.createElement('pre')
+  const contentEditor = document.createElement('textarea')
   contentEditor.className = 'article-content-editor'
   contentEditor.contentEditable = true
-  setupPlaceholder(contentEditor, contentPlaceholder)
   postElement.insertBefore(contentEditor, footerElement)
+
+  // Add the editor js and css
+  const editorCss = document.createElement('link')
+  editorCss.rel = 'stylesheet'
+  editorCss.href = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css'
+  postElement.parentNode.appendChild(editorCss)
+
+  let simpleMDE = undefined
+  const editorJs = document.createElement('script')
+  editorJs.src = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js'
+  editorJs.onload = (e) => {
+    simpleMDE = new SimpleMDE( {
+      element: contentEditor,
+      placeholder: contentPlaceholder,
+      forceSync: true,
+    })
+  }
+  postElement.parentNode.appendChild(editorJs)
 
   // Clear the footer and add the save button at the bottom
   footerElement.innerHTML = ''
@@ -102,16 +121,24 @@ const setupEditor = () => {
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
     const post = {
-      content: contentEditor.textContent,
+      content: contentEditor.value,
       title: titleElement.textContent
     }
+    if ( postId ) {
+      post.uid = postId
+    }
+
     console.log(post)
+
     savePost(post, (data) => {
-      window.defaultNotificationCenter.success('Post saved')
       console.log(data)
+      window.defaultNotificationCenter.confirm('Post saved', data['public-path'])
+      postId = data.uid
+      postElement.dataset.post = postId
+      postElement.id = `article-${postId.substr(postId.lastIndexOf('/') + 1)}`
     }, (error) => {
-      window.defaultNotificationCenter.error('Unable to Save Post', error)
       console.error(error)
+      window.defaultNotificationCenter.error('Unable to save post', error)
     })
   }
   footerElement.appendChild(saveButton)

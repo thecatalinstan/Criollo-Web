@@ -185,49 +185,62 @@ NS_ASSUME_NONNULL_END
 - (CRRouteBlock)blogBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
+        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+        __block BOOL shouldFail = NO;
+        __block NSUInteger responseStatus = 500;
+        __block NSError* error;
+
         if ( [payload isEqualToString:@"posts"]) {
             switch(request.method) {
+                case CRHTTPMethodDelete: {
+                    shouldFail = YES;
+//                    error = [NSError errorWithDomain:];
+                }
+                    break;
+                case CRHTTPMethodPost:
                 case CRHTTPMethodPut: {
-                    CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-                    __block BOOL shouldFail = NO;
-                    __block NSError* error;
                     __block CWBlogPost* post;
                     __block CWAPIBlogPost* responsePost;
-                    CWAPIBlogPost* apiPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
-
-                    if ( error ) {
+                    if ( !currentUser ) {
                         shouldFail = YES;
+                        responseStatus = 401;
                     } else {
-                        error = nil;
-                        NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:apiPost.content error:&error];
+                        CWAPIBlogPost* apiPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
                         if ( error ) {
                             shouldFail = YES;
                         } else {
-                            [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-                                post = [CWBlogPost blogPostFromAPIBlogPost:apiPost];
-                                post.renderedContent = renderedContent;
-                                post.date = [NSDate date];
-                                post.handle = post.title.URLFriendlyHandle;
+                            error = nil;
+                            NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:apiPost.content error:&error];
+                            if ( error ) {
+                                shouldFail = YES;
+                            } else {
+                                [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+                                    post = [CWBlogPost blogPostFromAPIBlogPost:apiPost];
+                                    post.renderedContent = renderedContent;
+                                    post.date = [NSDate date];
+                                    post.handle = post.title.URLFriendlyHandle;
 
-                                error = nil;
-                                CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:currentUser.username error:&error];
-                                if ( error ) {
-                                    shouldFail = YES;
-                                } else {
-                                    post.author = author;
                                     error = nil;
-                                    [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
-                                    shouldFail = error != nil;
-                                    if ( !error ) {
-                                        responsePost = post.APIBlogPost;
+                                    CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:currentUser.username error:&error];
+                                    if ( error ) {
+                                        shouldFail = YES;
+                                    } else {
+                                        post.author = author;
+                                        error = nil;
+                                        [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
+                                        if ( error ) {
+                                            shouldFail = YES;
+                                        } else {
+                                            responsePost = post.APIBlogPost;
+                                        }
                                     }
-                                }
-                            }];
+                                }];
+                            }
                         }
                     }
 
                     if ( shouldFail ) {
-                        [response setStatusCode:500 description:nil];
+                        [response setStatusCode:responseStatus description:nil];
                         [response sendData:[CWAPIResponse failureResponseWithError:error].toJSONData];
                     } else {
                         [response sendData:[CWAPIResponse successResponseWithData:responsePost].toJSONData];

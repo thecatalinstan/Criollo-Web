@@ -32,6 +32,9 @@
 
 - (CWAPIBlogPost *)APIBlogPost {
     CWAPIBlogPost* apiBlogPost = [[CWAPIBlogPost alloc] init];
+    apiBlogPost.uid = self.objectID.URIRepresentation.absoluteString;
+    apiBlogPost.publicPath = self.path;
+    apiBlogPost.path = [@"/api/blog/posts" stringByAppendingString:apiBlogPost.publicPath];
     apiBlogPost.date = self.date;
     apiBlogPost.title = self.title;
     apiBlogPost.content = self.content;
@@ -115,8 +118,26 @@
 
 
 + (instancetype)blogPostFromAPIBlogPost:(CWAPIBlogPost *)post {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogPost" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
-    CWBlogPost* newPost = [[CWBlogPost alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];;
+    CWBlogPost* newPost;
+    if ( post.uid ) {
+        NSURL* postIdURIRepresentation = [NSURL URLWithString:post.uid];
+        if ( postIdURIRepresentation ) {
+            NSManagedObjectID* postId = [[CWAppDelegate sharedBlog].managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:postIdURIRepresentation];
+            if ( postId ) {
+                NSError* coreDataError = nil;
+                newPost = [[CWAppDelegate sharedBlog].managedObjectContext existingObjectWithID:postId error:&coreDataError];
+                if ( coreDataError ) {
+                    [CRApp logErrorFormat:@"Unable to get managed object from id: %@", coreDataError.localizedDescription];
+                }
+            }
+        }
+    }
+
+    if ( newPost == nil ) {
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogPost" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+        newPost = [[CWBlogPost alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];;
+    }
+
     newPost.date = post.date;
     newPost.handle = post.handle;
     newPost.title = post.title;

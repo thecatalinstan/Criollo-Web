@@ -19,6 +19,7 @@ body.blog
 
         &[contenteditable="true"]
           border 1px solid criollo-medium-gray
+          border-radius 4px
           outline none
           margin-bottom 0.1em
           padding 0 0.07em
@@ -26,6 +27,7 @@ body.blog
         a
           color heading-color
           text-decoration none
+
           &:hover
             color link-color
             text-decoration none
@@ -37,22 +39,24 @@ body.blog
         .article-author
           margin-left 0.5em
 
-        // .article-date
+        .article-date
+          text-transform lowercase
           // margin-left 0.5em
-
 
     .article-content
       margin 1.5em 0
 
     .article-content-editor
+      outline none
       width 100%
       height auto
       min-height 300px
       border 1px solid criollo-medium-gray
-      margin-top 1em
       padding 0.5em
       box-sizing border-box
-      outline none
+
+    .editor-toolbar
+      margin-top 1em
 
     button
       display block
