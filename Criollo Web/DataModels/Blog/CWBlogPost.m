@@ -123,11 +123,13 @@
     newPost.content = post.content;
     newPost.renderedContent = post.renderedContent;
 
-    CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:post.author.user error:nil];
-    if ( !author ) {
-        author = [CWBlogAuthor blogAuthorFromAPIBlogAuthor:post.author];
+    if ( post.author ) {
+        CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:post.author.user error:nil];
+        if ( !author ) {
+            author = [CWBlogAuthor blogAuthorFromAPIBlogAuthor:post.author];
+        }
+        newPost.author = author;
     }
-    newPost.author = author;
 
     NSMutableSet* tags = [NSMutableSet set];
     [post.tags enumerateObjectsUsingBlock:^(CWAPIBlogTag * _Nonnull obj, BOOL * _Nonnull stop) {

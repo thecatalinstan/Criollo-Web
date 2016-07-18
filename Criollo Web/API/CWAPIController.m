@@ -188,11 +188,13 @@ NS_ASSUME_NONNULL_END
         if ( [payload isEqualToString:@"posts"]) {
             switch(request.method) {
                 case CRHTTPMethodPut: {
+                    CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
                     __block BOOL shouldFail = NO;
                     __block NSError* error;
                     __block CWBlogPost* post;
                     __block CWAPIBlogPost* responsePost;
                     CWAPIBlogPost* apiPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
+
                     if ( error ) {
                         shouldFail = YES;
                     } else {
@@ -206,16 +208,19 @@ NS_ASSUME_NONNULL_END
                                 post.renderedContent = renderedContent;
                                 post.date = [NSDate date];
                                 post.handle = post.title.URLFriendlyHandle;
-                                CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-                                if ( currentUser ) {
-                                    post.author = [CWBlogAuthor fetchAuthorForUsername:currentUser.username error:nil];
-                                }
 
                                 error = nil;
-                                [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
-                                shouldFail = error == nil;
-                                if ( !error ) {
-                                    responsePost = post.APIBlogPost;
+                                CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:currentUser.username error:&error];
+                                if ( error ) {
+                                    shouldFail = YES;
+                                } else {
+                                    post.author = author;
+                                    error = nil;
+                                    [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
+                                    shouldFail = error != nil;
+                                    if ( !error ) {
+                                        responsePost = post.APIBlogPost;
+                                    }
                                 }
                             }];
                         }
