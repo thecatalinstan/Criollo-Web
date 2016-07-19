@@ -1,0 +1,1843 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"content",
+				"contentEditor"
+			],
+			[
+				"footer",
+				"footerElement"
+			],
+			[
+				"marg",
+				"margin-left"
+			],
+			[
+				"margin",
+				"margin-left"
+			],
+			[
+				"decreme",
+				"decrement"
+			],
+			[
+				"decrement",
+				"decrementInterval"
+			],
+			[
+				"overf",
+				"overflow"
+			],
+			[
+				"thrott",
+				"throttleInput"
+			],
+			[
+				"throttl",
+				"throttle"
+			],
+			[
+				"throttle",
+				"throttleInput"
+			],
+			[
+				"masthead",
+				"mastheadLogo"
+			],
+			[
+				"tra",
+				"transform"
+			],
+			[
+				"menu-scr",
+				"menu-scrolled-link-hover-color"
+			],
+			[
+				"menu-scro",
+				"menu-scrolled-link-color"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"crio",
+				"criollo-light-gray"
+			],
+			[
+				"border",
+				"border-bottom"
+			],
+			[
+				"crioll",
+				"criollo-light-gray"
+			],
+			[
+				"criol",
+				"criollo-dark-gray"
+			],
+			[
+				"masthe",
+				"mastheadLogo"
+			],
+			[
+				"trans",
+				"transition"
+			],
+			[
+				"mono",
+				"monotype-font-family"
+			],
+			[
+				"footer-lin",
+				"footer-link-hover-color"
+			],
+			[
+				"main",
+				"mainMenu"
+			],
+			[
+				"heroku",
+				"herokuProcess"
+			],
+			[
+				"app",
+				"appName"
+			],
+			[
+				"hero",
+				"herokuDir"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"calendize-banner",
+				"calendize-banner-subtitle"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"caled",
+				"calendize-banner-logo"
+			],
+			[
+				"cale",
+				"calendize-banner-text"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"calend",
+				"calendize-banner-title"
+			],
+			[
+				"calen",
+				"calendize-banner"
+			],
+			[
+				"calendize",
+				"calendize-banner"
+			],
+			[
+				"M",
+				"MARKUP"
+			],
+			[
+				"request",
+				"request_path	request_path"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"htm",
+				"htmlspecialchars"
+			],
+			[
+				"fon",
+				"font-family"
+			],
+			[
+				"rgb",
+				"rgba()"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"co",
+				"cover"
+			],
+			[
+				"min",
+				"min-width"
+			],
+			[
+				"kale",
+				"kalender__dato"
+			],
+			[
+				"datep",
+				"datepair"
+			],
+			[
+				"ini",
+				"initialized"
+			],
+			[
+				"prev",
+				"previewStartedLoading"
+			],
+			[
+				"resu",
+				"result-blob"
+			],
+			[
+				"asp",
+				"aspectRatio"
+			],
+			[
+				"as",
+				"aspectRatioProxy"
+			],
+			[
+				"cro",
+				"cropAreaCoords"
+			],
+			[
+				"image",
+				"imageAspectRatio"
+			],
+			[
+				"mar",
+				"margin-left"
+			],
+			[
+				"uplo",
+				"uploading"
+			],
+			[
+				"pull",
+				"pull-right"
+			],
+			[
+				"pre",
+				"preview_size"
+			],
+			[
+				"conte",
+				"content_image"
+			],
+			[
+				"$ani",
+				"$animateProvider	AngularJS"
+			],
+			[
+				"wizard-",
+				"wizard-label"
+			],
+			[
+				"send",
+				"send-to-followers"
+			],
+			[
+				"czImage",
+				"czImageUploadAspectRatio"
+			],
+			[
+				"czim",
+				"czImageUploadAspectRatio"
+			],
+			[
+				"attr",
+				"attrs"
+			],
+			[
+				"$ngf",
+				"$ngfHeight"
+			],
+			[
+				"dis",
+				"displaySize"
+			],
+			[
+				"imag",
+				"imageAspectRatio"
+			],
+			[
+				"ima",
+				"imageAspectRatio"
+			],
+			[
+				"$ng",
+				"$ngfWidth"
+			],
+			[
+				"cr",
+				"croppedImageSize"
+			],
+			[
+				"result-ima",
+				"result-image-size"
+			],
+			[
+				"di",
+				"disableCrop"
+			],
+			[
+				"cance",
+				"cancelImageSelection"
+			],
+			[
+				"data",
+				"dataUrl"
+			],
+			[
+				"err",
+				"errorTitle"
+			],
+			[
+				"error",
+				"errorMessage"
+			],
+			[
+				"for",
+				"formattedSize"
+			],
+			[
+				"cz-",
+				"cz-image-upload"
+			],
+			[
+				"cz-ima",
+				"cz-image-upload-drop-hint"
+			],
+			[
+				"ani",
+				"animation_duration"
+			],
+			[
+				"ta",
+				"table"
+			],
+			[
+				"tab",
+				"table-cell"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"can",
+				"cancelImageSelection"
+			],
+			[
+				"crp",
+				"croppedDataUrl"
+			],
+			[
+				"pro",
+				"progress"
+			],
+			[
+				"sele",
+				"selectedFile"
+			],
+			[
+				"$fi",
+				"$files"
+			],
+			[
+				"upload",
+				"uploadPromise"
+			],
+			[
+				"cons",
+				"console"
+			],
+			[
+				"up",
+				"upload"
+			],
+			[
+				"def",
+				"deferred_promise"
+			],
+			[
+				"cn",
+				"controller"
+			],
+			[
+				"re",
+				"readable_id"
+			],
+			[
+				"redi",
+				"redirectUrl"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"follow",
+				"follower_count"
+			],
+			[
+				"stat",
+				"statistics"
+			],
+			[
+				"padd",
+				"padding-right"
+			],
+			[
+				"targ",
+				"targetPath"
+			],
+			[
+				"over",
+				"overflow-x"
+			],
+			[
+				"$star",
+				"$stateParams"
+			],
+			[
+				"$sc",
+				"$scope	AngularJS"
+			],
+			[
+				"should",
+				"shouldShowDetails"
+			],
+			[
+				"has",
+				"hasPoint"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"load",
+				"loading"
+			],
+			[
+				"l",
+				"log"
+			],
+			[
+				"last",
+				"last_page"
+			],
+			[
+				"isE",
+				"isLoadedEvent"
+			],
+			[
+				"sho",
+				"shouldShowDetails"
+			],
+			[
+				"sh",
+				"shouldExpandDetails"
+			],
+			[
+				"gr",
+				"grid_size"
+			],
+			[
+				"fu",
+				"full"
+			],
+			[
+				"marign-",
+				"margin-top"
+			],
+			[
+				"backgorund",
+				"background-color"
+			],
+			[
+				"pa",
+				"path"
+			],
+			[
+				"cz-wi",
+				"cz-widget-user"
+			],
+			[
+				"ov",
+				"overflow-x"
+			],
+			[
+				"ma",
+				"maxHeight"
+			],
+			[
+				"n",
+				"name"
+			],
+			[
+				"seac",
+				"searchFilters"
+			],
+			[
+				"filters",
+				"filtersDialog"
+			],
+			[
+				"isEmptyS",
+				"isEmptyFilters"
+			],
+			[
+				"margin-",
+				"margin-left"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"backgrou",
+				"background-color"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Criollo Web/Public/app.js",
+			"settings":
+			{
+				"buffer_size": 966,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Criollo Web/Public/notifications.js",
+			"settings":
+			{
+				"buffer_size": 2796,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Criollo Web/Public/blog.js",
+			"settings":
+			{
+				"buffer_size": 3396,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Criollo Web/Public/login.js",
+			"settings":
+			{
+				"buffer_size": 602,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Criollo Web/Public/blog.styl",
+			"settings":
+			{
+				"buffer_size": 1393,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Criollo Web/Views/Blog/CWBlogPostDetailsViewController.pug",
+			"settings":
+			{
+				"buffer_size": 293,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 147.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"pretti",
+				"HTMLPrettify"
+			],
+			[
+				"git bla",
+				"Git: Blame"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"Grunt",
+				"Grunt: Kill Running Tasks"
+			],
+			[
+				"grunt",
+				"Grunt: Kill Running Tasks"
+			],
+			[
+				"g",
+				"Grunt"
+			],
+			[
+				"gr",
+				"Grunt"
+			],
+			[
+				"gru",
+				"Grunt"
+			],
+			[
+				"update",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"list packa",
+				"Package Control: List Packages"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"Insta",
+				"Package Control: Install Package"
+			],
+			[
+				"prett",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"pretty",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"list pa",
+				"Package Control: List Packages"
+			],
+			[
+				"pac",
+				"Package Control: List Packages"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 233.0,
+		"history":
+		[
+			"NODE_ENV=edge grunt dev-server-desktop | ansifilter",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/Images",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Blog"
+	],
+	"file_history":
+	[
+		"/Users/catalin/Desktop/Track map of Sqa-Francorchamps in Belgium.svg",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/globals.styl",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/login.styl",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/login.js",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/api.js",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Blog/CWBlogPostDetailsViewController.pug",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/blog.js",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/default.styl",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/app.js",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/blog.styl",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Public/Images/blog.js",
+		"/Users/catalin/Documents/Billetsalget/html/billetsalget-drupal/sites/all/modules/custom/billetsalget_api/billetsalget_api.user.inc",
+		"/Users/catalin/Documents/Billetsalget/html/billetsalget-drupal/sites/all/modules/custom/billetsalget_api/billetsalget_api.module",
+		"/Users/catalin/Documents/Billetsalget/html/billetsalget-drupal/sites/all/modules/custom/billetsalget_api/billetsalget_api.config.inc",
+		"/Users/catalin/Documents/Billetsalget/html/index.php",
+		"/Users/catalin/Documents/Billetsalget/html/billetsalget-drupal/sites/default/settings.php",
+		"/Users/catalin/Documents/Beat/JJRacer/src/js/app.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/js/controller-keyboard.js",
+		"/Users/catalin/VirtualBox VMs/Centos 6 (PHP)/Centos 6 (PHP).vbox",
+		"/Users/catalin/VirtualBox VMs/Centos 6/Centos 6.vbox",
+		"/Users/catalin/Documents/Beat/JJRacer/package.json",
+		"/Users/catalin/Documents/Beat/JJRacer/build/js/app.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/components/hud/hud.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/components/hud/hud.styl",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-frameworks.sh",
+		"/Users/catalin/Documents/Beat/JJRacer/src/js/input.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/css/style.styl",
+		"/Users/catalin/Documents/Beat/JJRacer/src/js/inputs/keyboard.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/js/utils.js",
+		"/Users/catalin/Documents/Beat/JJRacer/build/amok.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/css/generic.styl",
+		"/Users/catalin/Documents/Beat/JJRacer/src/js/keyboard.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/index.pug",
+		"/Users/catalin/Documents/Beat/JJRacer/wright.js",
+		"/Users/catalin/Documents/Beat/JJRacer/src/index.jade",
+		"/Users/catalin/Documents/Beat/JJRacer/src/css/hud.styl",
+		"/Users/catalin/Documents/Beat/JJRacer/src/css/track.styl",
+		"/Users/catalin/Documents/Beat/JJRacer/src/css/car.styl",
+		"/Users/catalin/Documents/Beat/JJRacer/src/js/unused.js",
+		"/Users/catalin/Desktop/jjracer/js/phone.js",
+		"/Users/catalin/Desktop/jjracer/server/src/app.js",
+		"/Users/catalin/Desktop/jjracer/server/src/gyro.js",
+		"/Users/catalin/Desktop/jjracer/js/input.js",
+		"/Users/catalin/Desktop/jjracer/js/physics.js",
+		"/Users/catalin/Library/Application Support/Sublime Text 3/Packages/User/nwjs.sublime-build",
+		"/Users/catalin/Documents/Beat/Wright/app/wright.js",
+		"/Users/catalin/Documents/Beat/Wright/wright/lib/tasks/styles.js",
+		"/Users/catalin/Desktop/CZLocationPopupViewController.xib",
+		"/Users/catalin/Desktop/CZLocationPopupViewController.h",
+		"/Users/catalin/Desktop/CZLocationPopupViewController.m",
+		"/Users/catalin/Documents/Beat/Wright/wright/lib/utils.js",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Shared/Footer.jade",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Shared/Menu.jade",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Blog/CWBlogPostViewController.jade",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Blog/CWBlogViewController.jade",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/CWLandingPageViewController.jade",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Shared/Header.jade",
+		"/Users/catalin/Documents/Criollo/Criollo Web/Criollo Web/Views/Shared/Head.jade",
+		"/Users/catalin/Desktop/test",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/js/app.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/js/models/app.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/js/models/country.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/js/models/organization.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/js/models/location.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/js/models/search.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/wright.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/tasks/heroku-dist.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/tasks/heroku-clean.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/build/css/style.css",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/css/login.styl",
+		"/Users/catalin/Documents/Beat/BeatWebApp/package.json",
+		"/Users/catalin/Documents/Beat/BeatWebApp/tasks/heroku-staging.js",
+		"/Users/catalin/Documents/Criollo/CSOddFormatters/CSOddFormatters.podspec",
+		"/Users/catalin/Documents/Beat/BeatWebApp/.gitignore",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/tasks/amok-watch.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/tasks/styles.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/tasks/copy-dist.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/build.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/.jsbeautifyrc",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/tasks/static.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/builtin-modules/static.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/tasks/server.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/tasks/clean-dist.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/beat-js-build.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/deploy.sh",
+		"/Users/catalin/Documents/Beat/BeatWebApp/tasks/heroku-setup.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/beat-js-build/tasks/dist.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/css/animations.styl",
+		"/Users/catalin/Documents/Beat/BeatWebApp/dist/public/js/app.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/dist/package.json",
+		"/Users/catalin/Documents/Beat/BeatWebApp/build/amok.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/js/login.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/index.jade",
+		"/Users/catalin/Documents/Beat/BeatWebApp/server.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/src/css/style.styl",
+		"/Users/catalin/Documents/Beat/BeatWebApp/build/index.html",
+		"/Users/catalin/Documents/Beat/BeatWebApp/static/index.html",
+		"/Users/catalin/Documents/Beat/BeatWebApp/start.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/amok.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/dev.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/app.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/static/css/fontello-embedded.css",
+		"/Users/catalin/Documents/Beat/BeatWebApp/static/css/fontello.css",
+		"/Users/catalin/Documents/Beat/BeatWebApp/fontello.json",
+		"/Users/catalin/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/catalin/Downloads/schitts.creek.s02e10.hdtv.x264-crooks.nfo",
+		"/Users/catalin/Desktop/BeatWebApp/fontello.json",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/mithril-resource.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp.sublime-project",
+		"/Users/catalin/Documents/Beat/BeatWebApp/static/fontello.json",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/header/guac.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/Procfile",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/models/login.js",
+		"/Users/catalin/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/catalin/Documents/Beat/BeatWebApp/node_modules/nodemon/lib/nodemon.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/app.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/sidebar.js",
+		"/Users/catalin/Desktop/criollo.svg",
+		"/Users/catalin/Documents/Criollo/Criollo/Criollo.podSpec",
+		"/Users/catalin/Desktop/criollo",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/routes/index.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/layout.js",
+		"/Users/catalin/Documents/Beat/BeatWebApp/js/routes/home.js",
+		"/Users/catalin/Documents/Beat/BeatApi/routes/tokens.js",
+		"/Users/catalin/Documents/Beat/BeatApi/routes/devices.js",
+		"/Users/catalin/Documents/Beat/BeatApi/middleware/authorization.js",
+		"/Users/catalin/Documents/Beat/BeatApi/middleware/authentication.js",
+		"/Users/catalin/Documents/Beat/BeatApi/package.json"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			" -node_modules/*, ",
+			"-bower_components/*, -node_modules/*, ",
+			"-bower_components/*, -node_modules/*,",
+			"-bower_components/*, -node_modules/*, app_desktop/*.jade",
+			"-bower_components/*, -node_modules/*, app_desktop/*.js",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, app_mobile/*",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, add_desktop/scripts/directives/*/*.js",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, app_desktop/*.styl",
+			"-bower_components/*, -node_modules/*, app_desktop/*, *.styl",
+			"-bower_components/*, -node_modules/*, app_desktop/*, *.jade",
+			"-bower_components/*, -node_modules/*, *.js",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, app_shared/*",
+			"-bower_components/*, -node_modules/*, app_desktop/*",
+			"-bower_components/*, -node_modules/*, app_shared/*",
+			"-bower_components/*, -node_modules/*, app_desktop/*",
+			"-bower_components/*, -node_modules/*, app_facebook/*",
+			"-bower_components/*, -node_modules/*, app_social/*",
+			"-bower_components/*, -node_modules/*, app_mobile/*",
+			"-bower_components/*, -node_modules/*, app_desktop/*",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, app_desktop",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, *.js",
+			"-bower_components/*, -node_modules/*, *.jade",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, *.jade",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, *.styl",
+			"-bower_components/*, -node_modules/*",
+			"app_mobile, -bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/*, -node_modules/*, *.styl, -app_desktop_previous/*",
+			"-bower_components/*, -node_modules/*, *.styl, -app_desktop_previous/*, -app_mobile/*",
+			"-bower_components/*, -node_modules/*, *.styl, -app_desktop_previous/*",
+			"-bower_components/*, -node_modules/*, *.styl, -app_desktop/*",
+			"-bower_components/*, -node_modules/*, *.styl",
+			"-bower_components/*, -node_modules/*",
+			"-bower_components/* -node_modules/*",
+			"-bower_components/*,node_modules/*",
+			"-bower_components/* -node_modules/*",
+			"-bower_components/*",
+			"-bower_components",
+			"-\\/bower_components",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"defaultNotificationCenter",
+			"article-body",
+			".article-body",
+			"footerElement",
+			"contentElement",
+			"light-gray",
+			"contentElement",
+			"/home/billetsalget/",
+			"@import",
+			":",
+			"state[control]",
+			".increment",
+			".steering",
+			".throttle",
+			"decrement: (val) => {\n      return 0.2\n    }",
+			", 2",
+			"ceil",
+			"round",
+			"-webkit-",
+			"background-image -webkit-",
+			"-moz-",
+			"-webkit-",
+			"-moz-",
+			"Min",
+			"inputDefaults.",
+			"inputState.",
+			"defaults",
+			" = ",
+			"Input",
+			"let ",
+			": ",
+			"':",
+			"sideslip",
+			"gba(0,0,0,0.5)",
+			"rgba(0,0,0,0.5)",
+			"#000",
+			"000",
+			"CZLocationPopupViewController",
+			"CZInvitePopupViewController",
+			"CZLocationPopupViewController",
+			"-scrolled",
+			"= ",
+			"transform",
+			"font-family",
+			"footer",
+			"menlo",
+			"font-family",
+			"\"",
+			"�",
+			"sourceMappingURL",
+			"pa.confirm('done",
+			"options.opts.options.",
+			"log.",
+			"conveyor",
+			"runner",
+			"distDir",
+			"buildDir",
+			"srcDir",
+			"--git-dir ${herokuDir}/.git",
+			"./${herokuDir}",
+			"./dist",
+			"heroku",
+			"git --git-dir heroku",
+			"let",
+			"^",
+			"\n",
+			"require('",
+			",",
+			"\n",
+			" = ",
+			"    ,",
+			"<link rel=\"stylesheet\"",
+			"performance",
+			"build",
+			"/font/fontello",
+			"fontello",
+			",",
+			"extern NSString * const ",
+			"NSString * const ",
+			"@",
+			"                ",
+			"               ",
+			"              ",
+			"             ",
+			"            ",
+			"           ",
+			"          ",
+			"         ",
+			"        ",
+			"       ",
+			"      ",
+			"     ",
+			"    ",
+			"   ",
+			"  ",
+			"                   ",
+			"                  ",
+			"                    ",
+			"                   ",
+			"                  ",
+			"                 ",
+			"                ",
+			"#define ",
+			"nonnull",
+			" _Nonnull",
+			"nonnull ",
+			"nonnull",
+			" _Nonnull",
+			"CRStaticDirectory",
+			"static/font",
+			"DeviceTask",
+			".",
+			"/*	-webkit-transition: all 500ms ease-in-out;\n  -moz-transition: all 500ms ease-in-out;\n  -o-transition: all 500ms ease-in-out;\n  transition: all 500ms ease-in-out;*/",
+			"	-webkit-transition: all 500ms ease-in-out;\n  -moz-transition: all 500ms ease-in-out;\n  -o-transition: all 500ms ease-in-out;\n  transition: all 500ms ease-in-out;",
+			"ease-out",
+			"1s",
+			"background-color",
+			"2.5%",
+			"super+p",
+			"meta+p",
+			"; ",
+			"yum install ",
+			"-dev",
+			" ",
+			"calendize_social_fbi",
+			"/static/css/style.css",
+			"GET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet",
+			"GET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet\n\nGET /static/css/style.css HTTP/1.1\nHost: criollo.io\nAccept: */*\nUser-agent: telnet"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			".",
+			"options.",
+			"/fonts/fontello",
+			"/",
+			"HeaderContentService",
+			"closeThisDialog({action:'$1', payload:{}})",
+			"closeThisDialog({action:$1, payload:{}})",
+			"✓",
+			"calendize_blue",
+			"0.85em",
+			"@import variables",
+			"@import _defaults",
+			"@require _defaults",
+			"@require defaults",
+			"@import \"",
+			"jQuery",
+			"destination=\"hET-k8-5eq\""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Criollo Web/Public/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 966,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								652,
+								652
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Criollo Web/Public/notifications.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2796,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								414,
+								414
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 518.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Criollo Web/Public/blog.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3396,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3043,
+								3043
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1253.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Criollo Web/Public/login.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 602,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								149,
+								149
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Criollo Web/Public/blog.styl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1393,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								126,
+								126
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stylus/Stylus.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Criollo Web/Views/Blog/CWBlogPostDetailsViewController.pug",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 293,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								228,
+								228
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Pug/Syntaxes/Pug.tmLanguage",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 102.0
+	},
+	"output.find_results":
+	{
+		"height": 102.0
+	},
+	"pinned_build_system": "Packages/User/nwjs.sublime-build",
+	"project": "Criollo Web.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"blog.js",
+				"Public/Images/blog.js"
+			],
+			[
+				"copy-dist",
+				"node_modules/beat-js-build/tasks/copy-dist.js"
+			],
+			[
+				"styles.js",
+				"node_modules/beat-js-build/tasks/styles.js"
+			],
+			[
+				"static.",
+				"node_modules/beat-js-build/tasks/static.js"
+			],
+			[
+				"tatic",
+				"node_modules/builtin-modules/static.js"
+			],
+			[
+				"amokwa",
+				"node_modules/beat-js-build/tasks/amok-watch.js"
+			],
+			[
+				"amok-w",
+				"node_modules/beat-js-build/tasks/amok-watch.js"
+			],
+			[
+				"server.js",
+				"node_modules/beat-js-build/tasks/server.js"
+			],
+			[
+				"beat-js-build.js",
+				"node_modules/beat-js-build/beat-js-build.js"
+			],
+			[
+				"clean-dist",
+				"node_modules/beat-js-build/tasks/clean-dist.js"
+			],
+			[
+				"dist.js",
+				"node_modules/beat-js-build/tasks/dist.js"
+			],
+			[
+				"page--",
+				"sites/all/themes/fbi/templates/page--comedy-kalender.tpl.php"
+			],
+			[
+				"ng-img-cro",
+				"app_shared/bower_components/ng-img-crop-full-extended/compile/unminified/ng-img-crop.js"
+			],
+			[
+				"cz_im",
+				"app_shared/scripts/directives/cz_img/cz_img.js"
+			],
+			[
+				"cz-img",
+				"node_modules/grunt-contrib-cssmin/node_modules/maxmin/node_modules/gzip-size/node_modules/browserify-zlib/node_modules/pako/Gruntfile.js"
+			],
+			[
+				"imageservice",
+				"app_shared/scripts/services/ImageService.js"
+			],
+			[
+				"ng-file-upload",
+				"app_shared/bower_components/ng-file-upload/ng-file-upload.js"
+			],
+			[
+				"upload",
+				"app_shared/bower_components/ng-file-upload/ng-file-upload.js"
+			],
+			[
+				"superagen",
+				"app_shared/bower_components/superagent/superagent.js"
+			],
+			[
+				"cz_widget_cale",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.js"
+			],
+			[
+				"cz_expandable.",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.js"
+			],
+			[
+				"widget_user",
+				"app_desktop/scripts/directives/cz_widget_user/cz_widget_user.js"
+			],
+			[
+				"cz_widget_user",
+				"app_desktop/scripts/directives/cz_widget_user/cz_widget_user.jade"
+			],
+			[
+				"event_view",
+				"app_desktop/views/event_view/event_view.styl"
+			],
+			[
+				"widget_event.s",
+				"app_desktop/scripts/directives/cz_widget_event/cz_widget_event.styl"
+			],
+			[
+				"cz_widget_event",
+				"app_desktop/scripts/directives/cz_widget_event/cz_widget_event.jade"
+			],
+			[
+				"widget_calendar",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.styl"
+			],
+			[
+				"cz_expandable",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.styl"
+			],
+			[
+				"widget_ca",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.jade"
+			],
+			[
+				"cz_widget_calend",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.jade"
+			],
+			[
+				"widget_calenda",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.styl"
+			],
+			[
+				"cz_widgetcalenda",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.jade"
+			],
+			[
+				"expandable",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.styl"
+			],
+			[
+				"event_view.st",
+				"app_mobile/views/event_view/event_view.styl"
+			],
+			[
+				"event_view.",
+				"app_mobile/views/event_view/event_view.styl"
+			],
+			[
+				"cz_expandab",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.js"
+			],
+			[
+				"routes",
+				"app_mobile/scripts/config/routes.js"
+			],
+			[
+				"appctrl",
+				"app_mobile/scripts/controllers/AppCtrl.js"
+			],
+			[
+				"create_moment",
+				"app_mobile/views/create_moment_view/create_moment_view.jade"
+			],
+			[
+				"suggestionsviewctr",
+				"app_desktop/scripts/controllers/SuggestionsViewController.js"
+			],
+			[
+				"event_view.s",
+				"app_mobile/views/event_view/event_view.styl"
+			],
+			[
+				"expanda",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.styl"
+			],
+			[
+				"routes.",
+				"app_mobile/scripts/config/routes.js"
+			],
+			[
+				"route",
+				"app_desktop/scripts/config/routes.js"
+			],
+			[
+				"calendarviewctrl",
+				"app_mobile/scripts/controllers/CalendarViewCtrl.js"
+			],
+			[
+				"eventviewctrl",
+				"app_mobile/scripts/controllers/EventViewCtrl.js"
+			],
+			[
+				"cz_expanda",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.js"
+			],
+			[
+				"eventctrl",
+				"app_mobile/scripts/controllers/EventViewCtrl.js"
+			],
+			[
+				"headercont",
+				"app_mobile/scripts/services/HeaderContentService.js"
+			],
+			[
+				"appctr",
+				"app_mobile/scripts/controllers/AppCtrl.js"
+			],
+			[
+				"routse",
+				"app_desktop/scripts/config/routes.js"
+			],
+			[
+				"eventviewct",
+				"app_mobile/scripts/controllers/EventViewCtrl.js"
+			],
+			[
+				"create",
+				"app_mobile/views/create_moment_view/create_moment_view.jade"
+			],
+			[
+				"searchlist",
+				"app_mobile/scripts/directives/cz_search_list/cz_search_list.jade"
+			],
+			[
+				"search",
+				"app_mobile/views/search_view/search_view.jade"
+			],
+			[
+				"eventhea",
+				"app_mobile/scripts/directives/cz_event_head/cz_event_head.jade"
+			],
+			[
+				"cz_event_",
+				"app_mobile/scripts/directives/cz_event_list/cz_event_list.jade"
+			],
+			[
+				"cz_event_list",
+				"app_desktop/scripts/directives/cz_event_list/cz_event_list.jade"
+			],
+			[
+				"event_list",
+				"app_desktop/scripts/directives/cz_event_list/cz_event_list.styl"
+			],
+			[
+				"event_hea",
+				"app_mobile/scripts/directives/cz_event_head/cz_event_head.js"
+			],
+			[
+				"cz_event_head",
+				"app_mobile/scripts/directives/cz_event_head/cz_event_head.jade"
+			],
+			[
+				"userlistctrl",
+				"app_mobile/scripts/controllers/UserlistCtrl.js"
+			],
+			[
+				"momenthead",
+				"app_mobile/scripts/directives/cz_moment_head/cz_moment_head.js"
+			],
+			[
+				"czwidget_cal",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.jade"
+			],
+			[
+				"eventview",
+				"app_desktop/views/event_view/event_view.jade"
+			],
+			[
+				"text_filter",
+				"app_shared/scripts/filters/text_filters.js"
+			],
+			[
+				"cz_expanded",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.jade"
+			],
+			[
+				"event_v",
+				"app_mobile/views/event_view/event_view.jade"
+			],
+			[
+				"event_view.jade",
+				"app_desktop/views/event_view/event_view.jade"
+			],
+			[
+				"user_li",
+				"app_mobile/views/user_list_view/user_list_view.jade"
+			],
+			[
+				"calendaser",
+				"app_shared/scripts/services/CalendarService.js"
+			],
+			[
+				"cz_interest",
+				"app_mobile/scripts/directives/cz_interest/cz_interest.jade"
+			],
+			[
+				"eventser",
+				"app_shared/scripts/services/EventService.js"
+			],
+			[
+				"momentser",
+				"app_shared/scripts/services/MomentService.js"
+			],
+			[
+				"cz_comment",
+				"app_desktop/scripts/directives/cz_comment/cz_comment.jade"
+			],
+			[
+				"momentview",
+				"app_desktop/views/moment_view/moment_view.jade"
+			],
+			[
+				"cz_widget_moment",
+				"app_desktop/scripts/directives/cz_widget_moment/cz_widget_moment.jade"
+			],
+			[
+				"cz_widdget_calendar",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.jade"
+			],
+			[
+				"eventviewcon",
+				"app_desktop/scripts/controllers/EventViewController.js"
+			],
+			[
+				"widget_event",
+				"app_desktop/scripts/directives/cz_widget_event/cz_widget_event.js"
+			],
+			[
+				"calendar_head",
+				"app_mobile/scripts/directives/cz_calendar_head/cz_calendar_head.js"
+			],
+			[
+				"calendarview",
+				"app_desktop/scripts/controllers/CalendarViewController.js"
+			],
+			[
+				"eventviewc",
+				"app_desktop/scripts/controllers/EventViewController.js"
+			],
+			[
+				"cz_wwidget_eve",
+				"app_desktop/scripts/directives/cz_widget_event/cz_widget_event.js"
+			],
+			[
+				"calendar_he",
+				"app_mobile/scripts/directives/cz_calendar_head/cz_calendar_head.js"
+			],
+			[
+				"event_head",
+				"app_mobile/scripts/directives/cz_event_head/cz_event_head.js"
+			],
+			[
+				"eventvi",
+				"app_mobile/scripts/controllers/EventViewCtrl.js"
+			],
+			[
+				"suggestions",
+				"app_mobile/scripts/controllers/SuggestionsCtrl.js"
+			],
+			[
+				"discover",
+				"app_shared/scripts/services/DiscoverService.js"
+			],
+			[
+				"cz_moment_head",
+				"app_mobile/scripts/directives/cz_moment_head/cz_moment_head.jade"
+			],
+			[
+				"ccz_moment_head",
+				"app_mobile/scripts/directives/cz_moment_head/cz_moment_head.jade"
+			],
+			[
+				"czcomment",
+				"app_mobile/scripts/directives/cz_comment/cz_comment.jade"
+			],
+			[
+				"cz_comment.st",
+				"app_mobile/scripts/directives/cz_comment/cz_comment.styl"
+			],
+			[
+				"cz_comment.",
+				"app_mobile/scripts/directives/cz_comment_list/cz_comment_list.jade"
+			],
+			[
+				"moment_h",
+				"app_mobile/scripts/directives/cz_moment_head/cz_moment_head.styl"
+			],
+			[
+				"moment_head",
+				"app_mobile/scripts/directives/cz_moment_head/cz_moment_head.jade"
+			],
+			[
+				"cz_expa",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.js"
+			],
+			[
+				"eventctr",
+				"app_mobile/scripts/controllers/EventViewCtrl.js"
+			],
+			[
+				"cz_expe",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.jade"
+			],
+			[
+				"header",
+				"app_mobile/views/header/header.jade"
+			],
+			[
+				"desktopcomment",
+				"app_desktop/scripts/directives/cz_comment/cz_comment.js"
+			],
+			[
+				"desktopcomment_cre",
+				"app_desktop/scripts/directives/cz_comment_create/cz_comment_create.js"
+			],
+			[
+				"mobilecomment",
+				"app_mobile/scripts/directives/cz_comment/cz_comment.js"
+			],
+			[
+				"comment_",
+				"app_mobile/scripts/directives/cz_comment_create/cz_comment_create.js"
+			],
+			[
+				"comment_create",
+				"app_mobile/scripts/directives/cz_comment_create/cz_comment_create.js"
+			],
+			[
+				"moment_hea",
+				"app_mobile/scripts/directives/cz_moment_head/cz_moment_head.js"
+			],
+			[
+				"anumations",
+				"app_mobile/styles/includes/animations.styl"
+			],
+			[
+				"cale",
+				"app_desktop/views/calendar_view/calendar_view.styl"
+			],
+			[
+				"calendar_view.jad",
+				"app_desktop/views/calendar_view/calendar_view.jade"
+			],
+			[
+				"cz_ex",
+				"app_shared/scripts/directives/cz_expandable/cz_expandable.js"
+			],
+			[
+				"cz_exp",
+				"app_facebook/scripts/directives/cz_expandable/cz_expandable.styl"
+			],
+			[
+				"widget_",
+				"app_desktop/scripts/directives/cz_widget_banner/cz_widget_banner.js"
+			],
+			[
+				"calendar",
+				"app_desktop/views/calendar_view/calendar_view.jade"
+			],
+			[
+				"bannerwi",
+				"app_desktop/scripts/directives/cz_widget_banner/cz_widget_banner.jade"
+			],
+			[
+				"widget_moment",
+				"app_desktop/scripts/directives/cz_widget_moment/cz_widget_moment.jade"
+			],
+			[
+				"widget_eve",
+				"app_desktop/scripts/directives/cz_widget_event/cz_widget_event.jade"
+			],
+			[
+				"cz_widget_calendar",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.jade"
+			],
+			[
+				"wipublisher",
+				"app_desktop/scripts/directives/cz_widget_publisher/cz_widget_publisher.styl"
+			],
+			[
+				"cz_widget_pubish",
+				"app_desktop/scripts/directives/cz_widget_publisher/cz_widget_publisher.jade"
+			],
+			[
+				"user_view",
+				"app_desktop/views/user_view/user_view.jade"
+			],
+			[
+				"widgcale",
+				"app_desktop/scripts/directives/cz_widget_calendar/cz_widget_calendar.js"
+			],
+			[
+				"widgus",
+				"app_desktop/scripts/directives/cz_widget_user/cz_widget_user.styl"
+			],
+			[
+				"widguse",
+				"app_desktop/scripts/directives/cz_widget_user/cz_widget_user.jade"
+			],
+			[
+				"widguser",
+				"app_desktop/scripts/directives/cz_widget_user/cz_widget_user.js"
+			],
+			[
+				"cz_widget_us",
+				"app_desktop/scripts/directives/cz_widget_user/cz_widget_user.js"
+			],
+			[
+				"widget_momen",
+				"app_desktop/scripts/directives/cz_widget_moment/cz_widget_moment.styl"
+			],
+			[
+				"czwidgetmm",
+				"app_desktop/scripts/directives/cz_widget_moment/cz_widget_moment.jade"
+			],
+			[
+				"calendar_v",
+				"app_desktop/views/calendar_view/calendar_view.jade"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 375.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 687.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 294.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
