@@ -15,8 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogPost : NSManagedObject
 
-@property (nonatomic, readonly, strong) NSString * path;
-@property (nonatomic, readonly, copy) CWAPIBlogPost* APIBlogPost;
+@property (nonatomic, readonly, strong) NSString *publicPath;
+@property (nonatomic, readonly, copy) CWAPIBlogPost *APIBlogPost;
 
 + (instancetype)blogPostWithHandle:(NSString *)handle;
 + (instancetype)blogPostWithHandle:(NSString *)handle year:(NSUInteger)year;

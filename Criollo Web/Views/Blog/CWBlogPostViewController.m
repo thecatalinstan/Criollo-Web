@@ -33,15 +33,13 @@
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
     __block CWAPIBlogPost* post;
-    __block NSString* path;
     [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
         post = self.post.APIBlogPost;
-        path = self.post.path;
     }];
 
     self.templateVariables[@"id"] = post.uid;
     self.templateVariables[@"title"] = post.title ? : @"";
-    self.templateVariables[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port] ,path] ? : @"";
+    self.templateVariables[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], post.publicPath] ? : @"";
     self.templateVariables[@"author"] = post.author.displayName ? : @"";
     if (post.date) {
         self.templateVariables[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:post.date], [CWBlog formattedTime:post.date]];

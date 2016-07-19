@@ -25,7 +25,7 @@
 
 @implementation CWBlogPost
 
-- (NSString *)path {
+- (NSString *)publicPath {
     NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.date];
     return [NSString stringWithFormat:@"%@/%ld/%ld/%@", CWBlogPath, (long)dateComponents.year, (long)dateComponents.month, self.handle];
 }
@@ -33,8 +33,7 @@
 - (CWAPIBlogPost *)APIBlogPost {
     CWAPIBlogPost* apiBlogPost = [[CWAPIBlogPost alloc] init];
     apiBlogPost.uid = self.objectID.URIRepresentation.absoluteString;
-    apiBlogPost.publicPath = self.path;
-    apiBlogPost.path = [@"/api/blog/posts" stringByAppendingString:apiBlogPost.publicPath];
+    apiBlogPost.publicPath = self.publicPath;
     apiBlogPost.date = self.date;
     apiBlogPost.title = self.title;
     apiBlogPost.content = self.content;

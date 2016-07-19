@@ -14,9 +14,14 @@
 
 @implementation CWBlogAuthor
 
+- (NSString *)publicPath {
+    return [NSString stringWithFormat:@"%@/%@/%@", CWBlogPath, CWBlogAuthorPredicate, self.user];
+}
+
 - (CWAPIBlogAuthor *)APIBlogAuthor {
     CWAPIBlogAuthor *apiBlogAuthor = [[CWAPIBlogAuthor alloc] init];
     apiBlogAuthor.uid = self.objectID.URIRepresentation.absoluteString;
+    apiBlogAuthor.publicPath = self.publicPath;
     apiBlogAuthor.displayName = self.displayName;
     apiBlogAuthor.email = self.email;
     apiBlogAuthor.user = self.user;
@@ -41,8 +46,26 @@
 }
 
 + (instancetype)blogAuthorFromAPIBlogAuthor:(CWAPIBlogAuthor *)author {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogAuthor" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
-    CWBlogAuthor* newAuthor = [[CWBlogAuthor alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    CWBlogAuthor* newAuthor;
+    if ( author.uid ) {
+        NSURL* authorIdURIRepresentation = [NSURL URLWithString:author.uid];
+        if ( authorIdURIRepresentation ) {
+            NSManagedObjectID* authorId = [[CWAppDelegate sharedBlog].managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:authorIdURIRepresentation];
+            if ( authorId ) {
+                NSError* coreDataError = nil;
+                newAuthor = [[CWAppDelegate sharedBlog].managedObjectContext existingObjectWithID:authorId error:&coreDataError];
+                if ( coreDataError ) {
+                    [CRApp logErrorFormat:@"Unable to get managed object from id: %@", coreDataError.localizedDescription];
+                }
+            }
+        }
+    }
+
+    if ( newAuthor == nil ) {
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogAuthor" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+        newAuthor = [[CWBlogAuthor alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    }
+
     newAuthor.user = author.user;
     newAuthor.displayName = author.displayName;
     newAuthor.email = author.email;

@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogTag : NSManagedObject
 
-@property (nonatomic, readonly, copy) CWAPIBlogTag* APIBlogTag;
+@property (nonatomic, readonly, strong) NSString *publicPath;
+@property (nonatomic, readonly, copy) CWAPIBlogTag *APIBlogTag;
 
 + (nullable instancetype)fetchTagForName:(NSString *)name error:(NSError * __autoreleasing *)error;
 + (instancetype)blogTagFromAPIBlogTag:(CWAPIBlogTag *)tag;

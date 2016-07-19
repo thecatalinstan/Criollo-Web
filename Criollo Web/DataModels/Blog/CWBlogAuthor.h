@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogAuthor : NSManagedObject
 
-@property (nonatomic, readonly, copy) CWAPIBlogAuthor* APIBlogAuthor;
+@property (nonatomic, readonly, strong) NSString *publicPath;
+@property (nonatomic, readonly, copy) CWAPIBlogAuthor *APIBlogAuthor;
 
 + (nullable instancetype)fetchAuthorForUsername:(NSString *)username error:(NSError * __autoreleasing *)error;
 + (instancetype)blogAuthorFromAPIBlogAuthor:(CWAPIBlogAuthor *)author;

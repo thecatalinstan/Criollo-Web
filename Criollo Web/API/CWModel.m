@@ -7,6 +7,7 @@
 //
 
 #import "CWModel.h"
+#import "CWAPIController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface CWModel ()
@@ -17,6 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 
 @implementation CWModel
+
+- (NSString<Optional> *)path {
+    return [NSString stringWithFormat:@"%@%@", CWAPIPath, self.publicPath];
+}
 
 // Carbon copy of [JSONKeyMapper mapperFromUnderscoreCaseToCamelCase]
 +(JSONKeyMapper *)mapperFromDashSeparatedToCamelCase {

@@ -13,9 +13,14 @@
 
 @implementation CWBlogTag
 
+- (NSString *)publicPath {
+    return [NSString stringWithFormat:@"%@/%@/%@", CWBlogPath, CWBlogTagPredicate, self.name];
+}
+
 - (CWAPIBlogTag *)APIBlogTag {
     CWAPIBlogTag* apiBlogTag = [[CWAPIBlogTag alloc] init];
     apiBlogTag.uid = self.objectID.URIRepresentation.absoluteString;
+    apiBlogTag.publicPath = self.publicPath;    
     apiBlogTag.name = self.name;
     return apiBlogTag;
 }
@@ -38,8 +43,25 @@
 }
 
 + (instancetype)blogTagFromAPIBlogTag:(CWAPIBlogTag *)tag {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogTag" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
-    CWBlogTag* newTag = [[CWBlogTag alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    CWBlogTag* newTag;
+    if ( tag.uid ) {
+        NSURL* tagIdURIRepresentation = [NSURL URLWithString:tag.uid];
+        if ( tagIdURIRepresentation ) {
+            NSManagedObjectID* tagId = [[CWAppDelegate sharedBlog].managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:tagIdURIRepresentation];
+            if ( tagId ) {
+                NSError* coreDataError = nil;
+                newTag = [[CWAppDelegate sharedBlog].managedObjectContext existingObjectWithID:tagId error:&coreDataError];
+                if ( coreDataError ) {
+                    [CRApp logErrorFormat:@"Unable to get managed object from id: %@", coreDataError.localizedDescription];
+                }
+            }
+        }
+    }
+
+    if ( newTag == nil ) {
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogTag" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+        newTag = [[CWBlogTag alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    }
     newTag.name = tag.name;
     return newTag;
 }
