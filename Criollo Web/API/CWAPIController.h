@@ -11,6 +11,13 @@
 
 #define CWAPIPath                   @"/api"
 
+#define CWAPIPredicateLogin         @"login"
+#define CWAPIPredicateLogout        @"logout"
+#define CWAPIPredicateMe            @"me"
+#define CWAPIPredicateTrace         @"trace"
+#define CWAPIPredicateInfo          @"info"
+#define CWAPIPredicateBlog          @"blog"
+
 #define CWUserCookie                @"cwuser"
 #define CWAPIUsernameKey            @"username"
 #define CWAPIPasswordKey            @"password"

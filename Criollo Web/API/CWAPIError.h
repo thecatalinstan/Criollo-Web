@@ -9,6 +9,8 @@
 #import <JSONModel/JSONModel.h>
 
 #define CWAPIErrorDomain                    @"CWAPIErrorDomain"
+
+#define CWAPIErrorNotImplemented            1000
 #define CWAPIErrorLoginFailed               1001
 
 @class CWAPIError;

@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_END
     return isolationQueue;
 }
 
-#pragma mark - API
+#pragma mark - API Wrappers
 
 - (void)succeedWithPayload:(id)payload request:(CRRequest *)request response:(CRResponse *)response {
     CWAPIResponse * apiResponse = [CWAPIResponse successResponseWithData:payload];
@@ -81,25 +81,24 @@ NS_ASSUME_NONNULL_END
     [response sendData:jsonData];
 }
 
-#pragma mark - Routes
+#pragma mark - Routing
 
 - (CRRouteBlock)routeBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
         NSString* predicate = request.URL.pathComponents.count > 2 ? request.URL.pathComponents[2] : @"";
 
-        // Login / Logout
-        if ( [predicate isEqualToString:@"login"] ) {
+        if ( [predicate isEqualToString:CWAPIPredicateLogin] ) {
             self.authenticateBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:@"logout"] ) {
+        } else if ( [predicate isEqualToString:CWAPIPredicateLogout] ) {
             self.deauthenticateBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:@"me"] ) {
+        } else if ( [predicate isEqualToString:CWAPIPredicateMe] ) {
             self.meBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:@"trace"] ) {
+        } else if ( [predicate isEqualToString:CWAPIPredicateTrace] ) {
             [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
-        } else if ( [predicate isEqualToString:@"info"] ) {
+        } else if ( [predicate isEqualToString:CWAPIPredicateInfo] ) {
             self.infoBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:@"blog"] ) {
+        } else if ( [predicate isEqualToString:CWAPIPredicateBlog] ) {
             self.blogBlock(request, response, completionHandler);
         } else {
             [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
@@ -107,6 +106,8 @@ NS_ASSUME_NONNULL_END
         }
     };
 }
+
+#pragma mark - Authentication
 
 - (CRRouteBlock)authenticateBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
@@ -149,6 +150,8 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+#pragma mark - Users
+
 - (CRRouteBlock)meBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
@@ -166,6 +169,8 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+#pragma mark - Misc
+
 - (CRRouteBlock)infoBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSMutableDictionary* payload = [NSMutableDictionary dictionary];
@@ -182,6 +187,8 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+#pragma mark - Blog
+
 - (CRRouteBlock)blogBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
@@ -194,7 +201,7 @@ NS_ASSUME_NONNULL_END
             switch(request.method) {
                 case CRHTTPMethodDelete: {
                     shouldFail = YES;
-//                    error = [NSError errorWithDomain:];
+                    error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
                 }
                     break;
                 case CRHTTPMethodPost:
