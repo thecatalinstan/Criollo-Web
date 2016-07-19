@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <Criollo/Criollo.h>
 
-#define CWUserCookie            @"cwuser"
-#define CWAPIUsernameKey         @"username"
-#define CWAPIPasswordKey        @"password"
+#define CWAPIPath                   @"/api"
+
+#define CWUserCookie                @"cwuser"
+#define CWAPIUsernameKey            @"username"
+#define CWAPIPasswordKey            @"password"
 
 @class CWUser;
 

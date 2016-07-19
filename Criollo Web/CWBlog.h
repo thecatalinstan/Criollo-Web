@@ -12,7 +12,12 @@
 #define CWBlogErrorDomain   @"CWBlogErrorDomain"
 #define CWBlogError         101
 
-#define CWBlogPath          @"/blog"
+#define CWBlogPath                  @"/blog"
+#define CWBlogNewPostPredicate      @"new"
+#define CWBlogArchivePredicate      @"archive"
+#define CWBlogTagPredicate          @"tag"
+#define CWBlogCategoryPredicate     @"category"
+#define CWBlogAuthorPredicate       @"author"
 
 NS_ASSUME_NONNULL_BEGIN
 

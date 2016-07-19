@@ -15,11 +15,6 @@
 #import "CWUser.h"
 #import "CWAPIController.h"
 
-#define CWBlogNewPostPredicate      @"new"
-#define CWBlogArchivePredicate      @"archive"
-#define CWBlogTagPredicate          @"tag"
-//#define CWBlogCategoryPredicate     @"category"
-#define CWBlogAuthorPredicate       @"author"
 #define CWBlogNewPostPathPattern    @"^/blog/[0-9]{4}/[0-9]{1,2}/[a-zA-Z-]+"
 
 @interface CWBlogViewController ()
