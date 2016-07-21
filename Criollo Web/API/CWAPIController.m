@@ -46,22 +46,22 @@ NS_ASSUME_NONNULL_END
     static CWAPIController* sharedController;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedController = [[CWAPIController alloc] init];
+        sharedController = [[CWAPIController alloc] initWithPrefix:CWAPIPath];
     });
     return sharedController;
 }
 
-- (dispatch_queue_t)isolationQueue {
-    static dispatch_queue_t isolationQueue;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        isolationQueue = dispatch_queue_create([[NSStringFromClass(self.class) stringByAppendingPathExtension:@"IsolationQueue"] cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
-        dispatch_set_target_queue(isolationQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
-    });
-    return isolationQueue;
+- (instancetype)initWithPrefix:(NSString *)prefix {
+    self = [super initWithPrefix:prefix];
+    if ( self != nil ) {
+        _isolationQueue = dispatch_queue_create([[NSStringFromClass(self.class) stringByAppendingPathExtension:@"IsolationQueue"] cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
+        dispatch_set_target_queue(_isolationQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
+        [self setupRoutes];
+    }
+    return self;
 }
 
-#pragma mark - API Wrappers
+#pragma mark - API Response Wrappers
 
 - (void)succeedWithPayload:(id)payload request:(CRRequest *)request response:(CRResponse *)response {
     CWAPIResponse * apiResponse = [CWAPIResponse successResponseWithData:payload];
@@ -83,28 +83,39 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Routing
 
-- (CRRouteBlock)routeBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+- (void)setupRoutes {
+    // Set content-type to JSON
+    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
-        NSString* predicate = request.URL.pathComponents.count > 2 ? request.URL.pathComponents[2] : @"";
+        completionHandler();
+    }];
 
-        if ( [predicate isEqualToString:CWAPIPredicateLogin] ) {
-            self.authenticateBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:CWAPIPredicateLogout] ) {
-            self.deauthenticateBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:CWAPIPredicateMe] ) {
-            self.meBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:CWAPIPredicateTrace] ) {
-            [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
-        } else if ( [predicate isEqualToString:CWAPIPredicateInfo] ) {
-            self.infoBlock(request, response, completionHandler);
-        } else if ( [predicate isEqualToString:CWAPIPredicateBlog] ) {
-            self.blogBlock(request, response, completionHandler);
-        } else {
-            [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
-            completionHandler();
-        }
-    };
+    // Default route
+    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
+        completionHandler();
+    } forPath:@"/"];
+
+    // Login
+    [self addBlock:self.authenticateBlock forPath:CWAPILoginPath HTTPMethod:CRHTTPMethodPost];
+
+    // Logout
+    [self addBlock:self.deauthenticateBlock forPath:CWAPILogoutPath HTTPMethod:CRHTTPMethodGet];
+
+    // Currently authneticated user
+    [self addBlock:self.meBlock forPath:CWAPIMePath HTTPMethod:CRHTTPMethodGet];
+
+    // Simple stack trace
+    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
+        completionHandler();
+    } forPath:CWAPITracePath HTTPMethod:CRHTTPMethodGet];
+
+    // Info
+    [self addBlock:self.infoBlock forPath:CWAPIInfoPath HTTPMethod:CRHTTPMethodGet];
+
+    // Blog
+    [self addBlock:self.blogBlock forPath:CWAPIBlogPath];
 }
 
 #pragma mark - Authentication
