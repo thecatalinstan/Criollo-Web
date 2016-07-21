@@ -22,6 +22,7 @@
 #import "CWBlogPost.h"
 #import "CWAppDelegate.h"
 #import "CWBlog.h"
+#import "CWBlogAPIController.h"
 #import "NSString+URLUtils.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,11 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) dispatch_queue_t isolationQueue;
 
-- (CRRouteBlock)authenticateBlock;
-- (CRRouteBlock)deauthenticateBlock;
-
-- (void)succeedWithPayload:(id _Nullable)payload request:(CRRequest *)request response:(CRResponse *)response;
-- (void)failWithError:(NSError * _Nullable)error request:(CRRequest *)request response:(CRResponse *)response;
+- (void)setupRoutes;
 
 @end
 
@@ -42,7 +39,7 @@ NS_ASSUME_NONNULL_END
 
 @implementation CWAPIController
 
-+ (CWAPIController *)sharedController {
++ (instancetype)sharedController {
     static CWAPIController* sharedController;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -63,20 +60,18 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - API Response Wrappers
 
-- (void)succeedWithPayload:(id)payload request:(CRRequest *)request response:(CRResponse *)response {
++ (void)succeedWithPayload:(id)payload request:(CRRequest *)request response:(CRResponse *)response {
     CWAPIResponse * apiResponse = [CWAPIResponse successResponseWithData:payload];
     NSData * jsonData = [apiResponse toJSONData];
 
-    [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
     [response setValue:[NSString stringWithFormat:@"%lu", (unsigned long)jsonData.length] forHTTPHeaderField:@"Content-length"];
     [response sendData:jsonData];
 }
 
-- (void)failWithError:(NSError*)error request:(CRRequest *)request response:(CRResponse *)response {
++ (void)failWithError:(NSError*)error request:(CRRequest *)request response:(CRResponse *)response {
     CWAPIResponse * apiResponse = [CWAPIResponse failureResponseWithError:error];
     NSData * jsonData = [apiResponse toJSONData];
 
-    [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
     [response setValue:[NSString stringWithFormat:@"%lu", (unsigned long)jsonData.length] forHTTPHeaderField:@"Content-length"];
     [response sendData:jsonData];
 }
@@ -90,11 +85,11 @@ NS_ASSUME_NONNULL_END
         completionHandler();
     }];
 
-    // Default route
-    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
-        completionHandler();
-    } forPath:@"/"];
+//    // Default route
+//    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+//        [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
+//        completionHandler();
+//    } forPath:@"/"];
 
     // Login
     [self addBlock:self.authenticateBlock forPath:CWAPILoginPath HTTPMethod:CRHTTPMethodPost];
@@ -115,7 +110,7 @@ NS_ASSUME_NONNULL_END
     [self addBlock:self.infoBlock forPath:CWAPIInfoPath HTTPMethod:CRHTTPMethodGet];
 
     // Blog
-    [self addBlock:self.blogBlock forPath:CWAPIBlogPath];
+    [self addBlock:[CWBlogAPIController sharedController].routeBlock forPath:CWAPIBlogPath HTTPMethod:CRHTTPMethodAll recursive:YES];
 }
 
 #pragma mark - Authentication
@@ -195,81 +190,6 @@ NS_ASSUME_NONNULL_END
         payload[@"memoryInfo"] = [CSSystemInfoHelper sharedHelper].memoryUsageString ? : @"";
         [response sendData:[CWAPIResponse successResponseWithData:payload].toJSONData];
         completionHandler();
-    };
-}
-
-#pragma mark - Blog
-
-- (CRRouteBlock)blogBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
-        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        __block BOOL shouldFail = NO;
-        __block NSUInteger responseStatus = 500;
-        __block NSError* error;
-
-        if ( [payload isEqualToString:@"posts"]) {
-            switch(request.method) {
-                case CRHTTPMethodDelete: {
-                    shouldFail = YES;
-                    error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
-                }
-                    break;
-                case CRHTTPMethodPost:
-                case CRHTTPMethodPut: {
-                    __block CWBlogPost* post;
-                    __block CWAPIBlogPost* responsePost;
-                    if ( !currentUser ) {
-                        shouldFail = YES;
-                        responseStatus = 401;
-                    } else {
-                        CWAPIBlogPost* apiPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
-                        if ( error ) {
-                            shouldFail = YES;
-                        } else {
-                            error = nil;
-                            NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:apiPost.content error:&error];
-                            if ( error ) {
-                                shouldFail = YES;
-                            } else {
-                                [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-                                    post = [CWBlogPost blogPostFromAPIBlogPost:apiPost];
-                                    post.renderedContent = renderedContent;
-                                    post.date = [NSDate date];
-                                    post.handle = post.title.URLFriendlyHandle;
-
-                                    error = nil;
-                                    CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:currentUser.username error:&error];
-                                    if ( error ) {
-                                        shouldFail = YES;
-                                    } else {
-                                        post.author = author;
-                                        error = nil;
-                                        [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
-                                        if ( error ) {
-                                            shouldFail = YES;
-                                        } else {
-                                            responsePost = post.APIBlogPost;
-                                        }
-                                    }
-                                }];
-                            }
-                        }
-                    }
-
-                    if ( shouldFail ) {
-                        [response setStatusCode:responseStatus description:nil];
-                        [response sendData:[CWAPIResponse failureResponseWithError:error].toJSONData];
-                    } else {
-                        [response sendData:[CWAPIResponse successResponseWithData:responsePost].toJSONData];
-                    }
-                    completionHandler();
-                }
-                    break;
-                default:
-                    break;
-            }
-        }
     };
 }
 
