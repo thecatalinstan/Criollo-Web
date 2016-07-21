@@ -75,11 +75,11 @@ NS_ASSUME_NONNULL_END
     [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError * error = nil;
         NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:nil error:&error];
-        NSMutableArray<CWAPIBlogPost *> * results = [NSMutableArray arrayWithCapacity:posts.count];
+        NSMutableArray<NSDictionary *> * results = [NSMutableArray arrayWithCapacity:posts.count];
         [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
             [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
                 CWAPIBlogPost * apiPost = post.APIBlogPost;
-                [results addObject:apiPost];
+                [results addObject:apiPost.toDictionary];
             }];
         }];
         [CWAPIController succeedWithPayload:results request:request response:response];
