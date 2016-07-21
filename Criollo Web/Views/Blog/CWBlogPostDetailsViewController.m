@@ -29,12 +29,12 @@
     return self.post == nil || self.post.objectID.isTemporaryID;
 }
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil prefix:(NSString * _Nullable)prefix {
     return [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil post:nil];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil post:(CWBlogPost *)post {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil prefix:nil];
     if ( self != nil ) {
         self.post = post;
     }
@@ -50,17 +50,17 @@
         isNewPost = self.isNewPost;
     }];
 
-    self.templateVariables[@"id"] = isNewPost ? @"": post.uid;
-    self.templateVariables[@"title"] = post.title ? : @"";
-    self.templateVariables[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], post.publicPath] ? : @"";
-    self.templateVariables[@"author"] = post.author.displayName ? : @"";
+    self.vars[@"id"] = isNewPost ? @"": post.uid;
+    self.vars[@"title"] = post.title ? : @"";
+    self.vars[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], post.publicPath] ? : @"";
+    self.vars[@"author"] = post.author.displayName ? : @"";
     if (post.date) {
-        self.templateVariables[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:post.date], [CWBlog formattedTime:post.date]];
+        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:post.date], [CWBlog formattedTime:post.date]];
     } else {
-        self.templateVariables[@"date"] = @"";
+        self.vars[@"date"] = @"";
     }
-    self.templateVariables[@"content"] = post.renderedContent? : @"";
-    self.templateVariables[@"editable"] = isNewPost ? @" contenteditable=\"true\"" : @"";
+    self.vars[@"content"] = post.renderedContent? : @"";
+    self.vars[@"editable"] = isNewPost ? @" contenteditable=\"true\"" : @"";
 
     return [super presentViewControllerWithRequest:request response:response];
 }

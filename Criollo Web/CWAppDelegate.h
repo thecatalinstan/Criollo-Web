@@ -10,10 +10,9 @@
 
 #define CWGitHubURL             @"https://github.com/thecatalinstan/Criollo"
 #define CWWebGitHubURL          @"https://github.com/thecatalinstan/Criollo-Web"
-#define CWSubscribePath         @"/subscribe"
 #define CWSessionCookie         @"cwsession"
 #define CWStaticDirPath         @"/static"
-#define CWCriolloVersion        @"0.1.14"
+#define CWCriolloVersion        @"0.2.0"
 
 @class CWBlog;
 

@@ -86,13 +86,13 @@ NS_ASSUME_NONNULL_END
     }];
 
     // Homepage
-    [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
+    [self.server addViewController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
     // Blog
-    [self.server addController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath HTTPMethod:CRHTTPMethodAll recursive:YES];
+    [self.server addViewController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath HTTPMethod:CRHTTPMethodAll recursive:YES];
 
     // Login page
-    [self.server addController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:@"/login"];
+    [self.server addViewController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:@"/login"];
 
     // robot.txt
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {

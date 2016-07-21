@@ -147,8 +147,8 @@
         }
     }
 
-    self.templateVariables[@"posts"] = contents;
-    self.templateVariables[@"sidebar"] = @"";
+    self.vars[@"posts"] = contents;
+    self.vars[@"sidebar"] = @"";
 
     return [super presentViewControllerWithRequest:request response:response];
 }

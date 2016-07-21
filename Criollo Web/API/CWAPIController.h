@@ -22,8 +22,6 @@
 #define CWAPIUsernameKey            @"username"
 #define CWAPIPasswordKey            @"password"
 
-@class CWUser;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAPIController : NSObject

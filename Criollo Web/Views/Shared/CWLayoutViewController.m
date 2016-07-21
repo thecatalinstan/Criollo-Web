@@ -23,19 +23,19 @@ static NSString * imagePath;
 
     NSString* productTitle = @"Criollo";
 
-    self.templateVariables[@"title"] = [productTitle stringByAppendingString:@" - web application framework for OS X and iOS"];
-    self.templateVariables[@"meta-description"] = @"Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with.";
-    self.templateVariables[@"meta-keywords"] = @"criollo, objective-c, swift, web, framework, HTTP, FCGI, FastCGI, server";
-    self.templateVariables[@"github-url"] = CWGitHubURL;
-    self.templateVariables[@"criollo-web-github-url"] = CWWebGitHubURL;
+    self.vars[@"title"] = [productTitle stringByAppendingString:@" - web application framework for OS X and iOS"];
+    self.vars[@"meta-description"] = @"Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with.";
+    self.vars[@"meta-keywords"] = @"criollo, objective-c, swift, web, framework, HTTP, FCGI, FastCGI, server";
+    self.vars[@"github-url"] = CWGitHubURL;
+    self.vars[@"criollo-web-github-url"] = CWWebGitHubURL;
     if (!imagePath) {
         imagePath = [NSString stringWithFormat:@"%@static/criollo-icon-square-padded.png", request.URL];
     }
-    self.templateVariables[@"static-dir"] = CWStaticDirPath;
-    self.templateVariables[@"image"] = imagePath;
-    self.templateVariables[@"criollo-ver"] = [CWAppDelegate criolloVersion];
-    self.templateVariables[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
-    self.templateVariables[@"etag"] = [CWAppDelegate ETag];
+    self.vars[@"static-dir"] = CWStaticDirPath;
+    self.vars[@"image"] = imagePath;
+    self.vars[@"criollo-ver"] = [CWAppDelegate criolloVersion];
+    self.vars[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
+    self.vars[@"etag"] = [CWAppDelegate ETag];
 
     return [super presentViewControllerWithRequest:request response:response];
 
