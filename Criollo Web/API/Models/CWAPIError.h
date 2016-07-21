@@ -12,6 +12,8 @@
 
 #define CWAPIErrorNotImplemented            1000
 #define CWAPIErrorLoginFailed               1001
+#define CWAPIErrorUnauthorized              1002
+#define CWAPIErrorForbidden                 1003
 
 @class CWAPIError;
 

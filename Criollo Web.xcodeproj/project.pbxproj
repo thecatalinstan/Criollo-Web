@@ -32,6 +32,7 @@
 		AD5133681D41227A00283B67 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5133631D41227A00283B67 /* CWUser.m */; };
 		AD51336D1D4122AD00283B67 /* CWAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AD51336A1D4122AD00283B67 /* CWAPIError.m */; };
 		AD51336E1D4122AD00283B67 /* CWAPIResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = AD51336C1D4122AD00283B67 /* CWAPIResponse.m */; };
+		AD5133711D41248900283B67 /* CWBlogAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5133701D41248900283B67 /* CWBlogAPIController.m */; };
 		AD5200601D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD52005E1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m */; };
 		AD5200611D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD52005F1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug */; };
 		AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5F021F1CE0936000D810B6 /* CWLayoutViewController.m */; };
@@ -164,6 +165,8 @@
 		AD51336A1D4122AD00283B67 /* CWAPIError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPIError.m; sourceTree = "<group>"; };
 		AD51336B1D4122AD00283B67 /* CWAPIResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPIResponse.h; sourceTree = "<group>"; };
 		AD51336C1D4122AD00283B67 /* CWAPIResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPIResponse.m; sourceTree = "<group>"; };
+		AD51336F1D41248900283B67 /* CWBlogAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogAPIController.h; sourceTree = "<group>"; };
+		AD5133701D41248900283B67 /* CWBlogAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogAPIController.m; sourceTree = "<group>"; };
 		AD52005D1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogPostDetailsViewController.h; path = Blog/CWBlogPostDetailsViewController.h; sourceTree = "<group>"; };
 		AD52005E1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWBlogPostDetailsViewController.m; path = Blog/CWBlogPostDetailsViewController.m; sourceTree = "<group>"; };
 		AD52005F1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CWBlogPostDetailsViewController.pug; path = Blog/CWBlogPostDetailsViewController.pug; sourceTree = "<group>"; };
@@ -354,6 +357,8 @@
 				AD5133591D41227A00283B67 /* Models */,
 				AD6113CA1D251C39005B8208 /* CWAPIController.h */,
 				AD6113CB1D251C39005B8208 /* CWAPIController.m */,
+				AD51336F1D41248900283B67 /* CWBlogAPIController.h */,
+				AD5133701D41248900283B67 /* CWBlogAPIController.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -666,6 +671,7 @@
 				AD41F03C1CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m in Sources */,
 				AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */,
 				AD41F03E1CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m in Sources */,
+				AD5133711D41248900283B67 /* CWBlogAPIController.m in Sources */,
 				AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
 				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,
