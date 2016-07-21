@@ -75,11 +75,11 @@ NS_ASSUME_NONNULL_END
         completionHandler();
     }];
 
-//    // Default route
-//    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-//        [response sendData:[CWAPIResponse successResponseWithData:request.cookies[CWUserCookie]].toJSONData];
-//        completionHandler();
-//    } forPath:@"/"];
+    // Default route
+    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [CWAPIController succeedWithPayload:request.cookies[CWUserCookie] request:request response:response];
+        completionHandler();
+    } forPath:@"/"];
 
     // Login
     [self addBlock:self.authenticateBlock forPath:CWAPILoginPath HTTPMethod:CRHTTPMethodPost];
@@ -108,7 +108,6 @@ NS_ASSUME_NONNULL_END
 - (CRRouteBlock)authenticateBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWUser * user;
-        CWAPIResponse * apiResponse;
 
         NSDictionary<NSString *, NSString *>* credentials = (NSDictionary *)request.body;
         if ( credentials ) {
@@ -117,32 +116,29 @@ NS_ASSUME_NONNULL_END
 
         if ( !user ) {
             [response setStatusCode:401 description:nil];
-            [response setCookie:CWUserCookie value:@"" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
-            apiResponse = [CWAPIResponse failureResponseWithError:[NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorLoginFailed userInfo:@{NSLocalizedDescriptionKey: @"Invalid username or password"}]];
+            [response setCookie:CWUserCookie value:@"deleted" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
+            [CWAPIController failWithError:[NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorLoginFailed userInfo:@{NSLocalizedDescriptionKey: @"Invalid username or password"}] request:request response:response];
         } else {
             [response setStatusCode:200 description:nil];
 
-            NSMutableDictionary* payload = user.toDictionary.mutableCopy;
-            [payload removeObjectForKey:@"password"];
-            apiResponse = [CWAPIResponse successResponseWithData:payload];
-
             NSString *token = [CWUser authenticationTokenForUser:user];
             [response setCookie:CWUserCookie value:token path:@"/" expires:nil domain:nil secure:NO];
+
+            NSMutableDictionary* payload = user.toDictionary.mutableCopy;
+            [payload removeObjectForKey:@"password"];
+
+            [CWAPIController succeedWithPayload:payload request:request response:response];
         }
 
-        NSData * responseData = apiResponse.toJSONData;
-        [response setValue:@(responseData.length).stringValue forHTTPHeaderField:@"Content-Length"];
-        [response sendData:responseData];
+        completionHandler();
     };
 }
 
 - (CRRouteBlock)deauthenticateBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        CWAPIResponse * apiResponse = [CWAPIResponse successResponseWithData:nil];
-        NSData * responseData = apiResponse.toJSONData;
         [response setCookie:CWUserCookie value:@"deleted" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
-        [response setValue:@(responseData.length).stringValue forHTTPHeaderField:@"Content-Length"];
-        [response sendData:responseData];
+        [CWAPIController succeedWithPayload:nil request:request response:response];
+        completionHandler();
     };
 }
 
@@ -151,16 +147,15 @@ NS_ASSUME_NONNULL_END
 - (CRRouteBlock)meBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        CWAPIResponse * apiResponse;
         if ( currentUser ) {
             NSMutableDictionary* payload = currentUser.toDictionary.mutableCopy;
             [payload removeObjectForKey:@"password"];
-            apiResponse = [CWAPIResponse successResponseWithData:payload];
+            [CWAPIController succeedWithPayload:payload request:request response:response];
         } else {
             [response setStatusCode:401 description:nil];
-            apiResponse = [CWAPIResponse failureResponseWithError:nil];
+            NSError* error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorUnauthorized userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"You are not authorized.",)}];
+            [CWAPIController failWithError:error request:request response:response];
         }
-        [response sendData:apiResponse.toJSONData];
         completionHandler();
     };
 }
@@ -170,15 +165,13 @@ NS_ASSUME_NONNULL_END
 - (CRRouteBlock)infoBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSMutableDictionary* payload = [NSMutableDictionary dictionary];
-
         payload[@"processName"] = [CWAppDelegate processName];
         payload[@"processVersion"] = [CWAppDelegate bundleVersion];
         payload[@"runningTime"] = [CWAppDelegate processRunningTime];
         payload[@"unameSystemVersion"] = [CSSystemInfoHelper sharedHelper].systemVersionString;
         payload[@"requestsServed"] = [CWAppDelegate requestsServed];
-
         payload[@"memoryInfo"] = [CSSystemInfoHelper sharedHelper].memoryUsageString ? : @"";
-        [response sendData:[CWAPIResponse successResponseWithData:payload].toJSONData];
+        [CWAPIController succeedWithPayload:payload request:request response:response];
         completionHandler();
     };
 }
