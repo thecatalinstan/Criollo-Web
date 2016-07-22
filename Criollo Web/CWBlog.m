@@ -57,7 +57,8 @@ NS_ASSUME_NONNULL_END
     return self;
 }
 
-- (void)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
+- (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
+    __block BOOL result = YES;
     [self.managedObjectContext performBlockAndWait:^{
         [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
 
@@ -65,6 +66,7 @@ NS_ASSUME_NONNULL_END
             CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key error:error];
             if ( *error ) {
                 *stop = YES;
+                result = NO;
                 return;
             }
 
@@ -78,16 +80,20 @@ NS_ASSUME_NONNULL_END
         }];
         
         *error = nil;
-        [self saveManagedObjectContext:error];
+        result = [self saveManagedObjectContext:error];
     }];
+    return result;
 }
 
 - (BOOL)saveManagedObjectContext:(NSError * _Nullable __autoreleasing *)error {
     BOOL result = YES;
 
     if (self.managedObjectContext.hasChanges) {
-        *error = nil;
-        result = [self.managedObjectContext save:error];
+        NSError* mocSaveError;
+        result = [self.managedObjectContext save:&mocSaveError];
+        if ( !result ) {
+            *error = mocSaveError;
+        }
     }
 
     return result;
