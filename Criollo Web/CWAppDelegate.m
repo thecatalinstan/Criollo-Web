@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_END
     [self.server addViewController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath HTTPMethod:CRHTTPMethodAll recursive:YES];
 
     // Login page
-    [self.server addViewController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:@"/login"];
+    [self.server addViewController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:CWLoginPath];
 
     // robot.txt
     [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {

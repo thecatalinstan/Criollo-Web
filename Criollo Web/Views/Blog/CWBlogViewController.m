@@ -17,13 +17,40 @@
 
 #define CWBlogNewPostPathPattern    @"^/blog/[0-9]{4}/[0-9]{1,2}/[a-zA-Z-]+"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CWBlogViewController ()
 
-- (NSRegularExpression *)blogPathRegularExpression;
+@property (nonatomic, strong, readonly) NSRegularExpression * blogPathRegularExpression;
+
+@property (nonatomic, strong, readonly) NSMutableString* contents;
+@property (nonatomic, strong) NSPredicate* fetchPredicate;
+
+@property (nonatomic, strong, readonly) CRRouteBlock authCheckBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock payloadCheckBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock archiveBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock tagBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock authorBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock newPostBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock singlePostBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock enumeratePostsBlock;
+
+- (void)setupRoutes;
 
 @end
 
+NS_ASSUME_NONNULL_END
+
 @implementation CWBlogViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil prefix:(NSString *)prefix {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil prefix:prefix];
+    if ( self != nil ) {
+        _contents = [[NSMutableString alloc] init];
+        [self setupRoutes];
+    }
+    return self;
+}
 
 - (NSRegularExpression *)blogPathRegularExpression {
     static NSRegularExpression *blogPostRegex;
@@ -38,116 +65,171 @@
     return blogPostRegex;
 }
 
-- (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
+#pragma mark - Routing
 
-    NSMutableString* contents = [NSMutableString string];
+- (void)setupRoutes {
+    // New post
+    [self addBlock:self.authCheckBlock forPath:CWBlogNewPostPath];
+    [self addBlock:self.newPostBlock forPath:CWBlogNewPostPath];
 
-    // Check for the path to a post
-    if ( [self.blogPathRegularExpression numberOfMatchesInString:request.URL.path options:0 range:NSMakeRange(0, request.URL.path.length)] ) {
+    // Author
+    [self addBlock:self.payloadCheckBlock forPath:CWBlogAuthorPath];
+    [self addBlock:self.authorBlock forPath:CWBlogAuthorPath];
+    [self addBlock:self.enumeratePostsBlock forPath:CWBlogAuthorPath];
 
+    // Tag
+    [self addBlock:self.payloadCheckBlock forPath:CWBlogTagPath];
+    [self addBlock:self.tagBlock forPath:CWBlogTagPath];
+    [self addBlock:self.enumeratePostsBlock forPath:CWBlogTagPath];
+
+    // Archive
+    [self addBlock:self.archiveBlock forPath:CWBlogArchivePath];
+    [self addBlock:self.enumeratePostsBlock forPath:CWBlogArchivePath];
+}
+
+#pragma mark - Route Handlers
+
+- (CRRouteBlock)authCheckBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+        if ( !currentUser ) {
+            NSString* redirectLocation = [NSString stringWithFormat:@"%@?redirect=%@", CWLoginPath, [request.URL.absoluteURL.absoluteString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+            [response redirectToLocation:redirectLocation];
+            return;
+        }
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)payloadCheckBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
+        if ( payload.length == 0 ) {
+            [response redirectToLocation:CWBlogPath];
+            return;
+        }
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)archiveBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+
+        // Get the month and year from the path
+        NSUInteger year = request.URL.pathComponents.count >= 4 ? request.URL.pathComponents[3].integerValue : 0;
+        if ( year == 0 ) {
+            completionHandler();
+            return;
+        }
+
+        NSUInteger month = request.URL.pathComponents.count >= 5 ? request.URL.pathComponents[4].integerValue : 0;
+        if ( month == 0 || month > 12 ) {
+            month = 0;
+        }
+
+        NSUInteger startYear, endYear, startMonth, endMonth;
+        startYear = year;
+        if ( month == 0 ) {
+            startMonth = 1;
+            endYear = ++year;
+            endMonth = 1;
+        } else {
+            startMonth = month;
+            if ( month == 12 ) {
+                endMonth = 1;
+                endYear = ++year;
+            } else {
+                endMonth = ++month;
+                endYear = year;
+            }
+        }
+
+        // Build a predicate
+        NSDate* startDate = [[NSCalendar currentCalendar] dateWithEra:1 year:startYear month:startMonth day:1 hour:0 minute:0 second:0 nanosecond:0];
+        NSDate* endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", startDate, endDate];
+        
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)tagBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* tag = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"tag.name = %@", tag];
+    };
+}
+
+- (CRRouteBlock)authorBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* author = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.user = %@", author];
+    };
+}
+
+- (CRRouteBlock)newPostBlock {
+    return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        CWBlogPostDetailsViewController* newPostViewController = [[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil];
+        NSString* responseString = [newPostViewController presentViewControllerWithRequest:request response:response];
+        [self.contents appendString:responseString];
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)singlePostBlock {
+    return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSUInteger year = request.URL.pathComponents[2].integerValue;
         NSUInteger month = request.URL.pathComponents[3].integerValue;
         NSString* handle = request.URL.pathComponents[4].lowercaseString.stringByRemovingPercentEncoding;
         CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
         if (post == nil) {
-            [contents appendString:@"Not Found :("];
+            self.notFoundBlock(request, response, completionHandler);
         } else {
-            [contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
+            [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
         }
+    };
+}
 
-    } else {
-        NSString* predicate = request.URL.pathComponents.count > 2 ? request.URL.pathComponents[2] : @"";
-
-        // New post
-        if ( [predicate isEqualToString:CWBlogNewPostPredicate] ) {
+- (CRRouteBlock)enumeratePostsBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSError * error = nil;
+        NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:self.fetchPredicate error:&error];
+        if (posts.count > 0) {
+            [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
+                CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
+                [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
+            }];
+        } else {
+            [self.contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
+            // Check if there is a user and link to "add post"
             CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-            if ( currentUser ) {
-                [contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response]];
-            } else {
-                [response setStatusCode:301 description:nil];
-                [response setValue:CWBlogPath forHTTPHeaderField:@"Location"];
-                return nil;
-            }
-        } else {
-            // All the other oredicates require a payload, so redirect if we don't have one
-            NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
-            if ( payload.length == 0 && ([predicate isEqualToString:CWBlogTagPredicate] || [predicate isEqualToString:CWBlogAuthorPredicate]) ) {
-                [response setStatusCode:301 description:nil];
-                [response setValue:CWBlogPath forHTTPHeaderField:@"Location"];
-                return nil;
+            if ( !currentUser ) {
+                completionHandler();
+                return;
             }
 
-            NSPredicate *fetchPredicate = nil;
-
-            if ( [predicate isEqualToString:CWBlogArchivePredicate] ) {
-                // Get the month and year from the path
-                NSUInteger year = request.URL.pathComponents.count >= 4 ? request.URL.pathComponents[3].integerValue : 0;
-
-                if ( year > 0 ) {
-                    NSUInteger month = request.URL.pathComponents.count >= 5 ? request.URL.pathComponents[4].integerValue : 0;
-                    if ( month == 0 || month > 12 ) {
-                        month = 0;
-                    }
-
-                    NSUInteger startYear, endYear, startMonth, endMonth;
-                    startYear = year;
-                    if ( month == 0 ) {
-                        startMonth = 1;
-                        endYear = ++year;
-                        endMonth = 1;
-                    } else {
-                        startMonth = month;
-                        if ( month == 12 ) {
-                            endMonth = 1;
-                            endYear = ++year;
-                        } else {
-                            endMonth = ++month;
-                            endYear = year;
-                        }
-                    }
-
-                    // Build a predicate
-                    NSDate* startDate = [[NSCalendar currentCalendar] dateWithEra:1 year:startYear month:startMonth day:1 hour:0 minute:0 second:0 nanosecond:0];
-                    NSDate* endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
-                    fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", startDate, endDate];
+            [self.contents appendFormat:@"<p><a href=\"%@/new\">Add a new post</a>", CWBlogPath];
+            if ( error.localizedDescription ) {
+                [self.contents appendFormat:@"<h3>%@</h3>", error.localizedDescription];
+                if ( error.userInfo ) {
+                    [self.contents appendFormat:@"<pre>%@</pre>", error.userInfo];
                 }
-            } else if ( [predicate isEqualToString:CWBlogTagPredicate]) {
-                NSString* tag = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-                fetchPredicate = [NSPredicate predicateWithFormat:@"tag.name = %@", tag];
-//            } else if ( [predicate isEqualToString:CWBlogCategoryPredicate] ) {
-//                NSString* category = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-//                fetchPredicate = [NSPredicate predicateWithFormat:@"category.name = %@", category];
-            } else if ( [predicate isEqualToString:CWBlogAuthorPredicate] ) {
-                NSString* author = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-                fetchPredicate = [NSPredicate predicateWithFormat:@"author.user = %@", author];
-            }
-
-            NSError * error = nil;
-            NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:fetchPredicate error:&error];
-            if (posts.count == 0) {
-                [contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
-                // Check if there is a user and link to "add post"
-                CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-                if ( currentUser ) {
-                    [contents appendFormat:@"<p><a href=\"%@/new\">Add a new post</a>", CWBlogPath];
-                    if ( error.localizedDescription ) {
-                        [contents appendFormat:@"<h3>%@</h3>", error.localizedDescription];
-                        if ( error.userInfo ) {
-                            [contents appendFormat:@"<pre>%@</pre>", error.userInfo];
-                        }
-                    }
-                }
-    
-            } else {
-                [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
-                    CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
-                    [contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
-                }];
             }
         }
+        completionHandler();
+    };
+}
+
+- (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
+
+    // Check for the path to a post
+    if ( [self.blogPathRegularExpression numberOfMatchesInString:request.URL.path options:0 range:NSMakeRange(0, request.URL.path.length)] ) {
+        self.singlePostBlock(request, response, ^{});
+    } else {
+        self.enumeratePostsBlock(request, response, ^{});
     }
 
-    self.vars[@"posts"] = contents;
+    self.vars[@"posts"] = self.contents;
     self.vars[@"sidebar"] = @"";
 
     return [super presentViewControllerWithRequest:request response:response];

@@ -15,7 +15,7 @@
 @implementation CWBlogAuthor
 
 - (NSString *)publicPath {
-    return [NSString stringWithFormat:@"%@/%@/%@", CWBlogPath, CWBlogAuthorPredicate, self.user];
+    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogAuthorPath, self.user];
 }
 
 - (CWAPIBlogAuthor *)APIBlogAuthor {

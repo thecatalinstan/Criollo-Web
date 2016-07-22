@@ -9,15 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#define CWBlogErrorDomain   @"CWBlogErrorDomain"
-#define CWBlogError         101
+#define CWBlogErrorDomain           @"CWBlogErrorDomain"
+#define CWBlogError                 101
 
 #define CWBlogPath                  @"/blog"
-#define CWBlogNewPostPredicate      @"new"
-#define CWBlogArchivePredicate      @"archive"
-#define CWBlogTagPredicate          @"tag"
-#define CWBlogCategoryPredicate     @"category"
-#define CWBlogAuthorPredicate       @"author"
+#define CWBlogNewPostPath           @"/new"
+#define CWBlogArchivePath           @"/archive"
+#define CWBlogTagPath               @"/tag"
+#define CWBlogAuthorPath            @"/author"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error;
 - (BOOL)saveManagedObjectContext:(NSError * __autoreleasing *)error;
-- (void)importUsersFromDefaults:(NSError * __autoreleasing *)error;
+- (BOOL)importUsersFromDefaults:(NSError * __autoreleasing *)error;
 
 + (NSString *)formattedDate:(NSDate *)date;
 + (NSString *)formattedTime:(NSDate *)date;
