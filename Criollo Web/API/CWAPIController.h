@@ -6,17 +6,16 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <Criollo/Criollo.h>
 
 #define CWAPIPath                   @"/api"
 
-#define CWAPIPredicateLogin         @"login"
-#define CWAPIPredicateLogout        @"logout"
-#define CWAPIPredicateMe            @"me"
-#define CWAPIPredicateTrace         @"trace"
-#define CWAPIPredicateInfo          @"info"
-#define CWAPIPredicateBlog          @"blog"
+#define CWAPILoginPath              @"/login"
+#define CWAPILogoutPath             @"/logout"
+#define CWAPIMePath       		 	@"/me"
+#define CWAPITracePath              @"/trace"
+#define CWAPIInfoPath               @"/info"
+#define CWAPIBlogPath               @"/blog"
 
 #define CWUserCookie                @"cwuser"
 #define CWAPIUsernameKey            @"username"
@@ -24,10 +23,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CWAPIController : NSObject
+@interface CWAPIController : CRRouteController
 
-+ (CWAPIController *)sharedController;
-- (CRRouteBlock)routeBlock;
++ (instancetype)sharedController;
+
++ (void)succeedWithPayload:(id _Nullable)payload request:(CRRequest *)request response:(CRResponse *)response;
++ (void)failWithError:(NSError * _Nullable)error request:(CRRequest *)request response:(CRResponse *)response;
 
 @end
 

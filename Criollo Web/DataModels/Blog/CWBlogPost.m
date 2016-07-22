@@ -39,6 +39,7 @@
     apiBlogPost.content = self.content;
     apiBlogPost.renderedContent = self.renderedContent;
     apiBlogPost.author = self.author.APIBlogAuthor;
+    apiBlogPost.handle = self.handle;
 
     NSMutableSet* tags = [NSMutableSet set];
     [self.tags enumerateObjectsUsingBlock:^(CWBlogTag * _Nonnull obj, BOOL * _Nonnull stop) {

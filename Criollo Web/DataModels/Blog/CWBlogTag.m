@@ -14,7 +14,7 @@
 @implementation CWBlogTag
 
 - (NSString *)publicPath {
-    return [NSString stringWithFormat:@"%@/%@/%@", CWBlogPath, CWBlogTagPredicate, self.name];
+    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogTagPath, self.name];
 }
 
 - (CWAPIBlogTag *)APIBlogTag {
