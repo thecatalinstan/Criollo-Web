@@ -187,6 +187,20 @@ NS_ASSUME_NONNULL_END
         } else {
             [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
         }
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)defaultBlock {
+    return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+
+        NSString* output = [self presentViewControllerWithRequest:request response:response];
+        if ( self.shouldFinishResponse ) {
+            [response sendString:output];
+        } else {
+            [response writeString:output];
+        }
     };
 }
 
