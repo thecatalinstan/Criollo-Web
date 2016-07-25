@@ -82,14 +82,11 @@
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
 
-    __block CWBlogPost * post;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        NSError *error = nil;
-        NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-        if (fetchedObjects.count > 0) {
-            post = fetchedObjects.firstObject;
-        }
-    }];
+    CWBlogPost * post;
+    NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    if (fetchedObjects.count > 0) {
+        post = fetchedObjects.firstObject;
+    }
     return post;
 }
 
@@ -107,11 +104,7 @@
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
 
-    __block NSArray<CWBlogPost *> * posts;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        posts = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:error];
-    }];
-
+    NSArray<CWBlogPost *> * posts = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:error];
     return posts;
 }
 
@@ -144,7 +137,7 @@
     newPost.renderedContent = post.renderedContent;
 
     if ( post.author ) {
-        CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:post.author.user error:nil];
+        CWBlogAuthor* author = [CWBlogAuthor authorWithUsername:post.author.user];
         if ( !author ) {
             author = [CWBlogAuthor blogAuthorFromAPIBlogAuthor:post.author];
         }
@@ -153,7 +146,7 @@
 
     NSMutableSet* tags = [NSMutableSet set];
     [post.tags enumerateObjectsUsingBlock:^(CWAPIBlogTag * _Nonnull obj, BOOL * _Nonnull stop) {
-        CWBlogTag* tag = [CWBlogTag fetchTagForName:obj.name error:nil];
+        CWBlogTag* tag = [CWBlogTag tagWithHandle:obj.handle];
         if ( !tag ) {
             tag = [CWBlogTag blogTagFromAPIBlogTag:obj];
         }

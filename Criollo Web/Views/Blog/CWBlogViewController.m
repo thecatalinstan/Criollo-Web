@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* authorHandle = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.user = %@", authorHandle];
-        CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:authorHandle error:nil];
+        CWBlogAuthor* author = [CWBlogAuthor authorWithHandle:authorHandle];
         if ( author ) {
             self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
         }

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CWBlogTag (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *name;
+@property (nullable, nonatomic, retain) NSString *handle;
 @property (nullable, nonatomic, retain) NSSet<NSManagedObject *> *posts;
 
 @end

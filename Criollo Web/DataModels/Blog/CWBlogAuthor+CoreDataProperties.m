@@ -17,5 +17,6 @@
 @dynamic displayName;
 @dynamic email;
 @dynamic posts;
+@dynamic handle;
 
 @end

@@ -15,7 +15,7 @@
 @implementation CWBlogAuthor
 
 - (NSString *)publicPath {
-    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogAuthorPath, self.user];
+    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogAuthorPath, self.handle];
 }
 
 - (CWAPIBlogAuthor *)APIBlogAuthor {
@@ -25,24 +25,8 @@
     apiBlogAuthor.displayName = self.displayName;
     apiBlogAuthor.email = self.email;
     apiBlogAuthor.user = self.user;
+    apiBlogAuthor.handle = self.handle;
     return apiBlogAuthor;
-}
-
-+ (instancetype)fetchAuthorForUsername:(NSString *)username error:(NSError * _Nullable __autoreleasing * _Nullable)error {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([CWBlogAuthor class]) inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
-    [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user=%@", username];
-    [fetchRequest setPredicate:predicate];
-
-    __block CWBlogAuthor* author;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:error];
-        if (fetchedObjects != nil) {
-            author = fetchedObjects.firstObject;
-        }
-    }];
-    return author;
 }
 
 + (instancetype)blogAuthorFromAPIBlogAuthor:(CWAPIBlogAuthor *)author {
@@ -69,7 +53,46 @@
     newAuthor.user = author.user;
     newAuthor.displayName = author.displayName;
     newAuthor.email = author.email;
+    newAuthor.handle = author.handle;
     return newAuthor;
+}
+
++ (instancetype)authorWithHandle:(NSString *)handle {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogAuthor" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    [fetchRequest setEntity:entity];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"handle = %@", handle];
+    [fetchRequest setPredicate:predicate];
+
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+
+    CWBlogAuthor * author;
+    NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    if (fetchedObjects.count > 0) {
+        author = fetchedObjects.firstObject;
+    }
+    return author;
+}
+
++ (instancetype)authorWithUsername:(NSString *)username {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogAuthor" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    [fetchRequest setEntity:entity];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user.username = %@", username];
+    [fetchRequest setPredicate:predicate];
+
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+
+    CWBlogAuthor * author;
+    NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    if (fetchedObjects.count > 0) {
+        author = fetchedObjects.firstObject;
+    }
+    return author;
 }
 
 @end

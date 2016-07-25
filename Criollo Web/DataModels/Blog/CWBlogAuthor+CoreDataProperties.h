@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *user;
 @property (nullable, nonatomic, retain) NSString *displayName;
 @property (nullable, nonatomic, retain) NSString *email;
+@property (nullable, nonatomic, retain) NSString *handle;
 @property (nullable, nonatomic, retain) NSSet<NSManagedObject *> *posts;
 
 @end

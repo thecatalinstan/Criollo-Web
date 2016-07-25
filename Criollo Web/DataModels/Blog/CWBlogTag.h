@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSString *publicPath;
 @property (nonatomic, readonly, copy) CWAPIBlogTag *APIBlogTag;
 
-+ (nullable instancetype)fetchTagForName:(NSString *)name error:(NSError * __autoreleasing *)error;
++ (nullable instancetype)tagWithHandle:(NSString *)handle;
+
 + (instancetype)blogTagFromAPIBlogTag:(CWAPIBlogTag *)tag;
 
 @end

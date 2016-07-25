@@ -128,8 +128,8 @@ NS_ASSUME_NONNULL_END
                     CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
 
                     error = nil;
-                    CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:currentUser.username error:&error];
-                    if ( error ) {
+                    CWBlogAuthor* author = [CWBlogAuthor authorWithUsername:currentUser.username];
+                    if ( author == nil ) {
                         shouldFail = YES;
                     } else {
                         post.author = author;

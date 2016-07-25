@@ -14,6 +14,7 @@
 @implementation CWBlogTag (CoreDataProperties)
 
 @dynamic name;
+@dynamic handle;
 @dynamic posts;
 
 @end

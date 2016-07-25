@@ -14,7 +14,7 @@
 @implementation CWBlogTag
 
 - (NSString *)publicPath {
-    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogTagPath, self.name];
+    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogTagPath, self.handle];
 }
 
 - (CWAPIBlogTag *)APIBlogTag {
@@ -22,23 +22,26 @@
     apiBlogTag.uid = self.objectID.URIRepresentation.absoluteString;
     apiBlogTag.publicPath = self.publicPath;    
     apiBlogTag.name = self.name;
+    apiBlogTag.handle = self.handle;
     return apiBlogTag;
 }
 
-+ (instancetype)fetchTagForName:(NSString *)name error:(NSError * _Nullable __autoreleasing *)error {
++ (instancetype)tagWithHandle:(NSString *)handle {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([CWBlogTag class]) inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogTag" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", name];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"handle = %@", handle];
     [fetchRequest setPredicate:predicate];
 
-    __block CWBlogTag* tag;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:error];
-        if (fetchedObjects != nil) {
-            tag = fetchedObjects.firstObject;
-        }
-    }];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+
+    CWBlogTag * tag;
+    NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    if (fetchedObjects.count > 0) {
+        tag = fetchedObjects.firstObject;
+    }
     return tag;
 }
 
@@ -63,6 +66,7 @@
         newTag = [[CWBlogTag alloc] initWithEntity:entity insertIntoManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
     }
     newTag.name = tag.name;
+    newTag.handle = tag.handle;
     return newTag;
 }
 

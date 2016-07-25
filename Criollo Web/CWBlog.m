@@ -11,6 +11,7 @@
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
 #import "CWUser.h"
+#import "NSString+URLUtils.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -61,9 +62,8 @@ NS_ASSUME_NONNULL_END
     __block BOOL result = YES;
     [self.managedObjectContext performBlockAndWait:^{
         [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
-
             *error = nil;
-            CWBlogAuthor *author = [CWBlogAuthor fetchAuthorForUsername:key error:error];
+            CWBlogAuthor *author = [CWBlogAuthor authorWithUsername:key];
             if ( *error ) {
                 *stop = YES;
                 result = NO;
@@ -77,6 +77,7 @@ NS_ASSUME_NONNULL_END
             author.user = user.username;
             author.email = user.email;
             author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            author.handle = author.displayName.URLFriendlyHandle;
         }];
         
         *error = nil;
