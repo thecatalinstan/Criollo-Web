@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
+@implementation CWBlogDatePair
+
+@end
+
 @implementation CWBlog
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
@@ -121,6 +125,41 @@ NS_ASSUME_NONNULL_END
         dateFormatter.timeStyle = NSDateFormatterShortStyle;
     });
     return [dateFormatter stringFromDate:date];
+}
+
++ (CWBlogArchivePeriod)parseYear:(NSUInteger)year month:(NSUInteger)month {
+    if ( year == 0 ) {
+        month = 0;
+    }
+    if ( month > 12 ) {
+        month = 0;
+    }
+    return (CWBlogArchivePeriod){ year, month };
+}
+
++ (CWBlogDatePair *)datePairWithYearMonth:(CWBlogArchivePeriod)period {
+    NSUInteger startYear, endYear, startMonth, endMonth;
+    startYear = period.year;
+    if ( period.month == 0 ) {
+        startMonth = 1;
+        endYear = ++period.year;
+        endMonth = 1;
+    } else {
+        startMonth = period.month;
+        if ( period.month == 12 ) {
+            endMonth = 1;
+            endYear = ++period.year;
+        } else {
+            endMonth = ++period.month;
+            endYear = period.year;
+        }
+    }
+
+    CWBlogDatePair *datePair = [CWBlogDatePair new];
+    datePair.startDate = [[NSCalendar currentCalendar] dateWithEra:1 year:startYear month:startMonth day:1 hour:0 minute:0 second:0 nanosecond:0];
+    datePair.endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
+
+    return datePair;
 }
 
 @end

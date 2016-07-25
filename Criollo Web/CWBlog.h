@@ -18,8 +18,21 @@
 #define CWBlogTagPath               @"/tag"
 #define CWBlogAuthorPath            @"/author"
 #define CWBlogSinglePostPath        @"/:year/:month/:handle"
+#define CWBlogEditPostPath        @"/:year/:month/:handle/edit"
+
+typedef struct {
+    NSUInteger year;
+    NSUInteger month;
+} CWBlogArchivePeriod;
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface CWBlogDatePair : NSObject
+
+@property (nonatomic, strong) NSDate *startDate;
+@property (nonatomic, strong) NSDate *endDate;
+
+@end
 
 @interface CWBlog : NSObject
 
@@ -35,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)formattedDate:(NSDate *)date;
 + (NSString *)formattedTime:(NSDate *)date;
+
++ (CWBlogArchivePeriod)parseYear:(NSUInteger)year month:(NSUInteger)month;
++ (CWBlogDatePair *)datePairWithYearMonth:(CWBlogArchivePeriod)period;
 
 @end
 
