@@ -34,9 +34,6 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"handle = %@", handle];
     [fetchRequest setPredicate:predicate];
 
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
-
     CWBlogTag * tag;
     NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:nil];
     if (fetchedObjects.count > 0) {

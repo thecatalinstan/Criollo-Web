@@ -65,9 +65,6 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"handle = %@", handle];
     [fetchRequest setPredicate:predicate];
 
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
-
     CWBlogAuthor * author;
     NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:nil];
     if (fetchedObjects.count > 0) {
@@ -81,11 +78,8 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"CWBlogAuthor" inManagedObjectContext:[CWAppDelegate sharedBlog].managedObjectContext];
     [fetchRequest setEntity:entity];
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user.username = %@", username];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"user = %@", username];
     [fetchRequest setPredicate:predicate];
-
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
 
     CWBlogAuthor * author;
     NSArray *fetchedObjects = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:nil];

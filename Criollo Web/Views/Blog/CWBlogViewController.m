@@ -58,29 +58,33 @@ NS_ASSUME_NONNULL_END
 
 - (void)setupRoutes {
     // New post
-    [self addBlock:self.authCheckBlock forPath:CWBlogNewPostPath];
-    [self addBlock:self.newPostBlock forPath:CWBlogNewPostPath];
+    [self get:CWBlogNewPostPath block:self.authCheckBlock];
+    [self get:CWBlogNewPostPath block:self.newPostBlock];
 
     // Author
-    [self addBlock:self.payloadCheckBlock forPath:CWBlogAuthorPath method:CRHTTPMethodAll recursive:YES];
-    [self addBlock:self.authorBlock forPath:CWBlogAuthorPath method:CRHTTPMethodAll recursive:YES];
-    [self addBlock:self.enumeratePostsBlock forPath:CWBlogAuthorPath method:CRHTTPMethodAll recursive:YES];
+    NSString* authorPath = [CWBlogAuthorPath stringByAppendingPathComponent:@":author"];
+    [self get:authorPath block:self.authorBlock];
+    [self get:authorPath block:self.enumeratePostsBlock];
 
     // Tag
-    [self addBlock:self.payloadCheckBlock forPath:CWBlogTagPath method:CRHTTPMethodAll recursive:YES];
-    [self addBlock:self.tagBlock forPath:CWBlogTagPath method:CRHTTPMethodAll recursive:YES];
-    [self addBlock:self.enumeratePostsBlock forPath:CWBlogTagPath method:CRHTTPMethodAll recursive:YES];
+    NSString* tagPath = [CWBlogTagPath stringByAppendingPathComponent:@":tag"];
+    [self get:tagPath block:self.tagBlock];
+    [self get:tagPath block:self.enumeratePostsBlock];
 
     // Archive
-    [self addBlock:self.payloadCheckBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
-    [self addBlock:self.archiveBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
-    [self addBlock:self.enumeratePostsBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
+    NSString* yearArchivePath = [CWBlogArchivePath stringByAppendingPathComponent:@":year"];
+    [self get:yearArchivePath block:self.archiveBlock];
+    [self get:yearArchivePath block:self.enumeratePostsBlock];
+
+    NSString* monthArchivePath = [yearArchivePath stringByAppendingPathComponent:@":month"];
+    [self get:monthArchivePath block:self.archiveBlock];
+    [self get:monthArchivePath block:self.enumeratePostsBlock];
 
     // Single post
-    [self addBlock:self.singlePostBlock forPath:CWBlogSinglePostPath];
+    [self get:CWBlogSinglePostPath block:self.singlePostBlock];
 
     // Default bblog page
-    [self addBlock:self.enumeratePostsBlock forPath:@"/"];
+    [self get:@"/" block:self.enumeratePostsBlock];
 
     // Fallback for blank contents
     [self addBlock:self.noContentsBlock];
@@ -127,13 +131,13 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
 
         // Get the month and year from the path
-        NSUInteger year = request.URL.pathComponents.count >= 4 ? request.URL.pathComponents[3].integerValue : 0;
+        NSUInteger year = request.query[@"year"].integerValue;
         if ( year == 0 ) {
             completionHandler();
             return;
         }
 
-        NSUInteger month = request.URL.pathComponents.count >= 5 ? request.URL.pathComponents[4].integerValue : 0;
+        NSUInteger month = request.query[@"month"].integerValue;
         if ( month == 0 || month > 12 ) {
             month = 0;
         }
@@ -179,9 +183,14 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)tagBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* tag = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"tag.name = %@", tag];
-        self.title = [NSString stringWithFormat:@"Post for tag %@", tag];
+        NSString* handle = request.query[@"tag"];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"tags.handle = %@", handle];
+        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+            CWBlogTag* tag = [CWBlogTag tagWithHandle:handle];
+            if ( tag ) {
+                self.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
+            }
+        }];
         completionHandler();
     };
 }
@@ -191,12 +200,14 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)authorBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* authorHandle = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.user = %@", authorHandle];
-        CWBlogAuthor* author = [CWBlogAuthor authorWithHandle:authorHandle];
-        if ( author ) {
-            self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
-        }
+        NSString* handle = request.query[@"author"];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@", handle];
+        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+            CWBlogAuthor* author = [CWBlogAuthor authorWithHandle:handle];
+            if ( author ) {
+                self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
+            }
+        }];
         completionHandler();
     };
 }
@@ -206,9 +217,7 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)newPostBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        CWBlogPostDetailsViewController* newPostViewController = [[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil];
-        NSString* responseString = [newPostViewController presentViewControllerWithRequest:request response:response];
-        [self.contents appendString:responseString];
+        [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response]];
         self.title = @"Create New Blog Post";
         completionHandler();
     };
@@ -219,17 +228,18 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)singlePostBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSUInteger year = request.query[@"0"].integerValue;
-        NSUInteger month = request.query[@"1"].integerValue;
-        NSString* handle = request.query[@"2"];
-
-        CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
-        if (post != nil) {
-            [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
-            [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-                self.title = post.title;
-            }];
-        }
+        NSUInteger year = request.query[@"year"].integerValue;
+        NSUInteger month = request.query[@"month"].integerValue;
+        NSString* handle = request.query[@"handle"];
+        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+            CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
+            if (post != nil) {
+                [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
+                [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+                    self.title = post.title;
+                }];
+            }
+        }];
         completionHandler();
     };
 }
@@ -239,11 +249,13 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)enumeratePostsBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSError * error = nil;
-        NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:self.fetchPredicate error:&error];
-        [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
-            CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
-            [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
+        __block NSError * error = nil;
+        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+            NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:self.fetchPredicate error:&error];
+            [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
+                CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
+                [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
+            }];
         }];
         if ( error ) {
             [CRApp logErrorFormat:@"Error while fetching posts: %@", error];
