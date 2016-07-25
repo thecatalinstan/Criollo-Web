@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) CRRouteBlock singlePostBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock enumeratePostsBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock presentViewControllerBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock noContentsBlock;
 
 - (void)setupRoutes;
 
@@ -76,6 +77,9 @@ NS_ASSUME_NONNULL_END
 
     // Default bblog page
     [self addBlock:self.enumeratePostsBlock forPath:@"/"];
+
+    // Fallback for blank contents
+    [self addBlock:self.noContentsBlock];
 
     // Actually display the contents and finish the response
     [self addBlock:self.presentViewControllerBlock];
@@ -177,19 +181,9 @@ NS_ASSUME_NONNULL_END
         NSString* handle = request.query[@"2"];
 
         CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
-        if (post == nil) {
-            self.notFoundBlock(request, response, completionHandler);
-        } else {
+        if (post != nil) {
             [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
         }
-        completionHandler();
-    };
-}
-
-- (CRRouteBlock)presentViewControllerBlock {
-    return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"Content-type"];
-        [response sendString:[self presentViewControllerWithRequest:request response:response]];
         completionHandler();
     };
 }
@@ -198,28 +192,43 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError * error = nil;
         NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:self.fetchPredicate error:&error];
-        if (posts.count > 0) {
-            [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
-                CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
-                [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
-            }];
-        } else {
-            [self.contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
-            // Check if there is a user and link to "add post"
-            CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-            if ( !currentUser ) {
-                completionHandler();
-                return;
-            }
-
-            [self.contents appendFormat:@"<p><a href=\"%@/new\">Add a new post</a>", CWBlogPath];
-            if ( error.localizedDescription ) {
-                [self.contents appendFormat:@"<h3>%@</h3>", error.localizedDescription];
-                if ( error.userInfo ) {
-                    [self.contents appendFormat:@"<pre>%@</pre>", error.userInfo];
-                }
-            }
+        [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
+            CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
+            [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
+        }];
+        if ( error ) {
+            [CRApp logErrorFormat:@"Error while fetching posts: %@", error];
         }
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)noContentsBlock {
+    return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+
+        // Bailout early if there's some contents
+        if ( self.contents.length != 0 ) {
+            completionHandler();
+            return;
+        }
+        [self.contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
+
+        // Check if there is a user and link to "add post"
+        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+        if ( !currentUser ) {
+            completionHandler();
+            return;
+        }
+
+        [self.contents appendFormat:@"<p><a href=\"%@%@\">Add a new post</a>", CWBlogPath, CWBlogNewPostPath];
+        completionHandler();
+    };
+}
+
+- (CRRouteBlock)presentViewControllerBlock {
+    return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+        [response sendString:[self presentViewControllerWithRequest:request response:response]];
         completionHandler();
     };
 }
