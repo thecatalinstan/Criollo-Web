@@ -54,10 +54,10 @@ NS_ASSUME_NONNULL_END
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-//#ifndef DEBUG
-//#endif
-
+#ifndef DEBUG
     [Fabric with:@[[Crashlytics class]]];
+#endif
+
     [self setupBaseDirectory];
     [self setupBlog];
 
