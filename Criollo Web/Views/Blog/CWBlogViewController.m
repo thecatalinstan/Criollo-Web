@@ -6,8 +6,8 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-#import "CWBlog.h"
 #import "CWBlogViewController.h"
+#import "CWBlog.h"
 #import "CWBlogPostViewController.h"
 #import "CWBlogPostDetailsViewController.h"
 #import "CWAppDelegate.h"
@@ -83,6 +83,9 @@ NS_ASSUME_NONNULL_END
     // Single post
     [self get:CWBlogSinglePostPath block:self.singlePostBlock];
 
+    // Edit post
+    [self get:CWBlogEditPostPath block:self.singlePostBlock];
+
     // Default bblog page
     [self get:@"/" block:self.enumeratePostsBlock];
 
@@ -132,46 +135,26 @@ NS_ASSUME_NONNULL_END
 
         // Get the month and year from the path
         NSUInteger year = request.query[@"year"].integerValue;
-        if ( year == 0 ) {
+        NSUInteger month = request.query[@"month"].integerValue;
+
+        CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
+        if ( period.year == 0 ) {
             completionHandler();
             return;
         }
 
-        NSUInteger month = request.query[@"month"].integerValue;
-        if ( month == 0 || month > 12 ) {
-            month = 0;
-        }
-
-        NSUInteger startYear, endYear, startMonth, endMonth;
-        startYear = year;
-        if ( month == 0 ) {
-            startMonth = 1;
-            endYear = ++year;
-            endMonth = 1;
-        } else {
-            startMonth = month;
-            if ( month == 12 ) {
-                endMonth = 1;
-                endYear = ++year;
-            } else {
-                endMonth = ++month;
-                endYear = year;
-            }
-        }
-
         // Build a predicate
-        NSDate* startDate = [[NSCalendar currentCalendar] dateWithEra:1 year:startYear month:startMonth day:1 hour:0 minute:0 second:0 nanosecond:0];
-        NSDate* endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", startDate, endDate];
+        CWBlogDatePair *datePair = [CWBlog datePairWithYearMonth:period];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
 
         // Set the page title
         NSString* humanReadableMonth = @"";
-        if ( month != 0 ) {
+        if ( period.month != 0 ) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"MMMM"];
-            humanReadableMonth = [NSString stringWithFormat:@" %@", [formatter stringFromDate:startDate]];
+            humanReadableMonth = [NSString stringWithFormat:@" %@", [formatter stringFromDate:datePair.startDate]];
         }
-        NSString* humanReadableYear = year > 0 ? [NSString stringWithFormat:@" %lu", year] : @"";
+        NSString* humanReadableYear = period.year > 0 ? [NSString stringWithFormat:@" %lu", period.year] : @"";
         self.title = [NSString stringWithFormat:@"Posts Archive for%@%@", humanReadableMonth, humanReadableYear];
         
         completionHandler();
@@ -235,9 +218,7 @@ NS_ASSUME_NONNULL_END
             CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
             if (post != nil) {
                 [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
-                [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-                    self.title = post.title;
-                }];
+                self.title = post.title;
             }
         }];
         completionHandler();

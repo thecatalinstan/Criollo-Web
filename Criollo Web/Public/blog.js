@@ -28,12 +28,14 @@ const savePost = (post, success, failure) => {
 const setupPlaceholder = (element, placeholder) => {
 
   element.contentEditable = true
-  element.style.opacity = 0.25
-  element.innerHTML = placeholder
+  if ( element.textContent.trim() == '' ) {
+    element.innerHTML = placeholder
+    element.style.opacity = 0.25
+  }
 
   element.addEventListener('focus', () => {
-    if ( element.textContent.trim() == placeholder ) {
       element.style.opacity = 1
+    if ( element.textContent.trim() == placeholder ) {
       element.innerHTML = ''
     }
   })
@@ -46,38 +48,31 @@ const setupPlaceholder = (element, placeholder) => {
 
   element.addEventListener('blur', () => {
     if ( element.textContent.trim() == '') {
-      element.style.opacity = 0.25
       element.innerHTML = placeholder
+      element.style.opacity = 0.25
     }
   })
 }
 
-const setupEditor = () => {
-  const postElement = document.querySelector('.content article.article')
-  if ( !postElement ) {
-    console.log(`There is no post element. Exiting.`)
-    return
-  }
-
-  let postId = postElement.dataset.post
-  if ( postId != '' ) {
-    console.log(`Post id is ${postId}. Exiting.`)
-    return
-  }
-
+const setupEditor = (postElement, post) => {
   const titleElement = postElement.querySelector('h1.article-title')
   const authorElement = postElement.querySelector('span.article-author')
   const contentElement = postElement.querySelector('.article-content')
   const footerElement = postElement.querySelector('.article-footer')
 
+  console.log('receivedPost', post)
+
   // Set the title as editable
   if ( titleElement ) {
     setupPlaceholder(titleElement, titlePlaceholder)
+    if ( post.title ) {
+      titleElement.innerHTML = post.title
+    }
   }
 
   // Setup the post meta data (author and date)
   if ( authorElement ) {
-    let authorDisplayName = `${window.currentUser.firstName} ${window.currentUser.lastName}`.trim()
+    let authorDisplayName = post.author ? post.author.displayName : `${window.currentUser.firstName} ${window.currentUser.lastName}`.trim()
     if ( authorDisplayName == '' ) {
       authorDisplayName = window.currentUser.username
     }
@@ -93,6 +88,9 @@ const setupEditor = () => {
   const contentEditor = document.createElement('textarea')
   contentEditor.className = 'article-content-editor'
   contentEditor.contentEditable = true
+  if ( post.content ) {
+    contentEditor.value = post.content
+  }
   postElement.insertBefore(contentEditor, footerElement)
 
   // Add the editor js and css
@@ -120,22 +118,15 @@ const setupEditor = () => {
   saveButton.className = 'save-button'
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
-    const post = {
-      content: contentEditor.value,
-      title: titleElement.textContent
-    }
-    if ( postId ) {
-      post.uid = postId
-    }
-
-    console.log(post)
-
+    post.content = contentEditor.value
+    post.title = titleElement.textContent
+    console.log('saving post', post)
     savePost(post, (data) => {
       console.log(data)
       window.defaultNotificationCenter.confirm('Post saved', data.publicPath)
-      postId = data.uid
-      postElement.dataset.post = postId
-      postElement.id = `article-${postId.substr(postId.lastIndexOf('/') + 1)}`
+      post = data
+      postElement.dataset.post = post.uid
+      postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
     }, (error) => {
       console.error(error)
       window.defaultNotificationCenter.error('Unable to save post', error)
@@ -144,8 +135,34 @@ const setupEditor = () => {
   footerElement.appendChild(saveButton)
 }
 
-blog.setup = () => {
-  setupEditor()
+const getPost = (path, success, failure) => {
+  api( { url: `/api/blog/posts${path}?${Math.random()}` }, success, failure)
 }
+blog.getPost = getPost;
+
+blog.setup = () => {
+  const postElement = document.querySelector('.content article.article')
+  if ( !postElement ) {
+    // console.log(`There is no post element. Exiting.`)
+    return
+  }
+
+  const postId = postElement.dataset.post
+  const lastPathComponent = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
+  if ( postId != '' && lastPathComponent != 'edit' ) {
+    // console.log(`Post id is ${postId}. Pathname is ${lastPathComponent}. Exiting.`)
+    return
+  }
+
+  if ( postId && lastPathComponent == 'edit' ) {
+    const postPath = location.pathname.substr(location.pathname.indexOf('/', 1), location.pathname.lastIndexOf('/') - location.pathname.indexOf('/', 1))
+    getPost(postPath, (data) => {
+      setupEditor(postElement, data)
+    }, (err) => {})
+  } else {
+    setupEditor(postElement, {})
+  }
+}
+
 
 export default blog

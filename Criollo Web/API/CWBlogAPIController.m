@@ -22,13 +22,22 @@
 #import "CWAppDelegate.h"
 #import "NSString+URLUtils.h"
 
-#define CWBlogAPIPostsPath          @"/posts"
+#define CWBlogAPIPostsPath              @"/posts"
+#define CWBlogAPIPostsYearPath          @"/posts/:year"
+#define CWBlogAPIPostsYearMonthPath     @"/posts/:year/:month"
+#define CWBlogAPISinglePostPath         @"/posts/:year/:month/:handle"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogAPIController ()
 
 @property (nonatomic, strong, readonly) dispatch_queue_t isolationQueue;
+
+@property (nonatomic, strong, readonly) CRRouteBlock getPostsBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock getPostBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock deletePostBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock createOrUpdatePostBlock;
+
 
 - (void)setupRoutes;
 
@@ -61,46 +70,97 @@ NS_ASSUME_NONNULL_END
 
 - (void)setupRoutes {
 
-    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        if ( !currentUser ) {
-            NSError* error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorUnauthorized userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"You are not authorized.",)}];
-            [CWAPIController failWithError:error request:request response:response];
-        } else {
-            completionHandler();
-        }
-    }];
+    // Get posts block
+    [self get:CWBlogAPIPostsPath block:self.getPostsBlock];
+    [self get:CWBlogAPIPostsYearPath block:self.getPostsBlock];
+    [self get:CWBlogAPIPostsYearMonthPath block:self.getPostsBlock];
 
-    // Get all posts
-    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSError * error = nil;
-        NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:nil error:&error];
-        NSMutableArray<NSDictionary *> * results = [NSMutableArray arrayWithCapacity:posts.count];
+    // Get single post by year, month, handle
+    [self get:CWBlogAPISinglePostPath block:self.getPostBlock];
+
+    // Delete post by year, month, handle
+    [self delete:CWBlogAPISinglePostPath block:self.deletePostBlock];
+
+    // Create post
+    [self put:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
+
+    // Update post
+    [self post:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
+}
+
+- (CRRouteBlock)getPostsBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+
+        // Get the month and year from the path
+        NSUInteger year = request.query[@"year"].integerValue;
+        NSUInteger month = request.query[@"month"].integerValue;
+
+        CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
+        NSPredicate* fetchPredicate;
+        if ( period.year != 0 ) {
+            // Build a predicate
+            CWBlogDatePair *datePair = [CWBlog datePairWithYearMonth:period];
+            fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
+        }
+
+        __block NSError * error = nil;
+        NSMutableArray<NSDictionary *> * results = [NSMutableArray array];
         [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+            NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:fetchPredicate error:&error];
             [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
                 CWAPIBlogPost * apiPost = post.APIBlogPost;
                 [results addObject:apiPost.toDictionary];
             }];
         }];
-        [CWAPIController succeedWithPayload:results request:request response:response];
-        completionHandler();
-    } forPath:CWBlogAPIPostsPath method:CRHTTPMethodGet];
-
-    // Delete post
-    [self addBlock:self.deleteBlogPostBlock forPath:CWBlogAPIPostsPath method:CRHTTPMethodDelete];
-
-    // Create post
-    [self addBlock:self.createOrUpdatePostBlock forPath:CWBlogAPIPostsPath method:CRHTTPMethodPut];
-
-    // Update post
-    [self addBlock:self.createOrUpdatePostBlock forPath:CWBlogAPIPostsPath method:CRHTTPMethodPost];
+        if ( error != nil ) {
+            [CRApp logFormat:@"Error fetching posts: %@", error];
+            [CWAPIController failWithError:error request:request response:response];
+        } else {
+            [CWAPIController succeedWithPayload:results request:request response:response];
+            completionHandler();
+        }
+    };
 }
 
-- (CRRouteBlock)deleteBlogPostBlock {
+- (CRRouteBlock)getPostBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSUInteger year = request.query[@"year"].integerValue;
+        NSUInteger month = request.query[@"month"].integerValue;
+        NSString* handle = request.query[@"handle"];
+
+        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+            CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
+            if (post != nil) {
+                [CWAPIController succeedWithPayload:post.APIBlogPost.toDictionary request:request response:response];
+                completionHandler();
+            } else {
+                [response setStatusCode:404 description:nil];
+                [CWAPIController failWithError:nil request:request response:response];
+            }
+        }];
+    };
+}
+
+- (CRRouteBlock)deletePostBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
         [CWAPIController failWithError:error request:request response:response];
         completionHandler();
+
+//        NSUInteger year = request.query[@"year"].integerValue;
+//        NSUInteger month = request.query[@"month"].integerValue;
+//        NSString* handle = request.query[@"handle"];
+//
+//        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+//            CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
+//            if (post != nil) {
+//                [CWAPIController succeedWithPayload:post.APIBlogPost.toDictionary request:request response:response];
+//                completionHandler();
+//            } else {
+//                [response setStatusCode:404 description:nil];
+//                [CWAPIController failWithError:nil request:request response:response];
+//            }
+//        }];
     };
 }
 
