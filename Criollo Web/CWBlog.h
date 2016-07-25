@@ -17,6 +17,7 @@
 #define CWBlogArchivePath           @"/archive"
 #define CWBlogTagPath               @"/tag"
 #define CWBlogAuthorPath            @"/author"
+#define CWBlogSinglePostPath        @"/[0-9]{4}/[0-9]{1,2}/[a-zA-Z-]+"
 
 NS_ASSUME_NONNULL_BEGIN
 

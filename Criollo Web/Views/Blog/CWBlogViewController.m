@@ -15,13 +15,9 @@
 #import "CWUser.h"
 #import "CWAPIController.h"
 
-#define CWBlogNewPostPathPattern    @"^/blog/[0-9]{4}/[0-9]{1,2}/[a-zA-Z-]+"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogViewController ()
-
-@property (nonatomic, strong, readonly) NSRegularExpression * blogPathRegularExpression;
 
 @property (nonatomic, strong, readonly) NSMutableString* contents;
 @property (nonatomic, strong) NSPredicate* fetchPredicate;
@@ -34,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) CRRouteBlock newPostBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock singlePostBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock enumeratePostsBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock presentViewControllerBlock;
 
 - (void)setupRoutes;
 
@@ -50,19 +47,6 @@ NS_ASSUME_NONNULL_END
         [self setupRoutes];
     }
     return self;
-}
-
-- (NSRegularExpression *)blogPathRegularExpression {
-    static NSRegularExpression *blogPostRegex;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSError* regexError;
-        blogPostRegex = [NSRegularExpression regularExpressionWithPattern:CWBlogNewPostPathPattern options:NSRegularExpressionCaseInsensitive error:&regexError];
-        if ( regexError ) {
-            [CRApp logErrorFormat:@"%@", regexError];
-        }
-    });
-    return blogPostRegex;
 }
 
 #pragma mark - Routing
@@ -83,8 +67,18 @@ NS_ASSUME_NONNULL_END
     [self addBlock:self.enumeratePostsBlock forPath:CWBlogTagPath];
 
     // Archive
+    [self addBlock:self.payloadCheckBlock forPath:CWBlogArchivePath];
     [self addBlock:self.archiveBlock forPath:CWBlogArchivePath];
     [self addBlock:self.enumeratePostsBlock forPath:CWBlogArchivePath];
+
+    // Single post
+    [self addBlock:self.singlePostBlock forPath:CWBlogSinglePostPath];
+
+    // Default bblog page
+    [self addBlock:self.enumeratePostsBlock forPath:@"/"];
+
+    // Actually display the contents and finish the response
+    [self addBlock:self.presentViewControllerBlock];
 }
 
 #pragma mark - Route Handlers
@@ -178,9 +172,10 @@ NS_ASSUME_NONNULL_END
 
 - (CRRouteBlock)singlePostBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSUInteger year = request.URL.pathComponents[2].integerValue;
-        NSUInteger month = request.URL.pathComponents[3].integerValue;
-        NSString* handle = request.URL.pathComponents[4].lowercaseString.stringByRemovingPercentEncoding;
+        NSUInteger year = request.query[@"0"].integerValue;
+        NSUInteger month = request.query[@"1"].integerValue;
+        NSString* handle = request.query[@"2"];
+
         CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
         if (post == nil) {
             self.notFoundBlock(request, response, completionHandler);
@@ -191,16 +186,11 @@ NS_ASSUME_NONNULL_END
     };
 }
 
-- (CRRouteBlock)defaultBlock {
+- (CRRouteBlock)presentViewControllerBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"Content-type"];
-
-        NSString* output = [self presentViewControllerWithRequest:request response:response];
-        if ( self.shouldFinishResponse ) {
-            [response sendString:output];
-        } else {
-            [response writeString:output];
-        }
+        [response sendString:[self presentViewControllerWithRequest:request response:response]];
+        completionHandler();
     };
 }
 
@@ -235,17 +225,8 @@ NS_ASSUME_NONNULL_END
 }
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
-
-    // Check for the path to a post
-    if ( [self.blogPathRegularExpression numberOfMatchesInString:request.URL.path options:0 range:NSMakeRange(0, request.URL.path.length)] ) {
-        self.singlePostBlock(request, response, ^{});
-    } else {
-        self.enumeratePostsBlock(request, response, ^{});
-    }
-
     self.vars[@"posts"] = self.contents;
     self.vars[@"sidebar"] = @"";
-
     return [super presentViewControllerWithRequest:request response:response];
 }
 
