@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_END
     }];
 
     // API
-    [self.server addBlock:[CWAPIController sharedController].routeBlock forPath:@"/api" HTTPMethod:CRHTTPMethodAll recursive:YES];
+    [self.server addBlock:[CWAPIController sharedController].routeBlock forPath:@"/api" method:CRHTTPMethodAll recursive:YES];
 
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_END
     [self.server addViewController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
 
     // Blog
-    [self.server addViewController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath HTTPMethod:CRHTTPMethodAll recursive:YES];
+    [self.server addViewController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath method:CRHTTPMethodAll recursive:YES];
 
     // Login page
     [self.server addViewController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:CWLoginPath];
@@ -160,7 +160,6 @@ NS_ASSUME_NONNULL_END
     [self.server stopListening];
 }
 
-
 - (void)startServer {
     NSError *serverError;
 
@@ -175,18 +174,16 @@ NS_ASSUME_NONNULL_END
         [CRApp logFormat:@"%@ Started HTTP server at %@", [NSDate date], baseURL.absoluteString];
 
         // Get the list of paths
-        NSDictionary<NSString*, NSMutableArray<CRRoute*>*>* routes = [[self.server valueForKey:@"routes"] mutableCopy];
-        NSMutableSet<NSURL*>* paths = [NSMutableSet set];
-
-        [routes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray<CRRoute *> * _Nonnull obj, BOOL * _Nonnull stop) {
-            if ( [key hasSuffix:@"*"] ) {
+        NSArray<NSString *> * routePaths = [self.server valueForKeyPath:@"routes.path"];
+        NSMutableArray<NSURL *> *paths = [NSMutableArray array];
+        [routePaths enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( [obj isKindOfClass:[NSNull class]] ) {
                 return;
             }
-            NSString* path = [key substringFromIndex:[key rangeOfString:@"/"].location + 1];
-            [paths addObject:[baseURL URLByAppendingPathComponent:path]];
+            [paths addObject:[baseURL URLByAppendingPathComponent:obj]];
         }];
-
         NSArray<NSURL*>* sortedPaths =[paths sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"absoluteString" ascending:YES]]];
+
         [CRApp logFormat:@"Available paths are:"];
         [sortedPaths enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [CRApp logFormat:@" * %@", obj.absoluteString];

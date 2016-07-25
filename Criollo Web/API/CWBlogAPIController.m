@@ -84,16 +84,16 @@ NS_ASSUME_NONNULL_END
         }];
         [CWAPIController succeedWithPayload:results request:request response:response];
         completionHandler();
-    } forPath:CWBlogAPIPostsPath HTTPMethod:CRHTTPMethodGet];
+    } forPath:CWBlogAPIPostsPath method:CRHTTPMethodGet];
 
     // Delete post
-    [self addBlock:self.deleteBlogPostBlock forPath:CWBlogAPIPostsPath HTTPMethod:CRHTTPMethodDelete];
+    [self addBlock:self.deleteBlogPostBlock forPath:CWBlogAPIPostsPath method:CRHTTPMethodDelete];
 
     // Create post
-    [self addBlock:self.createOrUpdatePostBlock forPath:CWBlogAPIPostsPath HTTPMethod:CRHTTPMethodPut];
+    [self addBlock:self.createOrUpdatePostBlock forPath:CWBlogAPIPostsPath method:CRHTTPMethodPut];
 
     // Update post
-    [self addBlock:self.createOrUpdatePostBlock forPath:CWBlogAPIPostsPath HTTPMethod:CRHTTPMethodPost];
+    [self addBlock:self.createOrUpdatePostBlock forPath:CWBlogAPIPostsPath method:CRHTTPMethodPost];
 }
 
 - (CRRouteBlock)deleteBlogPostBlock {

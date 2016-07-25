@@ -82,25 +82,25 @@ NS_ASSUME_NONNULL_END
     } forPath:@"/"];
 
     // Login
-    [self addBlock:self.authenticateBlock forPath:CWAPILoginPath HTTPMethod:CRHTTPMethodPost];
+    [self addBlock:self.authenticateBlock forPath:CWAPILoginPath method:CRHTTPMethodPost];
 
     // Logout
-    [self addBlock:self.deauthenticateBlock forPath:CWAPILogoutPath HTTPMethod:CRHTTPMethodGet];
+    [self addBlock:self.deauthenticateBlock forPath:CWAPILogoutPath method:CRHTTPMethodGet];
 
     // Currently authneticated user
-    [self addBlock:self.meBlock forPath:CWAPIMePath HTTPMethod:CRHTTPMethodGet];
+    [self addBlock:self.meBlock forPath:CWAPIMePath method:CRHTTPMethodGet];
 
     // Simple stack trace
     [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
         completionHandler();
-    } forPath:CWAPITracePath HTTPMethod:CRHTTPMethodGet];
+    } forPath:CWAPITracePath method:CRHTTPMethodGet];
 
     // Info
-    [self addBlock:self.infoBlock forPath:CWAPIInfoPath HTTPMethod:CRHTTPMethodGet];
+    [self addBlock:self.infoBlock forPath:CWAPIInfoPath method:CRHTTPMethodGet];
 
     // Blog
-    [self addBlock:[CWBlogAPIController sharedController].routeBlock forPath:CWAPIBlogPath HTTPMethod:CRHTTPMethodAll recursive:YES];
+    [self addBlock:[CWBlogAPIController sharedController].routeBlock forPath:CWAPIBlogPath method:CRHTTPMethodAll recursive:YES];
 }
 
 #pragma mark - Authentication
