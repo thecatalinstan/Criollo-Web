@@ -69,8 +69,8 @@ NS_ASSUME_NONNULL_END
 
     // Archive
     [self addBlock:self.payloadCheckBlock forPath:CWBlogArchivePath];
-    [self addBlock:self.archiveBlock forPath:CWBlogArchivePath];
-    [self addBlock:self.enumeratePostsBlock forPath:CWBlogArchivePath];
+    [self addBlock:self.archiveBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
+    [self addBlock:self.enumeratePostsBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
 
     // Single post
     [self addBlock:self.singlePostBlock forPath:CWBlogSinglePostPath];
