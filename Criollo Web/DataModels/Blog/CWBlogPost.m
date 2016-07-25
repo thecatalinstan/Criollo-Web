@@ -108,7 +108,6 @@
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
 
     __block NSArray<CWBlogPost *> * posts;
-
     [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
         posts = [[CWAppDelegate sharedBlog].managedObjectContext executeFetchRequest:fetchRequest error:error];
     }];

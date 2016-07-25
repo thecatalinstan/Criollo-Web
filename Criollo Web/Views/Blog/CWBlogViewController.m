@@ -11,9 +11,11 @@
 #import "CWBlogPostViewController.h"
 #import "CWBlogPostDetailsViewController.h"
 #import "CWAppDelegate.h"
-#import "CWBlogPost.h"
 #import "CWUser.h"
 #import "CWAPIController.h"
+#import "CWBlogPost.h"
+#import "CWBlogAuthor.h"
+#import "CWBlogTag.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) NSMutableString* contents;
 @property (nonatomic, strong) NSPredicate* fetchPredicate;
+@property (nonatomic, strong) NSString * title;
 
 @property (nonatomic, strong, readonly) CRRouteBlock authCheckBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock payloadCheckBlock;
@@ -45,6 +48,7 @@ NS_ASSUME_NONNULL_END
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil prefix:prefix];
     if ( self != nil ) {
         _contents = [[NSMutableString alloc] init];
+        _title = @"Blog";
         [self setupRoutes];
     }
     return self;
@@ -58,17 +62,17 @@ NS_ASSUME_NONNULL_END
     [self addBlock:self.newPostBlock forPath:CWBlogNewPostPath];
 
     // Author
-    [self addBlock:self.payloadCheckBlock forPath:CWBlogAuthorPath];
-    [self addBlock:self.authorBlock forPath:CWBlogAuthorPath];
-    [self addBlock:self.enumeratePostsBlock forPath:CWBlogAuthorPath];
+    [self addBlock:self.payloadCheckBlock forPath:CWBlogAuthorPath method:CRHTTPMethodAll recursive:YES];
+    [self addBlock:self.authorBlock forPath:CWBlogAuthorPath method:CRHTTPMethodAll recursive:YES];
+    [self addBlock:self.enumeratePostsBlock forPath:CWBlogAuthorPath method:CRHTTPMethodAll recursive:YES];
 
     // Tag
-    [self addBlock:self.payloadCheckBlock forPath:CWBlogTagPath];
-    [self addBlock:self.tagBlock forPath:CWBlogTagPath];
-    [self addBlock:self.enumeratePostsBlock forPath:CWBlogTagPath];
+    [self addBlock:self.payloadCheckBlock forPath:CWBlogTagPath method:CRHTTPMethodAll recursive:YES];
+    [self addBlock:self.tagBlock forPath:CWBlogTagPath method:CRHTTPMethodAll recursive:YES];
+    [self addBlock:self.enumeratePostsBlock forPath:CWBlogTagPath method:CRHTTPMethodAll recursive:YES];
 
     // Archive
-    [self addBlock:self.payloadCheckBlock forPath:CWBlogArchivePath];
+    [self addBlock:self.payloadCheckBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
     [self addBlock:self.archiveBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
     [self addBlock:self.enumeratePostsBlock forPath:CWBlogArchivePath method:CRHTTPMethodAll recursive:YES];
 
@@ -87,6 +91,9 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Route Handlers
 
+/**
+ *  Checks if a user is logged in and redirects to the login page
+ */
 - (CRRouteBlock)authCheckBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
@@ -99,6 +106,9 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+/**
+ *  Checks if there is a payload (anything after the registered path
+ */
 - (CRRouteBlock)payloadCheckBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* payload = request.URL.pathComponents.count > 3 ? request.URL.pathComponents[3] : @"";
@@ -110,6 +120,9 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+/**
+ *  Generates the fetchPredicate used for the post archive
+ */
 - (CRRouteBlock)archiveBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
 
@@ -146,34 +159,64 @@ NS_ASSUME_NONNULL_END
         NSDate* startDate = [[NSCalendar currentCalendar] dateWithEra:1 year:startYear month:startMonth day:1 hour:0 minute:0 second:0 nanosecond:0];
         NSDate* endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", startDate, endDate];
+
+        // Set the page title
+        NSString* humanReadableMonth = @"";
+        if ( month != 0 ) {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"MMMM"];
+            humanReadableMonth = [NSString stringWithFormat:@" %@", [formatter stringFromDate:startDate]];
+        }
+        NSString* humanReadableYear = year > 0 ? [NSString stringWithFormat:@" %lu", year] : @"";
+        self.title = [NSString stringWithFormat:@"Posts Archive for%@%@", humanReadableMonth, humanReadableYear];
         
         completionHandler();
     };
 }
 
+/**
+ *  Generates the fetchPredicate used for the tag post list
+ */
 - (CRRouteBlock)tagBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* tag = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"tag.name = %@", tag];
+        self.title = [NSString stringWithFormat:@"Post for tag %@", tag];
+        completionHandler();
     };
 }
 
+/**
+ *  Generates the fetchPredicate used for the author post list
+ */
 - (CRRouteBlock)authorBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* author = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.user = %@", author];
+        NSString* authorHandle = request.URL.pathComponents[3].stringByRemovingPercentEncoding;
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.user = %@", authorHandle];
+        CWBlogAuthor* author = [CWBlogAuthor fetchAuthorForUsername:authorHandle error:nil];
+        if ( author ) {
+            self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
+        }
+        completionHandler();
     };
 }
 
+/**
+ *  Displays the "new" post editing form
+ */
 - (CRRouteBlock)newPostBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWBlogPostDetailsViewController* newPostViewController = [[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil];
         NSString* responseString = [newPostViewController presentViewControllerWithRequest:request response:response];
         [self.contents appendString:responseString];
+        self.title = @"Create New Blog Post";
         completionHandler();
     };
 }
 
+/**
+ *  Displays a single blog post in full
+ */
 - (CRRouteBlock)singlePostBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSUInteger year = request.query[@"0"].integerValue;
@@ -183,11 +226,17 @@ NS_ASSUME_NONNULL_END
         CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
         if (post != nil) {
             [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
+            [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+                self.title = post.title;
+            }];
         }
         completionHandler();
     };
 }
 
+/**
+ *  Actually fetches the posts according to the fetchPredicate and displays the list
+ */
 - (CRRouteBlock)enumeratePostsBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError * error = nil;
@@ -203,6 +252,9 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+/**
+ *  Checks if there is any content to display and prints out some text
+ */
 - (CRRouteBlock)noContentsBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
 
@@ -225,6 +277,9 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+/**
+ *  Invokes the controller's presentViewControllerWithRequest:response: method and finishes the response
+ */
 - (CRRouteBlock)presentViewControllerBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"Content-type"];
@@ -235,6 +290,7 @@ NS_ASSUME_NONNULL_END
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
     self.vars[@"posts"] = self.contents;
+    self.vars[@"title"] = self.title;
     self.vars[@"sidebar"] = @"";
     return [super presentViewControllerWithRequest:request response:response];
 }
