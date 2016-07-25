@@ -16,7 +16,7 @@ window.onload = () => {
   // Login form
   login.setup((user) => {
     defaultNotificationCenter.confirm(`Welcome, ${user['first-name']}!`, 'You will be redirected in a moment ...', 1000, () => {
-      window.location.href = "/blog"
+      window.location.href = window.redirect.length > 0 ? window.redirect : "/blog"
     })
   }, (err) => {
     defaultNotificationCenter.error('Login failed', 'Check your username and password and try again.')
@@ -28,9 +28,8 @@ window.onload = () => {
     blog.setup()
   }, (err) => {
     window.currentUser = null
-    console.error(err)
   } )
 
   // Footer info
-  // getStats(document.getElementById('stats-info'))
+  getStats(document.getElementById('stats-info'))
 }

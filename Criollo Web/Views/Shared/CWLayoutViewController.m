@@ -36,6 +36,7 @@ static NSString * imagePath;
     self.vars[@"criollo-ver"] = [CWAppDelegate criolloVersion];
     self.vars[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
     self.vars[@"etag"] = [CWAppDelegate ETag];
+    self.vars[@"redirect"] = request.query[@"redirect"] ? : @"";
 
     return [super presentViewControllerWithRequest:request response:response];
 
