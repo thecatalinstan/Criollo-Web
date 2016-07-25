@@ -77,7 +77,7 @@ const setupEditor = () => {
 
   // Setup the post meta data (author and date)
   if ( authorElement ) {
-    let authorDisplayName = `${window.currentUser['first-name']} ${window.currentUser['last-name']}`.trim()
+    let authorDisplayName = `${window.currentUser.firstName} ${window.currentUser.lastName}`.trim()
     if ( authorDisplayName == '' ) {
       authorDisplayName = window.currentUser.username
     }
@@ -132,7 +132,7 @@ const setupEditor = () => {
 
     savePost(post, (data) => {
       console.log(data)
-      window.defaultNotificationCenter.confirm('Post saved', data['public-path'])
+      window.defaultNotificationCenter.confirm('Post saved', data.publicPath)
       postId = data.uid
       postElement.dataset.post = postId
       postElement.id = `article-${postId.substr(postId.lastIndexOf('/') + 1)}`
