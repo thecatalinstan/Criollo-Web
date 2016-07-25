@@ -69,6 +69,7 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Routing
 
 - (void)setupRoutes {
+
     // Set content-type to JSON
     [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
@@ -76,31 +77,34 @@ NS_ASSUME_NONNULL_END
     }];
 
     // Default route
-    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self add:@"/" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [CWAPIController succeedWithPayload:request.cookies[CWUserCookie] request:request response:response];
         completionHandler();
-    } forPath:@"/"];
+    }];
 
     // Login
-    [self addBlock:self.authenticateBlock forPath:CWAPILoginPath method:CRHTTPMethodPost];
+    [self post:CWAPILoginPath block:self.authenticateBlock];
 
     // Logout
-    [self addBlock:self.deauthenticateBlock forPath:CWAPILogoutPath method:CRHTTPMethodGet];
+    [self get:CWAPILogoutPath block:self.deauthenticateBlock];
 
     // Currently authneticated user
-    [self addBlock:self.meBlock forPath:CWAPIMePath method:CRHTTPMethodGet];
+    [self get:CWAPIMePath block:self.meBlock];
 
     // Simple stack trace
-    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self get:CWAPITracePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
         completionHandler();
-    } forPath:CWAPITracePath method:CRHTTPMethodGet];
+    }];
 
     // Info
-    [self addBlock:self.infoBlock forPath:CWAPIInfoPath method:CRHTTPMethodGet];
+    [self get:CWAPIInfoPath block:self.infoBlock];
 
     // Blog
-    [self addBlock:[CWBlogAPIController sharedController].routeBlock forPath:CWAPIBlogPath method:CRHTTPMethodAll recursive:YES];
+    [self add:CWAPIBlogPath block:self.checkAuthBlock recursive:YES];
+    [self add:CWAPIBlogPath block:[CWBlogAPIController sharedController].routeBlock recursive:YES];
+
+    // Finish the response
 }
 
 #pragma mark - Authentication
@@ -173,6 +177,18 @@ NS_ASSUME_NONNULL_END
         payload[@"memoryInfo"] = [CSSystemInfoHelper sharedHelper].memoryUsageString ? : @"";
         [CWAPIController succeedWithPayload:payload request:request response:response];
         completionHandler();
+    };
+}
+
+- (CRRouteBlock)checkAuthBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+        if ( !currentUser ) {
+            NSError* error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorUnauthorized userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"You are not authorized.",)}];
+            [CWAPIController failWithError:error request:request response:response];
+        } else {
+            completionHandler();
+        }
     };
 }
 
