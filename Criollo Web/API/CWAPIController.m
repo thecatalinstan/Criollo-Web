@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_END
 - (void)setupRoutes {
 
     // Set content-type to JSON
-    [self addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
         completionHandler();
     }];
@@ -101,10 +101,8 @@ NS_ASSUME_NONNULL_END
     [self get:CWAPIInfoPath block:self.infoBlock];
 
     // Blog
-    [self add:CWAPIBlogPath block:self.checkAuthBlock recursive:YES];
-    [self add:CWAPIBlogPath block:[CWBlogAPIController sharedController].routeBlock recursive:YES];
-
-    // Finish the response
+    [self add:CWAPIBlogPath block:self.checkAuthBlock recursive:YES method:CRHTTPMethodAll];
+    [self add:CWAPIBlogPath block:[CWBlogAPIController sharedController].routeBlock recursive:YES method:CRHTTPMethodAll];
 }
 
 #pragma mark - Authentication

@@ -66,50 +66,49 @@ NS_ASSUME_NONNULL_END
     self.server = [[serverClass alloc] initWithDelegate:self];
 
     // Set some headers
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self.server add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
         [response setValue:[CWAppDelegate serverSpecString] forHTTPHeaderField:@"X-Criollo-Server"];
         completionHandler();
     }];
 
-    // API
-    [self.server addBlock:[CWAPIController sharedController].routeBlock forPath:@"/api" method:CRHTTPMethodAll recursive:YES];
-
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[CWAppDelegate ETag]];
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        // Cache
+    [self.server add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         if ( request.URL.pathExtension.length > 0 ) {
             [response setValue:ETagHeaderSpec forHTTPHeaderField:@"ETag"];
         }
         completionHandler();
     }];
 
+    // API
+    [self.server add:@"/api" block:[CWAPIController sharedController].routeBlock recursive:YES method:CRHTTPMethodAll];
+
     // Homepage
-    [self.server addViewController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
+    [self.server add:@"/" viewController:[CWLandingPageViewController class] withNibName:nil bundle:nil recursive:NO method:CRHTTPMethodAll];
 
     // Blog
-    [self.server addViewController:[CWBlogViewController class] withNibName:@"CWBlogViewController" bundle:nil forPath:CWBlogPath method:CRHTTPMethodAll recursive:YES];
+    [self.server add:CWBlogPath viewController:[CWBlogViewController class] withNibName:nil bundle:nil];
 
     // Login page
-    [self.server addViewController:[CWLoginPageViewController class] withNibName:@"CWLoginPageViewController" bundle:nil forPath:CWLoginPath];
+    [self.server add:CWLoginPath viewController:[CWLoginPageViewController class] withNibName:nil bundle:nil recursive:NO method:CRHTTPMethodAll];
 
-    // robot.txt
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    // Public resources folder
+    NSString* publicResourcesFolder = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Public"];
+    [self.server mount:CWStaticDirPath directoryAtPath:publicResourcesFolder options:CRStaticDirectoryServingOptionsCacheFiles];
+
+    // robots.txt
+    [self.server add:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* robotsString = @"User-agent: *\nAllow:\n";
         [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
         [response send:robotsString];
         completionHandler();
-    } forPath:@"/robots.txt"];
+    }];
 
     // favicon.ico
     NSString* faviconPath = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
-    [self.server mountStaticFileAtPath:faviconPath forPath:@"/favicon.ico"];
-
-    // Static resources folder
-    NSString* publicResourcesFolder = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Public"];
-    [self.server mountStaticDirectoryAtPath:publicResourcesFolder forPath:CWStaticDirPath options:CRStaticDirectoryServingOptionsCacheFiles];
+    [self.server mount:@"/favicon.ico" fileAtPath:faviconPath];
 
     [self startServer];
 }

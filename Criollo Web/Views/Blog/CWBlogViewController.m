@@ -90,10 +90,10 @@ NS_ASSUME_NONNULL_END
     [self get:@"/" block:self.enumeratePostsBlock];
 
     // Fallback for blank contents
-    [self addBlock:self.noContentsBlock];
+    [self add:self.noContentsBlock];
 
     // Actually display the contents and finish the response
-    [self addBlock:self.presentViewControllerBlock];
+    [self add:self.presentViewControllerBlock];
 }
 
 #pragma mark - Route Handlers
