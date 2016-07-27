@@ -26,7 +26,8 @@
 @implementation CWBlogPostDetailsViewController
 
 - (BOOL)isNewPost {
-    return self.post == nil || self.post.objectID.isTemporaryID;
+    return NO;
+//    return self.post == nil || self.post.objectID.isTemporaryID;
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil prefix:(NSString * _Nullable)prefix {
@@ -45,10 +46,10 @@
 
     __block CWAPIBlogPost* post;
     __block BOOL isNewPost;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        post = self.post.APIBlogPost;
-        isNewPost = self.isNewPost;
-    }];
+//    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+//        post = self.post.APIBlogPost;
+//        isNewPost = self.isNewPost;
+//    }];
 
     self.vars[@"id"] = isNewPost ? @"": post.uid;
     self.vars[@"title"] = post.title ? : @"";
