@@ -117,13 +117,21 @@ NS_ASSUME_NONNULL_END
             return;
         }
 
-        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        CWBlogAuthor* author = [CWBlogAuthor getByUser:currentUser.username];
+        NSString * username = receivedPost.author.user;
+        if ( !username ) {
+            CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+            username = currentUser.username;
+        }
+
+        CWBlogAuthor* author = [CWBlogAuthor getByUser:username];
         if ( author == nil ) {
             error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownAuthor userInfo:nil];
             [CWAPIController failWithError:nil request:request response:response];
             return;
         }
+
+        RLMRealm *realm = [CWBlog realm];
+        [realm beginWriteTransaction];
 
         CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
         post.renderedContent = renderedContent;
@@ -131,10 +139,8 @@ NS_ASSUME_NONNULL_END
         post.handle = post.title.URLFriendlyHandle;
         post.author = author;
 
-        RLMRealm *realm = [CWBlog realm];
-        if ( [realm transactionWithBlock:^{
-            [realm addOrUpdateObject:post];
-        } error:&error] ) {
+        [realm addOrUpdateObject:post];
+        if ( [realm commitWriteTransaction:&error] ) {
             [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
             completionHandler();
         } else {
