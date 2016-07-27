@@ -2,7 +2,9 @@ article.article(id="article-{{id}}")
   header.article-header
     h2.article-title
       a(href="{{permalink}}") {{title}}
-    p.article-info Posted by {{author}}{{date}}
+    p.article-info Posted by
+      span.article-author {{author}}
+      span.article-date {{date}}
   .article-body {{content}}
   footer.article-footer
     .sharing
