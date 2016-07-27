@@ -53,7 +53,6 @@ NS_ASSUME_NONNULL_END
 }
 
 + (RLMRealm *)realm {
-
     NSError *error;
     RLMRealm *realm = [RLMRealm realmWithConfiguration:[CWBlog realmConfiguration] error:&error];
     if ( !realm ) {
@@ -63,7 +62,6 @@ NS_ASSUME_NONNULL_END
 }
 
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
-
     RLMRealm* realm = [CWBlog realm];
     [realm beginWriteTransaction];
 
@@ -117,7 +115,7 @@ NS_ASSUME_NONNULL_END
     return (CWBlogArchivePeriod){ year, month };
 }
 
-+ (CWBlogDatePair *)datePairWithYearMonth:(CWBlogArchivePeriod)period {
++ (CWBlogDatePair *)datePairArchivePeriod:(CWBlogArchivePeriod)period {
     NSUInteger startYear, endYear, startMonth, endMonth;
     startYear = period.year;
     if ( period.month == 0 ) {
@@ -140,6 +138,10 @@ NS_ASSUME_NONNULL_END
     datePair.endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
 
     return datePair;
+}
+
++ (CWBlogDatePair *)datePairWith:(NSUInteger)year month:(NSUInteger)month {
+    return [CWBlog datePairArchivePeriod:[CWBlog parseYear:year month:month]];
 }
 
 @end

@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_END
         }
 
         // Build a predicate
-        CWBlogDatePair *datePair = [CWBlog datePairWithYearMonth:period];
+        CWBlogDatePair *datePair = [CWBlog datePairArchivePeriod:period];
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
 
         // Set the page title

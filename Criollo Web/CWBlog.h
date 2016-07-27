@@ -45,7 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)formattedTime:(NSDate *)date;
 
 + (CWBlogArchivePeriod)parseYear:(NSUInteger)year month:(NSUInteger)month;
-+ (CWBlogDatePair *)datePairWithYearMonth:(CWBlogArchivePeriod)period;
++ (CWBlogDatePair *)datePairArchivePeriod:(CWBlogArchivePeriod)period;
++ (CWBlogDatePair *)datePairWith:(NSUInteger)year month:(NSUInteger)month;
 
 @end
 

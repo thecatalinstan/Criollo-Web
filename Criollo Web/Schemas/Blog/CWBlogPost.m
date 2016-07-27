@@ -63,8 +63,7 @@
     if ( period.year == 0 || period.month == 0 ) {
         return [CWBlogPost getByHandle:handle];
     }
-
-    CWBlogDatePair* datePair = [CWBlog datePairWithYearMonth:period];
+    CWBlogDatePair* datePair = [CWBlog datePairArchivePeriod:period];
     return [CWBlogPost getSingleObjectWhere:@"handle = %@ and date >= %@ and date <= %@", handle, datePair.startDate, datePair.endDate];
 }
 
