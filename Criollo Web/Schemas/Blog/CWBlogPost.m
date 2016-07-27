@@ -26,7 +26,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         indexedProperties = [NSMutableArray arrayWithArray:[[self superclass] indexedProperties]];
-        [indexedProperties addObjectsFromArray:@[@"name"]];
+        [indexedProperties addObjectsFromArray:@[@"title", @"date"]];
     });
     return indexedProperties;
 }
@@ -36,6 +36,25 @@
 - (NSString *)publicPath {
     NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.date];
     return [NSString stringWithFormat:@"%@/%ld/%s%ld/%@", CWBlogPath, (long)dateComponents.year, dateComponents.month < 10 ? "0" : "", (long)dateComponents.month, self.handle];
+}
+
+#pragma mark - CWModelProxy
+
+- (CWModel *)modelObject {
+    CWAPIBlogPost* post = [[CWAPIBlogPost alloc] init];
+    post.uid = self.uid;
+    post.publicPath = self.publicPath;
+    post.date = self.date;
+    post.title = self.title;
+    post.content = self.content;
+    post.renderedContent = self.renderedContent;
+    post.author = (CWAPIBlogAuthor *)self.author.modelObject;
+    post.handle = self.handle;
+    post.tags = [NSMutableArray array];
+    for (CWBlogTag* tag in self.tags) {
+        [((NSMutableArray *)post.tags) addObject:tag.modelObject];
+    }
+    return post;
 }
 
 @end

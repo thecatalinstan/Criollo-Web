@@ -9,6 +9,7 @@
 #import "CWSchema.h"
 #import "CWAppDelegate.h"
 #import "CWBlog.h"
+#import "CWModel.h"
 
 @implementation CWSchema
 
@@ -37,7 +38,13 @@
 #pragma mark - API
 
 - (NSString *)publicPath {
-    return @"";
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"%@ must be overriden in a subclass", NSStringFromSelector(_cmd)] userInfo:nil];
+}
+
+#pragma mark - CWModelProxy
+
+- (CWModel *)modelObject {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"%@ must be overriden in a subclass", NSStringFromSelector(_cmd)] userInfo:nil];
 }
 
 #pragma mark - Fetching

@@ -90,54 +90,54 @@ NS_ASSUME_NONNULL_END
 
 - (CRRouteBlock)getPostsBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-
-        // Get the month and year from the path
-        NSUInteger year = request.query[@"year"].integerValue;
-        NSUInteger month = request.query[@"month"].integerValue;
-
-        CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
-        NSPredicate* fetchPredicate;
-        if ( period.year != 0 ) {
-            // Build a predicate
-            CWBlogDatePair *datePair = [CWBlog datePairWithYearMonth:period];
-            fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
-        }
-
-        __block NSError * error = nil;
-        NSMutableArray<NSDictionary *> * results = [NSMutableArray array];
-        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-            NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:fetchPredicate error:&error];
-            [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
-                CWAPIBlogPost * apiPost = post.APIBlogPost;
-                [results addObject:apiPost.toDictionary];
-            }];
-        }];
-        if ( error != nil ) {
-            [CRApp logFormat:@"Error fetching posts: %@", error];
-            [CWAPIController failWithError:error request:request response:response];
-        } else {
-            [CWAPIController succeedWithPayload:results request:request response:response];
-            completionHandler();
-        }
+//
+//        // Get the month and year from the path
+//        NSUInteger year = request.query[@"year"].integerValue;
+//        NSUInteger month = request.query[@"month"].integerValue;
+//
+//        CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
+//        NSPredicate* fetchPredicate;
+//        if ( period.year != 0 ) {
+//            // Build a predicate
+//            CWBlogDatePair *datePair = [CWBlog datePairWithYearMonth:period];
+//            fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
+//        }
+//
+//        __block NSError * error = nil;
+//        NSMutableArray<NSDictionary *> * results = [NSMutableArray array];
+//        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+//            NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:fetchPredicate error:&error];
+//            [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
+//                CWAPIBlogPost * apiPost = post.APIBlogPost;
+//                [results addObject:apiPost.toDictionary];
+//            }];
+//        }];
+//        if ( error != nil ) {
+//            [CRApp logFormat:@"Error fetching posts: %@", error];
+//            [CWAPIController failWithError:error request:request response:response];
+//        } else {
+//            [CWAPIController succeedWithPayload:results request:request response:response];
+//            completionHandler();
+//        }
     };
 }
 
 - (CRRouteBlock)getPostBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSUInteger year = request.query[@"year"].integerValue;
-        NSUInteger month = request.query[@"month"].integerValue;
-        NSString* handle = request.query[@"handle"];
-
-        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-            CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
-            if (post != nil) {
-                [CWAPIController succeedWithPayload:post.APIBlogPost.toDictionary request:request response:response];
-                completionHandler();
-            } else {
-                [response setStatusCode:404 description:nil];
-                [CWAPIController failWithError:nil request:request response:response];
-            }
-        }];
+//        NSUInteger year = request.query[@"year"].integerValue;
+//        NSUInteger month = request.query[@"month"].integerValue;
+//        NSString* handle = request.query[@"handle"];
+//
+//        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+//            CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
+//            if (post != nil) {
+//                [CWAPIController succeedWithPayload:post.APIBlogPost.toDictionary request:request response:response];
+//                completionHandler();
+//            } else {
+//                [response setStatusCode:404 description:nil];
+//                [CWAPIController failWithError:nil request:request response:response];
+//            }
+//        }];
     };
 }
 
@@ -166,51 +166,51 @@ NS_ASSUME_NONNULL_END
 
 - (CRRouteBlock)createOrUpdatePostBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        __block CWBlogPost* post;
-        __block CWAPIBlogPost* responsePost;
-        __block NSError* error;
-       __block  BOOL shouldFail = NO;
-        CWAPIBlogPost* apiPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
-        if ( error ) {
-            shouldFail = YES;
-        } else {
-            error = nil;
-            NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:apiPost.content error:&error];
-            if ( error ) {
-                shouldFail = YES;
-            } else {
-                [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-                    post = [CWBlogPost blogPostFromAPIBlogPost:apiPost];
-                    post.renderedContent = renderedContent;
-                    post.date = [NSDate date];
-                    post.handle = post.title.URLFriendlyHandle;
-
-                    CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-
-                    error = nil;
-                    CWBlogAuthor* author = [CWBlogAuthor authorWithUsername:currentUser.username];
-                    if ( author == nil ) {
-                        shouldFail = YES;
-                    } else {
-                        post.author = author;
-                        error = nil;
-                        [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
-                        if ( error ) {
-                            shouldFail = YES;
-                        } else {
-                            responsePost = post.APIBlogPost;
-                        }
-                    }
-                }];
-            }
-        }
-
-        if ( shouldFail ) {
-            [CWAPIController failWithError:error request:request response:response];
-        } else {
-            [CWAPIController succeedWithPayload:responsePost request:request response:response];
-            completionHandler();
-        }
+//        __block CWBlogPost* post;
+//        __block CWAPIBlogPost* responsePost;
+//        __block NSError* error;
+//       __block  BOOL shouldFail = NO;
+//        CWAPIBlogPost* apiPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
+//        if ( error ) {
+//            shouldFail = YES;
+//        } else {
+//            error = nil;
+//            NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:apiPost.content error:&error];
+//            if ( error ) {
+//                shouldFail = YES;
+//            } else {
+//                [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+//                    post = [CWBlogPost blogPostFromAPIBlogPost:apiPost];
+//                    post.renderedContent = renderedContent;
+//                    post.date = [NSDate date];
+//                    post.handle = post.title.URLFriendlyHandle;
+//
+//                    CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+//
+//                    error = nil;
+//                    CWBlogAuthor* author = [CWBlogAuthor authorWithUsername:currentUser.username];
+//                    if ( author == nil ) {
+//                        shouldFail = YES;
+//                    } else {
+//                        post.author = author;
+//                        error = nil;
+//                        [[CWAppDelegate sharedBlog] saveManagedObjectContext:&error];
+//                        if ( error ) {
+//                            shouldFail = YES;
+//                        } else {
+//                            responsePost = post.APIBlogPost;
+//                        }
+//                    }
+//                }];
+//            }
+//        }
+//
+//        if ( shouldFail ) {
+//            [CWAPIController failWithError:error request:request response:response];
+//        } else {
+//            [CWAPIController succeedWithPayload:responsePost request:request response:response];
+//            completionHandler();
+//        }
     };
 }
 

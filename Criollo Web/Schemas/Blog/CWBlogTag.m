@@ -8,6 +8,7 @@
 
 #import "CWBlogTag.h"
 #import "CWBlog.h"
+#import "CWAPIBlogTag.h"
 
 @implementation CWBlogTag
 
@@ -27,6 +28,17 @@
 
 - (NSString *)publicPath {
     return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogTagPath, self.handle];
+}
+
+#pragma mark - CWModelProxy
+
+- (CWModel *)modelObject {
+    CWAPIBlogTag* tag = [[CWAPIBlogTag alloc] init];
+    tag.uid = self.uid;
+    tag.publicPath = self.publicPath;
+    tag.name = self.name;
+    tag.handle = self.handle;
+    return tag;
 }
 
 @end

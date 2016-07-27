@@ -7,12 +7,11 @@
 //
 
 #import <Realm/Realm.h>
-
-@class CWModel;
+#import "CWModelProxy.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CWSchema : RLMObject
+@interface CWSchema : RLMObject<CWModelProxy>
 
 @property NSString * uid;
 @property NSString * handle;

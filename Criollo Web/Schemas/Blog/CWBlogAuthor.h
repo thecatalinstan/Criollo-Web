@@ -10,8 +10,10 @@
 
 @interface CWBlogAuthor : CWSchema
 
-@property NSString * user;
-@property NSString * displayName;
-@property NSString * email;
+@property (nullable) NSString * user;
+@property (nullable) NSString * displayName;
+@property (nullable) NSString * email;
+
++ (nullable instancetype)getByUser:(NSString * _Nonnull)username;
 
 @end

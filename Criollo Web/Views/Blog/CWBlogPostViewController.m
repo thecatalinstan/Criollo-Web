@@ -33,9 +33,9 @@
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
     __block CWAPIBlogPost* post;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        post = self.post.APIBlogPost;
-    }];
+//    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
+//        post = self.post.APIBlogPost;
+//    }];
 
     self.vars[@"id"] = post.uid;
     self.vars[@"title"] = post.title ? : @"";

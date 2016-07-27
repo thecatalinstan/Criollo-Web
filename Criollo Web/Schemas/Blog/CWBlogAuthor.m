@@ -8,6 +8,7 @@
 
 #import "CWBlogAuthor.h"
 #import "CWBlog.h"
+#import "CWAPIBlogAuthor.h"
 
 @implementation CWBlogAuthor
 
@@ -27,6 +28,25 @@
 
 - (NSString *)publicPath {
     return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogAuthorPath, self.handle];
+}
+
+#pragma mark - ModelProxy
+
+- (CWModel *)modelObject {
+    CWAPIBlogAuthor *author = [[CWAPIBlogAuthor alloc] init];
+    author.uid = self.uid;
+    author.publicPath = self.publicPath;
+    author.displayName = self.displayName;
+    author.email = self.email;
+    author.user = self.user;
+    author.handle = self.handle;
+    return author;
+}
+
+# pragma mark - Fetching
+
++ (instancetype)getByUser:(NSString *)username {
+    return [[self class] getSingleObjectWhere:@"user = %@", username];
 }
 
 @end
