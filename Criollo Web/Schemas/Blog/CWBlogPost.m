@@ -10,7 +10,6 @@
 #import "CWBlogAuthor.h"
 #import "CWBlogTag.h"
 #import "CWBlog.h"
-#import "CWAppDelegate.h"
 #import "CWAPIBlogPost.h"
 #import "CWAPIBlogAuthor.h"
 #import "CWAPIBlogTag.h"
@@ -55,6 +54,18 @@
         [((NSMutableArray *)post.tags) addObject:tag.modelObject];
     }
     return post;
+}
+
+#pragma mark - Fetching
+
++ (instancetype)getByHandle:(NSString *)handle year:(NSUInteger)year month:(NSUInteger)month {
+    CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
+    if ( period.year == 0 || period.month == 0 ) {
+        return [CWBlogPost getByHandle:handle];
+    }
+
+    CWBlogDatePair* datePair = [CWBlog datePairWithYearMonth:period];
+    return [CWBlogPost getSingleObjectWhere:@"handle = %@ and date >= %@ and date <= %@", handle, datePair.startDate, datePair.endDate];
 }
 
 @end

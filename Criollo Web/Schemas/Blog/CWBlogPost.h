@@ -11,6 +11,8 @@
 
 @class CWBlogAuthor;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CWBlogPost : CWSchema
 
 @property NSDate * date;
@@ -20,4 +22,8 @@
 @property CWBlogAuthor * author;
 @property RLMArray<CWBlogTag *><CWBlogTag> * tags;
 
++ (nullable instancetype)getByHandle:(NSString *)handle year:(NSUInteger)year month:(NSUInteger)month;
+
 @end
+
+NS_ASSUME_NONNULL_END

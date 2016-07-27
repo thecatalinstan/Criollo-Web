@@ -207,14 +207,14 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)singlePostBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-//        NSUInteger year = request.query[@"year"].integerValue;
-//        NSUInteger month = request.query[@"month"].integerValue;
-//        NSString* handle = request.query[@"handle"];
-//        CWBlogPost* post = [CWBlogPost getByHandle:handle year:year month:month];
-//        if (post != nil) {
-//            [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
-//            self.title = post.title;
-//        }
+        NSUInteger year = request.query[@"year"].integerValue;
+        NSUInteger month = request.query[@"month"].integerValue;
+        NSString* handle = request.query[@"handle"];
+        CWBlogPost* post = [CWBlogPost getByHandle:handle year:year month:month];
+        if (post != nil) {
+            [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
+            self.title = post.title;
+        }
         completionHandler();
     };
 }
