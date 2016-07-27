@@ -6,8 +6,7 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import <Realm/Realm.h>
 
 #define CWBlogErrorDomain           @"CWBlogErrorDomain"
 #define CWBlogError                 101
@@ -36,14 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlog : NSObject
 
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 @property (readonly, strong, nonatomic) NSURL *baseDirectory;
+@property (readonly, strong, nonatomic) RLMRealm *realm;
 
-- (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error;
-- (BOOL)saveManagedObjectContext:(NSError * __autoreleasing *)error;
+- (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 - (BOOL)importUsersFromDefaults:(NSError * __autoreleasing *)error;
 
 + (NSString *)formattedDate:(NSDate *)date;

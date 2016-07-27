@@ -12,15 +12,13 @@
 		3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3ACC94C01C9BFAEF000C6180 /* githubMark.svg */; };
 		8F24DA6880439D0DAE213543 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E43F5B3F5ED56D50F21616C /* Pods_Criollo_Web.framework */; };
 		AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD089EE51C998E6E007434A1 /* criollo-web-icon.png */; };
+		AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0A14791D48EA27003D8DAB /* CWSchema.m */; };
 		AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA96C1C96004B005206A1 /* logo.png */; };
 		AD0BA9991C9629A6005206A1 /* app.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
-		AD41F03A1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F02F1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m */; };
 		AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */; };
-		AD41F03C1CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0331CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m */; };
 		AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0351CE48C10001ADEAC /* CWBlogTag.m */; };
-		AD41F03E1CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0371CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m */; };
 		AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0391CE48C10001ADEAC /* CWBlogPost.m */; };
 		AD41F0431CE48C3A001ADEAC /* CWBlog.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0411CE48C3A001ADEAC /* CWBlog.xcdatamodeld */; };
 		AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0451CE48DCE001ADEAC /* CWBlog.m */; };
@@ -122,6 +120,8 @@
 		3ACC94C01C9BFAEF000C6180 /* githubMark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = githubMark.svg; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
 		AD089EE51C998E6E007434A1 /* criollo-web-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-web-icon.png"; sourceTree = "<group>"; };
+		AD0A14781D48EA27003D8DAB /* CWSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSchema.h; sourceTree = "<group>"; };
+		AD0A14791D48EA27003D8DAB /* CWSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSchema.m; sourceTree = "<group>"; };
 		AD0BA8391D1BEAD900F0C865 /* notifications.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = notifications.js; sourceTree = "<group>"; };
 		AD0BA83B1D1C1D9500F0C865 /* menu.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = menu.js; sourceTree = "<group>"; };
 		AD0BA83C1D1C1D9500F0C865 /* notifications.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notifications.styl; sourceTree = "<group>"; };
@@ -135,16 +135,10 @@
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
 		AD0BA9A21C96387C005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		AD3B68FB1CCC532400563E22 /* rollup-config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "rollup-config.js"; sourceTree = "<group>"; };
-		AD41F02E1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWBlogAuthor+CoreDataProperties.h"; sourceTree = "<group>"; };
-		AD41F02F1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWBlogAuthor+CoreDataProperties.m"; sourceTree = "<group>"; };
 		AD41F0301CE48C10001ADEAC /* CWBlogAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogAuthor.h; sourceTree = "<group>"; };
 		AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogAuthor.m; sourceTree = "<group>"; };
-		AD41F0321CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWBlogTag+CoreDataProperties.h"; sourceTree = "<group>"; };
-		AD41F0331CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWBlogTag+CoreDataProperties.m"; sourceTree = "<group>"; };
 		AD41F0341CE48C10001ADEAC /* CWBlogTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogTag.h; sourceTree = "<group>"; };
 		AD41F0351CE48C10001ADEAC /* CWBlogTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogTag.m; sourceTree = "<group>"; };
-		AD41F0361CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWBlogPost+CoreDataProperties.h"; sourceTree = "<group>"; };
-		AD41F0371CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWBlogPost+CoreDataProperties.m"; sourceTree = "<group>"; };
 		AD41F0381CE48C10001ADEAC /* CWBlogPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogPost.h; sourceTree = "<group>"; };
 		AD41F0391CE48C10001ADEAC /* CWBlogPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogPost.m; sourceTree = "<group>"; };
 		AD41F0421CE48C3A001ADEAC /* CWBlog.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CWBlog.xcdatamodel; sourceTree = "<group>"; };
@@ -288,27 +282,23 @@
 			children = (
 				AD41F0301CE48C10001ADEAC /* CWBlogAuthor.h */,
 				AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */,
-				AD41F02E1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.h */,
-				AD41F02F1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m */,
 				AD41F0341CE48C10001ADEAC /* CWBlogTag.h */,
 				AD41F0351CE48C10001ADEAC /* CWBlogTag.m */,
-				AD41F0321CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.h */,
-				AD41F0331CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m */,
 				AD41F0381CE48C10001ADEAC /* CWBlogPost.h */,
 				AD41F0391CE48C10001ADEAC /* CWBlogPost.m */,
-				AD41F0361CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.h */,
-				AD41F0371CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m */,
 			);
 			path = Blog;
 			sourceTree = "<group>";
 		};
-		AD41F0401CE48C3A001ADEAC /* DataModels */ = {
+		AD41F0401CE48C3A001ADEAC /* Schemas */ = {
 			isa = PBXGroup;
 			children = (
 				AD12B1781D3ACD9600429827 /* Blog */,
 				AD41F0411CE48C3A001ADEAC /* CWBlog.xcdatamodeld */,
+				AD0A14781D48EA27003D8DAB /* CWSchema.h */,
+				AD0A14791D48EA27003D8DAB /* CWSchema.m */,
 			);
-			path = DataModels;
+			path = Schemas;
 			sourceTree = "<group>";
 		};
 		AD4A13F41C9068AC00A3616E /* Resources */ = {
@@ -427,7 +417,7 @@
 			children = (
 				ADFA570D1D27E644002FB626 /* Contrib */,
 				AD6113CD1D251CCF005B8208 /* API */,
-				AD41F0401CE48C3A001ADEAC /* DataModels */,
+				AD41F0401CE48C3A001ADEAC /* Schemas */,
 				ADF3C9D81C6DDAAE00C0D5BC /* Views */,
 				AD7290E91C7058C90079AD76 /* Public */,
 				AD4A13F41C9068AC00A3616E /* Resources */,
@@ -666,12 +656,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADD294851CB936BC006458AF /* CWBlogPostViewController.m in Sources */,
-				AD41F03A1CE48C10001ADEAC /* CWBlogAuthor+CoreDataProperties.m in Sources */,
 				AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */,
-				AD41F03C1CE48C10001ADEAC /* CWBlogTag+CoreDataProperties.m in Sources */,
 				AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */,
-				AD41F03E1CE48C10001ADEAC /* CWBlogPost+CoreDataProperties.m in Sources */,
 				AD5133711D41248900283B67 /* CWBlogAPIController.m in Sources */,
+				AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */,
 				AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
 				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,

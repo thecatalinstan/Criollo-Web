@@ -12,6 +12,7 @@
 #import "CWBlogAuthor.h"
 #import "CWUser.h"
 #import "NSString+URLUtils.h"
+#import "CWAppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,82 +28,58 @@ NS_ASSUME_NONNULL_END
 
 @implementation CWBlog
 
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-@synthesize managedObjectModel = _managedObjectModel;
-@synthesize managedObjectContext = _managedObjectContext;
+- (instancetype)init {
+    return [self initWithBaseDirectory:[CWAppDelegate baseDirectory] error:nil];
+}
 
 - (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error {
     self = [super init];
     if ( self != nil ) {
         _baseDirectory = baseDirectory;
 
-        // Model
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:self.className withExtension:@"momd"];
-        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+        // Realm
+        NSURL *realmURL = [[_baseDirectory URLByAppendingPathComponent:self.className] URLByAppendingPathExtension:@"realm"];
+        RLMRealmConfiguration* config = [RLMRealmConfiguration defaultConfiguration];
+        config.fileURL = realmURL;
+        config.readOnly = NO;
+        config.deleteRealmIfMigrationNeeded = NO;
 
-        // Store
-        _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-
-        NSURL *storeURL = [[self.baseDirectory URLByAppendingPathComponent:self.className] URLByAppendingPathExtension:@"sqlite"];
-        NSDictionary *storeOptions = @{
-                                       NSSQLiteAnalyzeOption: @YES,
-                                       NSSQLiteManualVacuumOption: @YES,
-                                       NSMigratePersistentStoresAutomaticallyOption: @YES,
-                                       NSInferMappingModelAutomaticallyOption: @YES
-                                       };
-        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:storeOptions error:error]) {
-            _persistentStoreCoordinator = nil;
+        _realm = [RLMRealm realmWithConfiguration:config error:error];
+        if ( !_realm ) {
             return nil;
         }
-
-        // Context
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [_managedObjectContext setPersistentStoreCoordinator:_persistentStoreCoordinator];
     }
     return self;
 }
 
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
     __block BOOL result = YES;
-    [self.managedObjectContext performBlockAndWait:^{
-        [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
-            *error = nil;
-            CWBlogAuthor *author = [CWBlogAuthor authorWithUsername:key];
-            if ( *error ) {
-                *stop = YES;
-                result = NO;
-                return;
-            }
 
-            if ( !author ) {
-                author = [[CWBlogAuthor alloc] initWithEntity:[NSEntityDescription entityForName:NSStringFromClass([CWBlogAuthor class]) inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-            }
-
-            author.user = user.username;
-            author.email = user.email;
-            author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            author.handle = author.displayName.URLFriendlyHandle;
-        }];
-        
-        *error = nil;
-        result = [self saveManagedObjectContext:error];
+    [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
+//        *error = nil;
+//        CWBlogAuthor *author = [CWBlogAuthor authorWithUsername:key];
+//        if ( *error ) {
+//            *stop = YES;
+//            result = NO;
+//            return;
+//        }
+//
+//        if ( !author ) {
+//            author = [[CWBlogAuthor alloc] initWithEntity:[NSEntityDescription entityForName:NSStringFromClass([CWBlogAuthor class]) inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+//        }
+//
+//        author.user = user.username;
+//        author.email = user.email;
+//        author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//        author.handle = author.displayName.URLFriendlyHandle;
     }];
-    return result;
-}
 
-- (BOOL)saveManagedObjectContext:(NSError * _Nullable __autoreleasing *)error {
-    BOOL result = YES;
-
-    if (self.managedObjectContext.hasChanges) {
-        NSError* mocSaveError;
-        result = [self.managedObjectContext save:&mocSaveError];
-        if ( !result ) {
-            *error = mocSaveError;
-        }
-    }
+    *error = nil;
+//    result = [self saveManagedObjectContext:error];
 
     return result;
 }
+
 
 + (NSString *)formattedDate:(NSDate *)date {
     static NSDateFormatter* dateFormatter;
