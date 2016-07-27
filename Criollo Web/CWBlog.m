@@ -10,6 +10,8 @@
 
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
+#import "CWBlogTag.h"
+#import "CWBlogPost.h"
 #import "CWUser.h"
 #import "NSString+URLUtils.h"
 #import "CWAppDelegate.h"
@@ -43,6 +45,7 @@ NS_ASSUME_NONNULL_END
         config.fileURL = realmURL;
         config.readOnly = NO;
         config.deleteRealmIfMigrationNeeded = NO;
+        config.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
 
         _realm = [RLMRealm realmWithConfiguration:config error:error];
         if ( !_realm ) {
@@ -53,29 +56,24 @@ NS_ASSUME_NONNULL_END
 }
 
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
-    __block BOOL result = YES;
 
+    __block BOOL result = YES;
+    [self.realm beginWriteTransaction];
     [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
-//        *error = nil;
-//        CWBlogAuthor *author = [CWBlogAuthor authorWithUsername:key];
-//        if ( *error ) {
-//            *stop = YES;
-//            result = NO;
-//            return;
-//        }
-//
-//        if ( !author ) {
-//            author = [[CWBlogAuthor alloc] initWithEntity:[NSEntityDescription entityForName:NSStringFromClass([CWBlogAuthor class]) inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-//        }
-//
-//        author.user = user.username;
-//        author.email = user.email;
-//        author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//        author.handle = author.displayName.URLFriendlyHandle;
+        CWBlogAuthor *author = [CWBlogAuthor getByUser:key];
+        if ( !author ) {
+            author = [[CWBlogAuthor alloc] init];
+        }
+        author.user = user.username;
+        author.email = user.email;
+        author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        author.handle = author.displayName.URLFriendlyHandle;
+
+        [self.realm addOrUpdateObject:author];
     }];
 
     *error = nil;
-//    result = [self saveManagedObjectContext:error];
+    result = [self.realm commitWriteTransaction:error];
 
     return result;
 }

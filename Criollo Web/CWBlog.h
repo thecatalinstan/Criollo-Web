@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) RLMRealm *realm;
 
 - (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
-- (BOOL)importUsersFromDefaults:(NSError * __autoreleasing *)error;
+- (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error;
 
 + (NSString *)formattedDate:(NSDate *)date;
 + (NSString *)formattedTime:(NSDate *)date;
