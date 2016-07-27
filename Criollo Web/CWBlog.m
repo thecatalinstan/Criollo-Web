@@ -28,37 +28,45 @@ NS_ASSUME_NONNULL_END
 
 @end
 
+NS_ASSUME_NONNULL_BEGIN
+
+@interface CWBlog()
+
+@end
+
+NS_ASSUME_NONNULL_END
+
 @implementation CWBlog
 
-- (instancetype)init {
-    return [self initWithBaseDirectory:[CWAppDelegate baseDirectory] error:nil];
++ (RLMRealmConfiguration *) realmConfiguration {
+    static RLMRealmConfiguration *realmConfig;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURL *realmURL = [[[CWAppDelegate baseDirectory] URLByAppendingPathComponent:self.className] URLByAppendingPathExtension:@"realm"];
+        realmConfig = [RLMRealmConfiguration defaultConfiguration];
+        realmConfig.fileURL = realmURL;
+        realmConfig.readOnly = NO;
+        realmConfig.deleteRealmIfMigrationNeeded = NO;
+        realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
+    });
+    return realmConfig;
 }
 
-- (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error {
-    self = [super init];
-    if ( self != nil ) {
-        _baseDirectory = baseDirectory;
++ (RLMRealm *)realm {
 
-        // Realm
-        NSURL *realmURL = [[_baseDirectory URLByAppendingPathComponent:self.className] URLByAppendingPathExtension:@"realm"];
-        RLMRealmConfiguration* config = [RLMRealmConfiguration defaultConfiguration];
-        config.fileURL = realmURL;
-        config.readOnly = NO;
-        config.deleteRealmIfMigrationNeeded = NO;
-        config.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
-
-        _realm = [RLMRealm realmWithConfiguration:config error:error];
-        if ( !_realm ) {
-            return nil;
-        }
+    NSError *error;
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:[CWBlog realmConfiguration] error:&error];
+    if ( !realm ) {
+        @throw [NSException exceptionWithName:NSGenericException reason:NSLocalizedString(@"Unable to get realm.",) userInfo:@{NSUnderlyingErrorKey: error}];
     }
-    return self;
+    return realm;
 }
 
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
 
-    __block BOOL result = YES;
-    [self.realm beginWriteTransaction];
+    RLMRealm* realm = [CWBlog realm];
+    [realm beginWriteTransaction];
+
     [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
         CWBlogAuthor *author = [CWBlogAuthor getByUser:key];
         if ( !author ) {
@@ -69,13 +77,10 @@ NS_ASSUME_NONNULL_END
         author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         author.handle = author.displayName.URLFriendlyHandle;
 
-        [self.realm addOrUpdateObject:author];
+        [realm addOrUpdateObject:author];
     }];
 
-    *error = nil;
-    result = [self.realm commitWriteTransaction:error];
-
-    return result;
+    return [realm commitWriteTransaction:error];
 }
 
 

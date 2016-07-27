@@ -9,7 +9,8 @@
 #import <Realm/Realm.h>
 
 #define CWBlogErrorDomain           @"CWBlogErrorDomain"
-#define CWBlogError                 101
+#define CWBlogUnknownAuthor         1001
+#define CWBlogUnknownError          1999
 
 #define CWBlogPath                  @"/blog"
 #define CWBlogNewPostPath           @"/new"
@@ -35,11 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlog : NSObject
 
-@property (readonly, strong, nonatomic) NSURL *baseDirectory;
-@property (readonly, strong, nonatomic) RLMRealm *realm;
-
-- (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory error:(NSError * __autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error;
+
++ (RLMRealmConfiguration *) realmConfiguration;
++ (nullable RLMRealm *)realm;
 
 + (NSString *)formattedDate:(NSDate *)date;
 + (NSString *)formattedTime:(NSDate *)date;

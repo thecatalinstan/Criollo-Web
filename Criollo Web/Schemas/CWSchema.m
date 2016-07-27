@@ -7,7 +7,6 @@
 //
 
 #import "CWSchema.h"
-#import "CWAppDelegate.h"
 #import "CWBlog.h"
 #import "CWModel.h"
 
@@ -50,21 +49,29 @@
 #pragma mark - Fetching
 
 + (instancetype)getSingleObjectWhere:(NSString *)predicateFormat, ... {
+
+    RLMRealm * realm = [CWBlog realm];
+
     va_list args;
     va_start(args, predicateFormat);
-    RLMResults* results = [[self class] objectsInRealm:[CWAppDelegate sharedBlog].realm where:predicateFormat args:args];
+    RLMResults* results = [[self class] objectsInRealm:realm where:predicateFormat args:args];
     va_end(args);
+
     if (results.count == 0) {
         return nil;
     }
+
     return results.firstObject;
 }
 
 + (RLMResults *)getObjectsWhere:(NSString *)predicateFormat, ... {
+    RLMRealm * realm = [CWBlog realm];
+
     va_list args;
     va_start(args, predicateFormat);
-    RLMResults* results = [[self class] objectsInRealm:[CWAppDelegate sharedBlog].realm where:predicateFormat args:args];
+    RLMResults* results = [[self class] objectsInRealm:realm where:predicateFormat args:args];
     va_end(args);
+
     return results;
 }
 

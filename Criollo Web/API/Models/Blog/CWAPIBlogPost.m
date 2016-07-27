@@ -7,7 +7,6 @@
 //
 
 #import "CWAPIBlogPost.h"
-#import "CWAppDelegate.h"
 #import "CWBlog.h"
 #import "CWBlogPost.h"
 #import "CWBlogAuthor.h"
@@ -20,7 +19,7 @@
 #pragma mark - CWSchemaProxy
 
 - (CWSchema *)schemaObject {
-    RLMRealm * realm = [CWAppDelegate sharedBlog].realm;
+    RLMRealm * realm = [CWBlog realm];
     CWBlogPost* post = [CWBlogPost objectInRealm:realm forPrimaryKey:self.uid];
     if ( post == nil ) {
         post = [[CWBlogPost alloc] init];

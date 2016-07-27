@@ -7,7 +7,6 @@
 //
 
 #import "CWAPIBlogTag.h"
-#import "CWAppDelegate.h"
 #import "CWBlog.h"
 #import "CWBlogTag.h"
 
@@ -16,7 +15,7 @@
 #pragma mark - CWSchemaProxy
 
 - (CWSchema *)schemaObject {
-    RLMRealm * realm = [CWAppDelegate sharedBlog].realm;
+    RLMRealm * realm = [CWBlog realm];
     CWBlogTag* tag = [CWBlogTag objectInRealm:realm forPrimaryKey:self.uid];
     if ( tag == nil ) {
         tag = [[CWBlogTag alloc] init];

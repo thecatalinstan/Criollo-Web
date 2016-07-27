@@ -197,20 +197,14 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)setupBlog {
-    NSError* error;
-    _blog = [[CWBlog alloc] initWithBaseDirectory:[CWAppDelegate baseDirectory] error:&error];
-    if (error) {
-        [CRApp logErrorFormat:@"%@ Failed to set up the blog. %@", [NSDate date], error.localizedDescription];
+    _blog = [[CWBlog alloc] init];
+    NSError *error;
+    [self.blog importUsersFromDefaults:&error];
+    if ( error ) {
+        [CRApp logErrorFormat:@"%@ Failed to import users from defaults. %@", [NSDate date], error.localizedDescription];
         [CRApp terminate:nil];
     } else {
-        error = nil;
-        [self.blog importUsersFromDefaults:&error];
-        if ( error ) {
-            [CRApp logErrorFormat:@"%@ Failed to import users from defaults. %@", [NSDate date], error.localizedDescription];
-            [CRApp terminate:nil];
-        } else {
-            [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
-        }
+        [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
     }
 }
 
@@ -311,10 +305,6 @@ NS_ASSUME_NONNULL_END
         baseDirectory = [baseDirectory URLByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(__bridge NSString*)kCFBundleNameKey]];
     }
     return baseDirectory;
-}
-
-+ (CWBlog *)sharedBlog {
-    return ((CWAppDelegate*)[CRApp delegate]).blog;
 }
 
 @end
