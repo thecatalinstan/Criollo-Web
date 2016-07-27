@@ -8,15 +8,12 @@
 
 #import "CWModel.h"
 
-@class CWAPIBlogPost;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAPIBlogTag : CWModel
 
 @property (nullable, nonatomic, strong) NSString *name;
 @property (nullable, nonatomic, strong) NSString<Optional> *handle;
-@property (nullable, nonatomic, strong) NSSet<CWAPIBlogPost *><Optional> *posts;
 
 @end
 

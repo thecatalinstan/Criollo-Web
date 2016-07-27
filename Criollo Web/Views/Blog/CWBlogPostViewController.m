@@ -6,16 +6,10 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-#import <JSONModel/JSONModel.h>
-#import <CSOddFormatters/CSOddFormatters.h>
-
 #import "CWBlogPostViewController.h"
 #import "CWBlogPost.h"
 #import "CWBlogAuthor.h"
-#import "CWAPIBlogPost.h"
-#import "CWAPIBlogAuthor.h"
 #import "CWBlog.h"
-#import "CWAppDelegate.h"
 
 @implementation CWBlogPostViewController
 
@@ -32,21 +26,16 @@
 }
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
-    __block CWAPIBlogPost* post;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        post = self.post.APIBlogPost;
-    }];
-
-    self.vars[@"id"] = post.uid;
-    self.vars[@"title"] = post.title ? : @"";
-    self.vars[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], post.publicPath] ? : @"";
-    self.vars[@"author"] = post.author.displayName ? : @"";
-    if (post.date) {
-        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:post.date], [CWBlog formattedTime:post.date]];
+    self.vars[@"id"] = self.post.uid;
+    self.vars[@"title"] = self.post.title ? : @"";
+    self.vars[@"permalink"] = [self.post permalinkForRequest:request];
+    self.vars[@"author"] = self.post.author.displayName ? : @"";
+    if (self.post.date) {
+        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:self.post.date], [CWBlog formattedTime:self.post.date]];
     } else {
         self.vars[@"date"] = @"";
     }
-    self.vars[@"content"] = post.renderedContent? : @"";
+    self.vars[@"content"] = self.post.renderedContent ? : @"";
     
     return [super presentViewControllerWithRequest:request response:response];
 }

@@ -7,10 +7,11 @@
 //
 
 #import <JSONModel/JSONModel.h>
+#import "CWSchemaProxy.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CWModel : JSONModel
+@interface CWModel : JSONModel<CWSchemaProxy>
 
 @property (nullable, nonatomic, strong) NSString<Optional> *uid;
 @property (nullable, nonatomic, strong, readonly) NSString<Optional> *path;

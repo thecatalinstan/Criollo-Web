@@ -150,12 +150,12 @@ blog.setup = () => {
   const postId = postElement.dataset.post
   const lastPathComponent = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
   if ( postId != '' && lastPathComponent != 'edit' ) {
-    // console.log(`Post id is ${postId}. Pathname is ${lastPathComponent}. Exiting.`)
+    console.log(`Post id is ${postId}. Pathname is ${lastPathComponent}. Exiting.`)
     return
   }
 
   if ( postId && lastPathComponent == 'edit' ) {
-    const postPath = location.pathname.substr(location.pathname.indexOf('/', 1), location.pathname.lastIndexOf('/') - location.pathname.indexOf('/', 1))
+    const postPath = '/' + postId;
     getPost(postPath, (data) => {
       setupEditor(postElement, data)
     }, (err) => {})

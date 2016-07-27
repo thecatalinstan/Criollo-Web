@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString<Optional> *displayName;
 @property (nullable, nonatomic, retain) NSString<Optional> *email;
 @property (nullable, nonatomic, strong) NSString<Optional> *handle;
-@property (nullable, nonatomic, retain) NSSet<CWAPIBlogPost *><Optional> *posts;
 
 @end
 

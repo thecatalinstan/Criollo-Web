@@ -6,16 +6,10 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-#import <JSONModel/JSONModel.h>
-#import <CSOddFormatters/CSOddFormatters.h>
-
 #import "CWBlogPostDetailsViewController.h"
 #import "CWBlogPost.h"
 #import "CWBlogAuthor.h"
-#import "CWAPIBlogPost.h"
-#import "CWAPIBlogAuthor.h"
 #import "CWBlog.h"
-#import "CWAppDelegate.h"
 
 @interface CWBlogPostDetailsViewController ()
 
@@ -26,7 +20,7 @@
 @implementation CWBlogPostDetailsViewController
 
 - (BOOL)isNewPost {
-    return self.post == nil || self.post.objectID.isTemporaryID;
+    return self.post == nil;
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil prefix:(NSString * _Nullable)prefix {
@@ -43,24 +37,17 @@
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
-    __block CWAPIBlogPost* post;
-    __block BOOL isNewPost;
-    [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-        post = self.post.APIBlogPost;
-        isNewPost = self.isNewPost;
-    }];
-
-    self.vars[@"id"] = isNewPost ? @"": post.uid;
-    self.vars[@"title"] = post.title ? : @"";
-    self.vars[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], post.publicPath] ? : @"";
-    self.vars[@"author"] = post.author.displayName ? : @"";
-    if (post.date) {
-        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:post.date], [CWBlog formattedTime:post.date]];
+    self.vars[@"id"] = self.isNewPost ? @"": self.post.uid;
+    self.vars[@"title"] = self.post.title ? : @"";
+    self.vars[@"permalink"] = [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], self.post.publicPath] ? : @"";
+    self.vars[@"author"] = self.post.author.displayName ? : @"";
+    if (self.post.date) {
+        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:self.post.date], [CWBlog formattedTime:self.post.date]];
     } else {
         self.vars[@"date"] = @"";
     }
-    self.vars[@"content"] = post.renderedContent? : @"";
-    self.vars[@"editable"] = isNewPost ? @" contenteditable=\"true\"" : @"";
+    self.vars[@"content"] = self.post.renderedContent ? : @"";
+    self.vars[@"editable"] = self.isNewPost ? @" contenteditable=\"true\"" : @"";
 
     return [super presentViewControllerWithRequest:request response:response];
 }

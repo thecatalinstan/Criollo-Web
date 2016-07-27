@@ -127,36 +127,10 @@ NS_ASSUME_NONNULL_END
             // Stop the server and close the socket cleanly
             [CRApp logFormat:@"%@ Sutting down server.", [NSDate date]];
             [self.server stopListening];
-
-            // Save the blog managed context
-            [CRApp logFormat:@"%@ Saving blog MOC changes.", [NSDate date]];
-            [self.blog.managedObjectContext performBlock:^{
-                NSError* error = nil;
-                if ( ![self.blog saveManagedObjectContext:&error] )  {
-                    [CRApp logErrorFormat:@"%@ Unable to save the blog MOC. %@. Trying again in 5 seconds.", [NSDate date], error.localizedDescription];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
-                        [self.blog.managedObjectContext performBlock:^{
-                            NSError* error = nil;
-                            if ( ![self.blog saveManagedObjectContext:&error] ) {
-                                [CRApp logErrorFormat:@"%@ Unable to save the blog context. %@. No firther attepts to save will be made. Some data might have been lost.", [NSDate date], error.localizedDescription];
-                            } else {
-                                [CRApp logFormat:@"%@ Successfully saved blog MOC.", [NSDate date]];
-                            }
-                            reply = CRTerminateNow;
-                        }];
-                    });
-                } else {
-                    reply = CRTerminateNow;
-                }
-            }];
+            reply = CRTerminateNow;
         }];
     });
     return reply;
-}
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [self.server stopListening];
 }
 
 - (void)startServer {
@@ -223,20 +197,14 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)setupBlog {
-    NSError* error;
-    _blog = [[CWBlog alloc] initWithBaseDirectory:[CWAppDelegate baseDirectory] error:&error];
-    if (error) {
-        [CRApp logErrorFormat:@"%@ Failed to set up the blog. %@", [NSDate date], error.localizedDescription];
+    _blog = [[CWBlog alloc] init];
+    NSError *error;
+    [self.blog importUsersFromDefaults:&error];
+    if ( error ) {
+        [CRApp logErrorFormat:@"%@ Failed to import users from defaults. %@", [NSDate date], error.localizedDescription];
         [CRApp terminate:nil];
     } else {
-        error = nil;
-        [self.blog importUsersFromDefaults:&error];
-        if ( error ) {
-            [CRApp logErrorFormat:@"%@ Failed to import users from defaults. %@", [NSDate date], error.localizedDescription];
-            [CRApp terminate:nil];
-        } else {
-            [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
-        }
+        [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
     }
 }
 
@@ -337,10 +305,6 @@ NS_ASSUME_NONNULL_END
         baseDirectory = [baseDirectory URLByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(__bridge NSString*)kCFBundleNameKey]];
     }
     return baseDirectory;
-}
-
-+ (CWBlog *)sharedBlog {
-    return ((CWAppDelegate*)[CRApp delegate]).blog;
 }
 
 @end
