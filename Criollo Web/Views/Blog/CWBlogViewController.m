@@ -71,14 +71,17 @@ NS_ASSUME_NONNULL_END
     [self get:tagPath block:self.tagBlock];
     [self get:tagPath block:self.enumeratePostsBlock];
 
-    // Archive
-    NSString* yearArchivePath = [CWBlogArchivePath stringByAppendingPathComponent:@":year"];
-    [self get:yearArchivePath block:self.archiveBlock];
-    [self get:yearArchivePath block:self.enumeratePostsBlock];
+//    // Archive Index
+//    [self get:CWBlogArchivePath block:self.archiveIndexBlock];
 
-    NSString* monthArchivePath = [yearArchivePath stringByAppendingPathComponent:@":month"];
-    [self get:monthArchivePath block:self.archiveBlock];
-    [self get:monthArchivePath block:self.enumeratePostsBlock];
+    // Yearly archive
+    [self get:CWBlogArchiveYearPath block:self.archiveBlock];
+    [self get:CWBlogArchiveYearPath block:self.enumeratePostsBlock];
+
+    // Monthly archive
+    [self get:CWBlogArchiveYearMonthPath block:self.archiveBlock];
+    [self get:CWBlogArchiveYearMonthPath block:self.enumeratePostsBlock];
+
 
     // Single post
     [self get:CWBlogSinglePostPath block:self.singlePostBlock];
@@ -134,8 +137,8 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
 
         // Get the month and year from the path
-        NSUInteger year = request.query[@"year"].integerValue;
-        NSUInteger month = request.query[@"month"].integerValue;
+        NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
+        NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
 
         CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
         if ( period.year == 0 ) {

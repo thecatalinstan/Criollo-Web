@@ -17,6 +17,8 @@
 #define CWBlogArchivePath           @"/archive"
 #define CWBlogTagPath               @"/tag"
 #define CWBlogAuthorPath            @"/author"
+#define CWBlogArchiveYearPath       @"/[0-9]{4}"
+#define CWBlogArchiveYearMonthPath  @"/[0-9]{4}/[0-9]{1,2}"
 #define CWBlogSinglePostPath        @"/:year/:month/:handle"
 #define CWBlogEditPostPath          @"/:year/:month/:handle/edit"
 
