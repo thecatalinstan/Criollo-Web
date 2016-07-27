@@ -49,30 +49,40 @@
 #pragma mark - Fetching
 
 + (instancetype)getSingleObjectWhere:(NSString *)predicateFormat, ... {
-
-    RLMRealm * realm = [CWBlog realm];
-
     va_list args;
     va_start(args, predicateFormat);
-    RLMResults* results = [[self class] objectsInRealm:realm where:predicateFormat args:args];
+    CWSchema *result = [[self class] getSingleObjectWhere:predicateFormat args:args];
     va_end(args);
+    return result;
+}
 
-    if (results.count == 0) {
++ (instancetype)getSingleObjectWhere:(NSString *)predicateFormat args:(va_list)args {
+    return [[self class] getSingleObjectWithPredicate:[NSPredicate predicateWithFormat:predicateFormat arguments:args]];
+}
+
++ (instancetype)getSingleObjectWithPredicate:(NSPredicate *)predicate {
+    RLMResults *results = [[self class] getObjectsWithPredicate:predicate];
+    if ( results.count == 0 ) {
         return nil;
     }
-
     return results.firstObject;
 }
 
 + (RLMResults *)getObjectsWhere:(NSString *)predicateFormat, ... {
-    RLMRealm * realm = [CWBlog realm];
-
     va_list args;
     va_start(args, predicateFormat);
-    RLMResults* results = [[self class] objectsInRealm:realm where:predicateFormat args:args];
+    RLMResults *results = [[self class] getObjectsWhere:predicateFormat args:args];
     va_end(args);
-
     return results;
+}
+
++ (RLMResults *)getObjectsWhere:(NSString *)predicateFormat args:(va_list)args {
+    return [[self class] getObjectsWithPredicate:[NSPredicate predicateWithFormat:predicateFormat arguments:args]];
+}
+
++ (RLMResults *)getObjectsWithPredicate:(NSPredicate *)predicate {
+    RLMRealm * realm = [CWBlog realm];
+    return [[self class] objectsInRealm:realm withPredicate:predicate];
 }
 
 + (instancetype)getByUID:(NSString *)uid {

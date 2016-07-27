@@ -19,7 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, strong) NSString * publicPath;
 
 + (nullable instancetype)getSingleObjectWhere:(NSString *)predicateFormat, ...;
++ (nullable instancetype)getSingleObjectWhere:(NSString *)predicateFormat args:(va_list)args;
++ (nullable instancetype)getSingleObjectWithPredicate:(NSPredicate *)predicate;
+
 + (nonnull RLMResults *)getObjectsWhere:(NSString *)predicateFormat, ...;
++ (nonnull RLMResults *)getObjectsWhere:(NSString *)predicateFormat args:(va_list)args;
++ (nonnull RLMResults *)getObjectsWithPredicate:(NSPredicate *)predicate;
 
 + (nullable instancetype)getByUID:(NSString *)uid;
 + (nullable instancetype)getByHandle:(NSString *)handle;
