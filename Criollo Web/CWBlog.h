@@ -18,7 +18,7 @@
 #define CWBlogTagPath               @"/tag"
 #define CWBlogAuthorPath            @"/author"
 #define CWBlogSinglePostPath        @"/:year/:month/:handle"
-#define CWBlogEditPostPath        @"/:year/:month/:handle/edit"
+#define CWBlogEditPostPath          @"/:year/:month/:handle/edit"
 
 typedef struct {
     NSUInteger year;
