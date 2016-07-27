@@ -16,7 +16,10 @@
 
 - (CWSchema *)schemaObject {
     RLMRealm * realm = [CWBlog realm];
-    CWBlogTag* tag = [CWBlogTag objectInRealm:realm forPrimaryKey:self.uid];
+    CWBlogTag* tag;
+    if ( self.uid ) {
+        tag = [CWBlogTag objectInRealm:realm forPrimaryKey:self.uid];
+    }
     if ( tag == nil ) {
         tag = [[CWBlogTag alloc] init];
     }

@@ -18,7 +18,10 @@
 
 - (CWSchema *)schemaObject {
     RLMRealm * realm = [CWBlog realm];
-    CWBlogAuthor* author = [CWBlogAuthor objectInRealm:realm forPrimaryKey:self.uid];
+    CWBlogAuthor* author;
+    if ( self.uid ) {
+        author = [CWBlogAuthor objectInRealm:realm forPrimaryKey:self.uid];
+    }
     if ( author == nil ) {
         author = [[CWBlogAuthor alloc] init];
     }

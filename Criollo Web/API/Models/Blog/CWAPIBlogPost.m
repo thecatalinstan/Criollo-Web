@@ -20,11 +20,13 @@
 
 - (CWSchema *)schemaObject {
     RLMRealm * realm = [CWBlog realm];
-    CWBlogPost* post = [CWBlogPost objectInRealm:realm forPrimaryKey:self.uid];
+    CWBlogPost* post;
+    if ( self.uid ) {
+        post = [CWBlogPost objectInRealm:realm forPrimaryKey:self.uid];
+    }
     if ( post == nil ) {
         post = [[CWBlogPost alloc] init];
     }
-
     post.date = self.date;
     post.handle = self.handle;
     post.title = self.title;
