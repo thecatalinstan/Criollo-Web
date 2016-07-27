@@ -6,11 +6,17 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
+#import <Criollo/Criollo.h>
+
 #import "CWSchema.h"
 #import "CWBlog.h"
 #import "CWModel.h"
 
 @implementation CWSchema
+
+- (NSString *)permalinkForRequest:(CRRequest *)request {
+    return [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], self.publicPath] ? : @"";
+}
 
 #pragma mark - Realm
 
@@ -31,7 +37,7 @@
 }
 
 + (nullable NSArray<NSString *> *)ignoredProperties {
-    return @[@"publicPath"];
+    return @[@"publicPath", @"permalink"];
 }
 
 #pragma mark - API

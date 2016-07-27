@@ -9,6 +9,8 @@
 #import <Realm/Realm.h>
 #import "CWModelProxy.h"
 
+@class CRRequest;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWSchema : RLMObject<CWModelProxy>
@@ -28,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable instancetype)getByUID:(NSString *)uid;
 + (nullable instancetype)getByHandle:(NSString *)handle;
+
+- (NSString *)permalinkForRequest:(CRRequest *)request;
 
 @end
 
