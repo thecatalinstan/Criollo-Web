@@ -7,15 +7,15 @@
 //
 
 #import "CWBlogViewController.h"
-#import "CWBlog.h"
+#import "CWAPIController.h"
 #import "CWBlogPostViewController.h"
 #import "CWBlogPostDetailsViewController.h"
-#import "CWAppDelegate.h"
-#import "CWUser.h"
-#import "CWAPIController.h"
-#import "CWBlogPost.h"
+#import "CWBlog.h"
 #import "CWBlogAuthor.h"
+#import "CWBlogPost.h"
 #import "CWBlogTag.h"
+#import "CWUser.h"
+#import "CWAppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -168,12 +168,10 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* handle = request.query[@"tag"];
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"tags.handle = %@", handle];
-//        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-//            CWBlogTag* tag = [CWBlogTag tagWithHandle:handle];
-//            if ( tag ) {
-//                self.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
-//            }
-//        }];
+        CWBlogTag* tag = [CWBlogTag getByHandle:handle];
+        if ( tag ) {
+            self.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
+        }
         completionHandler();
     };
 }
@@ -185,12 +183,10 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* handle = request.query[@"author"];
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@", handle];
-//        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-//            CWBlogAuthor* author = [CWBlogAuthor authorWithHandle:handle];
-//            if ( author ) {
-//                self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
-//            }
-//        }];
+        CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
+        if ( author ) {
+            self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
+        }
         completionHandler();
     };
 }
@@ -214,13 +210,11 @@ NS_ASSUME_NONNULL_END
 //        NSUInteger year = request.query[@"year"].integerValue;
 //        NSUInteger month = request.query[@"month"].integerValue;
 //        NSString* handle = request.query[@"handle"];
-//        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-//            CWBlogPost* post = [CWBlogPost blogPostWithHandle:handle year:year month:month];
-//            if (post != nil) {
-//                [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
-//                self.title = post.title;
-//            }
-//        }];
+//        CWBlogPost* post = [CWBlogPost getByHandle:handle year:year month:month];
+//        if (post != nil) {
+//            [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
+//            self.title = post.title;
+//        }
         completionHandler();
     };
 }
@@ -230,17 +224,11 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)enumeratePostsBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-//        __block NSError * error = nil;
-//        [[CWAppDelegate sharedBlog].managedObjectContext performBlockAndWait:^{
-//            NSArray<CWBlogPost *> * posts = [CWBlogPost fetchBlogPostsWithPredicate:self.fetchPredicate error:&error];
-//            [posts enumerateObjectsUsingBlock:^(CWBlogPost *  _Nonnull post, NSUInteger idx, BOOL * _Nonnull stop) {
-//                CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
-//                [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
-//            }];
-//        }];
-//        if ( error ) {
-//            [CRApp logErrorFormat:@"Error while fetching posts: %@", error];
-//        }
+        RLMResults* posts = [CWBlogPost getObjectsWithPredicate:self.fetchPredicate];
+        for ( CWBlogPost *post in posts ) {
+            CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
+            [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
+        }
         completionHandler();
     };
 }
