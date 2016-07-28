@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_END
     NSString* serverSpec = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
 
     // Set some headers
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self.server add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
         [response setValue:serverSpec forHTTPHeaderField:@"X-Criollo-Server"];
 
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_END
     }];
 
     // info
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self.server get:@"/info" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* memoryInfo = [CSSystemInfoHelper sharedHelper].memoryUsageString;
         NSString* processName = [AppDelegate processName];
         NSString* processVersion = [AppDelegate bundleVersion];
@@ -78,11 +78,11 @@ NS_ASSUME_NONNULL_END
             processInfo = [NSString stringWithFormat:@"%@ %@, running for %@ on %@. Served %@ requests.", processName, processVersion, runningTime, unameSystemVersion, requestsServed];
         }
         [response sendString:processInfo];
-    } forPath:@"/info"];
+    }];
 
     // Cache headers
     NSString* const ETagHeaderSpec = [NSString stringWithFormat:@"\"%@\"",[AppDelegate ETag]];
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self.server add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Cache
         if ( request.URL.pathExtension.length > 0 ) {
             [response setValue:ETagHeaderSpec forHTTPHeaderField:@"ETag"];
@@ -92,24 +92,24 @@ NS_ASSUME_NONNULL_END
     }];
 
     // Homepage
-    [self.server addController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil forPath:@"/"];
+    [self.server add:@"/" viewController:[CWLandingPageViewController class] withNibName:@"CWLandingPageViewController" bundle:nil recursive:NO method:CRHTTPMethodGet];
 
-    // robot.txt
-    [self.server addBlock:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    // robots.txt
+    [self.server get:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* robotsString = @"User-agent: *\nAllow:\n";
         [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
         [response send:robotsString];
         completionHandler();
-    } forPath:@"/robots.txt"];
+    }];
 
     // favicon.ico
     NSString* faviconPath = [bundle pathForResource:@"favicon" ofType:@"ico"];
-    [self.server mountStaticFileAtPath:faviconPath forPath:@"/favicon.ico"];
+    [self.server mount:@"/favicon.ico" fileAtPath:faviconPath];
 
     // Static resources folder
     NSString* publicResourcesFolder = [bundle.resourcePath stringByAppendingPathComponent:@"Public"];
-    [self.server mountStaticDirectoryAtPath:publicResourcesFolder forPath:CWStaticDirPath options:CRStaticDirectoryServingOptionsCacheFiles];
+    [self.server mount:CWStaticDirPath directoryAtPath:publicResourcesFolder options:CRStaticDirectoryServingOptionsCacheFiles];
 
     [self startServer];
 }
@@ -144,23 +144,23 @@ NS_ASSUME_NONNULL_END
 
         [CRApp logFormat:@"%@ Started HTTP server at %@", [NSDate date], baseURL.absoluteString];
 
-        // Get the list of paths
-        NSDictionary<NSString*, NSMutableArray<CRRoute*>*>* routes = [[self.server valueForKey:@"routes"] mutableCopy];
-        NSMutableSet<NSURL*>* paths = [NSMutableSet set];
-
-        [routes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray<CRRoute *> * _Nonnull obj, BOOL * _Nonnull stop) {
-            if ( [key hasSuffix:@"*"] ) {
-                return;
-            }
-            NSString* path = [key substringFromIndex:[key rangeOfString:@"/"].location + 1];
-            [paths addObject:[baseURL URLByAppendingPathComponent:path]];
-        }];
-
-        NSArray<NSURL*>* sortedPaths =[paths sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"absoluteString" ascending:YES]]];
-        [CRApp logFormat:@"Available paths are:"];
-        [sortedPaths enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [CRApp logFormat:@" * %@", obj.absoluteString];
-        }];
+//        // Get the list of paths
+//        NSDictionary<NSString*, NSMutableArray<CRRoute*>*>* routes = [[self.server valueForKey:@"routes"] mutableCopy];
+//        NSMutableSet<NSURL*>* paths = [NSMutableSet set];
+//
+//        [routes enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableArray<CRRoute *> * _Nonnull obj, BOOL * _Nonnull stop) {
+//            if ( [key hasSuffix:@"*"] ) {
+//                return;
+//            }
+//            NSString* path = [key substringFromIndex:[key rangeOfString:@"/"].location + 1];
+//            [paths addObject:[baseURL URLByAppendingPathComponent:path]];
+//        }];
+//
+//        NSArray<NSURL*>* sortedPaths =[paths sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"absoluteString" ascending:YES]]];
+//        [CRApp logFormat:@"Available paths are:"];
+//        [sortedPaths enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            [CRApp logFormat:@" * %@", obj.absoluteString];
+//        }];
 
     } else {
         [CRApp logErrorFormat:@"%@ Failed to start HTTP server. %@", [NSDate date], serverError.localizedDescription];
