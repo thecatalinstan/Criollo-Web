@@ -52,25 +52,27 @@ html(lang="en")
             img(src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat",alt="MIT License")
           a(href="http://twitter.com/Criolloio")
             img(src="https://img.shields.io/badge/twitter-@Criolloio-orange.svg?style=flat",alt="Twitter")
-        p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with. It's as easy as this:
+        p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Swift or  Objective-C, using the technologies you are already familiar with. It's as easy as this:
 
         .hello-world
 
           pre
-            code.objc CRServer* server = [[CRHTTPServer alloc] init];
-              |[server addBlock:^(CRRequest *request, CRResponse *response, CRRouteCompletionBlock completionHandler) {
-              |   [response send:@"Hello world!"];
-              |} forPath:@"/"];
-              |[server startListening];
+            code.swift
+              |let server = CRHTTPServer()
+              |server.get("/") { (request, response, completionHandler) in
+              |   response.send("Hello world!")
+              |}
+              |server.startListening()
 
-          p ... and in Swift:
+          p ... and in Objective-C:
 
           pre
-            code.swift let server:CRServer = CRHTTPServer()
-              |server.addBlock({ (request, response, completionHandler) -&gt; Void in
-              |   response.send("Hello world!")
-              |}, forPath: "/")
-              |server.startListening()
+            code.objc
+              |CRServer* server = [[CRHTTPServer alloc] init];
+              |[server get:@"/" block:^(CRRequest * request, CRResponse * response, CRRouteCompletionBlock completionHandler) {
+              |   [response send:@"Hello world!"];
+              |}];
+              |[server startListening];
 
     section.getting-started
       .content
