@@ -30,13 +30,14 @@
     self.vars[@"title"] = self.post.title ? : @"";
     self.vars[@"permalink"] = [self.post permalinkForRequest:request];
     self.vars[@"author"] = self.post.author.displayName ? : @"";
+    self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
     if (self.post.date) {
         self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:self.post.date], [CWBlog formattedTime:self.post.date]];
     } else {
         self.vars[@"date"] = @"";
     }
     self.vars[@"content"] = self.post.renderedContent ? : @"";
-    
+
     return [super presentViewControllerWithRequest:request response:response];
 }
 
