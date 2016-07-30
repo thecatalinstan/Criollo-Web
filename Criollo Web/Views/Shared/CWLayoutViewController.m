@@ -23,7 +23,7 @@ static NSString * imagePath;
 
     NSString* productTitle = @"Criollo";
 
-    self.vars[@"title"] = self.vars[@"title"] ? : [productTitle stringByAppendingString:@" - web application framework for OS X and iOS"];
+    self.vars[@"title"] = self.vars[@"title"] ? : [productTitle stringByAppendingString:@" - web application framework for macOS and iOS"];
     self.vars[@"meta-description"] = @"Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Objective-C or Swift, using the technologies you are already familiar with.";
     self.vars[@"meta-keywords"] = @"criollo, objective-c, swift, web, framework, HTTP, FCGI, FastCGI, server";
     self.vars[@"github-url"] = CWGitHubURL;
