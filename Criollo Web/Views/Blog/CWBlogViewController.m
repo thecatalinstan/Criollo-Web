@@ -227,7 +227,7 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)enumeratePostsBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        RLMResults* posts = [CWBlogPost getObjectsWithPredicate:self.fetchPredicate];
+        RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:self.fetchPredicate] sortedResultsUsingProperty:@"date" ascending:NO];
         for ( CWBlogPost *post in posts ) {
             CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
             [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
