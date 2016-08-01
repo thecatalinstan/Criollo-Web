@@ -52,6 +52,7 @@
 		ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF3C9D61C6DDA9800C0D5BC /* CWLandingPageViewController.m */; };
 		ADFA57101D27E644002FB626 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFA570F1D27E644002FB626 /* NSData+AES.m */; };
 		ADFA57131D27E66B002FB626 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFA57121D27E66B002FB626 /* NSString+MD5.m */; };
+		ADFB2EC51D4F68EA00F64B04 /* CWBlogRSSController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADFB2EC41D4F68EA00F64B04 /* CWBlogRSSController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -201,6 +202,8 @@
 		ADFA570F1D27E644002FB626 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
 		ADFA57111D27E66B002FB626 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		ADFA57121D27E66B002FB626 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
+		ADFB2EC31D4F68EA00F64B04 /* CWBlogRSSController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogRSSController.h; path = Blog/CWBlogRSSController.h; sourceTree = "<group>"; };
+		ADFB2EC41D4F68EA00F64B04 /* CWBlogRSSController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWBlogRSSController.m; path = Blog/CWBlogRSSController.m; sourceTree = "<group>"; };
 		B7EC43093A26933D86E49BDF /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
 		C86876D50B9A81C15A9D0912 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -398,6 +401,8 @@
 				AD5F02211CE0BC3500D810B6 /* CWBlogViewController.h */,
 				AD5F02221CE0BC3500D810B6 /* CWBlogViewController.m */,
 				AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */,
+				ADFB2EC31D4F68EA00F64B04 /* CWBlogRSSController.h */,
+				ADFB2EC41D4F68EA00F64B04 /* CWBlogRSSController.m */,
 			);
 			name = Blog;
 			sourceTree = "<group>";
@@ -670,6 +675,7 @@
 				AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */,
 				AD5133711D41248900283B67 /* CWBlogAPIController.m in Sources */,
 				AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */,
+				ADFB2EC51D4F68EA00F64B04 /* CWBlogRSSController.m in Sources */,
 				AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */,
 				ADB5AF991D49661A003C14B6 /* CWAPIBlogAuthor.m in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,

@@ -16,6 +16,7 @@
 #import "CWBlogTag.h"
 #import "CWUser.h"
 #import "CWAppDelegate.h"
+#import "CWBlogRSSController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -57,6 +58,10 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Routing
 
 - (void)setupRoutes {
+
+    // Feed
+    [self add:CWBlogFeedPath controller:[CWBlogRSSController class] recursive:YES method:CRHTTPMethodGet];
+
     // New post
     [self get:CWBlogNewPostPath block:self.authCheckBlock];
     [self get:CWBlogNewPostPath block:self.newPostBlock];
@@ -65,11 +70,15 @@ NS_ASSUME_NONNULL_END
     NSString* authorPath = [CWBlogAuthorPath stringByAppendingPathComponent:@":author"];
     [self get:authorPath block:self.authorBlock];
     [self get:authorPath block:self.enumeratePostsBlock];
+    [self get:authorPath block:self.noContentsBlock];
+    [self get:authorPath block:self.presentViewControllerBlock];
 
     // Tag
     NSString* tagPath = [CWBlogTagPath stringByAppendingPathComponent:@":tag"];
     [self get:tagPath block:self.tagBlock];
     [self get:tagPath block:self.enumeratePostsBlock];
+    [self get:tagPath block:self.noContentsBlock];
+    [self get:tagPath block:self.presentViewControllerBlock];
 
 //    // Archive Index
 //    [self get:CWBlogArchivePath block:self.archiveIndexBlock];
@@ -77,26 +86,29 @@ NS_ASSUME_NONNULL_END
     // Yearly archive
     [self get:CWBlogArchiveYearPath block:self.archiveBlock];
     [self get:CWBlogArchiveYearPath block:self.enumeratePostsBlock];
+    [self get:CWBlogArchiveYearPath block:self.noContentsBlock];
+    [self get:CWBlogArchiveYearPath block:self.presentViewControllerBlock];
 
     // Monthly archive
     [self get:CWBlogArchiveYearMonthPath block:self.archiveBlock];
     [self get:CWBlogArchiveYearMonthPath block:self.enumeratePostsBlock];
-
+    [self get:CWBlogArchiveYearMonthPath block:self.noContentsBlock];
+    [self get:CWBlogArchiveYearMonthPath block:self.presentViewControllerBlock];
 
     // Single post
     [self get:CWBlogSinglePostPath block:self.singlePostBlock];
+    [self get:CWBlogSinglePostPath block:self.noContentsBlock];
+    [self get:CWBlogSinglePostPath block:self.presentViewControllerBlock];
 
     // Edit post
     [self get:CWBlogEditPostPath block:self.singlePostBlock];
+    [self get:CWBlogEditPostPath block:self.noContentsBlock];
+    [self get:CWBlogEditPostPath block:self.presentViewControllerBlock];
 
     // Default bblog page
     [self get:@"/" block:self.enumeratePostsBlock];
-
-    // Fallback for blank contents
-    [self add:self.noContentsBlock];
-
-    // Actually display the contents and finish the response
-    [self add:self.presentViewControllerBlock];
+    [self get:@"/" block:self.noContentsBlock];
+    [self get:@"/" block:self.presentViewControllerBlock];
 }
 
 #pragma mark - Route Handlers
