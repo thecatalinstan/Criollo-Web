@@ -8,6 +8,7 @@
 
 #import <Criollo/Criollo.h>
 #import <CSSystemInfoHelper/CSSystemInfoHelper.h>
+#import <JWT/JWT.h>
 
 #import "CWUser.h"
 #import "NSData+AES.h"
@@ -62,10 +63,8 @@ NS_ASSUME_NONNULL_END
         return nil;
     }
 
-    NSData* tokenHashData = [user.tokenHash dataUsingEncoding:NSUTF8StringEncoding];
     NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
-
-    return [[tokenHashData AES128EncryptedDataWithKey:password] base64EncodedStringWithOptions:0];
+    return [JWTBuilder encodePayload:@{@"token":user.tokenHash}].secret(password).algorithmName(@"HS256").encode;
 }
 
 + (CWUser *)authenticatedUserForToken:(NSString *)token {
@@ -73,15 +72,8 @@ NS_ASSUME_NONNULL_END
         return nil;
     }
 
-    NSData* tokenData = [[NSData alloc] initWithBase64EncodedString:token options:0];
     NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
-
-    NSData* tokenHashData = [tokenData AES128DecryptedDataWithKey:password];
-    if ( !tokenHashData ) {
-        return nil;
-    }
-
-    NSString* plainTextTokenHash = [[NSString alloc] initWithData:tokenHashData encoding:NSUTF8StringEncoding];
+    NSString* plainTextTokenHash = [JWTBuilder decodeMessage:token].secret(password).algorithmName(@"HS256").decode[@"token"];
     CWUser* user = [[CWUser allUsers].allValues filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(CWUser * _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
         return [evaluatedObject.tokenHash isEqualToString:plainTextTokenHash];
     }]].firstObject;
