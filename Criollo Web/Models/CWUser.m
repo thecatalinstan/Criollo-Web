@@ -11,7 +11,6 @@
 #import <JWT/JWT.h>
 
 #import "CWUser.h"
-#import "NSData+AES.h"
 #import "NSString+MD5.h"
 
 NS_ASSUME_NONNULL_BEGIN
