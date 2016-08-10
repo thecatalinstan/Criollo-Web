@@ -78,7 +78,8 @@ NS_ASSUME_NONNULL_END
 
     // Default route
     [self add:@"/" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [CWAPIController succeedWithPayload:request.cookies[CWUserCookie] request:request response:response];
+        NSString* token = request.cookies[CWUserCookie];
+        [CWAPIController succeedWithPayload:[CWUser debugLoginInfo:token] request:request response:response];
         completionHandler();
     }];
 

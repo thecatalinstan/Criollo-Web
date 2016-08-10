@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)authenticationTokenForUser:(CWUser *)user;
 + (CWUser *)authenticatedUserForToken:(NSString *)token;
 
++ (NSDictionary *)debugLoginInfo:(NSString *)token;
+
 @end
 
 NS_ASSUME_NONNULL_END
