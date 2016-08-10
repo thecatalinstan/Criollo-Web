@@ -66,18 +66,38 @@ NS_ASSUME_NONNULL_END
     return [JWTBuilder encodePayload:@{@"token":user.tokenHash}].secret(password).algorithmName(@"HS256").encode;
 }
 
++ (NSDictionary *)debugLoginInfo:(NSString *)token{
+    NSMutableDictionary* payload = [NSMutableDictionary dictionary];
+    payload[@"token"] = token ? : @"";
+
+//    NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
+//    payload[@"password"] = password ? : @"";
+//    NSString* plainTextTokenHash = [JWTBuilder decodeMessage:token].secret(password).algorithmName(@"HS256").decode[@"payload"][@"token"];
+//    payload[@"plainTextTokenHash"] = plainTextTokenHash ? : @"";
+
+    CWUser *currentUser = [CWUser authenticatedUserForToken:token];
+    if ( currentUser ) {
+        NSMutableDictionary * dictionary = currentUser.toDictionary.mutableCopy;
+        [dictionary removeObjectForKey:@"password"];
+        payload[@"user"] = dictionary;
+    }
+
+    return payload;
+}
+
 + (CWUser *)authenticatedUserForToken:(NSString *)token {
     if ( token.length == 0 ) {
         return nil;
     }
 
     NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
-    NSString* plainTextTokenHash = [JWTBuilder decodeMessage:token].secret(password).algorithmName(@"HS256").decode[@"token"];
+    NSString* plainTextTokenHash = [JWTBuilder decodeMessage:token].secret(password).algorithmName(@"HS256").decode[@"payload"][@"token"];
     CWUser* user = [[CWUser allUsers].allValues filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(CWUser * _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
         return [evaluatedObject.tokenHash isEqualToString:plainTextTokenHash];
     }]].firstObject;
 
     return user;
 }
+
 
 @end
