@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_END
         NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
 
         // Set the base url. This is only for logging
-        NSURL* baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%d", address, PortNumber]];
+        NSURL* baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%d", address ? : @"127.0.0.1", PortNumber]];
 
         [CRApp logFormat:@"%@ Started HTTP server at %@", [NSDate date], baseURL.absoluteString];
 
