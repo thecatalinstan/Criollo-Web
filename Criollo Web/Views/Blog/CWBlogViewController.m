@@ -65,6 +65,8 @@ NS_ASSUME_NONNULL_END
     // New post
     [self get:CWBlogNewPostPath block:self.authCheckBlock];
     [self get:CWBlogNewPostPath block:self.newPostBlock];
+    [self get:CWBlogNewPostPath block:self.noContentsBlock];
+    [self get:CWBlogNewPostPath block:self.presentViewControllerBlock];
 
     // Author
     NSString* authorPath = [CWBlogAuthorPath stringByAppendingPathComponent:@":author"];
