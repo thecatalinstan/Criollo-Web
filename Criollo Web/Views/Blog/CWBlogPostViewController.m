@@ -40,14 +40,14 @@
     }
     self.vars[@"content"] = self.post.excerpt ? : ( self.post.renderedContent ? : @"" );
 
+    NSMutableString* toolbar = [NSMutableString new];
     CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
     if ( currentUser ) {
-        NSMutableString* toolbar = [NSMutableString new];
         [toolbar appendString:@"&nbsp;&nbsp;&middot;&nbsp;&nbsp;"];
         [toolbar appendFormat:@"<a href=\"%@/edit\">edit</a>", [self.post permalinkForRequest:request]];
         [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];
-        self.vars[@"toolbar"] = toolbar;
     }
+    self.vars[@"toolbar"] = toolbar;
 
     return [super presentViewControllerWithRequest:request response:response];
 }
