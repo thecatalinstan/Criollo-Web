@@ -111,10 +111,34 @@ NS_ASSUME_NONNULL_END
             return;
         }
 
-        NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:receivedPost.content error:&error];
+        NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:receivedPost.content extensions:MMMarkdownExtensionsGitHubFlavored error:&error];
         if ( error ) {
             [CWAPIController failWithError:error request:request response:response];
             return;
+        }
+
+        // Auto-generate the excerpt if there is none.
+        NSString* excerpt = receivedPost.excerpt;
+        if ( [excerpt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0 && renderedContent.length > 0 ) {
+            NSString* contentMarkup = [NSString stringWithFormat:@"<div>%@</div>", renderedContent];
+            NSMutableString *excerptTemp = [[NSMutableString alloc] init];
+
+            __block NSUInteger i = 0;
+            NSXMLElement* element = [[NSXMLElement alloc] initWithXMLString:contentMarkup error:&error];
+            [element.children enumerateObjectsUsingBlock:^(NSXMLNode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ( [obj.name.lowercaseString isEqualToString:@"p"] ) {
+                    [excerptTemp appendString:[obj.stringValue stringByReplacingOccurrencesOfString:@"\n" withString:@" "]];
+                    [excerptTemp appendString:@" "];
+                    i++;
+                }
+
+                if ( excerptTemp.length > 500 || i >= 3 ) {
+                    *stop = YES;
+                    return;
+                }
+            }];
+
+            excerpt = excerptTemp;
         }
 
         NSString * username = receivedPost.author.user;
@@ -135,6 +159,7 @@ NS_ASSUME_NONNULL_END
 
         CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
         post.renderedContent = renderedContent;
+        post.excerpt = excerpt;
         post.date = [NSDate date];
         post.handle = post.title.URLFriendlyHandle;
         post.author = author;

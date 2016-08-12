@@ -32,6 +32,7 @@
     post.title = self.title;
     post.content = self.content;
     post.renderedContent = self.renderedContent;
+    post.excerpt = self.excerpt;
     post.author = (CWBlogAuthor *)self.author.schemaObject;
 
     if ( self.tags ) {

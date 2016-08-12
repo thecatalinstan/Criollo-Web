@@ -47,6 +47,7 @@
     post.title = self.title;
     post.content = self.content;
     post.renderedContent = self.renderedContent;
+    post.excerpt = self.excerpt;
     post.author = (CWAPIBlogAuthor *)self.author.modelObject;
     post.handle = self.handle;
     post.tags = [NSMutableArray array];

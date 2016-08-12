@@ -36,7 +36,7 @@
     } else {
         self.vars[@"date"] = @"";
     }
-    self.vars[@"content"] = self.post.renderedContent ? : @"";
+    self.vars[@"content"] = self.post.excerpt ? : ( self.post.renderedContent ? : @"" );
 
     return [super presentViewControllerWithRequest:request response:response];
 }

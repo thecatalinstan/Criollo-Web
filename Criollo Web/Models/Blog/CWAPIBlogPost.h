@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSString<Optional> *handle;
 @property (nullable, nonatomic, strong) NSString<Optional> *content;
 @property (nullable, nonatomic, strong) NSString<Optional> *renderedContent;
+@property (nullable, nonatomic, strong) NSString<Optional> *excerpt;
 @property (nullable, nonatomic, strong) CWAPIBlogAuthor<Optional> *author;
 @property (nullable, nonatomic, strong) NSArray<CWAPIBlogTag *><Optional> *tags;
 

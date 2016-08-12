@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString * title;
 @property NSString * content;
 @property NSString * renderedContent;
+@property NSString * excerpt;
 @property CWBlogAuthor * author;
 @property RLMArray<CWBlogTag *><CWBlogTag> * tags;
 
