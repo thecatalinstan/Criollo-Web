@@ -10,6 +10,8 @@
 #import "CWBlogPost.h"
 #import "CWBlogAuthor.h"
 #import "CWBlog.h"
+#import "CWAPIController.h"
+#import "CWUser.h"
 
 @interface CWBlogPostDetailsViewController ()
 
@@ -43,12 +45,21 @@
     self.vars[@"author"] = self.post.author.displayName ? : @"";
     self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
     if (self.post.date) {
-        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@.", [CWBlog formattedDate:self.post.date], [CWBlog formattedTime:self.post.date]];
+        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:self.post.date], [CWBlog formattedTime:self.post.date]];
     } else {
         self.vars[@"date"] = @"";
     }
     self.vars[@"content"] = self.post.renderedContent ? : @"";
     self.vars[@"editable"] = self.isNewPost ? @" contenteditable=\"true\"" : @"";
+
+    CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+    if ( currentUser ) {
+        NSMutableString* toolbar = [NSMutableString new];
+        [toolbar appendString:@"&nbsp;&nbsp;&middot;&nbsp;&nbsp;"];
+        [toolbar appendFormat:@"<a href=\"%@/edit\">edit</a>", [self.post permalinkForRequest:request]];
+        [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];
+        self.vars[@"toolbar"] = toolbar;
+    }
 
     return [super presentViewControllerWithRequest:request response:response];
 }

@@ -143,7 +143,7 @@ blog.getPost = getPost;
 blog.setup = () => {
   const postElement = document.querySelector('.content article.article')
   if ( !postElement ) {
-    // console.log(`There is no post element. Exiting.`)
+    console.log(`There is no post element. Exiting.`)
     return
   }
 
