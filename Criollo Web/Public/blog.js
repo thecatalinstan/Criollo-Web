@@ -84,7 +84,7 @@ const setupEditor = (postElement, post) => {
     contentElement.parentNode.removeChild(contentElement)
   }
 
-  // Create a 'pre' that we can edit the markdown in
+  // Create a 'textarea' that we can edit the markdown in
   const contentEditor = document.createElement('textarea')
   contentEditor.className = 'article-content-editor'
   contentEditor.contentEditable = true
@@ -92,6 +92,20 @@ const setupEditor = (postElement, post) => {
     contentEditor.value = post.content
   }
   postElement.insertBefore(contentEditor, footerElement)
+
+  // Create the excerpt label and editor element
+  const excerptLabel = document.createElement('label')
+  excerptLabel.className = 'article-excerpt-editor-label'
+  excerptLabel.innerHTML = 'Excerpt:'
+  postElement.insertBefore(excerptLabel, footerElement)
+
+  const excerptEditor = document.createElement('pre')
+  excerptEditor.className = 'article-excerpt-editor'
+  excerptEditor.contentEditable = true
+  if ( post.excerpt ) {
+    excerptEditor.innerHTML = post.excerpt
+  }
+  postElement.insertBefore(excerptEditor, footerElement)
 
   // Add the editor js and css
   const editorCss = document.createElement('link')
@@ -118,18 +132,21 @@ const setupEditor = (postElement, post) => {
   saveButton.className = 'save-button'
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
-    post.content = contentEditor.value
     post.title = titleElement.textContent
+    post.content = contentEditor.value
+    post.excerpt = excerptEditor.textContent
     console.log('saving post', post)
     savePost(post, (data) => {
       console.log(data)
-      window.defaultNotificationCenter.confirm('Post saved', data.publicPath)
+      window.defaultNotificationCenter.confirm('Post saved', data.publicPath, null, () => {
+        window.location.pathName = data.publicPath
+      })
       post = data
       postElement.dataset.post = post.uid
       postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
-    }, (error) => {
-      console.error(error)
-      window.defaultNotificationCenter.error('Unable to save post', error)
+    }, (err) => {
+      console.error(err)
+      window.defaultNotificationCenter.error('Unable to save post', err.message)
     })
   }
   footerElement.appendChild(saveButton)
@@ -138,7 +155,7 @@ const setupEditor = (postElement, post) => {
 const getPost = (path, success, failure) => {
   api( { url: `/api/blog/posts${path}?${Math.random()}` }, success, failure)
 }
-blog.getPost = getPost;
+blog.getPost = getPost
 
 blog.setup = () => {
   const postElement = document.querySelector('.content article.article')
