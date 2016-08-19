@@ -7,6 +7,7 @@
 //
 
 #import <JSONModel/JSONModel.h>
+#import <MMMarkdown/MMMarkdown.h>
 
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
@@ -140,8 +141,58 @@ NS_ASSUME_NONNULL_END
     return datePair;
 }
 
-+ (CWBlogDatePair *)datePairWith:(NSUInteger)year month:(NSUInteger)month {
++ (CWBlogDatePair *)datePairWithYear:(NSUInteger)year month:(NSUInteger)month {
     return [CWBlog datePairArchivePeriod:[CWBlog parseYear:year month:month]];
+}
+
++ (NSString *)renderMarkdown:(NSString *)markdownString error:(NSError *__autoreleasing  _Nullable *)error {
+    if ( [markdownString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+        return nil;
+    }
+    return [MMMarkdown HTMLStringWithMarkdown:markdownString extensions:MMMarkdownExtensionsGitHubFlavored error:error];
+}
+
+
++ (NSString *)excerptFromMarkdown:(NSString *)markdownString error:(NSError *__autoreleasing  _Nullable * _Nullable)error {
+    if ( [markdownString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+        return nil;
+    }
+
+    *error = nil;
+    NSString * htmlString = [CWBlog renderMarkdown:markdownString error:error];
+
+    if ( htmlString == nil ) {
+        return nil;
+    }
+
+    return [CWBlog excerptFromHTML:htmlString error:error];
+}
+
++ (NSString *)excerptFromHTML:(NSString *)htmlString error:(NSError *__autoreleasing  _Nullable * _Nullable)error {
+    if ( [htmlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+        return nil;
+    }
+
+    NSString* contentMarkup = [NSString stringWithFormat:@"<div>%@</div>", htmlString];
+    NSMutableString *excerpt = [[NSMutableString alloc] init];
+
+    __block NSUInteger i = 0;
+    NSError * xmlError;
+    NSXMLElement* element = [[NSXMLElement alloc] initWithXMLString:contentMarkup error:&xmlError];
+    [element.children enumerateObjectsUsingBlock:^(NSXMLNode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( [obj.name.lowercaseString isEqualToString:@"p"] ) {
+            [excerpt appendString:[obj.stringValue stringByReplacingOccurrencesOfString:@"\n" withString:@" "]];
+            [excerpt appendString:@" "];
+            i++;
+        }
+
+        if ( excerpt.length > 500 || i >= 3 ) {
+            *stop = YES;
+            return;
+        }
+    }];
+
+    return excerpt;
 }
 
 @end

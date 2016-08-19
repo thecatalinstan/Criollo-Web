@@ -49,7 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (CWBlogArchivePeriod)parseYear:(NSUInteger)year month:(NSUInteger)month;
 + (CWBlogDatePair *)datePairArchivePeriod:(CWBlogArchivePeriod)period;
-+ (CWBlogDatePair *)datePairWith:(NSUInteger)year month:(NSUInteger)month;
++ (CWBlogDatePair *)datePairWithYear:(NSUInteger)year month:(NSUInteger)month;
+
++ (nullable NSString *)renderMarkdown:(NSString *)markdownString error:(NSError * _Nullable __autoreleasing * _Nullable)error;
++ (nullable NSString *)excerptFromMarkdown:(NSString *)markdownString error:(NSError * _Nullable __autoreleasing * _Nullable)error;
++ (nullable NSString *)excerptFromHTML:(NSString *)htmlString error:(NSError * _Nullable __autoreleasing * _Nullable)error;
 
 @end
 

@@ -6,8 +6,6 @@
 //  Copyright © 2016 Criollo.io. All rights reserved.
 //
 
-#import <MMMarkdown/MMMarkdown.h>
-
 #import "CWBlogAPIController.h"
 #import "CWAPIController.h"
 #import "CWAPIError.h"
@@ -111,7 +109,7 @@ NS_ASSUME_NONNULL_END
             return;
         }
 
-        NSString* renderedContent = [MMMarkdown HTMLStringWithMarkdown:receivedPost.content extensions:MMMarkdownExtensionsGitHubFlavored error:&error];
+        NSString* renderedContent = [CWBlog renderMarkdown:receivedPost.content error:&error];
         if ( error ) {
             [CWAPIController failWithError:error request:request response:response];
             return;
@@ -119,26 +117,8 @@ NS_ASSUME_NONNULL_END
 
         // Auto-generate the excerpt if there is none.
         NSString* excerpt = receivedPost.excerpt;
-        if ( [excerpt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0 && renderedContent.length > 0 ) {
-            NSString* contentMarkup = [NSString stringWithFormat:@"<div>%@</div>", renderedContent];
-            NSMutableString *excerptTemp = [[NSMutableString alloc] init];
-
-            __block NSUInteger i = 0;
-            NSXMLElement* element = [[NSXMLElement alloc] initWithXMLString:contentMarkup error:&error];
-            [element.children enumerateObjectsUsingBlock:^(NSXMLNode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ( [obj.name.lowercaseString isEqualToString:@"p"] ) {
-                    [excerptTemp appendString:[obj.stringValue stringByReplacingOccurrencesOfString:@"\n" withString:@" "]];
-                    [excerptTemp appendString:@" "];
-                    i++;
-                }
-
-                if ( excerptTemp.length > 500 || i >= 3 ) {
-                    *stop = YES;
-                    return;
-                }
-            }];
-
-            excerpt = excerptTemp;
+        if ( [excerpt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+            excerpt = [CWBlog excerptFromHTML:renderedContent error:&error];
         }
 
         NSString * username = receivedPost.author.user;
