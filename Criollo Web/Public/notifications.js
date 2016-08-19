@@ -1,5 +1,5 @@
 const
-defaultTimeout = 3000,
+  defaultTimeout = 3000,
   offscreenPoint = 320
 
 const displayNotification = (center, notification) => {
