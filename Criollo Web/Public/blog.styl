@@ -42,10 +42,19 @@ body.blog
         .article-date
           text-transform lowercase
 
+
+    .CodeMirror
+      .CodeMirror-scroll
+        font-size 1em
+        line-height 1.5em
+        color criollo-dark-gray
+
     .article-content
       margin 1.5em 0
 
     .article-content-editor
+      font-size 1em
+      line-height 1.5em 0
       outline none
       width 100%
       height auto
@@ -53,6 +62,7 @@ body.blog
       border 1px solid criollo-medium-gray
       padding 0.5em
       box-sizing border-box
+      color criollo-dark-gray
 
     .article-excerpt-editor-label
       display block
@@ -61,15 +71,23 @@ body.blog
       height auto
       box-sizing border-box
       margin-top 1em
+      margin-bottom 0.5em
+      color criollo-dark-orange
+      font-weight 700
 
     .article-excerpt-editor
+      font-size 1em
+      line-height 1.5em
       outline none
       width 100%
       height auto
+      max-width 100%
       min-height 100px
       border 1px solid criollo-medium-gray
+      border-radius 4px
       padding 0.5em
       box-sizing border-box
+      color criollo-dark-gray
 
     .editor-toolbar
       margin-top 1em

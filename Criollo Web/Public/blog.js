@@ -30,11 +30,11 @@ const setupPlaceholder = (element, placeholder) => {
   element.contentEditable = true
   if ( element.textContent.trim() == '' ) {
     element.innerHTML = placeholder
-    element.style.opacity = 0.25
+    // element.style.opacity = 0.25
   }
 
   element.addEventListener('focus', () => {
-      element.style.opacity = 1
+      // element.style.opacity = 1
     if ( element.textContent.trim() == placeholder ) {
       element.innerHTML = ''
     }
@@ -49,7 +49,7 @@ const setupPlaceholder = (element, placeholder) => {
   element.addEventListener('blur', () => {
     if ( element.textContent.trim() == '') {
       element.innerHTML = placeholder
-      element.style.opacity = 0.25
+      // element.style.opacity = 0.25
     }
   })
 }
@@ -99,7 +99,7 @@ const setupEditor = (postElement, post) => {
   excerptLabel.innerHTML = 'Excerpt:'
   postElement.insertBefore(excerptLabel, footerElement)
 
-  const excerptEditor = document.createElement('pre')
+  const excerptEditor = document.createElement('textarea')
   excerptEditor.className = 'article-excerpt-editor'
   excerptEditor.contentEditable = true
   if ( post.excerpt ) {

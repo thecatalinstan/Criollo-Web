@@ -242,8 +242,6 @@ NS_ASSUME_NONNULL_END
     dispatch_async( backgroundQueue, ^{
         requestsServed++;
     });
-
-    [[Crashlytics sharedInstance] crash];
 }
 
 #pragma mark - Utils
