@@ -149,9 +149,11 @@
 - (CRRouteBlock)enumeratePostsBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:self.fetchPredicate] sortedResultsUsingProperty:@"date" ascending:NO];
+        self.channel.pubDate = ((CWBlogPost*)posts.firstObject).date;
         for ( CWBlogPost *post in posts ) {
             CSRSSFeedItem * item = [[CSRSSFeedItem alloc] initWithTitle:post.title link:[post permalinkForRequest:request] description:post.renderedContent];
             item.creator = post.author.displayName;
+            item.pubDate = post.date;
             [self.channel.items addObject:item];
         }
         completionHandler();
