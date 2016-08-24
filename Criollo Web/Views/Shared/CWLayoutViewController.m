@@ -8,6 +8,7 @@
 
 #import "CWLayoutViewController.h"
 #import "CWAppDelegate.h"
+#import "CWBlog.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface CWLayoutViewController ()
@@ -37,6 +38,7 @@ static NSString * imagePath;
     self.vars[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
     self.vars[@"etag"] = [CWAppDelegate ETag];
     self.vars[@"redirect"] = request.query[@"redirect"] ? : @"";
+    self.vars[@"blogFeedPath"] = [NSString stringWithFormat:@"%@%@", CWBlogPath, CWBlogFeedPath];
 
     return [super presentViewControllerWithRequest:request response:response];
 
