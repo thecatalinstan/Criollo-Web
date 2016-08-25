@@ -7,19 +7,19 @@ import blog from './blog.js'
 window.onload = () => {
 
   // Setup notification center
-  const defaultNotificationCenter = notificationCenter(document.body)
-  window.defaultNotificationCenter = defaultNotificationCenter
+  const notifier = notificationCenter(document.body)
+  window.notifier = notifier
 
   // Menu
   menu.setup()
 
   // Login form
   login.setup((user) => {
-    defaultNotificationCenter.confirm(`Welcome, ${user.firstName}!`, 'You will be redirected in a moment ...', 1000, () => {
+    notifier.confirm(`Welcome, ${user.firstName}!`, 'You will be redirected in a moment ...', 1000, () => {
       window.location.href = window.redirect.length > 0 ? window.redirect : "/blog"
     })
   }, (err) => {
-    defaultNotificationCenter.error('Login failed', 'Check your username and password and try again.')
+    notifier.error('Login failed', 'Check your username and password and try again.')
   })
 
   // Blog

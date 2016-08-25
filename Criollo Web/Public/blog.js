@@ -6,8 +6,8 @@ const titlePlaceholder = 'Post title'
 const contentPlaceholder = 'Post content'
 
 const displayValidationError = (element, message) => {
-  if ( window.defaultNotificationCenter ) {
-    window.defaultNotificationCenter.error('Unable to Save Post', message)
+  if ( window.notifier ) {
+    window.notifier.error('Unable to Save Post', message)
   } else {
     console.error(message)
   }
@@ -138,7 +138,7 @@ const setupEditor = (postElement, post) => {
     console.log('saving post', post)
     savePost(post, (data) => {
       console.log(data)
-      window.defaultNotificationCenter.confirm('Post saved', data.publicPath, null, () => {
+      window.notifier.confirm('Post saved', data.publicPath, null, () => {
         window.location.pathName = data.publicPath
       })
       post = data
@@ -146,7 +146,7 @@ const setupEditor = (postElement, post) => {
       postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
     }, (err) => {
       console.error(err)
-      window.defaultNotificationCenter.error('Unable to save post', err.message)
+      window.notifier.error('Unable to save post', err.message)
     })
   }
   footerElement.appendChild(saveButton)
