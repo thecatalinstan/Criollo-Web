@@ -108,22 +108,73 @@ const setupEditor = (postElement, post) => {
   postElement.insertBefore(excerptEditor, footerElement)
 
   // Add the editor js and css
-  const editorCss = document.createElement('link')
-  editorCss.rel = 'stylesheet'
-  editorCss.href = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css'
-  postElement.parentNode.appendChild(editorCss)
+  const excerptEditorCss = document.createElement('link')
+  excerptEditorCss.rel = 'stylesheet'
+  excerptEditorCss.href = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css'
+  postElement.parentNode.appendChild(excerptEditorCss)
 
   let simpleMDE = undefined
-  const editorJs = document.createElement('script')
-  editorJs.src = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js'
-  editorJs.onload = (e) => {
+  const excerptEditorJs = document.createElement('script')
+  excerptEditorJs.src = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js'
+  excerptEditorJs.onload = (e) => {
     simpleMDE = new SimpleMDE( {
       element: contentEditor,
       placeholder: contentPlaceholder,
       forceSync: true,
     })
   }
-  postElement.parentNode.appendChild(editorJs)
+  postElement.parentNode.appendChild(excerptEditorJs)
+
+  // Create the tags label and editor element
+  const tagsLabel = document.createElement('label')
+  tagsLabel.className = 'article-tags-editor-label'
+  tagsLabel.innerHTML = 'Tags:'
+  postElement.insertBefore(tagsLabel, footerElement)
+
+  const tagsEditor = document.createElement('input')
+  tagsEditor.type = 'text'
+  tagsEditor.className = 'article-tags-editor'
+  tagsEditor.contentEditable = true
+  if ( post.tags ) {
+    tagsEditor.innerHTML = post.tags
+  }
+  postElement.insertBefore(tagsEditor, footerElement)
+
+  // Add the editor js and css
+  const tagsEditorCss = document.createElement('link')
+  tagsEditorCss.rel = 'stylesheet'
+  tagsEditorCss.href = '/static/tokenfield.css'
+  postElement.parentNode.appendChild(tagsEditorCss)
+
+  let tokenField = undefined
+  const tagsEditorJs = document.createElement('script')
+  tagsEditorJs.src = '/static/tokenfield.min.js'
+  tagsEditorJs.onload = (e) => {
+    tokenField = new Tokenfield({
+      el: document.querySelector('.article-tags-editor'),
+      items: [
+        {id: 1, name: 'red'},
+        {id: 2, name:'orange'},
+        {id: 3, name: 'yellow'},
+        {id: 4, name: 'green'},
+        {id: 5, name:'blue'},
+        {id: 6, name: 'indigo'},
+        {id: 7, name: 'violet'},
+        {id: 8, name: 'black'},
+        {id: 9, name: 'white'},
+        {id: 10, name: 'brown'},
+        {id: 11, name: 'pink'}
+      ],
+      newItems: true
+    });
+  }
+  postElement.parentNode.appendChild(tagsEditorJs)
+
+  // // Tags
+  // var tokenfield = new Tokenfield({
+  //   el: document.querySelector('.text-input'), // Attach Tokenfield to the input element with class "text-input"
+  //   newItems: false
+  // });
 
   // Clear the footer and add the save button at the bottom
   footerElement.innerHTML = ''
