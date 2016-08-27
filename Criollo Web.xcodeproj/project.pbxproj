@@ -31,7 +31,6 @@
 		AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = ADD294871CB936EE006458AF /* CWBlogPostViewController.pug */; };
 		AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */; };
 		AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113CB1D251C39005B8208 /* CWAPIController.m */; };
-		AD6D8F6E1D713CB8000AD91E /* tokenfield.css in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6D8F6A1D713C9C000AD91E /* tokenfield.css */; };
 		AD6D8F6F1D713CB8000AD91E /* tokenfield.min.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
@@ -99,7 +98,6 @@
 			dstPath = Public;
 			dstSubfolderSpec = 7;
 			files = (
-				AD6D8F6E1D713CB8000AD91E /* tokenfield.css in Copy Public Resources */,
 				AD6D8F6F1D713CB8000AD91E /* tokenfield.min.js in Copy Public Resources */,
 				3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */,
 				3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */,
@@ -159,7 +157,6 @@
 		AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CWBlogViewController.pug; path = Blog/CWBlogViewController.pug; sourceTree = "<group>"; };
 		AD6113CA1D251C39005B8208 /* CWAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPIController.h; sourceTree = "<group>"; };
 		AD6113CB1D251C39005B8208 /* CWAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPIController.m; sourceTree = "<group>"; };
-		AD6D8F6A1D713C9C000AD91E /* tokenfield.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = tokenfield.css; path = node_modules/tokenfield/dist/tokenfield.css; sourceTree = SOURCE_ROOT; };
 		AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = tokenfield.min.js; path = node_modules/tokenfield/dist/tokenfield.min.js; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.pug; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
@@ -332,7 +329,6 @@
 		AD6240821CCC4A51008BE8B2 /* Contrib */ = {
 			isa = PBXGroup;
 			children = (
-				AD6D8F6A1D713C9C000AD91E /* tokenfield.css */,
 				AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */,
 			);
 			name = Contrib;
@@ -494,7 +490,6 @@
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
 				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
-				AD0BA99A1C962ECA005206A1 /* Uglify */,
 				AD51FF821CE21EC500F09203 /* Crashlytics */,
 				339AF7D27633BDB44379C147 /* [CP] Embed Pods Frameworks */,
 				A9ED9BC5124B0BF5AE3CF1B5 /* [CP] Copy Pods Resources */,
@@ -597,21 +592,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AD0BA99A1C962ECA005206A1 /* Uglify */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Uglify;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#SRC_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\n\n#uglify -s \"$SRC_DIR/*.js\" -o \"$DERIVED_FILE_DIR/uglified.js\"\n#if [ -f \"$DERIVED_FILE_DIR/uglified.js\" ] ; then\n#    mv \"$DERIVED_FILE_DIR/uglified.js\" \"$SRC_DIR/default.js\"\n#fi\n";
 			showEnvVarsInLog = 0;
 		};
 		AD51FF821CE21EC500F09203 /* Crashlytics */ = {

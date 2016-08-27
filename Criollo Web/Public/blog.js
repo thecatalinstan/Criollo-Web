@@ -140,12 +140,6 @@ const setupEditor = (postElement, post) => {
   }
   postElement.insertBefore(tagsEditor, footerElement)
 
-  // Add the editor js and css
-  const tagsEditorCss = document.createElement('link')
-  tagsEditorCss.rel = 'stylesheet'
-  tagsEditorCss.href = '/static/tokenfield.css'
-  postElement.parentNode.appendChild(tagsEditorCss)
-
   let tokenField = undefined
   const tagsEditorJs = document.createElement('script')
   tagsEditorJs.src = '/static/tokenfield.min.js'
