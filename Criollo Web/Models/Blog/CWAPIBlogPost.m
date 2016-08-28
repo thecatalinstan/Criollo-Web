@@ -35,15 +35,11 @@
     post.excerpt = self.excerpt;
     post.author = (CWBlogAuthor *)self.author.schemaObject;
 
+    [post.tags removeAllObjects];
     if ( self.tags ) {
-        if ( !post.tags ) {
-            post.tags = (RLMArray<CWBlogTag *><CWBlogTag> *) [[RLMArray alloc] initWithObjectClassName:@"CWBlogTag"];
-        }
         [self.tags enumerateObjectsUsingBlock:^(CWAPIBlogTag * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [post.tags addObject:(CWBlogTag *)obj.schemaObject];
         }];
-    } else {
-        self.tags = nil;
     }
 
     return post;
