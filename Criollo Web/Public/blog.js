@@ -3,7 +3,9 @@ import api from './api.js'
 const blog = {}
 
 const titlePlaceholder = 'Post title'
-const contentPlaceholder = 'Post content'
+const contentPlaceholder = 'Enter the post content as markdown here'
+const excerptPlaceholder = 'The post excerpt (leave blank to autogenerate)'
+const tagsPlaceholder = 'Enter some tags'
 
 const displayValidationError = (element, message) => {
   if ( window.notifier ) {
@@ -105,6 +107,7 @@ const setupEditor = (postElement, post) => {
   if ( post.excerpt ) {
     excerptEditor.innerHTML = post.excerpt
   }
+  excerptEditor.placeholder = excerptPlaceholder
   postElement.insertBefore(excerptEditor, footerElement)
 
   // Add the editor js and css
@@ -146,29 +149,24 @@ const setupEditor = (postElement, post) => {
   tagsEditorJs.onload = (e) => {
     tokenField = new Tokenfield({
       el: document.querySelector('.article-tags-editor'),
-      items: [
-        {id: 1, name: 'red'},
-        {id: 2, name:'orange'},
-        {id: 3, name: 'yellow'},
-        {id: 4, name: 'green'},
-        {id: 5, name:'blue'},
-        {id: 6, name: 'indigo'},
-        {id: 7, name: 'violet'},
-        {id: 8, name: 'black'},
-        {id: 9, name: 'white'},
-        {id: 10, name: 'brown'},
-        {id: 11, name: 'pink'}
-      ],
-      newItems: true
+      setItems: post.tags || [],
+      placeholder: tagsPlaceholder,
+      newItems: true,
+      itemValue: 'uid',
+      remote: {
+        type: 'GET',
+        url: '/api/blog/tags/search',
+        queryParam: 'q',
+        delay: 300,
+        timestampParam: 't'
+      }
     });
+
+    tokenField.remapData = (data) => {
+      return data.data;
+    }
   }
   postElement.parentNode.appendChild(tagsEditorJs)
-
-  // // Tags
-  // var tokenfield = new Tokenfield({
-  //   el: document.querySelector('.text-input'), // Attach Tokenfield to the input element with class "text-input"
-  //   newItems: false
-  // });
 
   // Clear the footer and add the save button at the bottom
   footerElement.innerHTML = ''
@@ -180,15 +178,22 @@ const setupEditor = (postElement, post) => {
     post.title = titleElement.textContent
     post.content = contentEditor.value
     post.excerpt = excerptEditor.textContent
+    post.tags = tokenField.getItems().map ( (item) => {
+      if ( item.isNew ) {
+        return { 'name': item.name }
+      } else {
+        return item
+      }
+    })
     console.log('saving post', post)
     savePost(post, (data) => {
-      console.log(data)
       window.notifier.confirm('Post saved', data.publicPath, null, () => {
         window.location.pathName = data.publicPath
       })
       post = data
       postElement.dataset.post = post.uid
       postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
+      tokenField.setItems(post.tags)
     }, (err) => {
       console.error(err)
       window.notifier.error('Unable to save post', err.message)
