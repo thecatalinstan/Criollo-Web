@@ -3,7 +3,9 @@ import api from './api.js'
 const blog = {}
 
 const titlePlaceholder = 'Post title'
-const contentPlaceholder = 'Post content'
+const contentPlaceholder = 'Enter the post content as markdown here'
+const excerptPlaceholder = 'The post excerpt (leave blank to autogenerate)'
+const tagsPlaceholder = 'Enter some tags'
 
 const displayValidationError = (element, message) => {
   if ( window.notifier ) {
@@ -105,25 +107,66 @@ const setupEditor = (postElement, post) => {
   if ( post.excerpt ) {
     excerptEditor.innerHTML = post.excerpt
   }
+  excerptEditor.placeholder = excerptPlaceholder
   postElement.insertBefore(excerptEditor, footerElement)
 
   // Add the editor js and css
-  const editorCss = document.createElement('link')
-  editorCss.rel = 'stylesheet'
-  editorCss.href = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css'
-  postElement.parentNode.appendChild(editorCss)
+  const excerptEditorCss = document.createElement('link')
+  excerptEditorCss.rel = 'stylesheet'
+  excerptEditorCss.href = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css'
+  postElement.parentNode.appendChild(excerptEditorCss)
 
   let simpleMDE = undefined
-  const editorJs = document.createElement('script')
-  editorJs.src = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js'
-  editorJs.onload = (e) => {
+  const excerptEditorJs = document.createElement('script')
+  excerptEditorJs.src = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js'
+  excerptEditorJs.onload = (e) => {
     simpleMDE = new SimpleMDE( {
       element: contentEditor,
       placeholder: contentPlaceholder,
       forceSync: true,
     })
   }
-  postElement.parentNode.appendChild(editorJs)
+  postElement.parentNode.appendChild(excerptEditorJs)
+
+  // Create the tags label and editor element
+  const tagsLabel = document.createElement('label')
+  tagsLabel.className = 'article-tags-editor-label'
+  tagsLabel.innerHTML = 'Tags:'
+  postElement.insertBefore(tagsLabel, footerElement)
+
+  const tagsEditor = document.createElement('input')
+  tagsEditor.type = 'text'
+  tagsEditor.className = 'article-tags-editor'
+  tagsEditor.contentEditable = true
+  if ( post.tags ) {
+    tagsEditor.innerHTML = post.tags
+  }
+  postElement.insertBefore(tagsEditor, footerElement)
+
+  let tokenField = undefined
+  const tagsEditorJs = document.createElement('script')
+  tagsEditorJs.src = '/static/tokenfield.min.js'
+  tagsEditorJs.onload = (e) => {
+    tokenField = new Tokenfield({
+      el: document.querySelector('.article-tags-editor'),
+      setItems: post.tags || [],
+      placeholder: tagsPlaceholder,
+      newItems: true,
+      itemValue: 'uid',
+      remote: {
+        type: 'GET',
+        url: '/api/blog/tags/search',
+        queryParam: 'q',
+        delay: 300,
+        timestampParam: 't'
+      }
+    });
+
+    tokenField.remapData = (data) => {
+      return data.data;
+    }
+  }
+  postElement.parentNode.appendChild(tagsEditorJs)
 
   // Clear the footer and add the save button at the bottom
   footerElement.innerHTML = ''
@@ -135,15 +178,22 @@ const setupEditor = (postElement, post) => {
     post.title = titleElement.textContent
     post.content = contentEditor.value
     post.excerpt = excerptEditor.textContent
+    post.tags = tokenField.getItems().map ( (item) => {
+      if ( item.isNew ) {
+        return { 'name': item.name }
+      } else {
+        return item
+      }
+    })
     console.log('saving post', post)
     savePost(post, (data) => {
-      console.log(data)
       window.notifier.confirm('Post saved', data.publicPath, null, () => {
         window.location.pathName = data.publicPath
       })
       post = data
       postElement.dataset.post = post.uid
       postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
+      tokenField.setItems(post.tags)
     }, (err) => {
       console.error(err)
       window.notifier.error('Unable to save post', err.message)

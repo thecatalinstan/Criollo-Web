@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CWAPIBlogAuthor, CWAPIBlogTag;
 
+@protocol CWAPIBlogTag
+@end
+
 @interface CWAPIBlogPost : CWModel
 
 @property (nullable, nonatomic, strong) NSDate<Optional> *date;
@@ -21,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSString<Optional> *renderedContent;
 @property (nullable, nonatomic, strong) NSString<Optional> *excerpt;
 @property (nullable, nonatomic, strong) CWAPIBlogAuthor<Optional> *author;
-@property (nullable, nonatomic, strong) NSArray<CWAPIBlogTag *><Optional> *tags;
+@property (nullable, nonatomic, strong) NSArray<CWAPIBlogTag *><CWAPIBlogTag,Optional> *tags;
 
 @end
 

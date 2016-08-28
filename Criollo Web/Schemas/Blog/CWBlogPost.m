@@ -50,7 +50,7 @@
     post.excerpt = self.excerpt;
     post.author = (CWAPIBlogAuthor *)self.author.modelObject;
     post.handle = self.handle;
-    post.tags = [NSMutableArray array];
+    post.tags = (NSMutableArray<CWAPIBlogTag>*)[NSMutableArray array];
     for (CWBlogTag* tag in self.tags) {
         [((NSMutableArray *)post.tags) addObject:tag.modelObject];
     }

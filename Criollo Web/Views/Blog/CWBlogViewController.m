@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_END
 - (CRRouteBlock)tagBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* handle = request.query[@"tag"];
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"tags.handle = %@", handle];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"ANY tags.handle = %@", handle];
         CWBlogTag* tag = [CWBlogTag getByHandle:handle];
         if ( tag ) {
             self.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];

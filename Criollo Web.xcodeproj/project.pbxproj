@@ -31,6 +31,7 @@
 		AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = ADD294871CB936EE006458AF /* CWBlogPostViewController.pug */; };
 		AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */; };
 		AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113CB1D251C39005B8208 /* CWAPIController.m */; };
+		AD6D8F6F1D713CB8000AD91E /* tokenfield.min.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */; };
@@ -97,6 +98,7 @@
 			dstPath = Public;
 			dstSubfolderSpec = 7;
 			files = (
+				AD6D8F6F1D713CB8000AD91E /* tokenfield.min.js in Copy Public Resources */,
 				3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */,
 				3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */,
 				3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */,
@@ -124,11 +126,9 @@
 		AD0BA8391D1BEAD900F0C865 /* notifications.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = notifications.js; sourceTree = "<group>"; };
 		AD0BA83B1D1C1D9500F0C865 /* menu.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = menu.js; sourceTree = "<group>"; };
 		AD0BA83C1D1C1D9500F0C865 /* notifications.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notifications.styl; sourceTree = "<group>"; };
-		AD0BA83F1D1C1EB100F0C865 /* globals.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = globals.styl; sourceTree = "<group>"; };
 		AD0BA8401D1C1EB100F0C865 /* menu.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = menu.styl; sourceTree = "<group>"; };
 		AD0BA8451D1C26A400F0C865 /* login.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = login.js; sourceTree = "<group>"; };
 		AD0BA8461D1C26A400F0C865 /* login.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login.styl; sourceTree = "<group>"; };
-		AD0BA8471D1C26A400F0C865 /* stats.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stats.js; sourceTree = "<group>"; };
 		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 		AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CWBlogViewController.pug; path = Blog/CWBlogViewController.pug; sourceTree = "<group>"; };
 		AD6113CA1D251C39005B8208 /* CWAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPIController.h; sourceTree = "<group>"; };
 		AD6113CB1D251C39005B8208 /* CWAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPIController.m; sourceTree = "<group>"; };
-		AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "monokai-sublime.css"; path = "node_modules/highlight.js/styles/monokai-sublime.css"; sourceTree = SOURCE_ROOT; };
+		AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = tokenfield.min.js; path = node_modules/tokenfield/dist/tokenfield.min.js; sourceTree = SOURCE_ROOT; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.pug; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
 		AD8FE0B91CE477E70085612C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../../../Library/Developer/Xcode/DerivedData/Criollo_Web-bxldpoilqgcohudzadiiettgdbiy/Build/Products/Debug/Realm/Realm.framework"; sourceTree = "<group>"; };
@@ -175,7 +175,6 @@
 		ADB5AF971D49661A003C14B6 /* CWUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUser.h; sourceTree = "<group>"; };
 		ADB5AF981D49661A003C14B6 /* CWUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUser.m; sourceTree = "<group>"; };
 		ADB9D1651CE5C72A002F35B5 /* Criollo Web.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Criollo Web.entitlements"; sourceTree = "<group>"; };
-		ADC098851C90E79B009CC72F /* reset.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reset.styl; sourceTree = "<group>"; };
 		ADC098871C90F6D4009CC72F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ADD294831CB936BC006458AF /* CWBlogPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogPostViewController.h; path = Blog/CWBlogPostViewController.h; sourceTree = "<group>"; };
 		ADD294841CB936BC006458AF /* CWBlogPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWBlogPostViewController.m; path = Blog/CWBlogPostViewController.m; sourceTree = "<group>"; };
@@ -330,8 +329,7 @@
 		AD6240821CCC4A51008BE8B2 /* Contrib */ = {
 			isa = PBXGroup;
 			children = (
-				AD6240801CCC4A37008BE8B2 /* monokai-sublime.css */,
-				ADC098851C90E79B009CC72F /* reset.styl */,
+				AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */,
 			);
 			name = Contrib;
 			sourceTree = "<group>";
@@ -344,9 +342,7 @@
 				AD0BA8441D1C207700F0C865 /* Notifications */,
 				AD0BA96E1C960068005206A1 /* Images */,
 				AD6240821CCC4A51008BE8B2 /* Contrib */,
-				AD0BA8471D1C26A400F0C865 /* stats.js */,
 				AD0BA9971C962922005206A1 /* app.js */,
-				AD0BA83F1D1C1EB100F0C865 /* globals.styl */,
 				AD7396901C9073A700D9F4B3 /* default.styl */,
 			);
 			path = Public;
@@ -494,7 +490,6 @@
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
 				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
-				AD0BA99A1C962ECA005206A1 /* Uglify */,
 				AD51FF821CE21EC500F09203 /* Crashlytics */,
 				339AF7D27633BDB44379C147 /* [CP] Embed Pods Frameworks */,
 				A9ED9BC5124B0BF5AE3CF1B5 /* [CP] Copy Pods Resources */,
@@ -597,21 +592,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AD0BA99A1C962ECA005206A1 /* Uglify */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Uglify;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#SRC_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\n\n#uglify -s \"$SRC_DIR/*.js\" -o \"$DERIVED_FILE_DIR/uglified.js\"\n#if [ -f \"$DERIVED_FILE_DIR/uglified.js\" ] ; then\n#    mv \"$DERIVED_FILE_DIR/uglified.js\" \"$SRC_DIR/default.js\"\n#fi\n";
 			showEnvVarsInLog = 0;
 		};
 		AD51FF821CE21EC500F09203 /* Crashlytics */ = {

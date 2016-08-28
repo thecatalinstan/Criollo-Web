@@ -23,6 +23,10 @@
 #define CWBlogAPIPostsPath              @"/posts"
 #define CWBlogAPISinglePostPath         @"/posts/:pid"
 
+#define CWBlogAPITagsPath               @"/tags"
+#define CWBlogAPISearchTagsPath         @"/tags/search"
+#define CWBlogAPISingleTagPath          @"/tags/:tid"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogAPIController ()
@@ -32,6 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) CRRouteBlock getPostBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock deletePostBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock createOrUpdatePostBlock;
+
+@property (nonatomic, strong, readonly) CRRouteBlock getTagBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock deleteTagBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock createOrUpdateTagBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock searchTagsBlock;
 
 - (void)setupRoutes;
 
@@ -63,18 +72,25 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Routing
 
 - (void)setupRoutes {
-    // Get single post
+    // Posts
     [self get:CWBlogAPISinglePostPath block:self.getPostBlock];
-
-    // Delete post
     [self delete:CWBlogAPISinglePostPath block:self.deletePostBlock];
-
-    // Create post
     [self put:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
-
-    // Update post
     [self post:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
+
+    // Search tags
+    [self get:CWBlogAPISearchTagsPath block:self.searchTagsBlock];
+    [self post:CWBlogAPISearchTagsPath block:self.searchTagsBlock];
+
+    // Tags
+    [self get:CWBlogAPISingleTagPath block:self.getTagBlock];
+    [self delete:CWBlogAPISingleTagPath block:self.deleteTagBlock];
+    [self put:CWBlogAPITagsPath block:self.createOrUpdateTagBlock];
+    [self post:CWBlogAPITagsPath block:self.createOrUpdateTagBlock];
+
 }
+
+#pragma mark - Posts
 
 - (CRRouteBlock)getPostBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
@@ -83,7 +99,6 @@ NS_ASSUME_NONNULL_END
         CWBlogPost* post = [CWBlogPost getByUID:pid];
         if (post != nil) {
             [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
-            completionHandler();
         } else {
             [response setStatusCode:404 description:nil];
             [CWAPIController failWithError:nil request:request response:response];
@@ -95,7 +110,6 @@ NS_ASSUME_NONNULL_END
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
         [CWAPIController failWithError:error request:request response:response];
-        completionHandler();
     };
 }
 
@@ -137,6 +151,7 @@ NS_ASSUME_NONNULL_END
         RLMRealm *realm = [CWBlog realm];
         [realm beginWriteTransaction];
 
+
         CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
         post.renderedContent = renderedContent;
         post.excerpt = excerpt;
@@ -144,10 +159,14 @@ NS_ASSUME_NONNULL_END
         post.handle = post.title.URLFriendlyHandle;
         post.author = author;
 
+        for ( CWBlogTag* tag in post.tags ) {
+            tag.handle = tag.name.URLFriendlyHandle;
+            [realm addOrUpdateObject:tag];
+        }
+
         [realm addOrUpdateObject:post];
         if ( [realm commitWriteTransaction:&error] ) {
             [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
-            completionHandler();
         } else {
             [CWAPIController failWithError:error request:request response:response];
         }
@@ -155,5 +174,67 @@ NS_ASSUME_NONNULL_END
     };
 }
 
+#pragma mark - Tags
+
+- (CRRouteBlock)getTagBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* tid = request.query[@"tid"];
+
+        CWBlogTag* tag = [CWBlogTag getByUID:tid];
+        if (tag != nil) {
+            [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
+        } else {
+            [response setStatusCode:404 description:nil];
+            [CWAPIController failWithError:nil request:request response:response];
+        }
+    };
+}
+
+- (CRRouteBlock)deleteTagBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
+        [CWAPIController failWithError:error request:request response:response];
+    };
+}
+
+- (CRRouteBlock)createOrUpdateTagBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+
+        NSError* error = nil;
+        CWAPIBlogTag* receivedTag = [[CWAPIBlogTag alloc] initWithDictionary:request.body error:&error];
+        if ( error ) {
+            [CWAPIController failWithError:error request:request response:response];
+            return;
+        }
+
+        RLMRealm *realm = [CWBlog realm];
+        [realm beginWriteTransaction];
+
+        CWBlogTag* tag = (CWBlogTag *)receivedTag.schemaObject;
+        tag.handle = tag.name.URLFriendlyHandle;
+
+        [realm addOrUpdateObject:tag];
+        if ( [realm commitWriteTransaction:&error] ) {
+            [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
+        } else {
+            [CWAPIController failWithError:error request:request response:response];
+        }
+        
+    };
+}
+
+- (CRRouteBlock)searchTagsBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* q = request.query[@"q"];
+
+        RLMResults* tags = [[CWBlogTag getObjectsWhere:@"name contains[c] %@", q] sortedResultsUsingProperty:@"name" ascending:YES];
+        NSMutableArray* result = [NSMutableArray array];
+        for ( CWBlogTag* tag in tags ) {
+            [result addObject:tag.modelObject.toDictionary];
+        }
+
+        [CWAPIController succeedWithPayload:result request:request response:response];
+    };
+}
 
 @end

@@ -61,6 +61,13 @@
     }
     self.vars[@"toolbar"] = toolbar;
 
+    NSMutableArray* tags = [NSMutableArray array];
+    for ( CWBlogTag* tag in self.post.tags ) {
+        NSString * tagHref = [NSString stringWithFormat:@"<a href=\"%@\">%@</a>", [tag permalinkForRequest:request], tag.name];
+        [tags addObject:tagHref];
+    }
+    self.vars[@"tags"] = [tags componentsJoinedByString:@", "];
+
     return [super presentViewControllerWithRequest:request response:response];
 }
 
