@@ -231,5 +231,23 @@ blog.setup = () => {
   }
 }
 
+blog.setupSharing = () => {
+  const postElement = document.querySelector('.content article.article')
+  if ( !postElement ) {
+    console.log(`There is no post element. Exiting.`)
+    return
+  }
+
+  const sharingContainer = document.querySelector('.content article.article .article-footer .sharing')
+  if ( !sharingContainer ) {
+    console.log(`There is no sharing container element. Exiting.`)
+    return
+  }
+
+  const sharingJs = document.createElement('script')
+  sharingJs.src = '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57c4039a427916ac'
+  postElement.parentNode.appendChild(sharingJs)
+}
+
 
 export default blog
