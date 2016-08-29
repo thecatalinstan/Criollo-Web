@@ -22,6 +22,7 @@
 
 #define CWBlogAPIPostsPath              @"/posts"
 #define CWBlogAPISinglePostPath         @"/posts/:pid"
+#define CWBlogAPIRelatedPostsPath       @"/related/:pid"
 
 #define CWBlogAPITagsPath               @"/tags"
 #define CWBlogAPISearchTagsPath         @"/tags/search"
@@ -36,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) CRRouteBlock getPostBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock deletePostBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock createOrUpdatePostBlock;
+@property (nonatomic, strong, readonly) CRRouteBlock relatedPostsBlock;
 
 @property (nonatomic, strong, readonly) CRRouteBlock getTagBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock deleteTagBlock;
@@ -77,6 +79,9 @@ NS_ASSUME_NONNULL_END
     [self delete:CWBlogAPISinglePostPath block:self.deletePostBlock];
     [self put:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
     [self post:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
+
+    // Related posts
+    [self get:CWBlogAPIRelatedPostsPath block:self.relatedPostsBlock];
 
     // Search tags
     [self get:CWBlogAPISearchTagsPath block:self.searchTagsBlock];
@@ -151,7 +156,6 @@ NS_ASSUME_NONNULL_END
         RLMRealm *realm = [CWBlog realm];
         [realm beginWriteTransaction];
 
-
         CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
         post.renderedContent = renderedContent;
         post.excerpt = excerpt;
@@ -171,6 +175,63 @@ NS_ASSUME_NONNULL_END
             [CWAPIController failWithError:error request:request response:response];
         }
 
+    };
+}
+
+- (CRRouteBlock)relatedPostsBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* pid = request.query[@"pid"];
+
+        CWBlogPost* post = [CWBlogPost getByUID:pid];
+        if (post == nil) {
+            [response setStatusCode:404 description:nil];
+            [CWAPIController failWithError:nil request:request response:response];
+            return;
+        }
+
+        // This is a very very very hacky solution
+
+        NSSet* tags = [NSSet setWithArray:[post valueForKeyPath:@"tags.name"]];
+        NSMutableArray* commonTagCounts = [NSMutableArray array];
+        RLMResults* posts = [CWBlogPost allObjectsInRealm:[CWBlog realm]];
+        for ( CWBlogPost *p in posts ) {
+            if ( [p.uid isEqualToString:post.uid]) {
+                continue;
+            }
+            NSSet* t = [NSSet setWithArray:[p valueForKeyPath:@"tags.name"]];
+            NSMutableSet* commonTags = tags.mutableCopy;
+            [commonTags intersectSet:t];
+
+            [commonTagCounts addObject:@[p, commonTags]];
+        }
+
+        [commonTagCounts filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSArray *  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            NSSet* commonTags = evaluatedObject[1];
+            return commonTags.count > 0;
+        }]];
+
+        [commonTagCounts sortUsingComparator:^NSComparisonResult(NSArray*  _Nonnull obj1, NSArray*  _Nonnull obj2) {
+            NSSet* commonTags1 = obj1[1];
+            NSSet* commonTags2 = obj2[1];
+            NSComparisonResult result = [@(commonTags1.count) compare:@(commonTags2.count)];
+            if ( result != NSOrderedSame ) {
+                return result;
+            }
+
+            CWBlogPost* post1 = obj1[0];
+            CWBlogPost* post2 = obj2[0];
+
+            result = [post1.date compare:post2.date];
+            return result;
+        }];
+
+        NSMutableArray* results = [NSMutableArray array];
+        [commonTagCounts enumerateObjectsUsingBlock:^(NSArray*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            CWBlogPost* post = obj[0];
+            [results addObject:post.modelObject.toDictionary];
+        }];
+
+        [CWAPIController succeedWithPayload:results request:request response:response];
     };
 }
 
