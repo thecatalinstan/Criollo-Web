@@ -4,7 +4,7 @@ body.blog
 
   .article
     padding 2em 1em
-    border-bottom 1px solid criollo-medium-gray
+    border-bottom 1px solid criollo-light-gray
     text-align left
 
     &:first-of-type
@@ -108,15 +108,53 @@ body.blog
     .editor-toolbar
       margin-top 1em
 
-    .article-tags
+    .article-footer
       margin 1.5em 0
       padding-top 1.5em
-      font-size 0.9em
       border-top 1px solid criollo-light-gray
+      font-size 0.9em
+      vertical-align middle
+      min-height 80px
 
-      .article-tags-label
-        font-weight bold
-        margin-right 0.5em
+      .tags
+        line-height 1.5em
+        margin-bottom 0.5em
+
+        .tags-label
+          margin-right 0.5em
+          font-weight 400
+
+      .permalink
+        line-height 1.5em
+
+        .permalink-label
+          margin-right 0.5em
+          font-weight 400
+
+        .permalink-item
+          background-color white
+          border 1px solid criollo-medium-gray
+          border-radius 4px
+          width 50%
+          color criollo-dark-gray
+          padding 8px 16px
+          font-weight 100
+          font-size 0.75em
+          box-sizing border-box
+          cursor text
+
+      .sharing
+        float right
+        display inline
+        text-align right
+
+        @media screen and (max-width: phone-cutoff)
+          float none
+          display block
+          text-align left
+
+
+
 
     button
       display block

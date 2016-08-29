@@ -7,11 +7,13 @@ article.article(id="article-{{id}}",data-post="{{id}}")
       span.article-date {{date}}
       span.article-toolbar {{toolbar}}
   .article-content {{content}}
-  .article-tags
-    span.article-tags-label Tags:
-    span.article-tags-items {{tags}}
   footer.article-footer
     .sharing
       .addthis_inline_share_toolbox
+    .tags
+      span.tags-label Tags:
+      span.tags-items {{tags}}
     .permalink
+      span.permalink-label Permalink:
+      input.permalink-item(readonly,value="{{permalink}}")
 
