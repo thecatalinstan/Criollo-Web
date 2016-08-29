@@ -33,3 +33,6 @@ window.onload = () => {
   // Footer info
   getStats(document.getElementById('stats-info'))
 }
+
+// Expose the related posts function
+window.getRelatedPosts = blog.relatedPosts

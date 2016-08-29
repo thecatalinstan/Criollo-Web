@@ -7,6 +7,7 @@
 //
 
 #import <Realm/Realm.h>
+#import "CWBlogPost.h"
 
 #define CWBlogErrorDomain           @"CWBlogErrorDomain"
 #define CWBlogUnknownAuthor         1001
@@ -54,6 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSString *)renderMarkdown:(NSString *)markdownString error:(NSError * _Nullable __autoreleasing * _Nullable)error;
 + (nullable NSString *)excerptFromMarkdown:(NSString *)markdownString error:(NSError * _Nullable __autoreleasing * _Nullable)error;
 + (nullable NSString *)excerptFromHTML:(NSString *)htmlString error:(NSError * _Nullable __autoreleasing * _Nullable)error;
+
++ (NSArray<CWBlogPost *> *)relatedPostsForPost:(CWBlogPost *)post;
++ (NSArray<CWBlogPost *> *)relatedPostsForPost:(CWBlogPost *)post includeBlanks:(BOOL)flag;
 
 @end
 

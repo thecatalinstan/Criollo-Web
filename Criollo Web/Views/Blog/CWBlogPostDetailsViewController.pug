@@ -10,13 +10,16 @@ article.article.single(id="article-{{id}}",data-post="{{id}}")
   footer.article-footer
     .sharing
       .addthis_inline_share_toolbox
-    .tags
+    .tags(style="{{tags-style}}")
       span.tags-label Tags:
       span.tags-items {{tags}}
     .permalink
       span.permalink-label Permalink:
       input.permalink-item(readonly,value="{{permalink}}")
+    .article-related(style="{{related-style}}")
+      h3.related-label You may also be interested in reading:
+      ul.related-items {{related}}
 link(rel="stylesheet",href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/monokai-sublime.min.css")
 script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js")
-script hljs.initHighlightingOnLoad()
 script(src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57c4039a427916ac")
+script hljs.initHighlightingOnLoad()

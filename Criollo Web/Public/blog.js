@@ -231,4 +231,22 @@ blog.setup = () => {
   }
 }
 
+blog.relatedPosts = () => {
+  const postElement = document.querySelector('.content article.article')
+  if ( !postElement ) {
+    console.log(`There is no post element. Exiting.`)
+    return
+  }
+
+  const postId = postElement.dataset.post
+  api( { url: `/api/blog/related/${postId}?${Math.random()}` },
+    (data) => {
+      console.log('data', data)
+    },
+    (err) => {
+      console.error('error', err)
+    }
+  )
+}
+
 export default blog

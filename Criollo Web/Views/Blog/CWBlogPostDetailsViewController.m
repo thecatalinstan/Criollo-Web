@@ -67,6 +67,19 @@
         [tags addObject:tagHref];
     }
     self.vars[@"tags"] = [tags componentsJoinedByString:@", "];
+    self.vars[@"tags-style"] = tags.count == 0 ? @"display: none" : @"";
+
+    // Get the related posts
+    NSArray<CWBlogPost *> *relatedPosts = [CWBlog relatedPostsForPost:self.post includeBlanks:NO];
+    NSMutableString* related = [NSMutableString string];
+    [relatedPosts enumerateObjectsUsingBlock:^(CWBlogPost * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [related appendFormat:@"<li><a href=\"%@\">%@</a></li>", [obj permalinkForRequest:request], obj.title];
+        if ( idx > 5 ) {
+            *stop = YES;
+        }
+    }];
+    self.vars[@"related"] = related;
+    self.vars[@"related-style"] = relatedPosts.count == 0 ? @"display: none" : @"";
 
     return [super presentViewControllerWithRequest:request response:response];
 }

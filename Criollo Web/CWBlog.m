@@ -12,7 +12,6 @@
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
 #import "CWBlogTag.h"
-#import "CWBlogPost.h"
 #import "CWUser.h"
 #import "NSString+URLUtils.h"
 #import "CWAppDelegate.h"
@@ -192,6 +191,58 @@ NS_ASSUME_NONNULL_END
     }];
 
     return excerpt;
+}
+
++ (id)relatedPostsForPost:(CWBlogPost *)post {
+    return [CWBlog relatedPostsForPost:post includeBlanks:NO];
+}
+
++ (NSArray<CWBlogPost *>*)relatedPostsForPost:(CWBlogPost *)post includeBlanks:(BOOL)flag {
+    // This is a very very very hacky solution
+
+    NSSet* tags = [NSSet setWithArray:[post valueForKeyPath:@"tags.name"]];
+    NSMutableArray* commonTagCounts = [NSMutableArray array];
+    RLMResults* posts = [CWBlogPost allObjectsInRealm:[CWBlog realm]];
+    for ( CWBlogPost *p in posts ) {
+        if ( [p.uid isEqualToString:post.uid]) {
+            continue;
+        }
+        NSSet* t = [NSSet setWithArray:[p valueForKeyPath:@"tags.name"]];
+        NSMutableSet* commonTags = tags.mutableCopy;
+        [commonTags intersectSet:t];
+
+        [commonTagCounts addObject:@[p, commonTags]];
+    }
+
+    if ( !flag ) {
+        [commonTagCounts filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSArray *  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            NSSet* commonTags = evaluatedObject[1];
+            return commonTags.count > 0;
+        }]];
+    }
+
+    [commonTagCounts sortUsingComparator:^NSComparisonResult(NSArray*  _Nonnull obj1, NSArray*  _Nonnull obj2) {
+        NSSet* commonTags1 = obj1[1];
+        NSSet* commonTags2 = obj2[1];
+        NSComparisonResult result = [@(commonTags1.count) compare:@(commonTags2.count)];
+        if ( result != NSOrderedSame ) {
+            return result;
+        }
+
+        CWBlogPost* post1 = obj1[0];
+        CWBlogPost* post2 = obj2[0];
+
+        result = [post1.date compare:post2.date];
+        return result;
+    }];
+
+    NSMutableArray* results = [NSMutableArray array];
+    [commonTagCounts enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSArray*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CWBlogPost* post = obj[0];
+        [results addObject:post];
+    }];
+
+    return results;
 }
 
 @end
