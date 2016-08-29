@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSMutableString* contents;
 @property (nonatomic, strong) NSPredicate* fetchPredicate;
 @property (nonatomic, strong) NSString * title;
+@property (nonatomic) BOOL showPageTitle;
 @property (nonatomic, strong) NSString * url;
 @property (nonatomic, strong) NSString * ogType;
 @property (nonatomic, strong) NSString * metaDescription;
@@ -191,6 +192,7 @@ NS_ASSUME_NONNULL_END
         CWBlogTag* tag = [CWBlogTag getByHandle:handle];
         if ( tag ) {
             self.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
+            self.showPageTitle = YES;
         }
         completionHandler();
     };
@@ -206,6 +208,7 @@ NS_ASSUME_NONNULL_END
         CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
         if ( author ) {
             self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
+            self.showPageTitle = YES;
         }
         completionHandler();
     };
@@ -218,6 +221,7 @@ NS_ASSUME_NONNULL_END
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response]];
         self.title = @"Create New Blog Post";
+        self.showPageTitle = NO;
         completionHandler();
     };
 }
@@ -237,6 +241,7 @@ NS_ASSUME_NONNULL_END
             self.ogType = @"article";
             self.metaDescription = post.excerpt;
             self.url = [post permalinkForRequest:request];
+            self.showPageTitle = NO;
         }
         completionHandler();
     };
@@ -293,7 +298,10 @@ NS_ASSUME_NONNULL_END
 }
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
-    self.vars[@"posts"] = self.contents;
+    self.vars[@"content"] = self.contents;
+//    if (self.showPageTitle) {
+//        self.vars[@"content"] = [NSString stringWithFormat:@"<h1 class=\"page-title\">%@</h1>%@", self.title, self.vars[@"content"]];
+//    }
     self.vars[@"title"] = self.title;
     if ( self.ogType ) {
         self.vars[@"og-type"] = self.ogType;
@@ -305,8 +313,6 @@ NS_ASSUME_NONNULL_END
         self.vars[@"meta-description"] = self.metaDescription;
     }
     self.vars[@"sidebar"] = @"";
-
-    NSLog(@"%@", self.vars);
 
     return [super presentViewControllerWithRequest:request response:response];
 }

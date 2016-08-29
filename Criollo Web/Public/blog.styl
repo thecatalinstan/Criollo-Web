@@ -3,7 +3,7 @@
 body.blog
 
   .article
-    padding 2em 1em
+    padding 1em
     border-bottom 1px solid criollo-light-gray
     text-align left
 
@@ -12,6 +12,25 @@ body.blog
 
     &:last-of-type
       border none
+
+    &.single
+
+      .article-header
+        margin-bottom 2.5em
+
+      .article-title
+        margin-top 1em
+        letter-spacing -0.1em !important
+        margin-left -0.075em !important
+
+      .article-info
+        font-size 0.8em !important
+
+      .article-content
+        padding-bottom 1px
+
+      .article-footer
+        padding-top 2.5em !important
 
     .article-header
 
@@ -34,7 +53,7 @@ body.blog
 
       .article-info
         margin 0
-        font-size 0.70em
+        font-size 0.7em
 
         .article-author
           margin-left 0.3em
@@ -112,7 +131,7 @@ body.blog
       margin 1.5em 0
       padding-top 1.5em
       border-top 1px solid criollo-light-gray
-      font-size 0.9em
+      font-size 0.8em
       vertical-align middle
       min-height 80px
 
@@ -135,13 +154,17 @@ body.blog
           background-color white
           border 1px solid criollo-medium-gray
           border-radius 4px
-          width 50%
+          width 60%
           color criollo-dark-gray
           padding 8px 16px
           font-weight 100
           font-size 0.75em
           box-sizing border-box
           cursor text
+
+          @media screen and (max-width: phone-cutoff)
+            width auto
+            max-width 60%
 
       .sharing
         float right
@@ -152,9 +175,7 @@ body.blog
           float none
           display block
           text-align left
-
-
-
+          margin-bottom 1.5em
 
     button
       display block
