@@ -29,6 +29,7 @@ window.onload = () => {
   }, (err) => {
     window.currentUser = null
   } )
+  blog.setupSharing();
 
   // Footer info
   getStats(document.getElementById('stats-info'))

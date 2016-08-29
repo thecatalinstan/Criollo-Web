@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSMutableString* contents;
 @property (nonatomic, strong) NSPredicate* fetchPredicate;
 @property (nonatomic, strong) NSString * title;
+@property (nonatomic, strong) NSString * url;
+@property (nonatomic, strong) NSString * ogType;
+@property (nonatomic, strong) NSString * metaDescription;
 
 @property (nonatomic, strong, readonly) CRRouteBlock authCheckBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock payloadCheckBlock;
@@ -173,7 +176,7 @@ NS_ASSUME_NONNULL_END
         }
         NSString* humanReadableYear = period.year > 0 ? [NSString stringWithFormat:@" %lu", period.year] : @"";
         self.title = [NSString stringWithFormat:@"Posts Archive for%@%@", humanReadableMonth, humanReadableYear];
-        
+
         completionHandler();
     };
 }
@@ -231,6 +234,9 @@ NS_ASSUME_NONNULL_END
         if (post != nil) {
             [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
             self.title = post.title;
+            self.ogType = @"article";
+            self.metaDescription = post.excerpt;
+            self.url = [post permalinkForRequest:request];
         }
         completionHandler();
     };
@@ -289,7 +295,19 @@ NS_ASSUME_NONNULL_END
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
     self.vars[@"posts"] = self.contents;
     self.vars[@"title"] = self.title;
+    if ( self.ogType ) {
+        self.vars[@"og-type"] = self.ogType;
+    }
+    if ( self.url ) {
+        self.vars[@"url"] = self.url;
+    }
+    if ( self.metaDescription ) {
+        self.vars[@"meta-description"] = self.metaDescription;
+    }
     self.vars[@"sidebar"] = @"";
+
+    NSLog(@"%@", self.vars);
+
     return [super presentViewControllerWithRequest:request response:response];
 }
 
