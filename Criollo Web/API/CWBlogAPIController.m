@@ -162,6 +162,7 @@ NS_ASSUME_NONNULL_END
         if ( !post.publishedDate ) {
             post.publishedDate = [NSDate date];
         }
+        post.lastUpdatedDate = [NSDate date];
         post.handle = post.title.URLFriendlyHandle;
         post.author = author;
 

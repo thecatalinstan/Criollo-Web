@@ -44,6 +44,7 @@
     post.uid = self.uid;
     post.publicPath = self.publicPath;
     post.publishedDate = self.publishedDate;
+    post.lastUpdatedDate = self.lastUpdatedDate;
     post.title = self.title;
     post.content = self.content;
     post.renderedContent = self.renderedContent;

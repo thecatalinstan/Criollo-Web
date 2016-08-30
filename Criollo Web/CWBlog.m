@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_END
         realmConfig.readOnly = NO;
         realmConfig.deleteRealmIfMigrationNeeded = NO;
         realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
-        realmConfig.schemaVersion = 2;
+        realmConfig.schemaVersion = 3;
         realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
 
             // Nothing to do for migration
@@ -58,6 +58,13 @@ NS_ASSUME_NONNULL_END
             // Rename post.date to post.publishedDate
             if (oldSchemaVersion < 2) {
                 [migration renamePropertyForClass:CWBlogPost.className oldName:@"date" newName:@"publishedDate"];
+            }
+
+            // Add the post.lastUpdatedDate property
+            if (oldSchemaVersion < 3) {
+                [migration enumerateObjects:CWBlogPost.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                    newObject[@"lastUpdatedDate"] = oldObject[@"publishedDate"];
+                }];
             }
         };
     });

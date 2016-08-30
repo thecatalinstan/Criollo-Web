@@ -28,6 +28,7 @@
         post = [[CWBlogPost alloc] init];
     }
     post.publishedDate = self.publishedDate;
+    post.lastUpdatedDate = self.lastUpdatedDate;
     post.handle = self.handle;
     post.title = self.title;
     post.content = self.content;
