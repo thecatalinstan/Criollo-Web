@@ -8,6 +8,7 @@
 
 #import <JSONModel/JSONModel.h>
 #import <MMMarkdown/MMMarkdown.h>
+#import <STTwitter/STTwitter.h>
 
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
