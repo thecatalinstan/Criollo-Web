@@ -25,7 +25,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         indexedProperties = [NSMutableArray arrayWithArray:[[self superclass] indexedProperties]];
-        [indexedProperties addObjectsFromArray:@[@"title", @"date"]];
+        [indexedProperties addObjectsFromArray:@[@"title", @"date", @"published"]];
     });
     return indexedProperties;
 }
@@ -51,6 +51,7 @@
     post.author = (CWAPIBlogAuthor *)self.author.modelObject;
     post.handle = self.handle;
     post.tags = (NSMutableArray<CWAPIBlogTag>*)[NSMutableArray array];
+    post.published = self.published;
     for (CWBlogTag* tag in self.tags) {
         [((NSMutableArray *)post.tags) addObject:tag.modelObject];
     }

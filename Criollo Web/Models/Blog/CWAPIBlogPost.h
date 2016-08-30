@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSString<Optional> *excerpt;
 @property (nullable, nonatomic, strong) CWAPIBlogAuthor<Optional> *author;
 @property (nullable, nonatomic, strong) NSArray<CWAPIBlogTag *><CWAPIBlogTag,Optional> *tags;
+@property (nonatomic, assign) BOOL published;
 
 @end
 

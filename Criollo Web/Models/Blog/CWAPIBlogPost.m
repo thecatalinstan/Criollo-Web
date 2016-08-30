@@ -34,6 +34,7 @@
     post.renderedContent = self.renderedContent;
     post.excerpt = self.excerpt;
     post.author = (CWBlogAuthor *)self.author.schemaObject;
+    post.published = self.published;
 
     [post.tags removeAllObjects];
     if ( self.tags ) {
