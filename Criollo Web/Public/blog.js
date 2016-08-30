@@ -221,6 +221,9 @@ const setupEditor = (postElement, post) => {
       postElement.dataset.post = post.uid
       postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
       tokenField.setItems(post.tags)
+      publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
+      publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
+      window.history.pushState('', '', post.publicPath + '/edit')
     }, (err) => {
       console.error(err)
       window.notifier.error('Unable to save post', err.message)
