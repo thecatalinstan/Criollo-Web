@@ -40,6 +40,9 @@
     author.email = self.email;
     author.user = self.user;
     author.handle = self.handle;
+    author.twitter = self.twitter;
+    author.imageURL = self.imageURL;
+    author.bio = self.bio;
     return author;
 }
 

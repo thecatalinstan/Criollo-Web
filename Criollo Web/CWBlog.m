@@ -48,9 +48,8 @@ NS_ASSUME_NONNULL_END
         realmConfig.readOnly = NO;
         realmConfig.deleteRealmIfMigrationNeeded = NO;
         realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
-        realmConfig.schemaVersion = 3;
+        realmConfig.schemaVersion = 4;
         realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
-
             // Nothing to do for migration
             if (oldSchemaVersion < 1) {
             }
@@ -65,6 +64,15 @@ NS_ASSUME_NONNULL_END
                 [migration enumerateObjects:CWBlogPost.className block:^(RLMObject *oldObject, RLMObject *newObject) {
                     newObject[@"lastUpdatedDate"] = oldObject[@"publishedDate"];
                 }];
+            }
+
+            // Add the twitter, imageURL and bio properties to the user
+            if (oldSchemaVersion < 4) {
+//                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+//                    newObject[@"twitter"] = @"";
+//                    newObject[@"imageURL"] = @"";
+//                    newObject[@"bio"] = @"";
+//                }];
             }
         };
     });
