@@ -168,6 +168,32 @@ const setupEditor = (postElement, post) => {
   }
   postElement.parentNode.appendChild(tagsEditorJs)
 
+  // Create the published checkbox and label
+  const publishedContainer = document.createElement('div');
+  publishedContainer.className = 'article-published-container';
+
+  const publishedPermalink = document.createElement('a')
+  publishedPermalink.className = 'article-published-editor-permalink'
+  publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
+  publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
+  publishedPermalink.target = '_blank'
+  publishedContainer.appendChild(publishedPermalink)
+
+  const publishedEditor = document.createElement('input')
+  publishedEditor.type = 'checkbox'
+  publishedEditor.className = 'article-published-editor'
+  publishedEditor.id = 'article-published-editor-' + post.uid
+  publishedEditor.checked = post.published
+  publishedContainer.appendChild(publishedEditor)
+
+  const publishedLabel = document.createElement('label')
+  publishedLabel.htmlFor = publishedEditor.id
+  publishedLabel.className = 'article-published-editor-label'
+  publishedLabel.innerHTML = 'Published'
+  publishedContainer.appendChild(publishedLabel)
+
+  postElement.insertBefore(publishedContainer, footerElement)
+
   // Clear the footer and add the save button at the bottom
   footerElement.innerHTML = ''
   const saveButton = document.createElement('button')
@@ -185,6 +211,7 @@ const setupEditor = (postElement, post) => {
         return item
       }
     })
+    post.published = publishedEditor.checked
     console.log('saving post', post)
     savePost(post, (data) => {
       window.notifier.confirm('Post saved', data.publicPath, null, () => {
