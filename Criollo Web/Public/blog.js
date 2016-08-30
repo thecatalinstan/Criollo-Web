@@ -99,7 +99,9 @@ const setupEditor = (postElement, post) => {
   handleContainer.appendChild(handleLabel)
   handleContainer.appendChild(handleEditor)
 
-  titleElement.parentNode.appendChild(handleContainer)
+  if ( post.uid ) {
+    titleElement.parentNode.appendChild(handleContainer)
+  }
 
   // Remove the (rendered) body of the post
   if ( contentElement ) {
@@ -197,7 +199,9 @@ const setupEditor = (postElement, post) => {
   publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
   publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
   publishedPermalink.target = '_blank'
-  publishedContainer.appendChild(publishedPermalink)
+  if ( post.uid ) {
+    publishedContainer.appendChild(publishedPermalink)
+  }
 
   const publishedEditor = document.createElement('input')
   publishedEditor.type = 'checkbox'
@@ -216,13 +220,16 @@ const setupEditor = (postElement, post) => {
 
   // Clear the footer and add the save button at the bottom
   footerElement.innerHTML = ''
+
   const saveButton = document.createElement('button')
   saveButton.innerHTML = 'Save'
   saveButton.className = 'save-button'
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
     post.title = titleElement.textContent
-    post.handle = handleEditor.value
+    if ( post.uid ) {
+      post.handle = handleEditor.value
+    }
     post.content = contentEditor.value
     post.excerpt = excerptEditor.textContent
     post.tags = tokenField.getItems().map ( (item) => {
@@ -241,6 +248,7 @@ const setupEditor = (postElement, post) => {
       window.notifier.confirm('Post saved', data.publicPath)
 
       if ( !post.uid ) {
+        console.log('new post')
         window.location.href = data.publicPath + '/edit'
         return
       }
@@ -302,6 +310,10 @@ blog.relatedPosts = () => {
   }
 
   const postId = postElement.dataset.post
+  if ( !postId ) {
+    return;
+  }
+
   api( { url: `/api/blog/related/${postId}?${Math.random()}` },
     (data) => {
       console.log('data', data)
