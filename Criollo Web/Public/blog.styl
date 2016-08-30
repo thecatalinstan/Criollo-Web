@@ -19,7 +19,8 @@ body.blog
         margin-bottom 2.5em
 
       .article-title
-        margin-top 1em
+        margin-top 1.5em
+        line-height 1.2em
         letter-spacing -0.1em !important
         margin-left -0.075em !important
 
@@ -144,6 +145,7 @@ body.blog
       padding-top 1px
       height 1.5em
       vertical-align middle
+      white-space nowrap
 
       .article-published-editor
         vertical-align middle
@@ -164,7 +166,14 @@ body.blog
         line-height 1.5em
         vertical-align middle
         margin-left 0.5em
+        margin-top 0.2em
         font-size 0.8em
+        overflow hidden
+        text-overflow ellipsis
+        max-width 80%
+
+        @media screen and (max-width: phone-cutoff)
+          max-width 50%
 
     .editor-toolbar
       margin-top 1em
