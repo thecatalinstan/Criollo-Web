@@ -192,7 +192,7 @@ NS_ASSUME_NONNULL_END
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"ANY tags.handle = %@ and published = true", handle];
         CWBlogTag* tag = [CWBlogTag getByHandle:handle];
         if ( tag ) {
-            self.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
+            self.title = [NSString stringWithFormat:@"Posts tagged %@", tag.name];
             self.showPageTitle = YES;
         }
         completionHandler();
@@ -208,7 +208,7 @@ NS_ASSUME_NONNULL_END
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@ and published = true", handle];
         CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
         if ( author ) {
-            self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
+            self.title = [NSString stringWithFormat:@"Posts by %@", author.displayName];
             self.showPageTitle = YES;
         }
         completionHandler();
@@ -300,9 +300,9 @@ NS_ASSUME_NONNULL_END
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
     self.vars[@"content"] = self.contents;
-//    if (self.showPageTitle) {
-//        self.vars[@"content"] = [NSString stringWithFormat:@"<h1 class=\"page-title\">%@</h1>%@", self.title, self.vars[@"content"]];
-//    }
+    if (self.showPageTitle) {
+        self.vars[@"content"] = [NSString stringWithFormat:@"<header class=\"page-header\"><h1 class=\"page-title\">%@</h1></header>%@", self.title, self.vars[@"content"]];
+    }
     self.vars[@"title"] = self.title;
     if ( self.ogType ) {
         self.vars[@"og-type"] = self.ogType;
