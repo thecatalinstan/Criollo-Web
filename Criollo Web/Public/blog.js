@@ -67,7 +67,7 @@ const setupEditor = (postElement, post) => {
   titleElement.addEventListener('paste', (e) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text/plain')
-    document.execCommand("insertHTML", false, text)
+    document.execCommand('insertHTML', false, text)
   })
 
   // Setup the post meta data (author and date)
