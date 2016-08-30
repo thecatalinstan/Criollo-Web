@@ -174,10 +174,11 @@ NS_ASSUME_NONNULL_END
         if ( period.month != 0 ) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"MMMM"];
-            humanReadableMonth = [NSString stringWithFormat:@" %@", [formatter stringFromDate:datePair.startDate]];
+            humanReadableMonth = [NSString stringWithFormat:@" %@ of", [formatter stringFromDate:datePair.startDate]];
         }
         NSString* humanReadableYear = period.year > 0 ? [NSString stringWithFormat:@" %lu", period.year] : @"";
-        self.title = [NSString stringWithFormat:@"Posts Archive for%@%@", humanReadableMonth, humanReadableYear];
+        self.title = [NSString stringWithFormat:@"Posts published during%@%@", humanReadableMonth, humanReadableYear];
+        self.showPageTitle = YES;
 
         completionHandler();
     };
@@ -192,7 +193,7 @@ NS_ASSUME_NONNULL_END
         self.fetchPredicate = [NSPredicate predicateWithFormat:@"ANY tags.handle = %@ and published = true", handle];
         CWBlogTag* tag = [CWBlogTag getByHandle:handle];
         if ( tag ) {
-            self.title = [NSString stringWithFormat:@"Posts tagged %@", tag.name];
+            self.title = [NSString stringWithFormat:@"Posts tagged ”%@“", tag.name];
             self.showPageTitle = YES;
         }
         completionHandler();
@@ -232,9 +233,9 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)singlePostBlock {
     return^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSUInteger year = request.query[@"year"].integerValue;
-        NSUInteger month = request.query[@"month"].integerValue;
-        NSString* handle = request.query[@"handle"];
+        NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
+        NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
+        NSString* handle = request.query[@"handle"] ? : request.query[@"2"];
         CWBlogPost* post = [CWBlogPost getByHandle:handle year:year month:month];
         if (post != nil) {
             [self.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
