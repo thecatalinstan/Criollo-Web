@@ -48,6 +48,11 @@ NS_ASSUME_NONNULL_END
         realmConfig.readOnly = NO;
         realmConfig.deleteRealmIfMigrationNeeded = NO;
         realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
+        realmConfig.schemaVersion = 1;
+        realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+            if (oldSchemaVersion < 1) {
+            }
+        };
     });
     return realmConfig;
 }
