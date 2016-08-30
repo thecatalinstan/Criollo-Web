@@ -59,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<CWBlogPost *> *)relatedPostsForPost:(CWBlogPost *)post;
 + (NSArray<CWBlogPost *> *)relatedPostsForPost:(CWBlogPost *)post includeBlanks:(BOOL)flag;
 
++ (NSString *)stringByReplacingTwitterTokens:(NSString *)text;
+
 @end
 
 NS_ASSUME_NONNULL_END

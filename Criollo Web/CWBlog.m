@@ -14,8 +14,9 @@
 #import "CWBlogAuthor.h"
 #import "CWBlogTag.h"
 #import "CWUser.h"
-#import "NSString+URLUtils.h"
 #import "CWAppDelegate.h"
+#import "NSString+URLUtils.h"
+#import "NSString+RegEx.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -307,6 +308,11 @@ NS_ASSUME_NONNULL_END
     }];
 
     return results;
+}
+
++ (NSString *)stringByReplacingTwitterTokens:(NSString *)text {
+    return [[text stringByReplacingPattern:@"(@[\\w]+)" withTemplate:@"<a href=\"https://twitter.com/$1\">$1</a>" error:nil] stringByReplacingPattern:@"#([\\w]+)" withTemplate:@"<a href=\"https://twitter.com/hashtag/$1\">#$1</a>" error:nil];
+
 }
 
 @end

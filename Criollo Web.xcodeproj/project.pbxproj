@@ -17,6 +17,7 @@
 		AD0BA9991C9629A6005206A1 /* app.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
+		AD1226321D75CD5200B3D752 /* NSString+RegEx.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1226311D75CD5200B3D752 /* NSString+RegEx.m */; };
 		AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */; };
 		AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0351CE48C10001ADEAC /* CWBlogTag.m */; };
 		AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0391CE48C10001ADEAC /* CWBlogPost.m */; };
@@ -133,6 +134,8 @@
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GitHub-Mark-64px.png"; sourceTree = "<group>"; };
 		AD0BA9A21C96387C005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
+		AD1226301D75CD5200B3D752 /* NSString+RegEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegEx.h"; sourceTree = "<group>"; };
+		AD1226311D75CD5200B3D752 /* NSString+RegEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegEx.m"; sourceTree = "<group>"; };
 		AD3B68FB1CCC532400563E22 /* rollup-config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "rollup-config.js"; sourceTree = "<group>"; };
 		AD41F0301CE48C10001ADEAC /* CWBlogAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogAuthor.h; sourceTree = "<group>"; };
 		AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogAuthor.m; sourceTree = "<group>"; };
@@ -471,6 +474,8 @@
 			children = (
 				ADFA57111D27E66B002FB626 /* NSString+MD5.h */,
 				ADFA57121D27E66B002FB626 /* NSString+MD5.m */,
+				AD1226301D75CD5200B3D752 /* NSString+RegEx.h */,
+				AD1226311D75CD5200B3D752 /* NSString+RegEx.m */,
 				ADAF51551D3AD7F300D5917B /* NSString+URLUtils.h */,
 				ADAF51561D3AD7F300D5917B /* NSString+URLUtils.m */,
 			);
@@ -661,6 +666,7 @@
 				AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */,
 				AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */,
 				ADAF51571D3AD7F300D5917B /* NSString+URLUtils.m in Sources */,
+				AD1226321D75CD5200B3D752 /* NSString+RegEx.m in Sources */,
 				ADB5AF9D1D49661A003C14B6 /* CWUser.m in Sources */,
 				ADB5AF9B1D49661A003C14B6 /* CWAPIBlogTag.m in Sources */,
 				ADF347001CF1F7BE00EFC211 /* CWLoginPageViewController.m in Sources */,
