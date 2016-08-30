@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSString<Optional> *twitter;
 @property (nullable, nonatomic, strong) NSString<Optional> *imageURL;
 @property (nullable, nonatomic, strong) NSString<Optional> *bio;
+@property (nullable, nonatomic, strong) NSString<Optional> *location;
 
 @end
 

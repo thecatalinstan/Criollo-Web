@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_END
         realmConfig.readOnly = NO;
         realmConfig.deleteRealmIfMigrationNeeded = NO;
         realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
-        realmConfig.schemaVersion = 4;
+        realmConfig.schemaVersion = 5;
         realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
             // Nothing to do for migration
             if (oldSchemaVersion < 1) {
@@ -73,6 +73,14 @@ NS_ASSUME_NONNULL_END
 //                    newObject[@"twitter"] = @"";
 //                    newObject[@"imageURL"] = @"";
 //                    newObject[@"bio"] = @"";
+//                    newObject[@"location"] = @"";
+//                }];
+//            }
+
+//            // Add the locatoon to the user model
+//            if (oldSchemaVersion < 5) {
+//                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+//                    newObject[@"location"] = @"";
 //                }];
 //            }
         };
@@ -131,7 +139,7 @@ NS_ASSUME_NONNULL_END
             [realm beginWriteTransaction];
             author.imageURL = user[@"profile_image_url_https"] ? : nil;
             author.bio = user[@"description"] ? : nil;
-//            author.location = user[@"location"] ? : nil;
+            author.location = user[@"location"] ? : nil;
             [realm commitWriteTransaction];
         } errorBlock:^(NSError *error) {}];
     }

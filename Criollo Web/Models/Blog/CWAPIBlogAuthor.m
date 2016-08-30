@@ -32,6 +32,7 @@
     author.twitter = self.twitter;
     author.imageURL = self.imageURL;
     author.bio = self.bio;
+    author.location = self.location;
     return author;
 }
 
