@@ -4,7 +4,7 @@ import login from './login.js'
 import notificationCenter from './notifications.js'
 import blog from './blog.js'
 
-window.onload = () => {
+document.addEventListener('DOMContentLoaded', () => {
 
   // Setup notification center
   const notifier = notificationCenter(document.body)
@@ -32,7 +32,7 @@ window.onload = () => {
 
   // Footer info
   getStats(document.getElementById('stats-info'))
-}
+}, false)
 
 // Expose the related posts function
 window.getRelatedPosts = blog.relatedPosts
