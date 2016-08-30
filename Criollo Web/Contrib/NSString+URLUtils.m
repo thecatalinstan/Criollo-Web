@@ -7,15 +7,13 @@
 //
 
 #import "NSString+URLUtils.h"
+#import "NSString+RegEx.h"
 
 @implementation NSString (URLUtils)
 
 - (NSString *)URLFriendlyHandle {
     NSString* romanized = [[NSString alloc] initWithData:[self dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES] encoding:NSASCIIStringEncoding];
-    NSMutableCharacterSet* set = [[NSMutableCharacterSet alloc] init];
-    [set formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    [set formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
-    return [[romanized componentsSeparatedByCharactersInSet:set] componentsJoinedByString:@"-"].lowercaseString;
+    return [[[romanized stringByReplacingPattern:@"[\\W]+" withTemplate:@" " error:nil] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] stringByReplacingPattern:@"[\\s]+" withTemplate:@"-" error:nil].lowercaseString;
 }
 
 @end
