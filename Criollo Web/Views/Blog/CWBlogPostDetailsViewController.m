@@ -53,11 +53,11 @@
 
     self.vars[@"author"] = self.post.author.displayName ? : @"";
     self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
-    self.vars[@"author-image-url"] = self.post.author.imageURL;
-    self.vars[@"author-location"] = self.post.author.location;
-    self.vars[@"author-bio"] = [CWBlog stringByReplacingTwitterTokens:self.post.author.bio];
-    self.vars[@"author-twitter-url"] = [NSString stringWithFormat:@"http://twitter.com/%@", self.post.author.twitter];
-    self.vars[@"author-twitter"] = self.post.author.twitter;
+    self.vars[@"author-image-url"] = self.post.author.imageURL ? : @"";
+    self.vars[@"author-location"] = self.post.author.location ? : @"";
+    self.vars[@"author-bio"] = self.post.author.bio ? [CWBlog stringByReplacingTwitterTokens:self.post.author.bio] : @"";
+    self.vars[@"author-twitter-url"] = self.post.author.twitter ? [NSString stringWithFormat:@"http://twitter.com/%@", self.post.author.twitter] : @"";
+    self.vars[@"author-twitter"] = self.post.author.twitter ? : @"";
 
     NSMutableString* toolbar = [NSMutableString new];
     CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
