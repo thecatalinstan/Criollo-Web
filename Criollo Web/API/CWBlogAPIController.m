@@ -28,6 +28,8 @@
 #define CWBlogAPISearchTagsPath         @"/tags/search"
 #define CWBlogAPISingleTagPath          @"/tags/:tid"
 
+#define CWBlogAPIMakeHandlePath         @"/make-handle"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogAPIController ()
@@ -43,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) CRRouteBlock deleteTagBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock createOrUpdateTagBlock;
 @property (nonatomic, strong, readonly) CRRouteBlock searchTagsBlock;
+
+@property (nonatomic, strong, readonly) CRRouteBlock makeHandleBlock;
 
 - (void)setupRoutes;
 
@@ -86,6 +90,10 @@ NS_ASSUME_NONNULL_END
     // Search tags
     [self get:CWBlogAPISearchTagsPath block:self.searchTagsBlock];
     [self post:CWBlogAPISearchTagsPath block:self.searchTagsBlock];
+
+    // Make handle
+    [self get:CWBlogAPIMakeHandlePath block:self.makeHandleBlock];
+    [self post:CWBlogAPIMakeHandlePath block:self.makeHandleBlock];
 
     // Tags
     [self get:CWBlogAPISingleTagPath block:self.getTagBlock];
@@ -270,5 +278,14 @@ NS_ASSUME_NONNULL_END
         [CWAPIController succeedWithPayload:result request:request response:response];
     };
 }
+
+- (CRRouteBlock)makeHandleBlock {
+    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString* input = request.query[@"input"];
+        NSLog(@"%@", request.query);
+        [CWAPIController succeedWithPayload:input.URLFriendlyHandle request:request response:response];
+    };
+}
+
 
 @end

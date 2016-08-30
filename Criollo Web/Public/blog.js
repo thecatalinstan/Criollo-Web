@@ -32,11 +32,9 @@ const setupPlaceholder = (element, placeholder) => {
   element.contentEditable = true
   if ( element.textContent.trim() == '' ) {
     element.innerHTML = placeholder
-    // element.style.opacity = 0.25
   }
 
   element.addEventListener('focus', () => {
-      // element.style.opacity = 1
     if ( element.textContent.trim() == placeholder ) {
       element.innerHTML = ''
     }
@@ -44,46 +42,43 @@ const setupPlaceholder = (element, placeholder) => {
 
   element.addEventListener('click', (e) => {
     try {
-      element.focus
+      element.focus()
     } catch(e) {}
   })
 
   element.addEventListener('blur', () => {
     if ( element.textContent.trim() == '') {
       element.innerHTML = placeholder
-      // element.style.opacity = 0.25
     }
   })
 }
 
 const setupEditor = (postElement, post) => {
-  const titleElement = postElement.querySelector('h1.article-title')
-  const authorElement = postElement.querySelector('span.article-author')
-  const contentElement = postElement.querySelector('.article-content')
-  const footerElement = postElement.querySelector('.article-footer')
-
   console.log('Received post:', post)
 
+  const footerElement = postElement.querySelector('.article-footer')
+
   // Set the title as editable
-  if ( titleElement ) {
-    setupPlaceholder(titleElement, titlePlaceholder)
-    if ( post.title ) {
-      titleElement.innerHTML = post.title
-    }
+  const titleElement = postElement.querySelector('h1.article-title')
+  setupPlaceholder(titleElement, titlePlaceholder)
+  if ( post.title ) {
+    titleElement.innerHTML = post.title
   }
 
   // Setup the post meta data (author and date)
-  if ( authorElement ) {
-    let authorDisplayName = post.author ? post.author.displayName : `${window.currentUser.firstName} ${window.currentUser.lastName}`.trim()
-    if ( authorDisplayName == '' ) {
-      authorDisplayName = window.currentUser.username
-    }
-    authorElement.innerHTML = authorDisplayName
+  const authorElement = postElement.querySelector('span.article-author')
+  let authorDisplayName = post.author ? post.author.displayName : `${window.currentUser.firstName} ${window.currentUser.lastName}`.trim()
+  if ( authorDisplayName == '' ) {
+    authorDisplayName = window.currentUser.username
   }
+  authorElement.innerHTML = authorDisplayName
 
   // Edit the handle
-  const handleContainer = document.createElement('div');
-  handleContainer.className = 'article-handle-container';
+  const handleContainer = document.createElement('div')
+  handleContainer.className = 'article-handle-container'
+  if ( !post.uid ) {
+    handleContainer.style.display = 'none'
+  }
 
   const handleEditor = document.createElement('input')
   handleEditor.type = 'text'
@@ -94,19 +89,35 @@ const setupEditor = (postElement, post) => {
   const handleLabel = document.createElement('label')
   handleLabel.htmlFor = handleEditor.id
   handleLabel.className = 'article-handle-editor-label'
-  handleLabel.innerHTML = `${location.protocol}//${location.host}${post.publicPath.substr(0, post.publicPath.lastIndexOf('/') + 1)}`
+  if ( post.publicPath ) {
+    handleLabel.innerHTML = `${location.protocol}//${location.host}${post.publicPath.substr(0, post.publicPath.lastIndexOf('/') + 1)}`
+  } else {
+    handleLabel.innerHTML = `${location.protocol}//${location.host}/blog/${(new Date()).getFullYear()}/${(new Date()).getMonth()}/`
+  }
 
   handleContainer.appendChild(handleLabel)
   handleContainer.appendChild(handleEditor)
 
-  if ( post.uid ) {
-    titleElement.parentNode.appendChild(handleContainer)
-  }
+  titleElement.parentNode.appendChild(handleContainer)
+
+  if ( !post.uid) {
+      titleElement.onblur = (e) => {
+        makeHandle(e.target.textContent, (data) => {
+          if ( !data ) {
+            return
+          }
+          handleEditor.value = data
+          handleContainer.style.display = 'initial'
+          titleElement.onblur = null
+        }, (err) => {
+          console.error(err)
+        })
+      }
+    }
 
   // Remove the (rendered) body of the post
-  if ( contentElement ) {
-    contentElement.parentNode.removeChild(contentElement)
-  }
+  const contentElement = postElement.querySelector('.article-content')
+  contentElement.parentNode.removeChild(contentElement)
 
   // Create a 'textarea' that we can edit the markdown in
   const contentEditor = document.createElement('textarea')
@@ -182,26 +193,27 @@ const setupEditor = (postElement, post) => {
         delay: 300,
         timestampParam: 't'
       }
-    });
+    })
 
     tokenField.remapData = (data) => {
-      return data.data;
+      return data.data
     }
   }
   postElement.parentNode.appendChild(tagsEditorJs)
 
   // Create the published checkbox and label
-  const publishedContainer = document.createElement('div');
-  publishedContainer.className = 'article-published-container';
+  const publishedContainer = document.createElement('div')
+  publishedContainer.className = 'article-published-container'
 
   const publishedPermalink = document.createElement('a')
   publishedPermalink.className = 'article-published-editor-permalink'
+  if ( !post.uid ) {
+    publishedPermalink.style.display = 'none'
+  }
   publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
   publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
   publishedPermalink.target = '_blank'
-  if ( post.uid ) {
-    publishedContainer.appendChild(publishedPermalink)
-  }
+  publishedContainer.appendChild(publishedPermalink)
 
   const publishedEditor = document.createElement('input')
   publishedEditor.type = 'checkbox'
@@ -248,7 +260,6 @@ const setupEditor = (postElement, post) => {
       window.notifier.confirm('Post saved', data.publicPath)
 
       if ( !post.uid ) {
-        console.log('new post')
         window.location.href = data.publicPath + '/edit'
         return
       }
@@ -278,6 +289,11 @@ const getPost = (path, success, failure) => {
 }
 blog.getPost = getPost
 
+const makeHandle = (input, success, failure) => {
+  api( { url: `/api/blog/make-handle?input=${escape(input)}` }, success, failure)
+}
+blog.getPost = getPost
+
 blog.setup = () => {
   const postElement = document.querySelector('.content article.article')
   if ( !postElement ) {
@@ -286,14 +302,14 @@ blog.setup = () => {
   }
 
   const postId = postElement.dataset.post
-  const lastPathComponent = location.pathname.substr(location.pathname.lastIndexOf('/') + 1);
+  const lastPathComponent = location.pathname.substr(location.pathname.lastIndexOf('/') + 1)
   if ( postId != '' && lastPathComponent != 'edit' ) {
     console.log(`Post id is ${postId}. Pathname is ${lastPathComponent}. Exiting.`)
     return
   }
 
   if ( postId && lastPathComponent == 'edit' ) {
-    const postPath = '/' + postId;
+    const postPath = '/' + postId
     getPost(postPath, (data) => {
       setupEditor(postElement, data)
     }, (err) => {})
@@ -311,7 +327,7 @@ blog.relatedPosts = () => {
 
   const postId = postElement.dataset.post
   if ( !postId ) {
-    return;
+    return
   }
 
   api( { url: `/api/blog/related/${postId}?${Math.random()}` },
