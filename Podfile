@@ -12,5 +12,6 @@ target 'Criollo Web' do
     pod 'JWT', '~> 2.0'
     pod 'MMMarkdown', '~> 0.5.0'
     pod 'Realm', '~> 0.103'
+    pod 'STTwitter', '~> 0.2'
 end
 

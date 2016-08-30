@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSString<Optional> * lastName;
 @property (nonatomic, strong) NSString * email;
 @property (nonatomic, strong) NSString<Ignore> * tokenHash;
+@property (nonatomic, strong) NSString<Optional> * twitter;
 
 + (NSDictionary<NSString *, CWUser *> *)allUsers;
 

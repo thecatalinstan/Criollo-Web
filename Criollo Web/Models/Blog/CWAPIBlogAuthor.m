@@ -29,6 +29,10 @@
     author.displayName = self.displayName;
     author.email = self.email;
     author.handle = self.handle;
+    author.twitter = self.twitter;
+    author.imageURL = self.imageURL;
+    author.bio = self.bio;
+    author.location = self.location;
     return author;
 }
 

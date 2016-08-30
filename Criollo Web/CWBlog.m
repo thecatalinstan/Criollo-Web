@@ -8,13 +8,15 @@
 
 #import <JSONModel/JSONModel.h>
 #import <MMMarkdown/MMMarkdown.h>
+#import <STTwitter/STTwitter.h>
 
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
 #import "CWBlogTag.h"
 #import "CWUser.h"
-#import "NSString+URLUtils.h"
 #import "CWAppDelegate.h"
+#import "NSString+URLUtils.h"
+#import "NSString+RegEx.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -48,9 +50,8 @@ NS_ASSUME_NONNULL_END
         realmConfig.readOnly = NO;
         realmConfig.deleteRealmIfMigrationNeeded = NO;
         realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
-        realmConfig.schemaVersion = 3;
+        realmConfig.schemaVersion = 5;
         realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
-
             // Nothing to do for migration
             if (oldSchemaVersion < 1) {
             }
@@ -66,6 +67,23 @@ NS_ASSUME_NONNULL_END
                     newObject[@"lastUpdatedDate"] = oldObject[@"publishedDate"];
                 }];
             }
+
+//            // Add the twitter, imageURL and bio properties to the user
+//            if (oldSchemaVersion < 4) {
+//                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+//                    newObject[@"twitter"] = @"";
+//                    newObject[@"imageURL"] = @"";
+//                    newObject[@"bio"] = @"";
+//                    newObject[@"location"] = @"";
+//                }];
+//            }
+
+//            // Add the locatoon to the user model
+//            if (oldSchemaVersion < 5) {
+//                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+//                    newObject[@"location"] = @"";
+//                }];
+//            }
         };
     });
     return realmConfig;
@@ -83,7 +101,6 @@ NS_ASSUME_NONNULL_END
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
     RLMRealm* realm = [CWBlog realm];
     [realm beginWriteTransaction];
-
     [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
         CWBlogAuthor *author = [CWBlogAuthor getByUser:key];
         if ( !author ) {
@@ -93,13 +110,42 @@ NS_ASSUME_NONNULL_END
         author.email = user.email;
         author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         author.handle = author.displayName.URLFriendlyHandle;
-
+        author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
         [realm addOrUpdateObject:author];
+
+
     }];
 
-    return [realm commitWriteTransaction:error];
-}
+    BOOL result = [realm commitWriteTransaction:error];
+    if ( !result ) {
+        return result;
+    }
 
+    NSString *TwitterKey = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterKey"];
+    NSString *TwitterSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterSecret"];
+    NSString *TwitterOAuthToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthToken"];
+    NSString *TwitterOAuthTokenSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthTokenSecret"];
+
+    STTwitterAPI *twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TwitterKey consumerSecret:TwitterSecret oauthToken:TwitterOAuthToken oauthTokenSecret:TwitterOAuthTokenSecret];
+
+    for ( CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm] ) {
+
+        if ( author.twitter.length == 0 ) {
+            continue;
+        }
+
+        // Get info from twitter
+        [twitter getUserInformationFor:author.twitter successBlock:^(NSDictionary *user) {
+            RLMRealm* realm = [CWBlog realm];
+            [realm beginWriteTransaction];
+            author.imageURL = user[@"profile_image_url_https"] ? : nil;
+            author.bio = user[@"description"] ? : nil;
+            author.location = user[@"location"] ? : nil;
+            [realm commitWriteTransaction];
+        } errorBlock:^(NSError *error) {}];
+    }
+    return result;
+}
 
 + (NSString *)formattedDate:(NSDate *)date {
     static NSDateFormatter* dateFormatter;
@@ -262,6 +308,11 @@ NS_ASSUME_NONNULL_END
     }];
 
     return results;
+}
+
++ (NSString *)stringByReplacingTwitterTokens:(NSString *)text {
+    return [[text stringByReplacingPattern:@"(@[\\w]+)" withTemplate:@"<a href=\"https://twitter.com/$1\">$1</a>" error:nil] stringByReplacingPattern:@"#([\\w]+)" withTemplate:@"<a href=\"https://twitter.com/hashtag/$1\">#$1</a>" error:nil];
+
 }
 
 @end

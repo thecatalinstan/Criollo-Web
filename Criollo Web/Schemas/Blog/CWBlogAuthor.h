@@ -13,6 +13,10 @@
 @property (nullable) NSString * user;
 @property (nullable) NSString * displayName;
 @property (nullable) NSString * email;
+@property (nullable) NSString * twitter;
+@property (nullable) NSString * imageURL;
+@property (nullable) NSString * bio;
+@property (nullable) NSString * location;
 
 + (nullable instancetype)getByUser:(NSString * _Nonnull)username;
 
