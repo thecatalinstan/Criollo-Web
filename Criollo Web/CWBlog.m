@@ -67,14 +67,14 @@ NS_ASSUME_NONNULL_END
                 }];
             }
 
-            // Add the twitter, imageURL and bio properties to the user
-            if (oldSchemaVersion < 4) {
+//            // Add the twitter, imageURL and bio properties to the user
+//            if (oldSchemaVersion < 4) {
 //                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
 //                    newObject[@"twitter"] = @"";
 //                    newObject[@"imageURL"] = @"";
 //                    newObject[@"bio"] = @"";
 //                }];
-            }
+//            }
         };
     });
     return realmConfig;
