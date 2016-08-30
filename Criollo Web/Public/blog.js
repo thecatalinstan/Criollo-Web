@@ -238,9 +238,8 @@ const setupEditor = (postElement, post) => {
     savePost(post, (data) => {
       console.log('Saved post:', data)
 
-      window.notifier.confirm('Post saved', data.publicPath, null, () => {
-        window.location.href = data.publicPath
-      })
+      window.notifier.confirm('Post saved', data.publicPath)
+
       if ( !post.uid ) {
         window.location.href = data.publicPath + '/edit'
         return
