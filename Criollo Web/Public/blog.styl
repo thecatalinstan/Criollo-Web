@@ -118,6 +118,47 @@ body.blog
         box-sizing border-box
         overflow-scrolling touch
 
+    .article-handle-container
+      margin 1em 0 1em 0
+      padding-top 1px
+      padding-bottom @padding-top
+      vertical-align middle
+      white-space nowrap
+      line-height 1.5em
+      font-size 0.9em
+      font-weight 400
+
+      .article-handle-editor-label
+        margin-right 0.5em
+        vertical-align middle
+        display inline-block
+
+        @media screen and (max-width: phone-cutoff)
+          width 100%
+          display block
+
+      .article-handle-editor
+        vertical-align middle
+        display inline-block
+        background-color white
+        border 1px solid criollo-medium-gray
+        border-radius 4px
+        width 60%
+        padding 0.5em
+        box-sizing border-box
+        cursor text
+        color criollo-dark-gray
+        line-height 1.5em
+        font-size 0.9em
+        font-weight 400
+
+        @media screen and (max-width: phone-cutoff)
+          width 100%
+          display block
+
+        &:focus
+          outline none
+
     .article-content-editor
       font-size 1em
       line-height 1.5em 0

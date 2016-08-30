@@ -157,13 +157,19 @@ NS_ASSUME_NONNULL_END
         [realm beginWriteTransaction];
 
         CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
+
         post.renderedContent = renderedContent;
         post.excerpt = excerpt;
+
         if ( !post.publishedDate ) {
             post.publishedDate = [NSDate date];
         }
         post.lastUpdatedDate = [NSDate date];
-        post.handle = post.title.URLFriendlyHandle;
+
+        if ( post.handle.length == 0 ) {
+            post.handle = post.title.URLFriendlyHandle;
+        }
+
         post.author = author;
 
         for ( CWBlogTag* tag in post.tags ) {

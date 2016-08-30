@@ -62,7 +62,7 @@ const setupEditor = (postElement, post) => {
   const contentElement = postElement.querySelector('.article-content')
   const footerElement = postElement.querySelector('.article-footer')
 
-  console.log('receivedPost', post)
+  console.log('Received post:', post)
 
   // Set the title as editable
   if ( titleElement ) {
@@ -80,6 +80,26 @@ const setupEditor = (postElement, post) => {
     }
     authorElement.innerHTML = authorDisplayName
   }
+
+  // Edit the handle
+  const handleContainer = document.createElement('div');
+  handleContainer.className = 'article-handle-container';
+
+  const handleEditor = document.createElement('input')
+  handleEditor.type = 'text'
+  handleEditor.className = 'article-handle-editor'
+  handleEditor.id = 'article-handle-editor-' + post.uid
+  handleEditor.value = post.handle
+
+  const handleLabel = document.createElement('label')
+  handleLabel.htmlFor = handleEditor.id
+  handleLabel.className = 'article-handle-editor-label'
+  handleLabel.innerHTML = `${location.protocol}//${location.host}${post.publicPath.substr(0, post.publicPath.lastIndexOf('/') + 1)}`
+
+  handleContainer.appendChild(handleLabel)
+  handleContainer.appendChild(handleEditor)
+
+  titleElement.parentNode.appendChild(handleContainer)
 
   // Remove the (rendered) body of the post
   if ( contentElement ) {
@@ -202,6 +222,7 @@ const setupEditor = (postElement, post) => {
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
     post.title = titleElement.textContent
+    post.handle = handleEditor.value
     post.content = contentEditor.value
     post.excerpt = excerptEditor.textContent
     post.tags = tokenField.getItems().map ( (item) => {
@@ -212,17 +233,30 @@ const setupEditor = (postElement, post) => {
       }
     })
     post.published = publishedEditor.checked
-    console.log('saving post', post)
+    console.log('Saving post:', post)
+
     savePost(post, (data) => {
+      console.log('Saved post:', data)
+
       window.notifier.confirm('Post saved', data.publicPath, null, () => {
-        window.location.pathName = data.publicPath
+        window.location.href = data.publicPath
       })
+      if ( !post.uid ) {
+        window.location.href = data.publicPath + '/edit'
+        return
+      }
+
       post = data
       postElement.dataset.post = post.uid
       postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
+
+      handleLabel.innerHTML = `${location.protocol}//${location.host}${post.publicPath.substr(0, post.publicPath.lastIndexOf('/') + 1)}`
+      handleEditor.value = post.handle
+
       tokenField.setItems(post.tags)
       publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
       publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
+
       window.history.pushState('', '', post.publicPath + '/edit')
     }, (err) => {
       console.error(err)
