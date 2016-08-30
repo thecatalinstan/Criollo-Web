@@ -64,6 +64,11 @@ const setupEditor = (postElement, post) => {
   if ( post.title ) {
     titleElement.innerHTML = post.title
   }
+  titleElement.addEventListener('paste', (e) => {
+    e.preventDefault()
+    const text = e.clipboardData.getData('text/plain')
+    document.execCommand("insertHTML", false, text)
+  })
 
   // Setup the post meta data (author and date)
   const authorElement = postElement.querySelector('span.article-author')
@@ -290,7 +295,7 @@ const getPost = (path, success, failure) => {
 blog.getPost = getPost
 
 const makeHandle = (input, success, failure) => {
-  api( { url: `/api/blog/make-handle?input=${escape(input)}` }, success, failure)
+  api( { url: `/api/blog/make-handle?input=${escape(input.trim())}` }, success, failure)
 }
 blog.getPost = getPost
 
