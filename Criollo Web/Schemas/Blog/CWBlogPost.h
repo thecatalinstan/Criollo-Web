@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString * excerpt;
 @property CWBlogAuthor * author;
 @property RLMArray<CWBlogTag *><CWBlogTag> * tags;
+@property BOOL published;
 
 + (nullable instancetype)getByHandle:(NSString *)handle year:(NSUInteger)year month:(NSUInteger)month;
 

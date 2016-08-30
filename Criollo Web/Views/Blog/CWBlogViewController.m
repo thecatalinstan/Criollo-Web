@@ -55,6 +55,7 @@ NS_ASSUME_NONNULL_END
         _contents = [[NSMutableString alloc] init];
         _title = @"Blog";
         [self setupRoutes];
+        _fetchPredicate = [NSPredicate predicateWithFormat:@"published = true"];
     }
     return self;
 }
@@ -166,7 +167,7 @@ NS_ASSUME_NONNULL_END
 
         // Build a predicate
         CWBlogDatePair *datePair = [CWBlog datePairArchivePeriod:period];
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@ and published = true", datePair.startDate, datePair.endDate];
 
         // Set the page title
         NSString* humanReadableMonth = @"";
@@ -188,7 +189,7 @@ NS_ASSUME_NONNULL_END
 - (CRRouteBlock)tagBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* handle = request.query[@"tag"];
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"ANY tags.handle = %@", handle];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"ANY tags.handle = %@ and published = true", handle];
         CWBlogTag* tag = [CWBlogTag getByHandle:handle];
         if ( tag ) {
             self.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
@@ -204,7 +205,7 @@ NS_ASSUME_NONNULL_END
 - (CRRouteBlock)authorBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* handle = request.query[@"author"];
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@", handle];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@ and published = true", handle];
         CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
         if ( author ) {
             self.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
