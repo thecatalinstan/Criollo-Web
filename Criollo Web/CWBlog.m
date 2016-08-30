@@ -92,7 +92,6 @@ NS_ASSUME_NONNULL_END
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
     RLMRealm* realm = [CWBlog realm];
     [realm beginWriteTransaction];
-
     [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
         CWBlogAuthor *author = [CWBlogAuthor getByUser:key];
         if ( !author ) {
@@ -102,13 +101,42 @@ NS_ASSUME_NONNULL_END
         author.email = user.email;
         author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         author.handle = author.displayName.URLFriendlyHandle;
-
+        author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
         [realm addOrUpdateObject:author];
+
+
     }];
 
-    return [realm commitWriteTransaction:error];
-}
+    BOOL result = [realm commitWriteTransaction:error];
+    if ( !result ) {
+        return result;
+    }
 
+    NSString *TwitterKey = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterKey"];
+    NSString *TwitterSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterSecret"];
+    NSString *TwitterOAuthToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthToken"];
+    NSString *TwitterOAuthTokenSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthTokenSecret"];
+
+    STTwitterAPI *twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TwitterKey consumerSecret:TwitterSecret oauthToken:TwitterOAuthToken oauthTokenSecret:TwitterOAuthTokenSecret];
+
+    for ( CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm] ) {
+
+        if ( author.twitter.length == 0 ) {
+            continue;
+        }
+
+        // Get info from twitter
+        [twitter getUserInformationFor:author.twitter successBlock:^(NSDictionary *user) {
+            RLMRealm* realm = [CWBlog realm];
+            [realm beginWriteTransaction];
+            author.imageURL = user[@"profile_image_url_https"] ? : nil;
+            author.bio = user[@"description"] ? : nil;
+//            author.location = user[@"location"] ? : nil;
+            [realm commitWriteTransaction];
+        } errorBlock:^(NSError *error) {}];
+    }
+    return result;
+}
 
 + (NSString *)formattedDate:(NSDate *)date {
     static NSDateFormatter* dateFormatter;
