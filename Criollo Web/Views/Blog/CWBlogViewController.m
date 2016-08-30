@@ -167,7 +167,7 @@ NS_ASSUME_NONNULL_END
 
         // Build a predicate
         CWBlogDatePair *datePair = [CWBlog datePairArchivePeriod:period];
-        self.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@ and published = true", datePair.startDate, datePair.endDate];
+        self.fetchPredicate = [NSPredicate predicateWithFormat:@"publishedDate >= %@ and publishedDate <= %@ and published = true", datePair.startDate, datePair.endDate];
 
         // Set the page title
         NSString* humanReadableMonth = @"";
@@ -253,7 +253,7 @@ NS_ASSUME_NONNULL_END
  */
 - (CRRouteBlock)enumeratePostsBlock {
     return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:self.fetchPredicate] sortedResultsUsingProperty:@"date" ascending:NO];
+        RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:self.fetchPredicate] sortedResultsUsingProperty:@"publishedDate" ascending:NO];
         for ( CWBlogPost *post in posts ) {
             CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
             [self.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];

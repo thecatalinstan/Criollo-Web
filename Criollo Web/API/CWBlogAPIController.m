@@ -159,7 +159,9 @@ NS_ASSUME_NONNULL_END
         CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
         post.renderedContent = renderedContent;
         post.excerpt = excerpt;
-        post.date = [NSDate date];
+        if ( !post.publishedDate ) {
+            post.publishedDate = [NSDate date];
+        }
         post.handle = post.title.URLFriendlyHandle;
         post.author = author;
 

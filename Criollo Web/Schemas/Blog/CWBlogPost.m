@@ -25,7 +25,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         indexedProperties = [NSMutableArray arrayWithArray:[[self superclass] indexedProperties]];
-        [indexedProperties addObjectsFromArray:@[@"title", @"date", @"published"]];
+        [indexedProperties addObjectsFromArray:@[@"title", @"publishedDate", @"published"]];
     });
     return indexedProperties;
 }
@@ -33,7 +33,7 @@
 #pragma mark - API
 
 - (NSString *)publicPath {
-    NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.date];
+    NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.publishedDate];
     return [NSString stringWithFormat:@"%@/%ld/%s%ld/%@", CWBlogPath, (long)dateComponents.year, dateComponents.month < 10 ? "0" : "", (long)dateComponents.month, self.handle];
 }
 
@@ -43,7 +43,7 @@
     CWAPIBlogPost* post = [[CWAPIBlogPost alloc] init];
     post.uid = self.uid;
     post.publicPath = self.publicPath;
-    post.date = self.date;
+    post.publishedDate = self.publishedDate;
     post.title = self.title;
     post.content = self.content;
     post.renderedContent = self.renderedContent;
@@ -66,7 +66,7 @@
         return [CWBlogPost getByHandle:handle];
     }
     CWBlogDatePair* datePair = [CWBlog datePairArchivePeriod:period];
-    return [CWBlogPost getSingleObjectWhere:@"handle = %@ and date >= %@ and date <= %@", handle, datePair.startDate, datePair.endDate];
+    return [CWBlogPost getSingleObjectWhere:@"handle = %@ and publishedDate >= %@ and publishedDate <= %@", handle, datePair.startDate, datePair.endDate];
 }
 
 @end

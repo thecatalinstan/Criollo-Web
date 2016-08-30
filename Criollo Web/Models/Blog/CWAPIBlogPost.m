@@ -27,7 +27,7 @@
     if ( post == nil ) {
         post = [[CWBlogPost alloc] init];
     }
-    post.date = self.date;
+    post.publishedDate = self.publishedDate;
     post.handle = self.handle;
     post.title = self.title;
     post.content = self.content;

@@ -48,9 +48,16 @@ NS_ASSUME_NONNULL_END
         realmConfig.readOnly = NO;
         realmConfig.deleteRealmIfMigrationNeeded = NO;
         realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
-        realmConfig.schemaVersion = 1;
+        realmConfig.schemaVersion = 2;
         realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+
+            // Nothing to do for migration
             if (oldSchemaVersion < 1) {
+            }
+
+            // Rename post.date to post.publishedDate
+            if (oldSchemaVersion < 2) {
+                [migration renamePropertyForClass:CWBlogPost.className oldName:@"date" newName:@"publishedDate"];
             }
         };
     });
@@ -237,7 +244,7 @@ NS_ASSUME_NONNULL_END
         CWBlogPost* post1 = obj1[0];
         CWBlogPost* post2 = obj2[0];
 
-        result = [post1.date compare:post2.date];
+        result = [post1.publishedDate compare:post2.publishedDate];
         return result;
     }];
 

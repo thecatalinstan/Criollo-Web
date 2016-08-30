@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAPIBlogPost : CWModel
 
-@property (nullable, nonatomic, strong) NSDate<Optional> *date;
+@property (nullable, nonatomic, strong) NSDate<Optional> *publishedDate;
 @property (nullable, nonatomic, strong) NSString<Optional> *title;
 @property (nullable, nonatomic, strong) NSString<Optional> *handle;
 @property (nullable, nonatomic, strong) NSString<Optional> *content;

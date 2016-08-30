@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogPost : CWSchema
 
-@property NSDate * date;
+@property NSDate * publishedDate;
 @property NSString * title;
 @property NSString * content;
 @property NSString * renderedContent;

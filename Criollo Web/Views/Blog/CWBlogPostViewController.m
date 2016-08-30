@@ -33,10 +33,10 @@
     self.vars[@"permalink"] = [self.post permalinkForRequest:request];
     self.vars[@"author"] = self.post.author.displayName ? : @"";
     self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
-    if (self.post.date) {
-        self.vars[@"date"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:self.post.date], [CWBlog formattedTime:self.post.date]];
+    if (self.post.publishedDate) {
+        self.vars[@"publishedDate"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:self.post.publishedDate], [CWBlog formattedTime:self.post.publishedDate]];
     } else {
-        self.vars[@"date"] = @"";
+        self.vars[@"publishedDate"] = @"";
     }
     self.vars[@"content"] = self.post.excerpt ? : ( self.post.renderedContent ? : @"" );
 
