@@ -42,8 +42,7 @@
     self.vars[@"id"] = self.isNewPost ? @"": self.post.uid;
     self.vars[@"title"] = self.post.title ? : @"";
     self.vars[@"permalink"] = [self.post permalinkForRequest:request];
-    self.vars[@"author"] = self.post.author.displayName ? : @"";
-    self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
+
     if (self.post.publishedDate) {
         self.vars[@"publishedDate"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:self.post.publishedDate], [CWBlog formattedTime:self.post.publishedDate]];
     } else {
@@ -51,6 +50,14 @@
     }
     self.vars[@"content"] = self.post.renderedContent ? : @"";
     self.vars[@"editable"] = self.isNewPost ? @" contenteditable=\"true\"" : @"";
+
+    self.vars[@"author"] = self.post.author.displayName ? : @"";
+    self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
+    self.vars[@"author-image-url"] = self.post.author.imageURL;
+    self.vars[@"author-location"] = self.post.author.location;
+    self.vars[@"author-bio"] = self.post.author.bio;
+    self.vars[@"author-twitter-url"] = [NSString stringWithFormat:@"http://twitter.com/%@", self.post.author.twitter];
+    self.vars[@"author-twitter"] = self.post.author.twitter;
 
     NSMutableString* toolbar = [NSMutableString new];
     CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
