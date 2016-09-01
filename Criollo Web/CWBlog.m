@@ -221,7 +221,6 @@ NS_ASSUME_NONNULL_END
         return nil;
     }
 
-    *error = nil;
     NSString * htmlString = [CWBlog renderMarkdown:markdownString error:error];
 
     if ( htmlString == nil ) {

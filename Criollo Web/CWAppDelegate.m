@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_END
     }];
 
     // API
-    [self.server add:@"/api" block:[CWAPIController sharedController].routeBlock recursive:YES method:CRHTTPMethodAll];
+    [self.server add:CWAPIPath block:[CWAPIController sharedController].routeBlock recursive:YES method:CRHTTPMethodAll];
 
     // Homepage
     [self.server add:@"/" viewController:[CWLandingPageViewController class] withNibName:nil bundle:nil recursive:NO method:CRHTTPMethodAll];

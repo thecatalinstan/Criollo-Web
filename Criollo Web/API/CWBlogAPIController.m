@@ -34,20 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogAPIController ()
 
-@property (nonatomic, strong, readonly) dispatch_queue_t isolationQueue;
-
-@property (nonatomic, strong, readonly) CRRouteBlock getPostBlock;
-@property (nonatomic, strong, readonly) CRRouteBlock deletePostBlock;
-@property (nonatomic, strong, readonly) CRRouteBlock createOrUpdatePostBlock;
-@property (nonatomic, strong, readonly) CRRouteBlock relatedPostsBlock;
-
-@property (nonatomic, strong, readonly) CRRouteBlock getTagBlock;
-@property (nonatomic, strong, readonly) CRRouteBlock deleteTagBlock;
-@property (nonatomic, strong, readonly) CRRouteBlock createOrUpdateTagBlock;
-@property (nonatomic, strong, readonly) CRRouteBlock searchTagsBlock;
-
-@property (nonatomic, strong, readonly) CRRouteBlock makeHandleBlock;
-
 - (void)setupRoutes;
 
 @end
@@ -58,18 +44,15 @@ NS_ASSUME_NONNULL_END
 
 + (instancetype)sharedController {
     static CWBlogAPIController* sharedController;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( !sharedController ) {
         sharedController = [[CWBlogAPIController alloc] initWithPrefix:CWAPIBlogPath];
-    });
+    }
     return sharedController;
 }
 
 - (instancetype)initWithPrefix:(NSString *)prefix {
     self = [super initWithPrefix:prefix];
     if ( self != nil ) {
-        _isolationQueue = dispatch_queue_create([[NSStringFromClass(self.class) stringByAppendingPathExtension:@"IsolationQueue"] cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
-        dispatch_set_target_queue(_isolationQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
         [self setupRoutes];
     }
     return self;
@@ -78,35 +61,8 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Routing
 
 - (void)setupRoutes {
-    // Posts
-    [self get:CWBlogAPISinglePostPath block:self.getPostBlock];
-    [self delete:CWBlogAPISinglePostPath block:self.deletePostBlock];
-    [self put:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
-    [self post:CWBlogAPIPostsPath block:self.createOrUpdatePostBlock];
 
-    // Related posts
-    [self get:CWBlogAPIRelatedPostsPath block:self.relatedPostsBlock];
-
-    // Search tags
-    [self get:CWBlogAPISearchTagsPath block:self.searchTagsBlock];
-    [self post:CWBlogAPISearchTagsPath block:self.searchTagsBlock];
-
-    // Make handle
-    [self get:CWBlogAPIMakeHandlePath block:self.makeHandleBlock];
-    [self post:CWBlogAPIMakeHandlePath block:self.makeHandleBlock];
-
-    // Tags
-    [self get:CWBlogAPISingleTagPath block:self.getTagBlock];
-    [self delete:CWBlogAPISingleTagPath block:self.deleteTagBlock];
-    [self put:CWBlogAPITagsPath block:self.createOrUpdateTagBlock];
-    [self post:CWBlogAPITagsPath block:self.createOrUpdateTagBlock];
-
-}
-
-#pragma mark - Posts
-
-- (CRRouteBlock)getPostBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    CRRouteBlock getPostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* pid = request.query[@"pid"];
 
         CWBlogPost* post = [CWBlogPost getByUID:pid];
@@ -117,18 +73,13 @@ NS_ASSUME_NONNULL_END
             [CWAPIController failWithError:nil request:request response:response];
         }
     };
-}
 
-- (CRRouteBlock)deletePostBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    CRRouteBlock deletePostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
         [CWAPIController failWithError:error request:request response:response];
     };
-}
 
-- (CRRouteBlock)createOrUpdatePostBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-
+    CRRouteBlock createOrUpdatePostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError* error = nil;
         CWAPIBlogPost* receivedPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
         if ( error ) {
@@ -191,12 +142,9 @@ NS_ASSUME_NONNULL_END
         } else {
             [CWAPIController failWithError:error request:request response:response];
         }
-
     };
-}
 
-- (CRRouteBlock)relatedPostsBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    CRRouteBlock relatedPostsBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* pid = request.query[@"pid"];
 
         CWBlogPost* post = [CWBlogPost getByUID:pid];
@@ -214,12 +162,10 @@ NS_ASSUME_NONNULL_END
 
         [CWAPIController succeedWithPayload:results request:request response:response];
     };
-}
 
-#pragma mark - Tags
+    // Tags
 
-- (CRRouteBlock)getTagBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    CRRouteBlock getTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* tid = request.query[@"tid"];
 
         CWBlogTag* tag = [CWBlogTag getByUID:tid];
@@ -230,18 +176,13 @@ NS_ASSUME_NONNULL_END
             [CWAPIController failWithError:nil request:request response:response];
         }
     };
-}
 
-- (CRRouteBlock)deleteTagBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    CRRouteBlock deleteTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
         [CWAPIController failWithError:error request:request response:response];
     };
-}
 
-- (CRRouteBlock)createOrUpdateTagBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-
+    CRRouteBlock createOrUpdateTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSError* error = nil;
         CWAPIBlogTag* receivedTag = [[CWAPIBlogTag alloc] initWithDictionary:request.body error:&error];
         if ( error ) {
@@ -261,12 +202,9 @@ NS_ASSUME_NONNULL_END
         } else {
             [CWAPIController failWithError:error request:request response:response];
         }
-        
     };
-}
 
-- (CRRouteBlock)searchTagsBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    CRRouteBlock searchTagsBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* q = request.query[@"q"];
 
         RLMResults* tags = [[CWBlogTag getObjectsWhere:@"name contains[c] %@", q] sortedResultsUsingProperty:@"name" ascending:YES];
@@ -277,15 +215,36 @@ NS_ASSUME_NONNULL_END
 
         [CWAPIController succeedWithPayload:result request:request response:response];
     };
-}
 
-- (CRRouteBlock)makeHandleBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    CRRouteBlock makeHandleBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSString* input = request.query[@"input"];
         NSLog(@"%@", request.query);
         [CWAPIController succeedWithPayload:input.URLFriendlyHandle request:request response:response];
     };
-}
 
+    // Posts
+    [self get:CWBlogAPISinglePostPath block:getPostBlock];
+    [self delete:CWBlogAPISinglePostPath block:deletePostBlock];
+    [self put:CWBlogAPIPostsPath block:createOrUpdatePostBlock];
+    [self post:CWBlogAPIPostsPath block:createOrUpdatePostBlock];
+
+    // Related posts
+    [self get:CWBlogAPIRelatedPostsPath block:relatedPostsBlock];
+
+    // Search tags
+    [self get:CWBlogAPISearchTagsPath block:searchTagsBlock];
+    [self post:CWBlogAPISearchTagsPath block:searchTagsBlock];
+
+    // Make handle
+    [self get:CWBlogAPIMakeHandlePath block:makeHandleBlock];
+    [self post:CWBlogAPIMakeHandlePath block:makeHandleBlock];
+
+    // Tags
+    [self get:CWBlogAPISingleTagPath block:getTagBlock];
+    [self delete:CWBlogAPISingleTagPath block:deleteTagBlock];
+    [self put:CWBlogAPITagsPath block:createOrUpdateTagBlock];
+    [self post:CWBlogAPITagsPath block:createOrUpdateTagBlock];
+
+}
 
 @end

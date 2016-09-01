@@ -19,8 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAPIController ()
 
-@property (nonatomic, strong, readonly) dispatch_queue_t isolationQueue;
-
 - (void)setupRoutes;
 
 @end
@@ -31,18 +29,15 @@ NS_ASSUME_NONNULL_END
 
 + (instancetype)sharedController {
     static CWAPIController* sharedController;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if ( !sharedController ) {
         sharedController = [[CWAPIController alloc] initWithPrefix:CWAPIPath];
-    });
+    }
     return sharedController;
 }
 
 - (instancetype)initWithPrefix:(NSString *)prefix {
     self = [super initWithPrefix:prefix];
     if ( self != nil ) {
-        _isolationQueue = dispatch_queue_create([[NSStringFromClass(self.class) stringByAppendingPathExtension:@"IsolationQueue"] cStringUsingEncoding:NSASCIIStringEncoding], DISPATCH_QUEUE_SERIAL);
-        dispatch_set_target_queue(_isolationQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
         [self setupRoutes];
     }
     return self;
@@ -70,6 +65,16 @@ NS_ASSUME_NONNULL_END
 
 - (void)setupRoutes {
 
+    CRRouteBlock checkAuthBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+        if ( !currentUser ) {
+            NSError* error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorUnauthorized userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"You are not authorized.",)}];
+            [CWAPIController failWithError:error request:request response:response];
+        } else {
+            completionHandler();
+        }
+    };
+
     // Set content-type to JSON
     [self add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
@@ -84,32 +89,7 @@ NS_ASSUME_NONNULL_END
     }];
 
     // Login
-    [self post:CWAPILoginPath block:self.authenticateBlock];
-
-    // Logout
-    [self get:CWAPILogoutPath block:self.deauthenticateBlock];
-
-    // Currently authneticated user
-    [self get:CWAPIMePath block:self.meBlock];
-
-    // Simple stack trace
-    [self get:CWAPITracePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
-        completionHandler();
-    }];
-
-    // Info
-    [self get:CWAPIInfoPath block:self.infoBlock];
-
-    // Blog
-    [self add:CWAPIBlogPath block:self.checkAuthBlock recursive:YES method:CRHTTPMethodAll];
-    [self add:CWAPIBlogPath block:[CWBlogAPIController sharedController].routeBlock recursive:YES method:CRHTTPMethodAll];
-}
-
-#pragma mark - Authentication
-
-- (CRRouteBlock)authenticateBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    [self post:CWAPILoginPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         CWUser * user;
 
         NSDictionary<NSString *, NSString *>* credentials = (NSDictionary *)request.body;
@@ -132,41 +112,40 @@ NS_ASSUME_NONNULL_END
 
             [CWAPIController succeedWithPayload:payload request:request response:response];
         }
-
+        
         completionHandler();
-    };
-}
+    }];
 
-- (CRRouteBlock)deauthenticateBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    // Logout
+    [self get:CWAPILogoutPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         [response setCookie:CWUserCookie value:@"deleted" path:@"/" expires:[NSDate distantPast] domain:nil secure:NO];
         [CWAPIController succeedWithPayload:nil request:request response:response];
         completionHandler();
-    };
-}
+    }];
 
-#pragma mark - Users
+    // Currently authneticated user ("me")
+    [self get:CWAPIMePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+         CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+         if ( currentUser ) {
+             NSMutableDictionary* payload = currentUser.toDictionary.mutableCopy;
+             [payload removeObjectForKey:@"password"];
+             [CWAPIController succeedWithPayload:payload request:request response:response];
+         } else {
+             [response setStatusCode:401 description:nil];
+             NSError* error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorUnauthorized userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"You are not authorized.",)}];
+             [CWAPIController failWithError:error request:request response:response];
+         }
+         completionHandler();
+     }];
 
-- (CRRouteBlock)meBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        if ( currentUser ) {
-            NSMutableDictionary* payload = currentUser.toDictionary.mutableCopy;
-            [payload removeObjectForKey:@"password"];
-            [CWAPIController succeedWithPayload:payload request:request response:response];
-        } else {
-            [response setStatusCode:401 description:nil];
-            NSError* error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorUnauthorized userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"You are not authorized.",)}];
-            [CWAPIController failWithError:error request:request response:response];
-        }
+    // Simple stack trace
+    [self get:CWAPITracePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        [response sendData:[CWAPIResponse successResponseWithData:[NSThread callStackSymbols]].toJSONData];
         completionHandler();
-    };
-}
+    }];
 
-#pragma mark - Misc
-
-- (CRRouteBlock)infoBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+    // Info
+    [self get:CWAPIInfoPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         NSMutableDictionary* payload = [NSMutableDictionary dictionary];
         payload[@"processName"] = [CWAppDelegate processName];
         payload[@"processVersion"] = [CWAppDelegate bundleVersion];
@@ -176,19 +155,10 @@ NS_ASSUME_NONNULL_END
         payload[@"memoryInfo"] = [CSSystemInfoHelper sharedHelper].memoryUsageString ? : @"";
         [CWAPIController succeedWithPayload:payload request:request response:response];
         completionHandler();
-    };
-}
+    }];
 
-- (CRRouteBlock)checkAuthBlock {
-    return ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        if ( !currentUser ) {
-            NSError* error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorUnauthorized userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"You are not authorized.",)}];
-            [CWAPIController failWithError:error request:request response:response];
-        } else {
-            completionHandler();
-        }
-    };
+    // Blog
+    [self add:CWAPIBlogPath block:checkAuthBlock recursive:YES method:CRHTTPMethodAll];
+    [self add:CWAPIBlogPath block:[CWBlogAPIController sharedController].routeBlock recursive:YES method:CRHTTPMethodAll];
 }
-
 @end
