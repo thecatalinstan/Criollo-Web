@@ -11,7 +11,7 @@ target 'Criollo Web' do
     pod 'JSONModel', '~> 1.3.0'
     pod 'JWT', '~> 2.0'
     pod 'MMMarkdown', '~> 0.5.0'
-    pod 'Realm', '~> 0.103'
+    pod 'Realm', '~> 1.0'
     pod 'STTwitter', '~> 0.2'
 end
 
