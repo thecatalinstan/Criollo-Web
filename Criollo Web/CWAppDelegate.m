@@ -84,10 +84,10 @@ NS_ASSUME_NONNULL_END
     }];
 
     // API
-    [self.server add:CWAPIPath block:[CWAPIController sharedController].routeBlock recursive:YES method:CRHTTPMethodAll];
+    [self.server add:CWAPIPath controller:[CWAPIController class]];
 
     // Homepage
-    [self.server add:@"/" viewController:[CWLandingPageViewController class] withNibName:nil bundle:nil recursive:NO method:CRHTTPMethodAll];
+    [self.server add:CRPathSeparator viewController:[CWLandingPageViewController class] withNibName:nil bundle:nil recursive:NO method:CRHTTPMethodAll];
 
     // Blog
     [self.server add:CWBlogPath viewController:[CWBlogViewController class] withNibName:nil bundle:nil];
@@ -101,10 +101,12 @@ NS_ASSUME_NONNULL_END
 
     // robots.txt
     [self.server add:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* robotsString = @"User-agent: *\nAllow:\n";
-        [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
-        [response send:robotsString];
+        @autoreleasepool {
+            NSString* robotsString = @"User-agent: *\nAllow:\n";
+            [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+            [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
+            [response send:robotsString];
+        }
         completionHandler();
     }];
 

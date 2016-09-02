@@ -25,8 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAPIController : CRRouteController
 
-+ (instancetype)sharedController;
-
 + (void)succeedWithPayload:(id _Nullable)payload request:(CRRequest *)request response:(CRResponse *)response;
 + (void)failWithError:(NSError * _Nullable)error request:(CRRequest *)request response:(CRResponse *)response;
 

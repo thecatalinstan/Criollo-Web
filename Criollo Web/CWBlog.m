@@ -100,20 +100,21 @@ NS_ASSUME_NONNULL_END
 
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
     RLMRealm* realm = [CWBlog realm];
+
     [realm beginWriteTransaction];
     [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
-        CWBlogAuthor *author = [CWBlogAuthor getByUser:key];
-        if ( !author ) {
-            author = [[CWBlogAuthor alloc] init];
+        @autoreleasepool {
+            CWBlogAuthor *author = [CWBlogAuthor getByUser:key];
+            if ( !author ) {
+                author = [[CWBlogAuthor alloc] init];
+            }
+            author.user = user.username;
+            author.email = user.email;
+            author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            author.handle = author.displayName.URLFriendlyHandle;
+            author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
+            [realm addOrUpdateObject:author];
         }
-        author.user = user.username;
-        author.email = user.email;
-        author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        author.handle = author.displayName.URLFriendlyHandle;
-        author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
-        [realm addOrUpdateObject:author];
-
-
     }];
 
     BOOL result = [realm commitWriteTransaction:error];

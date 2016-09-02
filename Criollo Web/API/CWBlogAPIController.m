@@ -42,14 +42,6 @@ NS_ASSUME_NONNULL_END
 
 @implementation CWBlogAPIController
 
-+ (instancetype)sharedController {
-    static CWBlogAPIController* sharedController;
-    if ( !sharedController ) {
-        sharedController = [[CWBlogAPIController alloc] initWithPrefix:CWAPIBlogPath];
-    }
-    return sharedController;
-}
-
 - (instancetype)initWithPrefix:(NSString *)prefix {
     self = [super initWithPrefix:prefix];
     if ( self != nil ) {
@@ -62,189 +54,189 @@ NS_ASSUME_NONNULL_END
 
 - (void)setupRoutes {
 
-    CRRouteBlock getPostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* pid = request.query[@"pid"];
+    // Get post block
+    [self get:CWBlogAPISinglePostPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSString* pid = request.query[@"pid"];
 
-        CWBlogPost* post = [CWBlogPost getByUID:pid];
-        if (post != nil) {
-            [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
-        } else {
-            [response setStatusCode:404 description:nil];
-            [CWAPIController failWithError:nil request:request response:response];
+            CWBlogPost* post = [CWBlogPost getByUID:pid];
+            if (post != nil) {
+                [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
+            } else {
+                [response setStatusCode:404 description:nil];
+                [CWAPIController failWithError:nil request:request response:response];
+            }
         }
-    };
+    }];
 
-    CRRouteBlock deletePostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
-        [CWAPIController failWithError:error request:request response:response];
-    };
+    [self delete:CWBlogAPISinglePostPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
+            [CWAPIController failWithError:error request:request response:response];
+        }
+    }];
+
 
     CRRouteBlock createOrUpdatePostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSError* error = nil;
-        CWAPIBlogPost* receivedPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
-        if ( error ) {
-            [CWAPIController failWithError:error request:request response:response];
-            return;
-        }
+        @autoreleasepool {
+            NSError* error = nil;
+            CWAPIBlogPost* receivedPost = [[CWAPIBlogPost alloc] initWithDictionary:request.body error:&error];
+            if ( error ) {
+                [CWAPIController failWithError:error request:request response:response];
+                return;
+            }
 
-        NSString* renderedContent = [CWBlog renderMarkdown:receivedPost.content error:&error];
-        if ( error ) {
-            [CWAPIController failWithError:error request:request response:response];
-            return;
-        }
+            NSString* renderedContent = [CWBlog renderMarkdown:receivedPost.content error:&error];
+            if ( error ) {
+                [CWAPIController failWithError:error request:request response:response];
+                return;
+            }
 
-        // Auto-generate the excerpt if there is none.
-        NSString* excerpt = receivedPost.excerpt;
-        if ( [excerpt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
-            excerpt = [CWBlog excerptFromHTML:renderedContent error:&error];
-        }
+            // Auto-generate the excerpt if there is none.
+            NSString* excerpt = receivedPost.excerpt;
+            if ( [excerpt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+                excerpt = [CWBlog excerptFromHTML:renderedContent error:&error];
+            }
 
-        NSString * username = receivedPost.author.user;
-        if ( !username ) {
-            CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-            username = currentUser.username;
-        }
+            NSString * username = receivedPost.author.user;
+            if ( !username ) {
+                CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+                username = currentUser.username;
+            }
 
-        CWBlogAuthor* author = [CWBlogAuthor getByUser:username];
-        if ( author == nil ) {
-            error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownAuthor userInfo:nil];
-            [CWAPIController failWithError:nil request:request response:response];
-            return;
-        }
+            CWBlogAuthor* author = [CWBlogAuthor getByUser:username];
+            if ( author == nil ) {
+                error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownAuthor userInfo:nil];
+                [CWAPIController failWithError:nil request:request response:response];
+                return;
+            }
 
-        RLMRealm *realm = [CWBlog realm];
-        [realm beginWriteTransaction];
+            RLMRealm *realm = [CWBlog realm];
+            [realm beginWriteTransaction];
 
-        CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
+            CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
 
-        post.renderedContent = renderedContent;
-        post.excerpt = excerpt;
+            post.renderedContent = renderedContent;
+            post.excerpt = excerpt;
 
-        if ( !post.publishedDate ) {
-            post.publishedDate = [NSDate date];
-        }
-        post.lastUpdatedDate = [NSDate date];
+            if ( !post.publishedDate ) {
+                post.publishedDate = [NSDate date];
+            }
+            post.lastUpdatedDate = [NSDate date];
 
-        if ( post.handle.length == 0 ) {
-            post.handle = post.title.URLFriendlyHandle;
-        }
+            if ( post.handle.length == 0 ) {
+                post.handle = post.title.URLFriendlyHandle;
+            }
 
-        post.author = author;
+            post.author = author;
 
-        for ( CWBlogTag* tag in post.tags ) {
-            tag.handle = tag.name.URLFriendlyHandle;
-            [realm addOrUpdateObject:tag];
-        }
+            for ( CWBlogTag* tag in post.tags ) {
+                tag.handle = tag.name.URLFriendlyHandle;
+                [realm addOrUpdateObject:tag];
+            }
 
-        [realm addOrUpdateObject:post];
-        if ( [realm commitWriteTransaction:&error] ) {
-            [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
-        } else {
-            [CWAPIController failWithError:error request:request response:response];
-        }
-    };
-
-    CRRouteBlock relatedPostsBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* pid = request.query[@"pid"];
-
-        CWBlogPost* post = [CWBlogPost getByUID:pid];
-        if (post == nil) {
-            [response setStatusCode:404 description:nil];
-            [CWAPIController failWithError:nil request:request response:response];
-            return;
-        }
-
-        NSArray<CWBlogPost *> *relatedPosts = [CWBlog relatedPostsForPost:post];
-        NSMutableArray *results = [NSMutableArray arrayWithCapacity:relatedPosts.count];
-        [relatedPosts enumerateObjectsUsingBlock:^(CWBlogPost * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [results addObject:obj.modelObject.toDictionary];
-        }];
-
-        [CWAPIController succeedWithPayload:results request:request response:response];
-    };
-
-    // Tags
-
-    CRRouteBlock getTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* tid = request.query[@"tid"];
-
-        CWBlogTag* tag = [CWBlogTag getByUID:tid];
-        if (tag != nil) {
-            [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
-        } else {
-            [response setStatusCode:404 description:nil];
-            [CWAPIController failWithError:nil request:request response:response];
+            [realm addOrUpdateObject:post];
+            if ( [realm commitWriteTransaction:&error] ) {
+                [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
+            } else {
+                [CWAPIController failWithError:error request:request response:response];
+            }
         }
     };
-
-    CRRouteBlock deleteTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
-        [CWAPIController failWithError:error request:request response:response];
-    };
-
-    CRRouteBlock createOrUpdateTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSError* error = nil;
-        CWAPIBlogTag* receivedTag = [[CWAPIBlogTag alloc] initWithDictionary:request.body error:&error];
-        if ( error ) {
-            [CWAPIController failWithError:error request:request response:response];
-            return;
-        }
-
-        RLMRealm *realm = [CWBlog realm];
-        [realm beginWriteTransaction];
-
-        CWBlogTag* tag = (CWBlogTag *)receivedTag.schemaObject;
-        tag.handle = tag.name.URLFriendlyHandle;
-
-        [realm addOrUpdateObject:tag];
-        if ( [realm commitWriteTransaction:&error] ) {
-            [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
-        } else {
-            [CWAPIController failWithError:error request:request response:response];
-        }
-    };
-
-    CRRouteBlock searchTagsBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* q = request.query[@"q"];
-
-        RLMResults* tags = [[CWBlogTag getObjectsWhere:@"name contains[c] %@", q] sortedResultsUsingProperty:@"name" ascending:YES];
-        NSMutableArray* result = [NSMutableArray array];
-        for ( CWBlogTag* tag in tags ) {
-            [result addObject:tag.modelObject.toDictionary];
-        }
-
-        [CWAPIController succeedWithPayload:result request:request response:response];
-    };
-
-    CRRouteBlock makeHandleBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* input = request.query[@"input"];
-        NSLog(@"%@", request.query);
-        [CWAPIController succeedWithPayload:input.URLFriendlyHandle request:request response:response];
-    };
-
-    // Posts
-    [self get:CWBlogAPISinglePostPath block:getPostBlock];
-    [self delete:CWBlogAPISinglePostPath block:deletePostBlock];
     [self put:CWBlogAPIPostsPath block:createOrUpdatePostBlock];
     [self post:CWBlogAPIPostsPath block:createOrUpdatePostBlock];
 
     // Related posts
-    [self get:CWBlogAPIRelatedPostsPath block:relatedPostsBlock];
+    [self get:CWBlogAPIRelatedPostsPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSString* pid = request.query[@"pid"];
+
+            CWBlogPost* post = [CWBlogPost getByUID:pid];
+            if (post == nil) {
+                [response setStatusCode:404 description:nil];
+                [CWAPIController failWithError:nil request:request response:response];
+                return;
+            }
+
+            NSArray<CWBlogPost *> *relatedPosts = [CWBlog relatedPostsForPost:post];
+            NSMutableArray *results = [NSMutableArray arrayWithCapacity:relatedPosts.count];
+            [relatedPosts enumerateObjectsUsingBlock:^(CWBlogPost * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [results addObject:obj.modelObject.toDictionary];
+            }];
+
+            [CWAPIController succeedWithPayload:results request:request response:response];
+        }
+    }];
 
     // Search tags
-    [self get:CWBlogAPISearchTagsPath block:searchTagsBlock];
-    [self post:CWBlogAPISearchTagsPath block:searchTagsBlock];
+    [self add:CWBlogAPISearchTagsPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSString* q = request.query[@"q"];
+
+            RLMResults* tags = [[CWBlogTag getObjectsWhere:@"name contains[c] %@", q] sortedResultsUsingProperty:@"name" ascending:YES];
+            NSMutableArray* result = [NSMutableArray array];
+            for ( CWBlogTag* tag in tags ) {
+                [result addObject:tag.modelObject.toDictionary];
+            }
+
+            [CWAPIController succeedWithPayload:result request:request response:response];
+        }
+    }];
 
     // Make handle
-    [self get:CWBlogAPIMakeHandlePath block:makeHandleBlock];
-    [self post:CWBlogAPIMakeHandlePath block:makeHandleBlock];
+    [self add:CWBlogAPIMakeHandlePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSString* input = request.query[@"input"];
+            [CWAPIController succeedWithPayload:input.URLFriendlyHandle request:request response:response];
+        }
+    }];
 
-    // Tags
-    [self get:CWBlogAPISingleTagPath block:getTagBlock];
-    [self delete:CWBlogAPISingleTagPath block:deleteTagBlock];
+    [self get:CWBlogAPISingleTagPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSString* tid = request.query[@"tid"];
+
+            CWBlogTag* tag = [CWBlogTag getByUID:tid];
+            if (tag != nil) {
+                [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
+            } else {
+                [response setStatusCode:404 description:nil];
+                [CWAPIController failWithError:nil request:request response:response];
+            }
+        }
+    }];
+
+    [self delete:CWBlogAPISingleTagPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
+            [CWAPIController failWithError:error request:request response:response];
+        }
+    }];
+
+    CRRouteBlock createOrUpdateTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            NSError* error = nil;
+            CWAPIBlogTag* receivedTag = [[CWAPIBlogTag alloc] initWithDictionary:request.body error:&error];
+            if ( error ) {
+                [CWAPIController failWithError:error request:request response:response];
+                return;
+            }
+
+            RLMRealm *realm = [CWBlog realm];
+            [realm beginWriteTransaction];
+
+            CWBlogTag* tag = (CWBlogTag *)receivedTag.schemaObject;
+            tag.handle = tag.name.URLFriendlyHandle;
+
+            [realm addOrUpdateObject:tag];
+            if ( [realm commitWriteTransaction:&error] ) {
+                [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
+            } else {
+                [CWAPIController failWithError:error request:request response:response];
+            }
+        }
+    };
     [self put:CWBlogAPITagsPath block:createOrUpdateTagBlock];
     [self post:CWBlogAPITagsPath block:createOrUpdateTagBlock];
-
 }
 
 @end
