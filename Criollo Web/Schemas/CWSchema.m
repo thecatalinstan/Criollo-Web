@@ -15,7 +15,8 @@
 @implementation CWSchema
 
 - (NSString *)permalinkForRequest:(CRRequest *)request {
-    return [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], self.publicPath] ? : @"";
+//    return [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], self.publicPath] ? : @"";
+    return [NSString stringWithFormat:@"https://criollo.io%@", self.publicPath] ? : @"";
 }
 
 #pragma mark - Realm
