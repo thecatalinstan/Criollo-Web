@@ -35,7 +35,8 @@ static NSString * imagePath;
     self.vars[@"blogFeedPath"] = self.vars[@"blogFeedPath"] ? : [NSString stringWithFormat:@"%@%@", CWBlogPath, CWBlogFeedPath];
 
     if (!imagePath) {
-        imagePath= [NSString stringWithFormat:@"%@://%@%@%@/criollo-icon-square-padded.png", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], CWStaticDirPath];
+//        imagePath= [NSString stringWithFormat:@"%@://%@%@%@/criollo-icon-square-padded.png", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], CWStaticDirPath];
+        imagePath= [NSString stringWithFormat:@"https://criollo.io%@/criollo-icon-square-padded.png", CWStaticDirPath];
     }
     self.vars[@"image"] = self.vars[@"image"] ? : imagePath;
 
