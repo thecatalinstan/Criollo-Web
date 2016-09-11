@@ -12,7 +12,17 @@ export default {
     commonjs(),
     babel({
       exclude: 'node_modules/**',
-      presets: require('babel-preset-es2015-rollup'),
+      presets: [
+        [
+          "es2015",
+          {
+            "modules": false
+          }
+        ]
+      ],
+      "plugins": [
+        "external-helpers"
+      ],
       babelrc: false
     }),
     uglify()

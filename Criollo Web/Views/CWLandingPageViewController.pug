@@ -1,0 +1,87 @@
+doctype html
+html(lang="en")
+  include ./Shared/Header.pug
+  body.landing
+    include ./Shared/Menu.pug
+    header.masthead
+      .content
+        .logo(title="{{title}}")
+          a(href="/")
+            img(src="{{static-dir}}/logoWithTextLight.svg?{{etag}}",alt="")
+        h2 A powerful Cocoa based web application framework
+          br
+          |&nbsp;for macOS and iOS
+        .get-started
+          a(href="{{github-url}}/wiki/Getting-Started") Get Started
+          a(href="{{github-url}}/archive/{{criollo-ver}}.zip") Download ver. {{criollo-ver}}
+    section.details
+      .content
+        p.shields
+          a(href="http://cocoadocs.org/docsets/Criollo")
+            img(src="https://img.shields.io/cocoapods/v/Criollo.svg?style=flat",alt="Version Status")
+          a(href="http://cocoapods.org/?q=Criollo")
+            img(src="https://img.shields.io/cocoapods/p/Criollo.svg?style=flat",alt="Platform")
+          a(href="https://opensource.org/licenses/MIT")
+            img(src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat",alt="MIT License")
+          a(href="http://twitter.com/Criolloio")
+            img(src="https://img.shields.io/badge/twitter-@Criolloio-orange.svg?style=flat",alt="Twitter")
+        p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Swift or Objective-C, using the technologies you are already familiar with. It's as easy as this:
+        .hello-world
+          pre
+            code.swift
+              |let server = CRHTTPServer()
+              |server.get("/") { (request, response, completionHandler) in
+              |   response.send("Hello world!")
+              |}
+              |server.startListening()
+          p ... and in Objective-C:
+          pre
+            code.objc
+              |CRServer* server = [[CRHTTPServer alloc] init];
+              |[server get:@"/" block:^(CRRequest * request, CRResponse * response, CRRouteCompletionBlock completionHandler) {
+              |   [response send:@"Hello world!"];
+              |}];
+              |[server startListening];
+    section#getting-started.getting-started
+      .content
+        h2 Getting Started
+        p Head over to the&nbsp;
+          a(href="{{github-url}}") GitHub Project Page
+          |, check out the&nbsp;
+          a(href="{{github-url}}/wiki/Getting-Started") Getting Started Guide
+          |&nbsp;and the&nbsp;
+          a(href="{{github-url}}/wiki") Criollo Wiki
+          |.
+        p For a more real-world example, check out&nbsp;
+          a(href="{{criollo-web-github-url}}") this very website
+          |, made using Criollo (v{{criollo-ver}}) and available for your cloning pleasure on&nbsp;
+          a(href="{{criollo-web-github-url}}") GitHub
+          |.
+        p.external-links
+          a.github-button(href="{{github-url}}",title="Check out Criollo on GitHub")
+            img(src="{{static-dir}}/logoDark.svg?{{etag}}",alt="GitHub Project Page")
+            span Criollo
+            small ver. {{criollo-ver}}
+          a.criollo-web-icon(href="{{criollo-web-github-url}}",title="Check out Criollo Web on GitHub")
+            img(src="{{static-dir}}/githubMark.svg?{{etag}}",alt="Criollo Web Project Page")
+            span criollo.io
+            small (this website)
+    section.how
+      .content
+        h2 How to Use
+        p Criollo can easily be embedded as a web-server inside your macOS or iOS app, should you be in need of such a feature, however it was designed to create standalone, long-lived daemon style apps.
+        p It is fully &nbsp;
+          a(href="http://launchd.info/") launchd
+          |&nbsp;compatible and replicates the lifecycle and behaviour of NSApplication, so that the learning curve should be as smooth as possible.
+    section.why
+      .content
+        h2 Why?
+        p Criollo was created in order to take advantage of the truly awesome tools and APIs that macOS and iOS provide and serve content produced with them over the web.
+        p It incorporates an HTTP web server and a&nbsp;
+          a(href="http://fastcgi.com") FastCGI
+          |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.
+    link(rel="stylesheet",href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/monokai-sublime.min.css")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js")
+    script hljs.initHighlightingOnLoad()
+
+    include ./Shared/Footer.pug

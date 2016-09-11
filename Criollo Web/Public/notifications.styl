@@ -1,0 +1,77 @@
+notification-color-info = #ccc
+notification-color-error = #cc0000
+notification-color-warn = #eeee44
+notification-color-confirm = #00cc00
+
+notification-width = 300px
+
+notification-spacing = 10px
+notification-padding-vertical = 15px
+notification-padding-horizontal = 10px
+
+notification-close-size = 11px
+notification-close-spacing = 2px
+
+body
+
+  .notification-center
+    position fixed
+    top 0
+    right notification-spacing
+    width notification-width
+    z-index 50000
+
+    .notification
+      position relative
+      margin notification-spacing 0
+      display block
+      padding notification-padding-vertical notification-padding-horizontal
+      border-radius (notification-padding-horizontal / 2)
+      border 1px solid #ccc
+      border-left notification-padding-horizontal solid #ccc
+      background-color #efefef
+      color #333
+      font-size 0.8em
+      opacity 1
+      transition all 0.3s ease-in-out
+
+      &.info
+        border-left-color notification-color-info
+
+      &.error
+        border-left-color notification-color-error
+
+      &.warn
+        border-left-color notification-color-warn
+
+      &.confirm
+        border-left-color notification-color-confirm
+
+      .notification-close
+        width notification-close-size
+        height @width
+        overflow hidden
+        line-height @width
+        font-size @width
+        color #666
+        position absolute
+        right (notification-close-spacing + 1px)
+        top (notification-close-spacing + 1px)
+        cursor pointer
+        transition color 0.3s ease-in-out
+
+        &:hover
+          color #333
+
+      .notification-title
+        color black
+        line-height 1.5em
+
+      .notification-text
+        font-size 0.8em
+        font-weight 300
+        line-height 1.5em
+
+  &.scrolled
+    .notification-center
+      top 80px

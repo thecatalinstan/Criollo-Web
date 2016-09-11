@@ -1,0 +1,379 @@
+@import globals
+
+body.blog
+
+  .article
+    padding 1em
+    border-bottom 1px solid criollo-light-gray
+    text-align left
+
+    &:first-of-type
+      padding-top 0
+
+    &:last-of-type
+      border none
+
+    &.single
+
+      .article-header
+        margin-bottom 2.5em
+
+      .article-title
+        letter-spacing -0.1em !important
+        margin-left -0.075em !important
+
+      .article-info
+        font-size 0.8em !important
+
+      .article-content
+        padding-bottom 1px
+
+      .article-footer
+        padding-top 2.5em !important
+
+    .article-header
+
+      .article-title
+        margin-top 1.5em
+        line-height 1.2em
+
+        &[contenteditable="true"]
+          border 1px solid criollo-medium-gray
+          border-radius 4px
+          outline none
+          margin-bottom 0.1em
+          padding 0 0.07em
+
+        a
+          color heading-color
+          text-decoration none
+
+          &:hover
+            color link-color
+            text-decoration none
+
+      .article-info
+        margin 0
+        font-size 0.7em
+
+        .article-author
+          margin-left 0.3em
+
+        .article-date
+          text-transform lowercase
+
+
+    .CodeMirror
+      .CodeMirror-scroll
+        font-size 1em
+        line-height 1.5em
+        color criollo-dark-gray
+
+    .article-content
+      margin 1.5em 0
+
+      ul
+        list-style-type disc
+
+      li
+        list-style-type decimal
+
+      ul,
+      ol
+        font-size 0.9em
+        margin 1.5em 0 1.5em 3em
+        line-height 1.5em
+        list-style-position outside
+
+        li
+          padding-left 0.5em
+
+      blockquote
+        padding 1em 0 1em 1.5em
+        margin 1.5em 0 1.5em 1.5em
+        border-left 4px solid criollo-medium-gray
+        border-radius 4px
+        font-size 0.9em
+        font-style italic
+        line-height 1.9em
+
+        @media screen and (max-width: phone-cutoff)
+          margin-left 0 !important
+
+        p:first-of-type
+          margin-top 0
+
+        p:last-of-type
+          margin-bottom 0
+
+      pre
+        margin 1.5em 0
+
+      code
+        text-align left
+        font-family monotype-font-family
+        font-size 0.9em
+        line-height 1.5em
+        padding 1.5em 1em
+        box-sizing border-box
+        overflow-scrolling touch
+
+    .article-handle-container
+      margin 1em 0 1em 0
+      padding-top 1px
+      padding-bottom @padding-top
+      vertical-align middle
+      white-space nowrap
+      line-height 1.5em
+      font-size 0.9em
+      font-weight 400
+
+      .article-handle-editor-label
+        margin-right 0.5em
+        vertical-align middle
+        display inline-block
+
+        @media screen and (max-width: phone-cutoff)
+          width 100%
+          display block
+
+      .article-handle-editor
+        vertical-align middle
+        display inline-block
+        background-color white
+        border 1px solid criollo-medium-gray
+        border-radius 4px
+        width 60%
+        padding 0.5em
+        box-sizing border-box
+        cursor text
+        color criollo-dark-gray
+        line-height 1.5em
+        font-size 0.9em
+        font-weight 400
+
+        @media screen and (max-width: phone-cutoff)
+          width 100%
+          display block
+
+        &:focus
+          outline none
+
+    .article-content-editor
+      font-size 1em
+      line-height 1.5em 0
+      outline none
+      width 100%
+      height auto
+      min-height 300px
+      border 1px solid criollo-medium-gray
+      padding 0.5em
+      box-sizing border-box
+      color criollo-dark-gray
+
+    .article-excerpt-editor-label,
+    .article-tags-editor-label
+      display block
+      outline none
+      width 100%
+      height auto
+      box-sizing border-box
+      margin-top 1em
+      margin-bottom 0.5em
+      color criollo-dark-orange
+      font-weight 700
+
+    .article-excerpt-editor
+      font-size 1em
+      line-height 1.5em
+      outline none
+      width 100%
+      height auto
+      max-width 100%
+      min-height 100px
+      border 1px solid criollo-medium-gray
+      border-radius 4px
+      padding 0.5em
+      box-sizing border-box
+      color criollo-dark-gray
+
+    .article-published-container
+      margin 1em 0
+      padding-top 1px
+      height 1.5em
+      vertical-align middle
+      white-space nowrap
+
+      .article-published-editor
+        vertical-align middle
+        width 1em
+        height @width
+        display inline-block
+
+      .article-published-editor-label
+        margin-left 0.5em
+        font-weight 700
+        vertical-align middle
+        line-height 1.5em
+        display inline-block
+
+      .article-published-editor-permalink
+        float right
+        display inline
+        line-height 1.5em
+        vertical-align middle
+        margin-left 0.5em
+        margin-top 0.2em
+        font-size 0.8em
+        overflow hidden
+        text-overflow ellipsis
+        max-width 80%
+
+        @media screen and (max-width: phone-cutoff)
+          max-width 50%
+
+    .editor-toolbar
+      margin-top 1em
+
+    .article-footer
+      margin 1.5em 0
+      padding-top 1.5em
+      border-top 1px solid criollo-light-gray
+      font-size 0.9em
+      vertical-align middle
+      min-height 80px
+
+      .tags
+        line-height 1.5em
+        margin-bottom 0.5em
+
+        .tags-label
+          margin-right 0.5em
+          font-weight 400
+
+      .permalink
+        line-height 1.5em
+
+        .permalink-label
+          margin-right 0.5em
+          font-weight 400
+
+        .permalink-item
+          background-color white
+          border 1px solid criollo-medium-gray
+          border-radius 4px
+          width 40%
+          color criollo-dark-gray
+          padding 8px 16px
+          font-weight 100
+          font-size 0.75em
+          box-sizing border-box
+          cursor text
+
+          @media screen and (max-width: phone-cutoff)
+            width auto
+            min-width 20%
+            max-width 60%
+
+      .sharing
+        float right
+        display inline
+        text-align right
+
+        @media screen and (max-width: phone-cutoff)
+          float none
+          display block
+          text-align left
+          margin-bottom 1.5em
+
+      .article-related
+        padding-top 1px
+        margin 3em 0
+
+        .related-items
+          margin-top .5em
+          list-style-type disc
+          list-style-position inside
+          line-height 1.5em
+
+          li
+            line-height 1.5em
+            margin-left 1.5em
+
+      .article-author-details
+        padding-top 1px
+        margin 3em 0 0 0
+        min-height 3em
+
+        .author-details-label
+          line-height 1.5em
+          margin-bottom .5em
+
+        .author-image
+          width 6em
+          height @width
+          border-radius 3em
+          overflow hidden
+          background-repeat no-repeat
+          background-size cover
+          background-position center
+          float left
+          display inline
+          margin-right 1.5em
+          cursor pointer
+
+        .author-name
+          font-weight 700
+          color criollo-dark-orange
+          font-family heading-font-family
+          margin-bottom 0
+          margin-left 7.5em
+          line-height 2em
+
+          a
+            text-decoration none
+
+        .author-location
+          color criollo-medium-gray
+          font-style italic
+          line-height 1em
+          font-size 0.85em
+          margin-bottom 1em
+          margin-left 7.5em
+
+        .author-bio
+          margin-bottom 1em
+          line-height 1.5em
+          max-width 60%
+          margin-left 7.5em
+
+          @media screen and (max-width: phone-cutoff)
+            max-width auto
+
+        .author-follow
+          font-weight 300
+
+        .author-more
+          margin-bottom 0
+          margin-left 7.5em
+
+          a
+            font-size 0.85em
+            text-decoration none
+
+    button
+      display block
+      margin 20px auto
+      font-family heading-font-family
+      font-size 1em
+      padding 10px 40px
+      background-color criollo-dark-orange
+      color white
+      border none
+      transition all 0.25s ease-in-out 0
+      cursor pointer
+      border 1px solid criollo-dark-orange
+
+      &:hover
+        background-color white
+        color criollo-dark-orange

@@ -1,18 +1,38 @@
-import $ from 'jquery'
-import hljs from 'highlight.js'
+import getStats from './stats.js'
+import menu from './menu.js'
+import login from './login.js'
+import notificationCenter from './notifications.js'
+import blog from './blog.js'
 
-hljs.initHighlightingOnLoad()
+document.addEventListener('DOMContentLoaded', () => {
 
-const getInfo = _ => {
-  $.ajax({
-    dataType: 'text',
-    url: `/info?${Math.random()}`
-  }).done((text) => {
-    $($('.process-info .content p')[0]).text(text)
-    setTimeout(getInfo, 3000)
+  // Setup notification center
+  const notifier = notificationCenter(document.body)
+  window.notifier = notifier
+
+  // Menu
+  menu.setup()
+
+  // Login form
+  login.setup((user) => {
+    notifier.confirm(`Welcome, ${user.firstName}!`, 'You will be redirected in a moment ...', 1000, () => {
+      window.location.href = window.redirect.length > 0 ? window.redirect : "/blog"
+    })
+  }, (err) => {
+    notifier.error('Login failed', 'Check your username and password and try again.')
   })
-}
 
-$(document).ready(_ => {
-  getInfo()
-})
+  // Blog
+  login.confirm( (data) => {
+    window.currentUser = data
+    blog.setup()
+  }, (err) => {
+    window.currentUser = null
+  } )
+
+  // Footer info
+  getStats(document.getElementById('stats-info'))
+}, false)
+
+// Expose the related posts function
+window.getRelatedPosts = blog.relatedPosts

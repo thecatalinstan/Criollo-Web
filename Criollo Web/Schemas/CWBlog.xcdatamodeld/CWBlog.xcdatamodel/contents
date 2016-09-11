@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
+    <entity name="CWBlogAuthor" representedClassName="CWBlogAuthor" syncable="YES">
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="handle" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="user" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CWBlogPost" inverseName="author" inverseEntity="CWBlogPost" syncable="YES"/>
+    </entity>
+    <entity name="CWBlogPost" representedClassName="CWBlogPost" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="date" attributeType="Date" indexed="YES" syncable="YES"/>
+        <attribute name="handle" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="renderedContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="author" maxCount="1" deletionRule="Nullify" destinationEntity="CWBlogAuthor" inverseName="posts" inverseEntity="CWBlogAuthor" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CWBlogTag" inverseName="posts" inverseEntity="CWBlogTag" syncable="YES"/>
+    </entity>
+    <entity name="CWBlogTag" representedClassName="CWBlogTag" syncable="YES">
+        <attribute name="handle" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CWBlogPost" inverseName="tags" inverseEntity="CWBlogPost" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="CWBlogAuthor" positionX="-36" positionY="54" width="128" height="120"/>
+        <element name="CWBlogPost" positionX="-54" positionY="-9" width="128" height="150"/>
+        <element name="CWBlogTag" positionX="-18" positionY="90" width="128" height="90"/>
+    </elements>
+</model>

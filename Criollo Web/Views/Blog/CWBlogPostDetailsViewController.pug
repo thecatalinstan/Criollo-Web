@@ -1,0 +1,37 @@
+article.article.single(id="article-{{id}}",data-post="{{id}}")
+  header.article-header
+    h1.article-title {{title}}
+    p.article-info Posted by
+      span.article-author
+        a(href="{{author-url}}") {{author}}
+      span.article-date {{publishedDate}}
+      span.article-toolbar {{toolbar}}
+  .article-content {{content}}
+  footer.article-footer
+    .sharing
+      .addthis_inline_share_toolbox
+    .tags(style="{{tags-style}}")
+      span.tags-label Tags:
+      span.tags-items {{tags}}
+    .permalink
+      span.permalink-label Permalink:
+      input.permalink-item(readonly,value="{{permalink}}")
+    .article-related(style="{{related-style}}")
+      h3.related-label You may also be interested in reading:
+      ul.related-items {{related}}
+    .article-author-details
+      h3.author-details-label About the author
+      .author-image(style="background-image:url({{author-image-url}})",onclick="window.location.href=\"{{author-url}}\"")
+      h4.author-name
+        a(href="{{author-url}}",title="See other posts by {{author}}") {{author}}&nbsp;
+        |(
+        a.author-follow(href="{{author-twitter-url}}",title="Follow {{author}} on Twitter.") {{author-twitter}}
+        |)
+      .author-location {{author-location}}
+      .author-bio {{author-bio}}
+      .author-more
+        a(href="{{author-url}}") See other posts by {{author}} &raquo;
+link(rel="stylesheet",href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/monokai-sublime.min.css")
+script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js")
+script(src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57c4039a427916ac")
+script hljs.initHighlightingOnLoad()

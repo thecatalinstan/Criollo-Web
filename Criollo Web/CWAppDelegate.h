@@ -10,14 +10,19 @@
 
 #define CWGitHubURL             @"https://github.com/thecatalinstan/Criollo"
 #define CWWebGitHubURL          @"https://github.com/thecatalinstan/Criollo-Web"
-#define CWSubscribePath         @"/subscribe"
 #define CWSessionCookie         @"cwsession"
+#define CWCriolloVersion        @"0.4.4"
+
 #define CWStaticDirPath         @"/static"
-#define CWCriolloVersion        @"0.4.1"
+#define CWLoginPath             @"/login"
+
+@class CWBlog;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AppDelegate : NSObject <CRApplicationDelegate>
+@interface CWAppDelegate : NSObject <CRApplicationDelegate>
+
++ (NSString *)serverSpecString;
 
 + (NSString *)processName;
 + (NSString *)processRunningTime;
@@ -29,5 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)ETag;
 
++ (NSURL *)baseDirectory;
+
 @end
+
 NS_ASSUME_NONNULL_END

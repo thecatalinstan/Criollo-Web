@@ -1,43 +1,29 @@
-@import "monokai-sublime.css"
 @import reset
 @import nib
-
-// Color definitions
-criollo-light-gray        = #f0f0f0
-criollo-dark-gray         = #666666
-criollo-orange            = #cc8339
-criollo-light-orange      = #f0af6c
-criollo-dark-orange       = #633b28
+@import globals
+@import notifications
+@import menu
+@import login
+@import tokenfield
+@import blog
 
 // Layout colors and fonts
-body-color                = criollo-dark-gray
-masthead-color            = criollo-light-gray
-masthead-background-color = criollo-orange
-heading-color             = criollo-dark-orange
-link-color                = criollo-orange
-link-hover-color          = criollo-light-orange
-footer-color              = criollo-light-gray
-footer-background-color   = criollo-dark-orange
-footer-link-color         = link-hover-color
-footer-link-hover-color   = white
-footer-heading-color      = white
-
-// Fonts
-body-font-family          = Helvetica, sans-serif
-heading-font-family       = "Ruda", "Trebuchet MS", Verdana, sans-serif
-monotype-font-family      = Menlo, Monaco, fixed
-
-// Sizes
-phone-cutoff              = 667px
+body-color                          = criollo-dark-gray
+masthead-color                      = criollo-light-gray
+masthead-background-color           = criollo-orange
+heading-color                       = criollo-dark-orange
+link-color                          = criollo-orange
+link-hover-color                    = criollo-light-orange
+footer-color                        = criollo-light-gray
+footer-background-color             = criollo-dark-orange
+footer-link-color                   = link-hover-color
+footer-link-hover-color             = white
+footer-heading-color                = white
 
 body,
 html
   width 100%
   height 100%
-
-// html
-  // background-color criollo-orange
-  // background-image linear-gradient(to bottom, criollo-orange 0%,criollo-orange 25%,white 25%,white 75%,criollo-dark-orange 75%,criollo-dark-orange 100%)
 
 body
   font-size 16px
@@ -64,7 +50,7 @@ body
   font-size 1.2em
 
 p
-  margin 1.5em
+  margin 1.5em 0
   line-height 1.5em
 
 a
@@ -77,18 +63,37 @@ a:hover
 
 body
 
-  section
-    min-height 18.75em
+  &.landing
+
+    p
+      margin 1.5em
+
+    section
+      text-align center
+
+      &:first-of-type
+        padding-top 3em
+
+        @media screen and (max-width: phone-cutoff)
+          padding-top 0.5em
+
+  &>section
     padding 3em 0
+    min-height 18.75em
     border-bottom 1px solid criollo-light-gray
-    text-align center
     vertical-align middle
     background-color white
 
     @media screen and (max-width: phone-cutoff)
       padding 0.5em 0
 
-  header
+    &:first-of-type
+      padding-top 6em
+
+      @media screen and (max-width: phone-cutoff)
+        padding-top 3em
+
+  &>header
     padding 3em 0
     text-align center
     vertical-align middle
@@ -96,7 +101,7 @@ body
     @media screen and (max-width: phone-cutoff)
       padding 0.5em 0
 
-  footer
+  &>footer
     padding 2em 0
     text-align center
     vertical-align top
@@ -104,11 +109,10 @@ body
     @media screen and (max-width: phone-cutoff)
       padding 0
 
-  section,
-  footer,
-  header
-    // display none
-
+  &>section,
+  &>footer,
+  &>header,
+  &>nav
     .content
       margin 0 auto
       min-width 300px
@@ -127,15 +131,15 @@ body
 
     .content
       width 80%
-      max-width 320px
       max-width 960px
 
       .logo
-        margin 5em auto 3em auto
+        margin 8em auto 3em auto
+        opacity 1
 
         @media screen and (max-width: phone-cutoff)
-          margin 1.5em auto 1.5em auto
-          transform scale(0.75)
+          margin 4em 2em 1.5em 2em
+          max-width 75%
 
         img
           width 100%
@@ -186,6 +190,16 @@ body
 
   section
 
+    .page-header
+      padding-left 1em
+      padding-right 1em
+
+      .page-title
+        margin-top 1.5em
+        line-height 1.2em
+        letter-spacing -0.1em !important
+        margin-left -0.075em !important
+
     h2
       margin-top 1.4em
 
@@ -204,7 +218,7 @@ body
 
         code
           text-align left
-          font-family Menlo, Monaco, fixed
+          font-family monotype-font-family
           font-size 0.9em
           line-height 1.5em
           padding 1.5em 1em
@@ -250,28 +264,23 @@ body
             line-height 1em
             color criollo-dark-gray
 
-          // &.github-button
-          // &.criollo-web-icon
-
-    //   .github-button
-    //     padding 10px
-    //     border 1px solid criollo-orange
-
     &.process-info
       height auto
       max-height auto
       min-height 0
       background-color alpha(criollo-light-orange, 0.85)
-      padding-top 0.75em
-      padding-bottom 0.5em
+      padding 0.5em 0
 
       .content
         font-family monotype-font-family
         font-size 0.65em
+        padding 0 1em
+        text-align center
+        vertical-align middle
 
         p
           margin 0
-          line-height 1.5em
+          line-height 1.25em
 
   .footer
     background-color footer-background-color
@@ -309,9 +318,11 @@ body
 
 
       .copyright
-        font-size 0.8em
+        font-size 0.75em
         line-height 1em
         border-top 1px solid criollo-light-orange
         padding 0
         margin-top 2em
 
+        p
+          margin 1em
