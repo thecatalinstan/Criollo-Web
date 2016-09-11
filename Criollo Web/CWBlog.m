@@ -18,6 +18,8 @@
 #import "NSString+URLUtils.h"
 #import "NSString+RegEx.h"
 
+#define CWExcerptLength     400
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlog ()
@@ -249,7 +251,7 @@ NS_ASSUME_NONNULL_END
             i++;
         }
 
-        if ( excerpt.length > 500 || i >= 3 ) {
+        if ( excerpt.length > CWExcerptLength || i >= 3 ) {
             *stop = YES;
             return;
         }
