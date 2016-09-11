@@ -1,6 +1,6 @@
 {
   "name": "criollo-web",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "This is the [Criollo.io](https://criollo.io) website.",
   "main": "index.js",
   "scripts": {
