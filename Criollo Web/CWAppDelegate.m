@@ -18,7 +18,7 @@
 #import "CWBlog.h"
 #import "CWAPIController.h"
 
-#define PortNumber          10781
+#define DefaultPortNumber          10781
 #define LogConnections          0
 #define LogRequests             1
 
@@ -138,15 +138,16 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)startServer {
-    NSError *serverError;
 
-    if ( [self.server startListening:&serverError portNumber:PortNumber] ) {
+    NSUInteger portNumber = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Port"] integerValue] ? : DefaultPortNumber;
+    NSError *serverError;
+    if ( [self.server startListening:&serverError portNumber:portNumber] ) {
 
         // Get server ip address
         NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
 
         // Set the base url. This is only for logging
-        NSURL* baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%d", address ? : @"127.0.0.1", PortNumber]];
+        NSURL* baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%lu", address ? : @"127.0.0.1", (unsigned long)portNumber]];
 
         [CRApp logFormat:@"%@ Started HTTP server at %@", [NSDate date], baseURL.absoluteString];
 
