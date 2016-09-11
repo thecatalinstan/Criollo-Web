@@ -30,9 +30,10 @@
 - (instancetype)initWithPrefix:(NSString *)prefix {
     self = [super initWithPrefix:prefix];
     if ( self != nil ) {
-        self.channel = [[CSRSSFeedChannel alloc] init];
-        self.feed = [[CSRSSFeed alloc] init];
-        [self.feed.channels addObject:self.channel];
+        _feed = [[CSRSSFeed alloc] init];
+        _channel = [[CSRSSFeedChannel alloc] init];
+        [_feed.channels addObject:self.channel];
+        _fetchPredicate = [NSPredicate predicateWithFormat:@"published = true"];
         [self setupRoutes];
     }
     return self;
@@ -44,83 +45,93 @@
 
     // Generates the fetchPredicate used for the post archive
     CRRouteBlock archiveBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            // Get the month and year from the path
+            NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
+            NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
 
-        // Get the month and year from the path
-        NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
-        NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
+            CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
+            if ( period.year == 0 ) {
+                completionHandler();
+                return;
+            }
 
-        CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
-        if ( period.year == 0 ) {
-            completionHandler();
-            return;
+            // Build a predicate
+            CWBlogDatePair *datePair = [CWBlog datePairArchivePeriod:period];
+            controller.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
+
+            // Set the page title
+            NSString* humanReadableMonth = @"";
+            if ( period.month != 0 ) {
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"MMMM"];
+                humanReadableMonth = [NSString stringWithFormat:@" %@", [formatter stringFromDate:datePair.startDate]];
+            }
+            NSString* humanReadableYear = period.year > 0 ? [NSString stringWithFormat:@" %lu", period.year] : @"";
+            controller.title = [NSString stringWithFormat:@"Posts Archive for%@%@", humanReadableMonth, humanReadableYear];
         }
-
-        // Build a predicate
-        CWBlogDatePair *datePair = [CWBlog datePairArchivePeriod:period];
-        controller.fetchPredicate = [NSPredicate predicateWithFormat:@"date >= %@ and date <= %@", datePair.startDate, datePair.endDate];
-
-        // Set the page title
-        NSString* humanReadableMonth = @"";
-        if ( period.month != 0 ) {
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"MMMM"];
-            humanReadableMonth = [NSString stringWithFormat:@" %@", [formatter stringFromDate:datePair.startDate]];
-        }
-        NSString* humanReadableYear = period.year > 0 ? [NSString stringWithFormat:@" %lu", period.year] : @"";
-        controller.title = [NSString stringWithFormat:@"Posts Archive for%@%@", humanReadableMonth, humanReadableYear];
-
         completionHandler();
     };
 
     // Generates the fetchPredicate used for the tag post list
     CRRouteBlock tagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* handle = request.query[@"tag"];
-        controller.fetchPredicate = [NSPredicate predicateWithFormat:@"tags.handle = %@", handle];
-        CWBlogTag* tag = [CWBlogTag getByHandle:handle];
-        if ( tag ) {
-            controller.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
+        @autoreleasepool {
+            NSString* handle = request.query[@"tag"];
+            controller.fetchPredicate = [NSPredicate predicateWithFormat:@"tags.handle = %@", handle];
+            CWBlogTag* tag = [CWBlogTag getByHandle:handle];
+            if ( tag ) {
+                controller.title = [NSString stringWithFormat:@"Post with Tag %@", tag.name];
+            }
         }
         completionHandler();
     };
 
     // Generates the fetchPredicate used for the author post list
     CRRouteBlock authorBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* handle = request.query[@"author"];
-        controller.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@", handle];
-        CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
-        if ( author ) {
-            controller.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
+        @autoreleasepool {
+            NSString* handle = request.query[@"author"];
+            controller.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@", handle];
+            CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
+            if ( author ) {
+                controller.title = [NSString stringWithFormat:@"Post by %@", author.displayName];
+            }
         }
         completionHandler();
     };
 
     // Actually fetches the posts according to the fetchPredicate and displays the list
     CRRouteBlock enumeratePostsBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:controller.fetchPredicate] sortedResultsUsingProperty:@"publishedDate" ascending:NO];
-        controller.channel.pubDate = ((CWBlogPost*)posts.firstObject).publishedDate;
-        for ( CWBlogPost *post in posts ) {
-            CSRSSFeedItem * item = [[CSRSSFeedItem alloc] initWithTitle:post.title link:[post permalinkForRequest:request] description:post.renderedContent];
-            item.creator = post.author.displayName;
-            item.pubDate = post.publishedDate;
-            [controller.channel.items addObject:item];
+        @autoreleasepool {
+            RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:controller.fetchPredicate] sortedResultsUsingProperty:@"publishedDate" ascending:NO];
+            controller.channel.pubDate = ((CWBlogPost*)posts.firstObject).publishedDate;
+            for ( CWBlogPost *post in posts ) {
+                CSRSSFeedItem * item = [[CSRSSFeedItem alloc] initWithTitle:post.title link:[post permalinkForRequest:request] description:post.renderedContent];
+                item.creator = post.author.displayName;
+                item.pubDate = post.publishedDate;
+                [controller.channel.items addObject:item];
+            }
         }
         completionHandler();
     };
 
     // Displays the output
     CRRouteBlock outputBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        controller.channel.title = @"Criollo Blog";
-        if ( controller.title.length > 0 ) {
-            controller.channel.title = [NSString stringWithFormat:@"%@ - %@", controller.channel.title, controller.title];
+        @autoreleasepool {
+            controller.channel.title = @"Criollo Blog";
+            if ( controller.title.length > 0 ) {
+                controller.channel.title = [NSString stringWithFormat:@"%@ - %@", controller.channel.title, controller.title];
+            }
+            controller.channel.link = @"https://criollo.io/";
+            NSData * output = controller.feed.XMLDocument.XMLData;
+            [response sendData:output];
         }
-        controller.channel.link = @"https://criollo.io/";
-        NSData * output = controller.feed.XMLDocument.XMLData;
-        [response sendData:output];
     };
 
     // Set content-type to XML
     [self add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [response setValue:@"application/rss+xml; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+        @autoreleasepool {
+            [response setValue:@"application/rss+xml; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+        }
         completionHandler();
     }];
 
@@ -146,8 +157,8 @@
     [self get:CWBlogArchiveYearMonthPath block:enumeratePostsBlock];
     [self get:CWBlogArchiveYearMonthPath block:outputBlock];
 
-    [self get:@"/" block:enumeratePostsBlock];
-    [self get:@"/" block:outputBlock];
+    [self get:CRPathSeparator block:enumeratePostsBlock];
+    [self get:CRPathSeparator block:outputBlock];
 }
 
 @end
