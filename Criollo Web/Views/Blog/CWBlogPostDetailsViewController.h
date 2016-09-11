@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogPostDetailsViewController : CRViewController
 
-@property (nonatomic, strong) CWBlogPost* post;
+@property (nonatomic, weak) CWBlogPost* post;
 
 - (instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil post:(CWBlogPost * _Nullable)post NS_DESIGNATED_INITIALIZER;
 

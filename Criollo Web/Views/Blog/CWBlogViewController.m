@@ -43,8 +43,8 @@ NS_ASSUME_NONNULL_END
     if ( self != nil ) {
         _contents = [[NSMutableString alloc] init];
         _title = @"Blog";
-        [self setupRoutes];
         _fetchPredicate = [NSPredicate predicateWithFormat:@"published = true"];
+        [self setupRoutes];
     }
     return self;
 }
@@ -52,137 +52,158 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Routing
 
 - (void)setupRoutes {
+
     CWBlogViewController* __weak controller = self;
 
     // Checks if a user is logged in and redirects to the login page
     CRRouteBlock authCheckBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        if ( !currentUser ) {
-            NSString* redirectLocation = [NSString stringWithFormat:@"%@?redirect=%@", CWLoginPath, [request.URL.absoluteURL.absoluteString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
-            [response redirectToLocation:redirectLocation];
-            return;
+        @autoreleasepool {
+            CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+            if ( !currentUser ) {
+                NSString* redirectLocation = [NSString stringWithFormat:@"%@?redirect=%@", CWLoginPath, [request.URL.absoluteURL.absoluteString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+                [response redirectToLocation:redirectLocation];
+                return;
+            }
         }
         completionHandler();
     };
 
     // Generates the fetchPredicate used for the post archive
     CRRouteBlock archiveBlock =  ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        // Get the month and year from the path
-        NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
-        NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
+        @autoreleasepool {
+            // Get the month and year from the path
+            NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
+            NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
 
-        CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
-        if ( period.year == 0 ) {
-            completionHandler();
-            return;
+            CWBlogArchivePeriod period = [CWBlog parseYear:year month:month];
+            if ( period.year == 0 ) {
+                completionHandler();
+                return;
+            }
+
+            // Build a predicate
+            CWBlogDatePair *datePair = [CWBlog datePairArchivePeriod:period];
+            controller.fetchPredicate = [NSPredicate predicateWithFormat:@"publishedDate >= %@ and publishedDate <= %@ and published = true", datePair.startDate, datePair.endDate];
+
+            // Set the page title
+            NSString* humanReadableMonth = @"";
+            if ( period.month != 0 ) {
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"MMMM"];
+                humanReadableMonth = [NSString stringWithFormat:@" %@ of", [formatter stringFromDate:datePair.startDate]];
+            }
+            NSString* humanReadableYear = period.year > 0 ? [NSString stringWithFormat:@" %lu", period.year] : @"";
+            controller.title = [NSString stringWithFormat:@"Posts published during%@%@", humanReadableMonth, humanReadableYear];
+            controller.showPageTitle = YES;
         }
-
-        // Build a predicate
-        CWBlogDatePair *datePair = [CWBlog datePairArchivePeriod:period];
-        controller.fetchPredicate = [NSPredicate predicateWithFormat:@"publishedDate >= %@ and publishedDate <= %@ and published = true", datePair.startDate, datePair.endDate];
-
-        // Set the page title
-        NSString* humanReadableMonth = @"";
-        if ( period.month != 0 ) {
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"MMMM"];
-            humanReadableMonth = [NSString stringWithFormat:@" %@ of", [formatter stringFromDate:datePair.startDate]];
-        }
-        NSString* humanReadableYear = period.year > 0 ? [NSString stringWithFormat:@" %lu", period.year] : @"";
-        controller.title = [NSString stringWithFormat:@"Posts published during%@%@", humanReadableMonth, humanReadableYear];
-        controller.showPageTitle = YES;
-
         completionHandler();
     };
 
     // Generates the fetchPredicate used for the tag post list
     CRRouteBlock tagBlock =  ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* handle = request.query[@"tag"];
-        controller.fetchPredicate = [NSPredicate predicateWithFormat:@"ANY tags.handle = %@ and published = true", handle];
-        CWBlogTag* tag = [CWBlogTag getByHandle:handle];
-        if ( tag ) {
-            controller.title = [NSString stringWithFormat:@"Posts tagged ”%@“", tag.name];
-            controller.showPageTitle = YES;
+        @autoreleasepool {
+            NSString* handle = request.query[@"tag"];
+            controller.fetchPredicate = [NSPredicate predicateWithFormat:@"ANY tags.handle = %@ and published = true", handle];
+            CWBlogTag* tag = [CWBlogTag getByHandle:handle];
+            if ( tag ) {
+                controller.title = [NSString stringWithFormat:@"Posts tagged ”%@“", tag.name];
+                controller.showPageTitle = YES;
+            }
         }
         completionHandler();
     };
 
     // Generates the fetchPredicate used for the author post list
     CRRouteBlock authorBlock =  ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSString* handle = request.query[@"author"];
-        controller.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@ and published = true", handle];
-        CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
-        if ( author ) {
-            controller.title = [NSString stringWithFormat:@"Posts by %@", author.displayName];
-            controller.showPageTitle = YES;
+        @autoreleasepool {
+            NSString* handle = request.query[@"author"];
+            controller.fetchPredicate = [NSPredicate predicateWithFormat:@"author.handle = %@ and published = true", handle];
+            CWBlogAuthor* author = [CWBlogAuthor getByHandle:handle];
+            if ( author ) {
+                controller.title = [NSString stringWithFormat:@"Posts by %@", author.displayName];
+                controller.showPageTitle = YES;
+            }
         }
         completionHandler();
     };
 
     // Displays the "new" post editing form
     CRRouteBlock newPostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [controller.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response]];
-        controller.title = @"Create New Blog Post";
-        controller.showPageTitle = NO;
+        @autoreleasepool {
+            NSString *renderedPost = [[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:nil] presentViewControllerWithRequest:request response:response];
+            [controller.contents appendString:renderedPost];
+            controller.title = @"Create New Blog Post";
+            controller.showPageTitle = NO;
+            renderedPost = nil;
+        }
         completionHandler();
     };
 
     // Displays a single blog post in full
     CRRouteBlock singlePostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
-        NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
-        NSString* handle = request.query[@"handle"] ? : request.query[@"2"];
-        CWBlogPost* post = [CWBlogPost getByHandle:handle year:year month:month];
-        if (post != nil) {
-            [controller.contents appendString:[[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response]];
-            controller.title = post.title;
-            controller.ogType = @"article";
-            controller.metaDescription = post.excerpt;
-            controller.url = [post permalinkForRequest:request];
-            controller.showPageTitle = NO;
+        @autoreleasepool {
+            NSUInteger year = (request.query[@"year"] ? : request.query[@"0"]).integerValue;
+            NSUInteger month = (request.query[@"month"] ? : request.query[@"1"]).integerValue;
+            NSString* handle = request.query[@"handle"] ? : request.query[@"2"];
+            CWBlogPost* post = [CWBlogPost getByHandle:handle year:year month:month];
+            if (post != nil) {
+                NSString * renderedPost = [[[CWBlogPostDetailsViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response];
+                [controller.contents appendString:renderedPost];
+                controller.title = post.title;
+                controller.ogType = @"article";
+                controller.metaDescription = post.excerpt;
+                controller.url = [post permalinkForRequest:request];
+                controller.showPageTitle = NO;
+            }
         }
         completionHandler();
     };
 
     // Actually fetches the posts according to the fetchPredicate and displays the list
     CRRouteBlock enumeratePostsBlock =  ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:self.fetchPredicate] sortedResultsUsingProperty:@"publishedDate" ascending:NO];
-        for ( CWBlogPost *post in posts ) {
-            CWBlogPostViewController* postViewController = [[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post];
-            [controller.contents appendString:[postViewController presentViewControllerWithRequest:request response:response]];
+        @autoreleasepool {
+            RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:controller.fetchPredicate] sortedResultsUsingProperty:@"publishedDate" ascending:NO];
+            for ( CWBlogPost *post in posts ) {
+                NSString * renderedPost = [[[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response];
+                [controller.contents appendString:renderedPost];
+            }
         }
         completionHandler();
     };
 
     // Checks if there is any content to display and prints out some text
     CRRouteBlock noContentsBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            // Bailout early if there's some contents
+            if ( controller.contents.length != 0 ) {
+                completionHandler();
+                return;
+            }
 
-        // Bailout early if there's some contents
-        if ( controller.contents.length != 0 ) {
-            completionHandler();
-            return;
+            // Write some message to the user
+            [controller.contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
+
+            // Check if there is a user and link to "add post"
+            CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
+            if ( !currentUser ) {
+                completionHandler();
+                return;
+            }
+
+            [controller.contents appendFormat:@"<p><a href=\"%@%@\">Add a new post</a>", CWBlogPath, CWBlogNewPostPath];
         }
-        [controller.contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
-
-        // Check if there is a user and link to "add post"
-        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        if ( !currentUser ) {
-            completionHandler();
-            return;
-        }
-
-        [controller.contents appendFormat:@"<p><a href=\"%@%@\">Add a new post</a>", CWBlogPath, CWBlogNewPostPath];
         completionHandler();
     };
 
     // Invokes the controller's presentViewControllerWithRequest:response: method and finishes the response
     CRRouteBlock presentViewControllerBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        [response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"Content-type"];
-        [response sendString:[controller presentViewControllerWithRequest:request response:response]];
+        @autoreleasepool {
+            [response setValue:@"text/html; charset=utf-8" forHTTPHeaderField:@"Content-type"];
+            NSString * renderedContent = [controller presentViewControllerWithRequest:request response:response];
+            [response sendString:renderedContent];
+        }
         completionHandler();
     };
-
-    // Add the routes
 
     // Feed
     [self add:CWBlogFeedPath controller:[CWBlogRSSController class] recursive:YES method:CRHTTPMethodGet];
@@ -230,13 +251,13 @@ NS_ASSUME_NONNULL_END
     [self get:CWBlogEditPostPath block:presentViewControllerBlock];
 
     // Default bblog page
-    [self get:@"/" block:enumeratePostsBlock];
-    [self get:@"/" block:noContentsBlock];
-    [self get:@"/" block:presentViewControllerBlock];
+    [self get:CRPathSeparator block:enumeratePostsBlock];
+    [self get:CRPathSeparator block:noContentsBlock];
+    [self get:CRPathSeparator block:presentViewControllerBlock];
 }
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
-    self.vars[@"content"] = self.contents;
+    self.vars[@"content"] = self.contents.copy;
     if (self.showPageTitle) {
         self.vars[@"content"] = [NSString stringWithFormat:@"<header class=\"page-header\"><h1 class=\"page-title\">%@</h1></header>%@", self.title, self.vars[@"content"]];
     }

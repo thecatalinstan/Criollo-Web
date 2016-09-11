@@ -22,7 +22,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil post:(CWBlogPost *)post {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil prefix:nil];
     if ( self != nil ) {
-        self.post = post;
+        _post = post;
     }
     return self;
 }
