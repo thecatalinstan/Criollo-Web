@@ -13,6 +13,7 @@
 #import "CWBlogTag.h"
 #import "CWBlogAuthor.h"
 #import "CWBlogPost.h"
+#import "CWAppDelegate.h"
 
 @interface CWBlogRSSController ()
 
@@ -121,7 +122,7 @@
             if ( controller.title.length > 0 ) {
                 controller.channel.title = [NSString stringWithFormat:@"%@ - %@", controller.channel.title, controller.title];
             }
-            controller.channel.link = @"https://criollo.io/";
+            controller.channel.link = [CWAppDelegate baseURL].absoluteString;
             NSData * output = controller.feed.XMLDocument.XMLData;
             [response sendData:output];
         }

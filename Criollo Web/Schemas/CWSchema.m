@@ -11,12 +11,12 @@
 #import "CWSchema.h"
 #import "CWBlog.h"
 #import "CWModel.h"
+#import "CWAppDelegate.h"
 
 @implementation CWSchema
 
 - (NSString *)permalinkForRequest:(CRRequest *)request {
-//    return [NSString stringWithFormat:@"%@://%@%@%@", request.URL.scheme, request.URL.host, request.URL.port.integerValue == 80 ? @"" : [NSString stringWithFormat:@":%@", request.URL.port], self.publicPath] ? : @"";
-    return [NSString stringWithFormat:@"https://criollo.io%@", self.publicPath] ? : @"";
+    return [CWAppDelegate baseURL].absoluteString;
 }
 
 #pragma mark - Realm
