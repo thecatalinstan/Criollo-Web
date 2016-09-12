@@ -16,7 +16,7 @@
 @implementation CWSchema
 
 - (NSString *)permalinkForRequest:(CRRequest *)request {
-    return [CWAppDelegate baseURL].absoluteString;
+    return [NSURL URLWithString:self.publicPath relativeToURL:[CWAppDelegate baseURL]].absoluteString;
 }
 
 #pragma mark - Realm
