@@ -142,6 +142,13 @@ NS_ASSUME_NONNULL_END
         }
     }];
 
+    // Env
+    [self get:CWAPIEnvPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        @autoreleasepool {
+            [response sendData:[CWAPIResponse successResponseWithData:request.env].toJSONData];
+        }
+    }];
+
     // Info
     [self get:CWAPIInfoPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         @autoreleasepool {
