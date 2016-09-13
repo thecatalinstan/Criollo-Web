@@ -14,6 +14,7 @@
 #define CWAPILogoutPath             @"/logout"
 #define CWAPIMePath       		 	@"/me"
 #define CWAPITracePath              @"/trace"
+#define CWAPIEnvPath                @"/env"
 #define CWAPIInfoPath               @"/info"
 #define CWAPIBlogPath               @"/blog"
 

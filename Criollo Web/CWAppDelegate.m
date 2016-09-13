@@ -24,8 +24,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSDate *processStartTime;
+static NSDate * processStartTime;
 static NSUInteger requestsServed;
+static NSURL * baseURL;
+static NSUInteger portNumber;
 
 @interface CWAppDelegate () <CRServerDelegate>
 
@@ -37,6 +39,7 @@ static NSUInteger requestsServed;
 - (void)setupBlog;
 
 @end
+
 NS_ASSUME_NONNULL_END
 
 @implementation CWAppDelegate {
@@ -49,7 +52,6 @@ NS_ASSUME_NONNULL_END
     backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
-
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -62,6 +64,14 @@ NS_ASSUME_NONNULL_END
 
     [self setupBaseDirectory];
     [self setupBlog];
+
+    portNumber = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Port"] integerValue] ? : DefaultPortNumber;
+    NSString * baseURLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"BaseURL"];
+    if ( !baseURLString ) {
+        NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
+        baseURLString = [NSString stringWithFormat:@"http://%@:%lu", address ? : @"127.0.0.1", (unsigned long)portNumber];
+    }
+    baseURL = [NSURL URLWithString:baseURLString];
 
     BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
@@ -139,17 +149,9 @@ NS_ASSUME_NONNULL_END
 
 - (void)startServer {
 
-    NSUInteger portNumber = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Port"] integerValue] ? : DefaultPortNumber;
     NSError *serverError;
     if ( [self.server startListening:&serverError portNumber:portNumber] ) {
-
-        // Get server ip address
-        NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
-
-        // Set the base url. This is only for logging
-        NSURL* baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%lu", address ? : @"127.0.0.1", (unsigned long)portNumber]];
-
-        [CRApp logFormat:@"%@ Started HTTP server at %@", [NSDate date], baseURL.absoluteString];
+        [CRApp logFormat:@"%@ Started HTTP server at %@", [NSDate date], baseURL];
 
         // Get the list of paths
         NSArray<NSString *> * routePaths = [self.server valueForKeyPath:@"routes.path"];
@@ -158,7 +160,7 @@ NS_ASSUME_NONNULL_END
             if ( [obj isKindOfClass:[NSNull class]] ) {
                 return;
             }
-            [paths addObject:[baseURL URLByAppendingPathComponent:obj]];
+            [paths addObject:[NSURL URLWithString:obj relativeToURL:baseURL]];
         }];
         NSArray<NSURL*>* sortedPaths =[paths sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"absoluteString" ascending:YES]]];
 
@@ -310,6 +312,10 @@ NS_ASSUME_NONNULL_END
         baseDirectory = [baseDirectory URLByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(__bridge NSString*)kCFBundleNameKey]];
     }
     return baseDirectory;
+}
+
++ (NSURL *)baseURL {
+    return baseURL;
 }
 
 @end

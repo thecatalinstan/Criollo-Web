@@ -266,7 +266,6 @@ NS_ASSUME_NONNULL_END
 
 + (NSArray<CWBlogPost *>*)relatedPostsForPost:(CWBlogPost *)post includeBlanks:(BOOL)flag {
     // This is a very very very hacky solution
-
     NSSet* tags = [NSSet setWithArray:[post valueForKeyPath:@"tags.name"]];
     NSMutableArray* commonTagCounts = [NSMutableArray array];
     RLMResults* posts = [CWBlogPost allObjectsInRealm:[CWBlog realm]];
