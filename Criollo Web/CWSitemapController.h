@@ -10,6 +10,6 @@
 
 @interface CWSitemapController : CRRouteController
 
-
++ (void)rebuildSitemap;
 
 @end

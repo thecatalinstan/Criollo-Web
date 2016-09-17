@@ -8,13 +8,15 @@
 
 #import <Criollo/Criollo.h>
 
-#define CWGitHubURL             @"https://github.com/thecatalinstan/Criollo"
-#define CWWebGitHubURL          @"https://github.com/thecatalinstan/Criollo-Web"
-#define CWSessionCookie         @"cwsession"
-#define CWCriolloVersion        @"0.4.5"
+#define CWRoutesChangedNotificationName     @"CWRoutesChangedNotification"
 
-#define CWStaticDirPath         @"/static"
-#define CWLoginPath             @"/login"
+#define CWGitHubURL                         @"https://github.com/thecatalinstan/Criollo"
+#define CWWebGitHubURL                      @"https://github.com/thecatalinstan/Criollo-Web"
+#define CWSessionCookie                     @"cwsession"
+#define CWCriolloVersion                    @"0.4.5"
+
+#define CWStaticDirPath                     @"/static"
+#define CWLoginPath                         @"/login"
 
 @class CWBlog;
 

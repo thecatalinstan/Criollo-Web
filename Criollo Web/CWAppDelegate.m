@@ -74,6 +74,12 @@ NS_ASSUME_NONNULL_END
     }
     baseURL = [NSURL URLWithString:baseURLString];
 
+    [CWSitemapController rebuildSitemap];
+    [[NSNotificationCenter defaultCenter] addObserverForName:CWRoutesChangedNotificationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        NSLog(@"%s", __PRETTY_FUNCTION__);
+        [CWSitemapController rebuildSitemap];
+    }];
+
     BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
     self.server = [[serverClass alloc] initWithDelegate:self];
