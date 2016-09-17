@@ -16,10 +16,8 @@
 #import "CWBlogViewController.h"
 #import "CWLoginPageViewController.h"
 #import "CWBlog.h"
-#import "CWBlogPost.h"
-#import "CWBlogTag.h"
-#import "CWBlogAuthor.h"
 #import "CWAPIController.h"
+#import "CWSitemapController.h"
 
 #define DefaultPortNumber          10781
 #define LogConnections          0
@@ -113,46 +111,7 @@ NS_ASSUME_NONNULL_END
     [self.server mount:CWStaticDirPath directoryAtPath:publicResourcesFolder options:CRStaticDirectoryServingOptionsCacheFiles|CRStaticDirectoryServingOptionsAutoIndex];
 
     // sitemap.xml
-    NSXMLElement *(^sitemapURLElementWithPath)(NSString * __Nonnull) = ^NSXMLElement * (NSString * path) { @autoreleasepool {
-        NSXMLElement * urlElement = [NSXMLElement elementWithName:@"url"];
-        [urlElement addChild:[NSXMLElement elementWithName:@"loc" stringValue:[NSURL URLWithString:path relativeToURL:baseURL].absoluteString]];
-        return urlElement;
-    }};
-    [self.server get:@"/sitemap.xml" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
-        [response setValue:@"application/xml; charset=utf-8" forHTTPHeaderField:@"Content-type"];
-
-        NSXMLElement *rootNode = [[NSXMLElement alloc] initWithName:@"urlset"];
-        [rootNode addNamespace:[NSXMLNode namespaceWithName:@"" stringValue:@"http://www.sitemaps.org/schemas/sitemap/0.9"]];
-        [rootNode addNamespace:[NSXMLNode predefinedNamespaceForPrefix:@"xsi"]];
-        [rootNode addAttribute:[NSXMLNode attributeWithName:@"xsi:schemaLocation" stringValue:@"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"]];
-
-        // root
-        [rootNode addChild:sitemapURLElementWithPath(CRPathSeparator)];
-
-        // blog
-        [rootNode addChild:sitemapURLElementWithPath(CWBlogPath)];
-
-        // posts
-        RLMResults * posts = [CWBlogPost getObjectsWhere:@"published=true"];
-        for ( CWBlogPost *post in posts ) {
-            [rootNode addChild:sitemapURLElementWithPath(post.publicPath)];
-        }
-
-        // tags
-        RLMResults * tags = [CWBlogTag allObjectsInRealm:[CWBlog realm]];
-        for ( CWBlogTag *tag in tags ) {
-            [rootNode addChild:sitemapURLElementWithPath(tag.publicPath)];
-        }
-
-        // authors
-        RLMResults * authors = [CWBlogAuthor allObjectsInRealm:[CWBlog realm]];
-        for ( CWBlogTag *author in authors ) {
-            [rootNode addChild:sitemapURLElementWithPath(author.publicPath)];
-        }
-
-        NSXMLDocument *xml = [[NSXMLDocument alloc] initWithRootElement:rootNode];
-        [response sendData:[xml XMLDataWithOptions:0]];
-    }}];
+    [self.server add:@"/sitemap.xml" controller:[CWSitemapController class]];
 
     // robots.txt
     [self.server add:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {

@@ -47,6 +47,7 @@
 		ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */; };
+		ADDF76881D8D4C3F008CD497 /* CWSitemapController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDF76871D8D4C3F008CD497 /* CWSitemapController.m */; };
 		ADE62C951D490E7C0023837F /* CWAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE62C921D490E7C0023837F /* CWAPIError.m */; };
 		ADE62C961D490E7C0023837F /* CWAPIResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE62C941D490E7C0023837F /* CWAPIResponse.m */; };
 		ADF347001CF1F7BE00EFC211 /* CWLoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF346FF1CF1F7BE00EFC211 /* CWLoginPageViewController.m */; };
@@ -188,6 +189,8 @@
 		ADD680021C6CBEC600FC41EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADD680091C6CBEC600FC41EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-icon-square-padded.png"; sourceTree = "<group>"; };
+		ADDF76861D8D4C3F008CD497 /* CWSitemapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSitemapController.h; sourceTree = "<group>"; };
+		ADDF76871D8D4C3F008CD497 /* CWSitemapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSitemapController.m; sourceTree = "<group>"; };
 		ADE62C7F1D490DBA0023837F /* CWSchemaProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWSchemaProxy.h; sourceTree = "<group>"; };
 		ADE62C911D490E7C0023837F /* CWAPIError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPIError.h; sourceTree = "<group>"; };
 		ADE62C921D490E7C0023837F /* CWAPIError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPIError.m; sourceTree = "<group>"; };
@@ -435,6 +438,8 @@
 				AD41F0451CE48DCE001ADEAC /* CWBlog.m */,
 				ADD67FFE1C6CBEC600FC41EE /* CWAppDelegate.h */,
 				ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */,
+				ADDF76861D8D4C3F008CD497 /* CWSitemapController.h */,
+				ADDF76871D8D4C3F008CD497 /* CWSitemapController.m */,
 			);
 			path = "Criollo Web";
 			sourceTree = "<group>";
@@ -663,6 +668,7 @@
 				ADB5AF9A1D49661A003C14B6 /* CWAPIBlogPost.m in Sources */,
 				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,
 				AD5200601D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m in Sources */,
+				ADDF76881D8D4C3F008CD497 /* CWSitemapController.m in Sources */,
 				ADF3C9D71C6DDA9800C0D5BC /* CWLandingPageViewController.m in Sources */,
 				AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */,
 				AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */,
