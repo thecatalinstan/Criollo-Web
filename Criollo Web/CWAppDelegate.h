@@ -24,6 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAppDelegate : NSObject <CRApplicationDelegate>
 
++ (NSURL *)baseDirectory;
++ (NSURL *)baseURL;
++ (dispatch_queue_t)backgroundQueue;
+
 + (NSString *)serverSpecString;
 
 + (NSString *)processName;
@@ -35,10 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)bundleVersion;
 
 + (NSString *)ETag;
-
-+ (NSURL *)baseDirectory;
-
-+ (NSURL *)baseURL;
 
 @end
 

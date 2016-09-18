@@ -29,6 +29,7 @@ static NSDate * processStartTime;
 static NSUInteger requestsServed;
 static NSURL * baseURL;
 static NSUInteger portNumber;
+static dispatch_queue_t backgroundQueue;
 
 @interface CWAppDelegate () <CRServerDelegate>
 
@@ -43,14 +44,13 @@ static NSUInteger portNumber;
 
 NS_ASSUME_NONNULL_END
 
-@implementation CWAppDelegate {
-    dispatch_queue_t backgroundQueue;
-}
+@implementation CWAppDelegate
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
     processStartTime = [NSDate date];
     requestsServed = 0;
-    backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    backgroundQueue = dispatch_queue_create([NSBundle mainBundle].bundleIdentifier.UTF8String, DISPATCH_QUEUE_SERIAL);
+    dispatch_set_target_queue(backgroundQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
 }
@@ -76,7 +76,6 @@ NS_ASSUME_NONNULL_END
 
     [CWSitemapController rebuildSitemap];
     [[NSNotificationCenter defaultCenter] addObserverForName:CWRoutesChangedNotificationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        NSLog(@"%s", __PRETTY_FUNCTION__);
         [CWSitemapController rebuildSitemap];
     }];
 
@@ -321,6 +320,10 @@ NS_ASSUME_NONNULL_END
 
 + (NSURL *)baseURL {
     return baseURL;
+}
+
++ (dispatch_queue_t)backgroundQueue {
+    return backgroundQueue;
 }
 
 @end
