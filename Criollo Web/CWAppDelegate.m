@@ -8,8 +8,8 @@
 
 #import <CSSystemInfoHelper/CSSystemInfoHelper.h>
 #import <CSOddFormatters/CSOddFormatters.h>
-//#import <Fabric/Fabric.h>
-//#import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 #import "CWAppDelegate.h"
 #import "CWLandingPageViewController.h"
@@ -58,9 +58,9 @@ NS_ASSUME_NONNULL_END
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
 //#ifndef DEBUG
-//    [Fabric with:@[[Crashlytics class]]];
-//    [CrashlyticsKit setUserIdentifier:[CSSystemInfoHelper sharedHelper].platformUUID];
-//    [CrashlyticsKit setUserName:[CSSystemInfoHelper sharedHelper].systemInfo[CSSystemInfoNodenameKey]];
+    [Fabric with:@[[Crashlytics class]]];
+    [CrashlyticsKit setUserIdentifier:[CSSystemInfoHelper sharedHelper].platformUUID];
+    [CrashlyticsKit setUserName:[CSSystemInfoHelper sharedHelper].systemInfo[CSSystemInfoNodenameKey]];
 //#endif
 
     [self setupBaseDirectory];
