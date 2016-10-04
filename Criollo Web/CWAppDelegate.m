@@ -8,8 +8,8 @@
 
 #import <CSSystemInfoHelper/CSSystemInfoHelper.h>
 #import <CSOddFormatters/CSOddFormatters.h>
-//#import <Fabric/Fabric.h>
-//#import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 #import "CWAppDelegate.h"
 #import "CWLandingPageViewController.h"
@@ -17,6 +17,7 @@
 #import "CWLoginPageViewController.h"
 #import "CWBlog.h"
 #import "CWAPIController.h"
+#import "CWSitemapController.h"
 
 #define DefaultPortNumber          10781
 #define LogConnections          0
@@ -28,6 +29,7 @@ static NSDate * processStartTime;
 static NSUInteger requestsServed;
 static NSURL * baseURL;
 static NSUInteger portNumber;
+static dispatch_queue_t backgroundQueue;
 
 @interface CWAppDelegate () <CRServerDelegate>
 
@@ -42,14 +44,13 @@ static NSUInteger portNumber;
 
 NS_ASSUME_NONNULL_END
 
-@implementation CWAppDelegate {
-    dispatch_queue_t backgroundQueue;
-}
+@implementation CWAppDelegate
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
     processStartTime = [NSDate date];
     requestsServed = 0;
-    backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    backgroundQueue = dispatch_queue_create([NSBundle mainBundle].bundleIdentifier.UTF8String, DISPATCH_QUEUE_SERIAL);
+    dispatch_set_target_queue(backgroundQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
 }
@@ -57,9 +58,9 @@ NS_ASSUME_NONNULL_END
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
 //#ifndef DEBUG
-//    [Fabric with:@[[Crashlytics class]]];
-//    [CrashlyticsKit setUserIdentifier:[CSSystemInfoHelper sharedHelper].platformUUID];
-//    [CrashlyticsKit setUserName:[CSSystemInfoHelper sharedHelper].systemInfo[CSSystemInfoNodenameKey]];
+    [Fabric with:@[[Crashlytics class]]];
+    [CrashlyticsKit setUserIdentifier:[CSSystemInfoHelper sharedHelper].platformUUID];
+    [CrashlyticsKit setUserName:[CSSystemInfoHelper sharedHelper].systemInfo[CSSystemInfoNodenameKey]];
 //#endif
 
     [self setupBaseDirectory];
@@ -72,6 +73,11 @@ NS_ASSUME_NONNULL_END
         baseURLString = [NSString stringWithFormat:@"http://%@:%lu", address ? : @"127.0.0.1", (unsigned long)portNumber];
     }
     baseURL = [NSURL URLWithString:baseURLString];
+
+    [CWSitemapController rebuildSitemap];
+    [[NSNotificationCenter defaultCenter] addObserverForName:CWRoutesChangedNotificationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [CWSitemapController rebuildSitemap];
+    }];
 
     BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
@@ -109,16 +115,16 @@ NS_ASSUME_NONNULL_END
     NSString* publicResourcesFolder = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Public"];
     [self.server mount:CWStaticDirPath directoryAtPath:publicResourcesFolder options:CRStaticDirectoryServingOptionsCacheFiles|CRStaticDirectoryServingOptionsAutoIndex];
 
+    // sitemap.xml
+    [self.server add:@"/sitemap.xml" controller:[CWSitemapController class]];
+
     // robots.txt
-    [self.server add:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
-        @autoreleasepool {
-            NSString* robotsString = @"User-agent: *\nAllow:\n";
-            [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-            [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
-            [response send:robotsString];
-        }
-        completionHandler();
-    }];
+    [self.server add:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
+        NSString* robotsString = @"User-agent: *\nAllow:\n";
+        [response setValue:@"text/plain; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
+        [response send:robotsString];
+    }}];
 
     // favicon.ico
     NSString* faviconPath = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
@@ -133,11 +139,9 @@ NS_ASSUME_NONNULL_END
     dispatch_once(&onceToken, ^{
         // Delay the shutdown for a bit
         reply = CRTerminateLater;
-
         // Close server connections
         [CRApp logFormat:@"%@ Closing server connections.", [NSDate date]];
         [self.server closeAllConnections:^{
-
             // Stop the server and close the socket cleanly
             [CRApp logFormat:@"%@ Sutting down server.", [NSDate date]];
             [self.server stopListening];
@@ -316,6 +320,10 @@ NS_ASSUME_NONNULL_END
 
 + (NSURL *)baseURL {
     return baseURL;
+}
+
++ (dispatch_queue_t)backgroundQueue {
+    return backgroundQueue;
 }
 
 @end

@@ -141,6 +141,9 @@ NS_ASSUME_NONNULL_END
             } else {
                 [CWAPIController failWithError:error request:request response:response];
             }
+
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:CWRoutesChangedNotificationName object:nil];
         }
     };
     [self put:CWBlogAPIPostsPath block:createOrUpdatePostBlock];
@@ -233,6 +236,8 @@ NS_ASSUME_NONNULL_END
             } else {
                 [CWAPIController failWithError:error request:request response:response];
             }
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:CWRoutesChangedNotificationName object:nil];
         }
     };
     [self put:CWBlogAPITagsPath block:createOrUpdateTagBlock];

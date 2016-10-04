@@ -8,19 +8,25 @@
 
 #import <Criollo/Criollo.h>
 
-#define CWGitHubURL             @"https://github.com/thecatalinstan/Criollo"
-#define CWWebGitHubURL          @"https://github.com/thecatalinstan/Criollo-Web"
-#define CWSessionCookie         @"cwsession"
-#define CWCriolloVersion        @"0.4.5"
+#define CWRoutesChangedNotificationName     @"CWRoutesChangedNotification"
 
-#define CWStaticDirPath         @"/static"
-#define CWLoginPath             @"/login"
+#define CWGitHubURL                         @"https://github.com/thecatalinstan/Criollo"
+#define CWWebGitHubURL                      @"https://github.com/thecatalinstan/Criollo-Web"
+#define CWSessionCookie                     @"cwsession"
+#define CWCriolloVersion                    @"0.4.5"
+
+#define CWStaticDirPath                     @"/static"
+#define CWLoginPath                         @"/login"
 
 @class CWBlog;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAppDelegate : NSObject <CRApplicationDelegate>
+
++ (NSURL *)baseDirectory;
++ (NSURL *)baseURL;
++ (dispatch_queue_t)backgroundQueue;
 
 + (NSString *)serverSpecString;
 
@@ -33,10 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)bundleVersion;
 
 + (NSString *)ETag;
-
-+ (NSURL *)baseDirectory;
-
-+ (NSURL *)baseURL;
 
 @end
 
