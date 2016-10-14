@@ -20,10 +20,8 @@
 #import "CWSitemapController.h"
 
 #define DefaultPortNumber          10781
-#define LogConnections          0
-#define LogRequests             1
-
-NS_ASSUME_NONNULL_BEGIN
+#define LogConnections             0
+#define LogRequests                1
 
 static NSDate * processStartTime;
 static NSUInteger requestsServed;
@@ -31,9 +29,11 @@ static NSURL * baseURL;
 static NSUInteger portNumber;
 static dispatch_queue_t backgroundQueue;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CWAppDelegate () <CRServerDelegate>
 
-@property (nonatomic, strong) CRHTTPServer *server;
+@property (nonatomic, strong) CRServer *server;
 @property (nonatomic, strong) CWBlog* blog;
 
 - (void)startServer;
@@ -57,11 +57,11 @@ NS_ASSUME_NONNULL_END
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-//#ifndef DEBUG
+#ifndef DEBUG
     [Fabric with:@[[Crashlytics class]]];
     [CrashlyticsKit setUserIdentifier:[CSSystemInfoHelper sharedHelper].platformUUID];
     [CrashlyticsKit setUserName:[CSSystemInfoHelper sharedHelper].systemInfo[CSSystemInfoNodenameKey]];
-//#endif
+#endif
 
     [self setupBaseDirectory];
     [self setupBlog];
