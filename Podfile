@@ -11,7 +11,7 @@ target 'Criollo Web' do
     pod 'JSONModel', '~> 1.7.0'
     pod 'JWT', '~> 2.2.0-beta', :inhibit_warnings => true
     pod 'MMMarkdown', '~> 0.5.0'
-    pod 'Realm', '~> 1.0.0'
+    pod 'Realm', '~> 2.0.0'
     pod 'STTwitter', '~> 0.2.0'
 end
 
