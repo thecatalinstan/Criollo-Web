@@ -500,9 +500,9 @@
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
 				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
-				AD51FF821CE21EC500F09203 /* Crashlytics */,
 				339AF7D27633BDB44379C147 /* [CP] Embed Pods Frameworks */,
 				A9ED9BC5124B0BF5AE3CF1B5 /* [CP] Copy Pods Resources */,
+				AD51FF821CE21EC500F09203 /* Crashlytics */,
 			);
 			buildRules = (
 				ADD5F4A81CCC3A37006019FF /* PBXBuildRule */,
