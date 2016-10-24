@@ -129,6 +129,10 @@ NS_ASSUME_NONNULL_END
     NSString *TwitterOAuthToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthToken"];
     NSString *TwitterOAuthTokenSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthTokenSecret"];
 
+    if ( TwitterKey.length == 0 || TwitterSecret.length == 0 || TwitterOAuthToken.length == 0 || TwitterOAuthTokenSecret.length == 0 ) {
+        return result;
+    }
+
     STTwitterAPI *twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TwitterKey consumerSecret:TwitterSecret oauthToken:TwitterOAuthToken oauthTokenSecret:TwitterOAuthTokenSecret];
 
     for ( CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm] ) {
@@ -147,6 +151,7 @@ NS_ASSUME_NONNULL_END
             [realm commitWriteTransaction];
         } errorBlock:^(NSError *error) {}];
     }
+    
     return result;
 }
 
