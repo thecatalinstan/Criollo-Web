@@ -83,6 +83,22 @@ NS_ASSUME_NONNULL_END
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
     self.server = [[serverClass alloc] initWithDelegate:self];
 
+    // Setup HTTPS
+    if ( !isFastCGI ) {
+        BOOL isSecure = [[NSUserDefaults standardUserDefaults] boolForKey:@"Secure"];
+        if ( isSecure ) {
+            NSString *certificatePath = [[CWAppDelegate baseDirectory].path stringByAppendingPathComponent:@"criollo_io.pem"];
+            NSString *certificateKeyPath = [[CWAppDelegate baseDirectory].path stringByAppendingPathComponent:@"criollo_io.key"];
+            if ( [[NSFileManager defaultManager] fileExistsAtPath:certificatePath] && [[NSFileManager defaultManager] fileExistsAtPath:certificateKeyPath]  ) {
+                ((CRHTTPServer *)self.server).isSecure = YES;
+                ((CRHTTPServer *)self.server).certificatePath = certificatePath;
+                ((CRHTTPServer *)self.server).certificateKeyPath = certificateKeyPath;
+            } else {
+                ((CRHTTPServer *)self.server).isSecure = NO;
+            }
+        }
+    }
+
     // Set some headers
     [self.server add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         // Server HTTP header
@@ -155,7 +171,7 @@ NS_ASSUME_NONNULL_END
 
     NSError *serverError;
     if ( [self.server startListening:&serverError portNumber:portNumber] ) {
-        [CRApp logFormat:@"%@ Started HTTP server at %@", [NSDate date], baseURL];
+        [CRApp logFormat:@"%@ Started %@HTTP server at %@", [NSDate date], ((CRHTTPServer *)self.server).isSecure ? @"secure " : @"", baseURL];
 
         // Get the list of paths
         NSArray<NSString *> * routePaths = [self.server valueForKeyPath:@"routes.path"];
