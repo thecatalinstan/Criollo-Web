@@ -9,7 +9,7 @@ target 'Criollo Web' do
     pod 'CSSystemInfoHelper', '~> 1.4.0'
     pod 'Fabric', '~> 1.6.7'
     pod 'JSONModel', '~> 1.7.0'
-    pod 'JWT', '~> 2.1.0', :inhibit_warnings => true
+    pod 'JWT', '~> 2.2.0-beta', :inhibit_warnings => true
     pod 'MMMarkdown', '~> 0.5.0'
     pod 'Realm', '~> 1.0.0'
     pod 'STTwitter', '~> 0.2.0'
