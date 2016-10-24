@@ -66,19 +66,7 @@ NS_ASSUME_NONNULL_END
     [self setupBaseDirectory];
     [self setupBlog];
 
-    portNumber = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Port"] integerValue] ? : DefaultPortNumber;
-    NSString * baseURLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"BaseURL"];
-    if ( !baseURLString ) {
-        NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
-        baseURLString = [NSString stringWithFormat:@"http://%@:%lu", address ? : @"127.0.0.1", (unsigned long)portNumber];
-    }
-    baseURL = [NSURL URLWithString:baseURLString];
-
-    [CWSitemapController rebuildSitemap];
-    [[NSNotificationCenter defaultCenter] addObserverForName:CWRoutesChangedNotificationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        [CWSitemapController rebuildSitemap];
-    }];
-
+    // Setup server
     BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
     self.server = [[serverClass alloc] initWithDelegate:self];
@@ -94,10 +82,30 @@ NS_ASSUME_NONNULL_END
                 ((CRHTTPServer *)self.server).certificatePath = certificatePath;
                 ((CRHTTPServer *)self.server).certificateKeyPath = certificateKeyPath;
             } else {
+                [CRApp logErrorFormat:@"%@ HTTPS requested, but certificate and/or private key files were not found. Defaulting to HTTP.", [NSDate date]];
+                if ( ![[NSFileManager defaultManager] fileExistsAtPath:certificatePath] ) {
+                    [CRApp logErrorFormat:@"%@ Certificate file not found: %@", [NSDate date], certificatePath];
+                }
+                if ( ![[NSFileManager defaultManager] fileExistsAtPath:certificateKeyPath] ) {
+                    [CRApp logErrorFormat:@"%@ Private key file not found: %@", [NSDate date], certificateKeyPath];
+                }
                 ((CRHTTPServer *)self.server).isSecure = NO;
             }
         }
     }
+
+    portNumber = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Port"] integerValue] ? : DefaultPortNumber;
+    NSString * baseURLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"BaseURL"];
+    if ( !baseURLString ) {
+        NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
+        baseURLString = [NSString stringWithFormat:@"http%@://%@:%lu", isFastCGI ? @"" : (((CRHTTPServer *)self.server).isSecure ? @"s" : @"" ),address ? : @"127.0.0.1", (unsigned long)portNumber];
+    }
+    baseURL = [NSURL URLWithString:baseURLString];
+
+    [CWSitemapController rebuildSitemap];
+    [[NSNotificationCenter defaultCenter] addObserverForName:CWRoutesChangedNotificationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [CWSitemapController rebuildSitemap];
+    }];
 
     // Set some headers
     [self.server add:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
@@ -184,9 +192,9 @@ NS_ASSUME_NONNULL_END
         }];
         NSArray<NSURL*>* sortedPaths =[paths sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"absoluteString" ascending:YES]]];
 
-        [CRApp logFormat:@"Available paths are:"];
+        [CRApp logFormat:@"%@ Available paths are:", [NSDate date]];
         [sortedPaths enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [CRApp logFormat:@" * %@", obj.absoluteString];
+            [CRApp logFormat:@"%@ * %@", [NSDate date], obj.absoluteString];
         }];
 
     } else {
