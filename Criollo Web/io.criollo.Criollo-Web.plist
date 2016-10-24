@@ -17,6 +17,8 @@
 		<string>10781</string>
 		<string>-BaseURL</string>
 		<string>https://criollo.io/</string>
+        <string>-Secure</string>
+        <string>NO</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
