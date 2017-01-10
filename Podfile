@@ -3,7 +3,7 @@ use_frameworks!
 
 target 'Criollo Web' do
     pod 'Crashlytics', '~> 3.8.0'
-    pod 'Criollo', '~> 0.4.0'
+    pod 'Criollo', '~> 0.4.13'
     pod 'CSFeedKit', '~> 0.2.0'
     pod 'CSOddFormatters', '~> 1.1.0'
     pod 'CSSystemInfoHelper', '~> 1.4.0'
