@@ -176,7 +176,7 @@ NS_ASSUME_NONNULL_END
         @autoreleasepool {
             NSString* q = request.query[@"q"];
 
-            RLMResults* tags = [[CWBlogTag getObjectsWhere:@"name contains[c] %@", q] sortedResultsUsingProperty:@"name" ascending:YES];
+            RLMResults* tags = [[CWBlogTag getObjectsWhere:@"name contains[c] %@", q] sortedResultsUsingKeyPath:@"name" ascending:YES];
             NSMutableArray* result = [NSMutableArray array];
             for ( CWBlogTag* tag in tags ) {
                 [result addObject:tag.modelObject.toDictionary];

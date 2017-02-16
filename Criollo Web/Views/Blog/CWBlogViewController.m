@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_END
     // Actually fetches the posts according to the fetchPredicate and displays the list
     CRRouteBlock enumeratePostsBlock =  ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         @autoreleasepool {
-            RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:controller.fetchPredicate] sortedResultsUsingProperty:@"publishedDate" ascending:NO];
+            RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:controller.fetchPredicate] sortedResultsUsingKeyPath:@"publishedDate" ascending:NO];
             for ( CWBlogPost *post in posts ) {
                 NSString * renderedPost = [[[CWBlogPostViewController alloc] initWithNibName:nil bundle:nil post:post] presentViewControllerWithRequest:request response:response];
                 [controller.contents appendString:renderedPost];
