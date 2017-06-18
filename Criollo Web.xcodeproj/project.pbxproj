@@ -89,7 +89,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).js",
 			);
-			script = "\"$PROJECT_DIR/node_modules/rollup/bin/rollup\" -c \"$PROJECT_DIR/Criollo Web/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\" -m inline";
+			script = "\"$PROJECT_DIR/node_modules/rollup/bin/rollup\" -c \"$PROJECT_DIR/Criollo Web/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\"";
 		};
 /* End PBXBuildRule section */
 
