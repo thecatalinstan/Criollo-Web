@@ -8,7 +8,7 @@ const getStats = (container) => {
       stats = `${data.processName} ${data.processVersion}${memoryUsage}, running for ${data.runningTime} on ${data.unameSystemVersion}. Served ${data.requestsServed} requests.`
     }
     container.innerHTML = stats
-    window.setTimeout(getStats.bind(null, container), 3000)
+    window.setTimeout(getStats.bind(null, container), 1000)
   }, console.error)
 }
 
