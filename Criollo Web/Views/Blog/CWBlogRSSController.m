@@ -103,7 +103,7 @@
     // Actually fetches the posts according to the fetchPredicate and displays the list
     CRRouteBlock enumeratePostsBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
         @autoreleasepool {
-            RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:controller.fetchPredicate] sortedResultsUsingProperty:@"publishedDate" ascending:NO];
+            RLMResults* posts = [[CWBlogPost getObjectsWithPredicate:controller.fetchPredicate] sortedResultsUsingKeyPath:@"publishedDate" ascending:NO];
             controller.channel.pubDate = ((CWBlogPost*)posts.firstObject).publishedDate;
             for ( CWBlogPost *post in posts ) {
                 CSRSSFeedItem * item = [[CSRSSFeedItem alloc] initWithTitle:post.title link:[post permalinkForRequest:request] description:post.renderedContent];

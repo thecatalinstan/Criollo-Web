@@ -10,7 +10,7 @@ html(lang="en")
             img(src="{{static-dir}}/logoWithTextLight.svg?{{etag}}",alt="")
         h2 A powerful Cocoa based web application framework
           br
-          |&nbsp;for macOS and iOS
+          |&nbsp;for macOS, iOS and tvOS
         .get-started
           a(href="{{github-url}}/wiki/Getting-Started") Get Started
           a(href="{{github-url}}/archive/{{criollo-ver}}.zip") Download ver. {{criollo-ver}}
@@ -21,27 +21,76 @@ html(lang="en")
             img(src="https://img.shields.io/cocoapods/v/Criollo.svg?style=flat",alt="Version Status")
           a(href="http://cocoapods.org/?q=Criollo")
             img(src="https://img.shields.io/cocoapods/p/Criollo.svg?style=flat",alt="Platform")
+          a(href="https://github.com/Carthage/Carthage")
+            img(src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat",alt="Carthage compatible")
           a(href="https://opensource.org/licenses/MIT")
             img(src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat",alt="MIT License")
           a(href="http://twitter.com/Criolloio")
             img(src="https://img.shields.io/badge/twitter-@Criolloio-orange.svg?style=flat",alt="Twitter")
-        p Criollo helps create fast standalone web apps that deliver content directly over HTTP or FastCGI. You can write code in Swift or Objective-C, using the technologies you are already familiar with. It's as easy as this:
+          a(href="https://gitter.im/criollo-io/Lobby")
+            img(src="https://img.shields.io/gitter/room/criollo-io/Lobby.svg?style=flat",alt="Gitter")
+        p Criollo helps create fast standalone or embedded web apps that deliver content directly over HTTP or FastCGI. You can write code in Swift or Objective-C and you can use the Cocoa technologies you already know. It's as easy as this:
         .hello-world
           pre
             code.swift
               |let server = CRHTTPServer()
-              |server.get("/") { (request, response, completionHandler) in
-              |   response.send("Hello world!")
+              |server.get("/") { (req, res, next) in
+              |  res.send("Hello world!")
               |}
               |server.startListening()
           p ... and in Objective-C:
           pre
             code.objc
               |CRServer* server = [[CRHTTPServer alloc] init];
-              |[server get:@"/" block:^(CRRequest * request, CRResponse * response, CRRouteCompletionBlock completionHandler) {
-              |   [response send:@"Hello world!"];
+              |[server get:@"/" block:^(CRRequest *req, CRResponse *res, CRRouteCompletionBlock next) {
+              |  [res send:@"Hello world!"];
               |}];
               |[server startListening];
+    section.key-features
+      .content
+        h2 Key Features
+        p Criollo is designed with speed, security and flexibility in mind, that's why it comes with a few very useful features out of the box, thus allowing you to focus on the actual job your project needs to do, without having to jump through hoops in order to make it happen.
+        ul.key-features
+          li.feature#feature-https
+            h3 HTTPS
+            p Criollo fully supports HTTPS on all platforms. You can pass the credentials as a PKCS#12 identity and password, or an X509 certificate and private key pair, either PEM or DER encoded.
+            p
+              a(href="{{github-url}}#https") More on HTTPS in Criollo
+          li.feature#feature-routing
+            h3 Routing
+            p When defining routes, paths can be specified in three ways: fixed string (ex.
+              code /api
+              |), placeholders (ex.
+              code /posts/:pid
+              |) and regex patterns (ex.
+              code /[0-9]{4}/[0-9]{1,2}/[a-zA-Z0-9-]+
+              |).
+            p
+              a(href="{{github-url}}#routing") More on routing in Criollo
+          li.feature#feature-controllers
+            h3 Controllers
+            p Controllers provide a very simple way of grouping functionality into one semantical unit. They function as routers and allow you to define routes based on paths relative to the path they are themselves attached to.;
+            p
+             a(href="{{github-url}}#controllers") More on controllers in Criollo
+          li.feature#feature-views-and-view-controllers
+            h3 Views and View Controllers
+            p View controllers render view objects, constructed from HTML resource files by calling the view's
+              code render
+              |method. View controllers are powerful objects that allow you to easily standardise an app's appearance and group functionality together into a coherent unit.;
+            p
+              a(href="{{github-url}}#views-and-view-controllers") More on views and view controllers in Criollo
+          li.feature#feature-static-filedirectory-serving
+            h3 Static File/Directory Serving
+            p Criollo comes with built-in support for easily exposing the contents of both directories and individual files over HTTP.
+            p
+              a(href="{{github-url}}#static-filedirectory-serving") More on static file/directory serving in Criollo
+          li.feature#feature-multipart-file-uploads
+            h3 Multipart File Uploads
+            p Criollo comes with builtin support for handling
+              code multipart/form-data
+              |POST requests, so that you can handle HTML file uploads out of the box.
+            p
+              a(href="{{github-url}}#multipart-file-uploads") More on multipart file uploads in Criollo
     section#getting-started.getting-started
       .content
         h2 Getting Started
@@ -69,14 +118,14 @@ html(lang="en")
     section.how
       .content
         h2 How to Use
-        p Criollo can easily be embedded as a web-server inside your macOS or iOS app, should you be in need of such a feature, however it was designed to create standalone, long-lived daemon style apps.
+        p Criollo can easily be embedded as a web-server inside your macOS, iOS or tvOS app, should you be in need of such a feature, however it was designed to create standalone, long-lived daemon style apps.
         p It is fully &nbsp;
           a(href="http://launchd.info/") launchd
           |&nbsp;compatible and replicates the lifecycle and behaviour of NSApplication, so that the learning curve should be as smooth as possible.
     section.why
       .content
         h2 Why?
-        p Criollo was created in order to take advantage of the truly awesome tools and APIs that macOS and iOS provide and serve content produced with them over the web.
+        p Criollo was created in order to take advantage of the truly awesome tools and APIs that macOS, iOS and tvOS provide and serve content produced with them over the web.
         p It incorporates an HTTP web server and a&nbsp;
           a(href="http://fastcgi.com") FastCGI
           |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.

@@ -5,7 +5,9 @@ import nodeResolve from 'rollup-plugin-node-resolve'
 import uglify from 'rollup-plugin-uglify'
 
 export default {
-  moduleName: 'criollo-web',
+  output: {
+    name: 'criollo_web',
+  },
   plugins: [
     json(),
     nodeResolve(),

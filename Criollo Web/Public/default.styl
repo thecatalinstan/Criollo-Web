@@ -51,7 +51,23 @@ body
 
 p
   margin 1.5em 0
+
+p, ul, li
   line-height 1.5em
+
+code
+  font-family monotype-font-family
+  background-color alpha(criollo-light-gray, 0.25)
+  font-size 0.9em
+  font-weight 100
+  padding 2px 5px
+  border 1px solid alpha(criollo-dark-gray, 0.25)
+  border-radius 4px
+  margin-right 3px
+  margin-left 3px
+
+strong
+  font-weight 700
 
 a
   color link-color
@@ -225,6 +241,47 @@ body
           padding 1.5em 1em
           box-sizing border-box
           overflow-scrolling touch
+
+    &.key-features
+      whitespace wrap
+
+      ul.key-features
+        margin 1.5em 0
+
+        li.feature
+          display inline-block
+          text-align left
+          width 50%
+          padding 1.5em
+          vertical-align top
+          box-sizing border-box
+
+          @media screen and (max-width: phone-cutoff)
+            padding 0.5em 1.5em
+            width 100%
+            text-align center
+
+          p
+            margin-left 0
+            margin-right 0
+
+          ul
+            li
+              list-style-type disc
+
+          ol
+            li
+              list-style-type decimal
+
+          ul,
+          ol
+            font-size 0.9em
+            margin 1.5em 0 1.5em 3em
+            line-height 1.5em
+            list-style-position outside
+
+            li
+              padding-left 0.5em
 
     &.getting-started
 
