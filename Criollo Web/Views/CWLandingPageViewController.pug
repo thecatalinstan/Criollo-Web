@@ -53,78 +53,44 @@ html(lang="en")
         ul.key-features
           li.feature#feature-https
             h3 HTTPS
-            p Criollo fully supports HTTPS on all platforms. You can pass the credentials as a PKCS#12 identity and password, or an X509 certificate and private key pair, either PEM or DER encoded.&nbsp;
-              a(href="{{github-url}}#https") read more
+            p Criollo fully supports HTTPS on all platforms. You can pass the credentials as a PKCS#12 identity and password, or an X509 certificate and private key pair, either PEM or DER encoded.
+            p
+              a(href="{{github-url}}#https") More on HTTPS in Criollo
           li.feature#feature-routing
             h3 Routing
-            p When defining routes, paths can be specified in three ways:
-            ul
-              li
-                strong Fixed string
-                |&nbsp;(ex.&nbsp;
-                code /api
-                |). This will match the string exactly.
-              li
-                strong Placeholders
-                |&nbsp;(ex.&nbsp;
-                code /posts/:pid
-                |). The next path component after&nbsp;
-                code /posts
-                |, will be matched and added to&nbsp;
-                code request.query
-                |, under the&nbsp;
-                code pid
-                |&nbsp;key.
-              li
-                strong Regex patterns
-                |&nbsp;(ex.&nbsp;
-                code /[0-9]{4}/[0-9]{1,2}/[a-zA-Z0-9-]+
-                |). When the three patterns are matched, they are added to&nbsp;
-                code request.query
-                |, under the keys&nbsp;
-                code 0
-                |,&nbsp;
-                code 1
-                |&nbsp;and&nbsp;
-                code 2
-                |&nbsp;respectively.
+            p When defining routes, paths can be specified in three ways: fixed string (ex.
+              code /api
+              |), placeholders (ex.
+              code /posts/:pid
+              |) and regex patterns (ex.
+              code /[0-9]{4}/[0-9]{1,2}/[a-zA-Z0-9-]+
+              |).
             p
-              a(href="{{github-url}}#routing") read more
+              a(href="{{github-url}}#routing") More on routing in Criollo
           li.feature#feature-controllers
             h3 Controllers
-            p Controllers provide a very simple way of grouping functionality into one semantical unit. They function as routers and allow you to define routes based on paths relative to the path they are themselves attached to.&nbsp;
-              a(href="{{github-url}}#controllers") read more
+            p Controllers provide a very simple way of grouping functionality into one semantical unit. They function as routers and allow you to define routes based on paths relative to the path they are themselves attached to.;
+            p
+             a(href="{{github-url}}#controllers") More on controllers in Criollo
           li.feature#feature-views-and-view-controllers
             h3 Views and View Controllers
-            p View controllers render view objects, constructed from HTML resource files by calling the view's&nbsp;
+            p View controllers render view objects, constructed from HTML resource files by calling the view's
               code render
-              |&nbsp;method. This is achieved by the&nbsp;
-              code CRViewConroller
-              |,&nbsp;
-              code CRView
-              |&nbsp;and&nbsp;
-              code CRNib
-              |&nbsp;APIs respectively.
-            p View controllers are powerful objects that allow you to easily standardise an app's appearance and group functionality together into a coherent unit.&nbsp;
-              a(href="{{github-url}}#views-and-view-controllers") read more
+              |method. View controllers are powerful objects that allow you to easily standardise an app's appearance and group functionality together into a coherent unit.;
+            p
+              a(href="{{github-url}}#views-and-view-controllers") More on views and view controllers in Criollo
           li.feature#feature-static-filedirectory-serving
             h3 Static File/Directory Serving
-            p Criollo comes with built-in support for exposing both directories and individual over HTTP. The&nbsp;
-              code CRStaticFileManager
-              |&nbsp;and&nbsp;
-              code CRStaticDirectoryManager
-              |&nbsp;APIs enable you to do this.&nbsp;
-              a(href="{{github-url}}#static-filedirectory-serving") read more
+            p Criollo comes with built-in support for easily exposing the contents of both directories and individual files over HTTP.
+            p
+              a(href="{{github-url}}#static-filedirectory-serving") More on static file/directory serving in Criollo
           li.feature#feature-multipart-file-uploads
             h3 Multipart File Uploads
-            p Criollo comes with builtin support for handling&nbsp;
+            p Criollo comes with builtin support for handling
               code multipart/form-data
-              |&nbsp;POST requests, so that you can handle HTML file uploads out of the box. Uploaded files are provided in&nbsp;
-              code request.files
-              |, as an array of&nbsp;
-              code CRUploadedFile
-              |&nbsp;objects.&nbsp;
-              a(href="{{github-url}}#multipart-file-uploads") read more
+              |POST requests, so that you can handle HTML file uploads out of the box.
+            p
+              a(href="{{github-url}}#multipart-file-uploads") More on multipart file uploads in Criollo
     section#getting-started.getting-started
       .content
         h2 Getting Started

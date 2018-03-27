@@ -18,7 +18,7 @@
 #define CWStaticDirPath                     @"/static"
 #define CWLoginPath                         @"/login"
 
-@class CWBlog;
+@class CWBlog;  
 
 NS_ASSUME_NONNULL_BEGIN
 
