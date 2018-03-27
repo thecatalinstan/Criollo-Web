@@ -47,6 +47,7 @@ static NSString * imagePath;
     self.vars[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
     self.vars[@"etag"] = [CWAppDelegate ETag];
     self.vars[@"redirect"] = request.query[@"redirect"] ? : @"";
+    self.vars[@"year"] = @([NSCalendar.currentCalendar component:NSCalendarUnitYear fromDate:NSDate.date]).stringValue;
 
     return [super presentViewControllerWithRequest:request response:response];
 

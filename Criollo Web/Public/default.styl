@@ -10,15 +10,15 @@
 // Layout colors and fonts
 body-color                          = criollo-dark-gray
 masthead-color                      = criollo-light-gray
-masthead-background-color           = criollo-orange
+masthead-background-color           = criollo-black
 heading-color                       = criollo-dark-orange
 link-color                          = criollo-orange
 link-hover-color                    = criollo-light-orange
 footer-color                        = criollo-light-gray
-footer-background-color             = criollo-dark-orange
-footer-link-color                   = link-hover-color
-footer-link-hover-color             = white
-footer-heading-color                = white
+footer-background-color             = criollo-black
+footer-link-color                   = criollo-light-orange
+footer-link-hover-color             = criollo-light-gray
+footer-heading-color                = criollo-light-gray
 
 body,
 html
@@ -28,7 +28,9 @@ html
 body
   font-size 16px
   font-family body-font-family
+  font-weight 300
   color criollo-dark-gray
+  background-color criollo-black
 
 h1
   font-size 3.6em
@@ -59,7 +61,7 @@ code
   font-family monotype-font-family
   background-color alpha(criollo-light-gray, 0.25)
   font-size 0.9em
-  font-weight 100
+  font-weight 400
   padding 2px 5px
   border 1px solid alpha(criollo-dark-gray, 0.25)
   border-radius 4px
@@ -67,7 +69,7 @@ code
   margin-left 3px
 
 strong
-  font-weight 700
+  font-weight 600
 
 a
   color link-color
@@ -190,18 +192,19 @@ body
           line-height @height
           margin 0 1em
           padding 0 1em
-          background-color criollo-dark-orange
+          background-color criollo-orange
           color criollo-light-gray
           font-family heading-font-family
           font-size 1.1em
           text-decoration none
+          border-radius 4px
 
           @media screen and (max-width: phone-cutoff)
             margin-bottom 1em
 
           &:hover
-            background-color criollo-light-gray
-            color criollo-dark-orange
+            background-color criollo-light-orange
+            color criollo-dark-gray
             text-decoration underline
 
 
@@ -326,15 +329,17 @@ body
       height auto
       max-height auto
       min-height 0
-      background-color alpha(criollo-light-orange, 0.85)
-      padding 0.5em 0
+      background-color criollo-orange
+      color criollo-medium-gray
+      padding 0.5em 1em 0.4em 1em
+      border none
 
       .content
         font-family monotype-font-family
         font-size 0.65em
-        padding 0 1em
         text-align center
         vertical-align middle
+        line-height 1.2em
 
         p
           margin 0
