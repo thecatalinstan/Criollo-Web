@@ -121,6 +121,7 @@
 		3A5692741C9B200D003C99EC /* logoWithTextLight.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = logoWithTextLight.svg; sourceTree = "<group>"; };
 		3A5692761C9B2012003C99EC /* logoDark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = logoDark.svg; sourceTree = "<group>"; };
 		3ACC94C01C9BFAEF000C6180 /* githubMark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = githubMark.svg; sourceTree = "<group>"; };
+		4A1E2669206A7E0F00BB1DE7 /* rollup-config.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "rollup-config.js"; path = "Criollo Web/rollup-config.js"; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
 		AD089EE51C998E6E007434A1 /* criollo-web-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-web-icon.png"; sourceTree = "<group>"; };
 		AD0A14781D48EA27003D8DAB /* CWSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSchema.h; sourceTree = "<group>"; };
@@ -411,6 +412,7 @@
 			children = (
 				ADD67FFD1C6CBEC600FC41EE /* Criollo Web */,
 				ADD67FFC1C6CBEC600FC41EE /* Products */,
+				4A1E2669206A7E0F00BB1DE7 /* rollup-config.js */,
 				709A6020531EDF3F8726A547 /* Frameworks */,
 				3B4AB3685CC022DAC9266374 /* Pods */,
 			);
