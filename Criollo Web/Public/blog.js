@@ -248,7 +248,7 @@ const setupEditor = (postElement, post) => {
       post.handle = handleEditor.value
     }
     post.content = contentEditor.value
-    post.excerpt = excerptEditor.textContent
+    post.excerpt = excerptEditor.value
     post.tags = tokenField.getItems().map ( (item) => {
       if ( item.isNew ) {
         return { 'name': item.name }
