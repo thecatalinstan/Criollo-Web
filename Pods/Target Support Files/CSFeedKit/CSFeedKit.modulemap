@@ -1,0 +1,6 @@
+framework module CSFeedKit {
+  umbrella header "CSFeedKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

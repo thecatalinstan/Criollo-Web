@@ -18,9 +18,6 @@ DerivedData
 *.xcuserstate
 
 .DS_Store
-Pods
-Podfile.lock
-Criollo Web.xcworkspace
 
 # Logs
 logs
@@ -46,9 +43,6 @@ coverage
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
-
-# Dependency directory
-node_modules
 
 # Optional npm cache directory
 .npm

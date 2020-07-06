@@ -1,0 +1,6 @@
+framework module CSOddFormatters {
+  umbrella header "CSOddFormatters-umbrella.h"
+
+  export *
+  module * { export * }
+}

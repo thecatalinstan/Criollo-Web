@@ -1,0 +1,6 @@
+framework module CSSystemInfoHelper {
+  umbrella header "CSSystemInfoHelper-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,58 @@
+PODS:
+  - Base64 (1.1.2)
+  - CocoaAsyncSocket (7.6.4)
+  - Criollo (1.0.0):
+    - CocoaAsyncSocket (~> 7.6.4)
+  - CSFeedKit (0.2.1)
+  - CSOddFormatters (1.1.1)
+  - CSSystemInfoHelper (1.4.2)
+  - JSONModel (1.7.0)
+  - JWT (3.0.0-beta.12):
+    - Base64 (~> 1.1.2)
+  - MMMarkdown (0.5.5)
+  - Realm (3.3.2):
+    - Realm/Headers (= 3.3.2)
+  - Realm/Headers (3.3.2)
+  - STTwitter (0.2.6)
+
+DEPENDENCIES:
+  - Criollo (~> 1.0.0)
+  - CSFeedKit (~> 0.2.0)
+  - CSOddFormatters (~> 1.1.1)
+  - CSSystemInfoHelper (~> 1.4.0)
+  - JSONModel (~> 1.7.0)
+  - JWT (~> 3.0.0-beta8)
+  - MMMarkdown (~> 0.5.0)
+  - Realm (~> 3.3.0)
+  - STTwitter (~> 0.2.0)
+
+SPEC REPOS:
+  trunk:
+    - Base64
+    - CocoaAsyncSocket
+    - Criollo
+    - CSFeedKit
+    - CSOddFormatters
+    - CSSystemInfoHelper
+    - JSONModel
+    - JWT
+    - MMMarkdown
+    - Realm
+    - STTwitter
+
+SPEC CHECKSUMS:
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
+  CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
+  Criollo: 47ea4abdc751fa46c140ad2f37c81102d36b90ea
+  CSFeedKit: 5c470bdc1992afcdd28e8c629de41ed2ae65850c
+  CSOddFormatters: bb620a585778e0f92d4ac4d93e2f7dcaec84b9eb
+  CSSystemInfoHelper: 927da800edb3f5afe96a44fb0f09e0487ffcd8a5
+  JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
+  JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
+  MMMarkdown: 1af97166ce0f6d6e0cb05695665492195d27c3f1
+  Realm: d927fbf66df5532cfafc08afb5f7e53ded37b894
+  STTwitter: 30ee2f79eff78c3d633a1edc869e97db9c9ead59
+
+PODFILE CHECKSUM: b3f7a90921a99ac8040497d1688d6b583d922403
+
+COCOAPODS: 1.9.3
