@@ -4,7 +4,9 @@
   "description": "This is the [Criollo.io](https://criollo.io) website.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,8 @@
     "tokenfield": "^0.9.1"
   },
   "dependencies": {
-    "babel-core": "^6.26.0"
-  }
+    "babel-core": "^6.26.0",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
