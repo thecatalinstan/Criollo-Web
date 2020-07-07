@@ -1,7 +1,7 @@
 PODS:
   - Base64 (1.1.2)
   - CocoaAsyncSocket (7.6.4)
-  - Criollo (1.0.0):
+  - Criollo (1.0.1):
     - CocoaAsyncSocket (~> 7.6.4)
   - CSFeedKit (0.2.1)
   - CSOddFormatters (1.1.1)
@@ -16,7 +16,7 @@ PODS:
   - STTwitter (0.2.6)
 
 DEPENDENCIES:
-  - Criollo (~> 1.0.0)
+  - Criollo (= 1.0.1)
   - CSFeedKit (~> 0.2.0)
   - CSOddFormatters (~> 1.1.1)
   - CSSystemInfoHelper (~> 1.4.0)
@@ -43,7 +43,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
-  Criollo: 47ea4abdc751fa46c140ad2f37c81102d36b90ea
+  Criollo: 8122c5dbdf7dcf590e0d6b5d9e75e2073cd6234d
   CSFeedKit: 5c470bdc1992afcdd28e8c629de41ed2ae65850c
   CSOddFormatters: bb620a585778e0f92d4ac4d93e2f7dcaec84b9eb
   CSSystemInfoHelper: 927da800edb3f5afe96a44fb0f09e0487ffcd8a5
@@ -53,6 +53,6 @@ SPEC CHECKSUMS:
   Realm: d927fbf66df5532cfafc08afb5f7e53ded37b894
   STTwitter: 30ee2f79eff78c3d633a1edc869e97db9c9ead59
 
-PODFILE CHECKSUM: b3f7a90921a99ac8040497d1688d6b583d922403
+PODFILE CHECKSUM: 65fcc6569e31fd994cac947b2eccf334fc3a95e0
 
 COCOAPODS: 1.9.3

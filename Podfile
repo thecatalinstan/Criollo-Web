@@ -2,7 +2,7 @@ platform :osx, '10.10'
 use_frameworks!
 
 target 'Criollo Web' do
-    pod 'Criollo', '~> 1.0.0'
+    pod 'Criollo',		'1.0.1'
     pod 'CSFeedKit', '~> 0.2.0'
     pod 'CSOddFormatters', '~> 1.1.1'
     pod 'CSSystemInfoHelper', '~> 1.4.0'
