@@ -14,7 +14,6 @@
 		AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD089EE51C998E6E007434A1 /* criollo-web-icon.png */; };
 		AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0A14791D48EA27003D8DAB /* CWSchema.m */; };
 		AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA96C1C96004B005206A1 /* logo.png */; };
-		AD0BA9991C9629A6005206A1 /* app.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
 		AD1226321D75CD5200B3D752 /* NSString+RegEx.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1226311D75CD5200B3D752 /* NSString+RegEx.m */; };
@@ -33,8 +32,7 @@
 		AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */; };
 		AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113CB1D251C39005B8208 /* CWAPIController.m */; };
 		AD6D8F6F1D713CB8000AD91E /* tokenfield.min.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */; };
-		AD7396931C90767D00D9F4B3 /* default.styl in Sources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
-		AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
+		AD7396931C90767D00D9F4B3 /* default.styl in Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */; };
 		ADAF51571D3AD7F300D5917B /* NSString+URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAF51561D3AD7F300D5917B /* NSString+URLUtils.m */; };
 		ADB5AF991D49661A003C14B6 /* CWAPIBlogAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF8F1D49661A003C14B6 /* CWAPIBlogAuthor.m */; };
@@ -43,7 +41,7 @@
 		ADB5AF9C1D49661A003C14B6 /* CWModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF951D49661A003C14B6 /* CWModel.m */; };
 		ADB5AF9D1D49661A003C14B6 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF981D49661A003C14B6 /* CWUser.m */; };
 		ADD294851CB936BC006458AF /* CWBlogPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD294841CB936BC006458AF /* CWBlogPostViewController.m */; };
-		ADD5F4A71CCC3908006019FF /* app.js in Sources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
+		ADD5F4A71CCC3908006019FF /* app.js in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
 		ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */; };
@@ -69,7 +67,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).html",
 			);
-			script = "\"$PROJECT_DIR/node_modules/pug-cli/index.js\" -p \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
+			script = "\"$PROJECT_DIR/node_modules/pug-cli/index.js\" -p \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"\n";
 		};
 		AD7396921C90747700D9F4B3 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
@@ -82,7 +80,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).css",
 			);
-			script = "\"$PROJECT_DIR/node_modules/stylus/bin/stylus\" -c -r -u nib -I \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"";
+			script = "\"$PROJECT_DIR/node_modules/stylus/bin/stylus\" -c -r -u nib -I \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"\n";
 		};
 		ADD5F4A81CCC3A37006019FF /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
@@ -95,7 +93,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).js",
 			);
-			script = "\"$PROJECT_DIR/node_modules/rollup/bin/rollup\" -c \"$PROJECT_DIR/Criollo Web/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\"";
+			script = "\"$PROJECT_DIR/node_modules/rollup/bin/rollup\" -c \"$PROJECT_DIR/Criollo Web/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\"\n";
 		};
 /* End PBXBuildRule section */
 
@@ -113,8 +111,6 @@
 				ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */,
 				AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */,
 				AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */,
-				AD0BA9991C9629A6005206A1 /* app.js in Copy Public Resources */,
-				AD7C64EB1C90A78300DBB48B /* default.styl in Copy Public Resources */,
 				AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */,
 			);
 			name = "Copy Public Resources";
@@ -507,7 +503,6 @@
 				ADD67FF81C6CBEC600FC41EE /* Frameworks */,
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
-				ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */,
 				93E3F1500FE9DBDF71E58D96 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -566,6 +561,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADD5F4A71CCC3908006019FF /* app.js in Resources */,
+				AD7396931C90767D00D9F4B3 /* default.styl in Resources */,
 				AD5F02271CE0BD8900D810B6 /* CWLandingPageViewController.pug in Resources */,
 				AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */,
 				ADF347021CF1F7F800EFC211 /* CWLoginPageViewController.pug in Resources */,
@@ -617,20 +614,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		ADC098821C90D6CA009CC72F /* Copy Compiled Public Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Compiled Public Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "DST_DIR=\"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Public\"\nSRC_DIR=\"$DERIVED_FILE_DIR\"\n\nfunction file_basename {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME%.*}\"\n}\n\nfunction file_extension {\n    INPUT_FILE_NAME=$1\n    echo -n \"${INPUT_FILE_NAME##*.}\"\n}\n\nfunction mapped_extension {\n    case $1 in\n        \"styl\" )\n            echo \"css\"\n            ;;\n        \"jade\" )\n            echo \"html\"\n            ;;\n        \"js\" )\n            echo \"js\"\n            ;;\n    esac\n}\n\nls -1 \"$DST_DIR\"  | while read INPUT_FILE_NAME ; do\n    INPUT_FILE_BASE=\"`file_basename $INPUT_FILE_NAME`\"\n    INPUT_FILE_EXTENSION=\"`file_extension $INPUT_FILE_NAME`\"\n\n    SRC_FILE_EXTENSION=\"`mapped_extension $INPUT_FILE_EXTENSION`\"\n    if [ -z \"$SRC_FILE_EXTENSION\" ] ; then\n        continue\n    fi\n\n    SRC_FILE=\"$INPUT_FILE_BASE.$SRC_FILE_EXTENSION\"\n    if [ ! -f \"$SRC_DIR/$SRC_FILE\" ] ; then\n        continue\n    fi\n   cp -f \"$SRC_DIR/$SRC_FILE\" \"$DST_DIR/$SRC_FILE\"\n    if [ \"$SRC_FILE_EXTENSION\" != \"$INPUT_FILE_EXTENSION\" ] ; then\n       rm \"$DST_DIR/$INPUT_FILE_NAME\"\n   fi\ndone\n";
 		};
 		D45898594B008425FD2C7F05 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -688,8 +671,6 @@
 				AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */,
 				ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */,
 				ADFA57131D27E66B002FB626 /* NSString+MD5.m in Sources */,
-				AD7396931C90767D00D9F4B3 /* default.styl in Sources */,
-				ADD5F4A71CCC3908006019FF /* app.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_END
 
     // sitemap.xml
     [self.server add:@"/sitemap.xml" controller:[CWSitemapController class]];
-
+    
     // robots.txt
     [self.server add:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
         NSString* robotsString = @"User-agent: *\nAllow:\n";
@@ -141,10 +141,18 @@ NS_ASSUME_NONNULL_END
         [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
         [response send:robotsString];
     }}];
+    
+    // default.css
+    NSString* defaultCss = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
+    [self.server mount:@"/default.css" fileAtPath:defaultCss];
+    
+    // app.js
+    NSString* appJs = [[NSBundle mainBundle] pathForResource:@"app" ofType:@"js"];
+    [self.server mount:@"/app.js" fileAtPath:appJs];
 
     // favicon.ico
-    NSString* faviconPath = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
-    [self.server mount:@"/favicon.ico" fileAtPath:faviconPath];
+    NSString* faviconIco = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
+    [self.server mount:@"/favicon.ico" fileAtPath:faviconIco];
 
     [self startServer];
 }
