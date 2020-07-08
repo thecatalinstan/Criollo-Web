@@ -17,14 +17,14 @@ PODS:
 
 DEPENDENCIES:
   - Criollo (= 1.0.1)
-  - CSFeedKit (~> 0.2.0)
-  - CSOddFormatters (~> 1.1.1)
-  - CSSystemInfoHelper (~> 1.4.0)
-  - JSONModel (~> 1.7.0)
-  - JWT (~> 3.0.0-beta8)
-  - MMMarkdown (~> 0.5.0)
-  - Realm (~> 3.3.0)
-  - STTwitter (~> 0.2.0)
+  - CSFeedKit (= 0.2.1)
+  - CSOddFormatters (= 1.1.1)
+  - CSSystemInfoHelper (= 1.4.2)
+  - JSONModel (= 1.7.0)
+  - JWT (= 3.0.0-beta.12)
+  - MMMarkdown (= 0.5.5)
+  - Realm (= 3.3.2)
+  - STTwitter (= 0.2.6)
 
 SPEC REPOS:
   trunk:
@@ -53,6 +53,6 @@ SPEC CHECKSUMS:
   Realm: d927fbf66df5532cfafc08afb5f7e53ded37b894
   STTwitter: 30ee2f79eff78c3d633a1edc869e97db9c9ead59
 
-PODFILE CHECKSUM: 65fcc6569e31fd994cac947b2eccf334fc3a95e0
+PODFILE CHECKSUM: a08f0eead793525d36f44cd6cac08306c9ebbf9e
 
 COCOAPODS: 1.9.3
