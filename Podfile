@@ -10,18 +10,18 @@ target 'Criollo Web' do
     pod 'JWT',                '3.0.0-beta.12'
     pod 'MMMarkdown',         '0.5.5'
     pod 'Realm',              '3.3.2',          :inhibit_warnings => true
-    pod 'STTwitter',          '0.2.6',          :inhibit_warnings => true
+    pod 'STTwitter',          '0.2.6'
 end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     # Change settings per build config
     if target.name == "MMMarkdown"
-      `git apply Patches/MMMarkdown-0.5.5.diff`
+      `git apply Patches/MMMarkdown-0.5.5.diff 2> /dev/null`
     end
     
     if target.name == "JWT"
-      `git apply Patches/JWT-3.0.0-beta.12.diff`
+      `git apply Patches/JWT-3.0.0-beta.12.diff 2> /dev/null`
     end
     
     # Change settings per build configuration
