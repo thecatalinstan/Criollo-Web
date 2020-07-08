@@ -498,8 +498,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADD6800C1C6CBEC600FC41EE /* Build configuration list for PBXNativeTarget "Criollo Web" */;
 			buildPhases = (
-				AD3CF7AE24B668FE0003BE2A /* Touch non-tracked includes (pug, js, styl) */,
 				D45898594B008425FD2C7F05 /* [CP] Check Pods Manifest.lock */,
+				AD3CF7AE24B668FE0003BE2A /* Touch non-tracked includes (pug, js, styl) */,
 				ADD67FF71C6CBEC600FC41EE /* Sources */,
 				ADD67FF81C6CBEC600FC41EE /* Frameworks */,
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
