@@ -498,6 +498,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADD6800C1C6CBEC600FC41EE /* Build configuration list for PBXNativeTarget "Criollo Web" */;
 			buildPhases = (
+				AD3CF7AE24B668FE0003BE2A /* Touch non-tracked includes (pug, js, styl) */,
 				D45898594B008425FD2C7F05 /* [CP] Check Pods Manifest.lock */,
 				ADD67FF71C6CBEC600FC41EE /* Sources */,
 				ADD67FF81C6CBEC600FC41EE /* Frameworks */,
@@ -614,6 +615,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AD3CF7AE24B668FE0003BE2A /* Touch non-tracked includes (pug, js, styl) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Touch non-tracked includes (pug, js, styl)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "touch -- ${PROJECT_DIR}/Criollo\\ Web/Views/*.pug\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Views/*/*.pug\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Public/app.js\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Public/default.styl\n";
 		};
 		D45898594B008425FD2C7F05 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
