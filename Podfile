@@ -15,6 +15,12 @@ end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
+    # Change settings per build config
+    if target.name == "MMMarkdown"
+     `git apply Patches/MMMarkdown-0.5.5.diff`
+    end
+    
+    # Change settings per build configuration
     target.build_configurations.each do |config|
       config.build_settings.delete("ARCHS")
       
