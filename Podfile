@@ -14,18 +14,21 @@ target 'Criollo Web' do
 end
 
 post_install do |installer|
+  # Change settings per build config
   installer.pods_project.targets.each do |target|
-    # Change settings per build config
-    if target.name == "MMMarkdown"
-      `git apply Patches/MMMarkdown-0.5.5.diff 2> /dev/null`
-    end
     
     if target.name == "JWT"
       `git apply Patches/JWT-3.0.0-beta.12.diff 2> /dev/null`
     end
     
-    # Change settings per build configuration
+    if target.name == "MMMarkdown"
+      `git apply Patches/MMMarkdown-0.5.5.diff 2> /dev/null`
+    end
+    
+    # Change settings per target, per build configuration
     target.build_configurations.each do |config|
+      
+      # Xcode 11.5 recommended settings
       config.build_settings.delete("ARCHS")
       
       if target.name == "JWT"
@@ -36,6 +39,11 @@ post_install do |installer|
       if target.name == "MMMarkdown"
         config.build_settings["MACOSX_DEPLOYMENT_TARGET"] = "10.10"
       end
+      
+      if target.name == "STTwitter"
+        config.build_settings["MACOSX_DEPLOYMENT_TARGET"] = "10.10"
+      end
+      
     end
   end
 end
