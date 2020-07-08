@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00453F0C86073188E0B5F4E80D9A7245 /* JWTAlgorithmFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8C9176D7D992AB2657AA8F7F2C9F9B /* JWTAlgorithmFactory.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		004F11CAE18E721E887391820BD0CB82 /* RLMObjectBase.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 5B1D2A483B249954B4188C2B831239F4 /* RLMObjectBase.h */; };
-		010C52AD4E0FA9DAAF1FD325513A4F3B /* JWTCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = F53F642F4BA3341C472E8324119E7E92 /* JWTCoding.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		012BA7CA6CAD49D9EE8C1399578EEA7F /* JWTAlgorithmHSBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B267CAE95B86E3F0FAB1A7D2B3BDCD0 /* JWTAlgorithmHSBase.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		015E513908C48C5E4CF6864DB5BCB9EE /* RLMObjectBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B1D2A483B249954B4188C2B831239F4 /* RLMObjectBase.h */; };
 		022B237B0C5EB6C7283BC214770FCD04 /* Base64.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE44D56A98DD89308296C33E5D7D0B72 /* Base64.framework */; };
-		0232EDF8C313EAB004B9151772757C24 /* JWTErrorDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 60741DFAD45182F534C5148E1DAF5F02 /* JWTErrorDescription.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		02D0ED573003353A4B64695BCD5A9FAE /* RLMRealm+Sync.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = ABB433BC2A2AF8B344A960BB5227F520 /* RLMRealm+Sync.h */; };
 		02E2954BD351E7B167D8F60B13208DAF /* JSONModelError.h in Headers */ = {isa = PBXBuildFile; fileRef = 64D723575726FAB0A2E1736AD3F3AE06 /* JSONModelError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03435104D7A68C1193BFAB1B790A2A94 /* RLMObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = B7A0506D163C1CE37D5AB31275460FEA /* RLMObject.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -25,15 +21,16 @@
 		06A212C79F96C7CEF666558FCF275307 /* CRRouteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E563C99A5AB601937BD3D29DE9F938 /* CRRouteController.m */; };
 		071320CCA3E82325E48DBD72949321A2 /* RLMSyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = D2B74644EDBABF62D1CE2F4F262273F3 /* RLMSyncManager.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		07D387ECA6D748A4D4FEC69C9F615F78 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
+		085002E395520CED5C3ED3707777DDC0 /* JWTCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = F53F642F4BA3341C472E8324119E7E92 /* JWTCoding.m */; };
 		089297CDBADBD50B637D7DDCD309A46C /* STTwitterOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 688E9DBEDE331E2C6929B8D2C08397B2 /* STTwitterOS.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		09A6E0C5518A49BAF1EAEEF8DE7E6D2A /* RLMOptionalBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 649AFCAF15187539746BC7441B0CFA0B /* RLMOptionalBase.h */; };
 		0A9555C06D3E61C299D6EA973FD8A03E /* CRResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 00CC5989F3A37662EF088550528FD8AB /* CRResponse.m */; };
 		0AD1E934C219BC61D150CD848CFAA823 /* RLMRealmConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B1B98D98DEDB65491CD132DDFA424D /* RLMRealmConfiguration.h */; };
+		0B6B04461A43D9D29A2373976C4A3CE7 /* JWTAlgorithmRSBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC4751DCF37BE36DD1F51911AFACFE /* JWTAlgorithmRSBase.m */; };
 		0C890E4AFACBCC38A3ECAB1E11EBCDE7 /* JWTClaimsSetVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = D569D6626EEDB69EA4693A4EA520E5FE /* JWTClaimsSetVerifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0D4AC6769969908A3B62CD006772CBE4 /* NSDate+RFC1123.h in Headers */ = {isa = PBXBuildFile; fileRef = 23B3B5CA94782E027830E6C792A8FF06 /* NSDate+RFC1123.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		0D753D80306B605910E5321F7ED61812 /* RLMObject_Private.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = 7034BC928969148F0ABC6DD1B7AE1FD7 /* RLMObject_Private.h */; };
 		0E4EAAFF2E15D165FC8C6834260B9735 /* RLMObjectBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 67B1B31142AD486D52878AB9002362D8 /* RLMObjectBase.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		0ECA2B8CA2598A5C55F907079ADEB592 /* JWTCoding+VersionThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 74769594E0C1FAC230E9BBC4E65A0B1F /* JWTCoding+VersionThree.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		0F76EBAAC4761525B8CA49001FB06402 /* MMElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 57C07C0E2F097F2BDF9334E58D560BF4 /* MMElement.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1071D84B6431759A11FAEBAAE29E3F32 /* JSONHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B3F81527905B003940ACBAF0FC4A771 /* JSONHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		108EE69A0CB98198A898B8F56E0D8539 /* MMSpanParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F300DD69E62C2AF43F63DA2BC9024B2 /* MMSpanParser.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -41,7 +38,6 @@
 		11FB9CB480508C7E39FFBF8ED4A8CCB3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B935BE2F625215737C7DCEEF101F1BAD /* Foundation.framework */; };
 		124CE2634BF6C8776D2913EDD09BE6D7 /* CRServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 527113416019B57CC0F587A74FF75AEB /* CRServerConfiguration.m */; };
 		12548E089ACCC13525CBE3A687E08617 /* MMDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 408CA5F3CA900768E69BE3807FF763DB /* MMDocument.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		14E8A75E3C372F255445CB7DC74FE51B /* JWTAlgorithmNone.m in Sources */ = {isa = PBXBuildFile; fileRef = 42845E0ACD0B803A2BE6E2F617ED305A /* JWTAlgorithmNone.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		15151D43C50DAE613478314DDC9F269D /* RLMArray.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = DE9A1DC1AD3B67F70C718A3E6447B1EF /* RLMArray.h */; };
 		181C81C739F806BCDD6F760FD30A01FB /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88C9BB6E4FC0695ECDF85BE48F168242 /* CoreServices.framework */; };
 		1833DEA2AA234C621BB5329249F94D5D /* sync_session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8F96ADD56D45A722CF3BCF3FF38C0707 /* sync_session.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -51,12 +47,11 @@
 		191126E8D5A1E26339D2B767EF3AE197 /* JSONModel+networking.h in Headers */ = {isa = PBXBuildFile; fileRef = D8E966E13D7CAD7D199BC8A490C5C9A6 /* JSONModel+networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		193940D5DC0F40555A08D9F58275E852 /* RLMRealmConfiguration+Sync.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50CD1331EEE3E815277F71ACE7F26DB6 /* RLMRealmConfiguration+Sync.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		194814BC0C5848F00A927DD50AF103BD /* RLMSyncSubscription.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = B86781A0116D88310041AB13CBDD324C /* RLMSyncSubscription.h */; };
+		19EAAAB9D9AEC7C5703E5DD01427FA5B /* JWTCoding+VersionOne.m in Sources */ = {isa = PBXBuildFile; fileRef = B68AE9070F79971FE36051850799B0F3 /* JWTCoding+VersionOne.m */; };
 		1C7C608091334B29AA1F96D400B24326 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8FF252AFA8897F2527D4DAB7B1F722 /* GCDAsyncSocket.m */; };
 		1CE73D276ED13DC39B70E3E6E632809E /* schema.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36A9698CBD6F15826382BF47A7EBEBF9 /* schema.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		1D2ED7FE3B589F9180F8C646B17A6642 /* JWTCoding+VersionTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE96531737A2F32F8F70589A5C082F78 /* JWTCoding+VersionTwo.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1D3093FF3D6BA025B2F3A1ED8F240F3A /* RLMRealm.mm in Sources */ = {isa = PBXBuildFile; fileRef = B4F0B3816237E4B8DFCC4CD6CA6C01AC /* RLMRealm.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1E8CC2A6E368EA23522D6A5E24BDF92F /* placeholder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 073EBF8881DB123BFBA0FFF1474A4FB4 /* placeholder.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		1ED1C24C8A1A359F668F43B6B5B86A60 /* JWTCryptoKey.m in Sources */ = {isa = PBXBuildFile; fileRef = C616F58D676A28853E99DD9A8AD059EE /* JWTCryptoKey.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		1ED7903C765E2BECEA02DF8AAFF8DE8B /* RLMSyncManager_Private.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = 81CDB338D0E71AC718BEF698E55CCA25 /* RLMSyncManager_Private.h */; };
 		1F220968BB91DA451CF19A8C0A3AA0E3 /* JWTAlgorithmESBase.h in Headers */ = {isa = PBXBuildFile; fileRef = BBD785A2E419B77040FE931214B88D9B /* JWTAlgorithmESBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FC2910758173C87AE14DE7CCAA22A5B /* JWTAlgorithmDataHolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A566674C5F502958CE21983C26F095 /* JWTAlgorithmDataHolder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -65,6 +60,7 @@
 		20AF4950AC7AFB0D64189C76EC7DCBA5 /* realm_coordinator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1840F2BB20FDC8AF48FA26B28C9D9B9 /* realm_coordinator.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2156C0BDD417EE2E5921A9D904645E6F /* JSONSyntaxHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 13947045C0C0843ED658934171D7AE5C /* JSONSyntaxHighlight.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2296D611279C63D74019B747FD6BD112 /* STTwitterAppOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1A9BC243888431D8DD215120693286 /* STTwitterAppOnly.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		235886892B55E60FC7C10A713317A70A /* JWTClaim.m in Sources */ = {isa = PBXBuildFile; fileRef = 875F43E30C1880FE229BA033CA0D7EDE /* JWTClaim.m */; };
 		24C4275DE54E1DBFB048FCFD3CBD5F69 /* CRMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A460048670655092DB9C4360F7B005 /* CRMessage.m */; };
 		24FAEF3C86D7EFB5BB825CA1E0DE2207 /* RLMObjectBase_Dynamic.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 197724E041DD7F8EC03E0D761CF5999D /* RLMObjectBase_Dynamic.h */; };
 		26339E9EAC55720E42CAB412F173B5E5 /* CRFCGIRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E49B443A0F20A6FCDC547791283F271 /* CRFCGIRecord.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -85,6 +81,7 @@
 		2C4BE67118E3CB5D744EB8C665F358BB /* CRFCGIRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 50370C9614E23FDC8C6169945362E0BF /* CRFCGIRequest.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2D0B8BB35C070BF86077186B075713C4 /* CRHTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E667D8C877996661FCD8FD1DC72C15A6 /* CRHTTPResponse.m */; };
 		2E3E1DB9C495AE54620563954A9BA648 /* JWTClaimsSetSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = F516E5D4B687CA3F39B17DE19C9061C9 /* JWTClaimsSetSerializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2EAB3CCCE13C9F4FBE5B40F8EC9F8CED /* JWTAlgorithmFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8C9176D7D992AB2657AA8F7F2C9F9B /* JWTAlgorithmFactory.m */; };
 		2ED3FABA9581301E7A447DBA46F4182F /* RLMArray.mm in Sources */ = {isa = PBXBuildFile; fileRef = F7A7934D2B4538E34D07EADF67B79E1F /* RLMArray.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2EDDEDEDDA325855C1A738B11B348C73 /* JWTAlgorithmDataHolderChain.h in Headers */ = {isa = PBXBuildFile; fileRef = B559060251DD7E6CAFF079E290494906 /* JWTAlgorithmDataHolderChain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F892063C665934F5DAE6AA82F34205C /* RLMSchema.mm in Sources */ = {isa = PBXBuildFile; fileRef = 237BE1CC42A1FCE0C2CF56A5E02B4777 /* RLMSchema.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -108,21 +105,22 @@
 		3AEA2F22B88CD78E671F25B60DB66ADA /* JSONAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = B4074BB4D928F493A8C9FA6BF8F26436 /* JSONAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3B1EBE33F706387BF7A75A921842C15B /* Realm-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF81FA229B40B60B1541FAE3419B3B1 /* Realm-dummy.m */; };
 		3BBFE82FD500E8DA2057E6866276FDB5 /* Base64-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D3A29FD0F5CB2FF35891085A341C12 /* Base64-dummy.m */; };
-		3C06291D8AD3008E8F7ED1CE67BC9E2F /* JWTClaim.m in Sources */ = {isa = PBXBuildFile; fileRef = 875F43E30C1880FE229BA033CA0D7EDE /* JWTClaim.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3C850828CB553DC12C4FBEB9036CD6EC /* RLMManagedArray.mm in Sources */ = {isa = PBXBuildFile; fileRef = 20F5AF78D4FAAAECA055A0822133F235 /* RLMManagedArray.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3CC719CD9B5E1E9613EB13D9C1248007 /* CRTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = F43B667C3A59577314C6B078E5D1AEC1 /* CRTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D6B178B9E111586C658AB0ABBA720E5 /* RLMPredicateUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 761CFCB6978060D97716D05FBBE8A373 /* RLMPredicateUtil.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3D9E79F6CE39B46D9C6C2F53C8ADE4C1 /* RLMCollection.mm in Sources */ = {isa = PBXBuildFile; fileRef = B03EB8150753ABDA2C1AFDE9DD19AAFA /* RLMCollection.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		3DBA46F25A0D1F51181AB98D95AC8ACF /* JWTAlgorithmNone.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B3C7D1703CD5BA5A44A5644F69F3A01 /* JWTAlgorithmNone.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3ED74C42486F123F0CAEE704F5A4AA70 /* JWTCryptoKeyExtractor+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B1608CF08AC7E0C9498A838E89DB0E /* JWTCryptoKeyExtractor+FluentStyle.m */; };
+		3F0370CAB1553E146E1005D541FABCB9 /* JWTCryptoSecurity+Extraction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6B39263E2E101BC1CA0F9C97D10E56 /* JWTCryptoSecurity+Extraction.m */; };
 		4074010510B16C74E61DE5744163F732 /* NSDateFormatter+STTwitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1700FF2B71F41EB82B7F29AFC9D90EE2 /* NSDateFormatter+STTwitter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40EBF1BDC465B058DFA639FA37FDF2EF /* RLMResults.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7905D746C1590345F2BBE6D79DAB543B /* RLMResults.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		411EE6BA92B228BF3497175C14FC7A90 /* GCDAsyncUdpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = FF07827635980D12A0CF161189C8E3D7 /* GCDAsyncUdpSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41995BB5C508D79236324B2F02829F45 /* RLMSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C15F257D8E8BEFD47CAC2302D31888E /* RLMSyncManager.h */; };
-		4284F94AC2893672515163F55F3A3815 /* JWTCodingBuilder+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B4060217FEB439B5392159B397B15D42 /* JWTCodingBuilder+FluentStyle.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		429919EDC20D2FF1639FEE3CA90C2D90 /* RLMRealmConfiguration_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 14A2BDF1508A1E13153050ECDCAD1331 /* RLMRealmConfiguration_Private.h */; };
 		43ADF3558D2ADB1B36B9F134AFB95F87 /* CSRSSFeedItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 79DE66AE6ED887758FBD695FE6407948 /* CSRSSFeedItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43C2CE532B9A3774201CF943C5F2C2A0 /* RLMPlatform.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 83379CD583552BBB228DCCB56A776843 /* RLMPlatform.h */; };
 		4411ECCA54FBFE07DF415DAE13963DBF /* RLMSyncUtil.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 12CCC78D0A772D2A8C81A64E54A0D4CE /* RLMSyncUtil.h */; };
+		4420B64566C1EB48EDFD2F15EBF4CAD9 /* JWTAlgorithmDataHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = EE577B0A9035487C5227673C72DE9568 /* JWTAlgorithmDataHolder.m */; };
 		45AB4F2BD892E94C1CB6C8B5996CD132 /* CRRoute_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 698938C41B47B9EB0699A996A0A79698 /* CRRoute_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		46D0AE09E2D1853CF795706B14E3E9D2 /* RLMRealm+Sync.mm in Sources */ = {isa = PBXBuildFile; fileRef = A23A3D2FC8A1E05B49C27084153C7145 /* RLMRealm+Sync.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		481366C3AC4369D51C863910CFC1057F /* list_notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B86B7AD439EE4F7643AD832AEA688CF9 /* list_notifier.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -139,41 +137,40 @@
 		4F38590FF14E8679464D72EEF14A36AE /* CRRouteController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D51AA828D367A0F09A54177845181C2 /* CRRouteController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5128E252414C657F752F8BE138FE01E3 /* RLMObjectSchema.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13EEBEDE2EFDAB87B64556FFFA74A63B /* RLMObjectSchema.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		515C282EBFB5756C0B1EDD96998A5308 /* CRFCGIRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AE52C140A27019B98BAC9A03063B8C83 /* CRFCGIRecord.m */; };
-		522D324E8341263E7628B3B30A228E98 /* JWTClaimsSetVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F445A5995B1D4985CF165C7D57037FB /* JWTClaimsSetVerifier.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5324241DC8E700B2BAB9E1A30862139B /* CRRequest_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C28B917086EEF228E310131EE2CF6EBF /* CRRequest_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		536A8960CF7ECEE1CCE680B3881FE684 /* JWTAlgorithmAsymmetricBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F64DA0CD78248B2BED2AE9510495D /* JWTAlgorithmAsymmetricBase.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		53D1BAFEA625019F603EA192F054DA2C /* CSLargeNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 27352DC84EF5DFBABB14FB6FD0B8BD07 /* CSLargeNumberFormatter.m */; };
 		54EE3C82468A80331F84D3D228292C59 /* RLMConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = BB835DCC0C179DD2FA67BA88DDE02E11 /* RLMConstants.m */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		54F7CE25B7821E8E41E188E53A5F3A9D /* STTwitterProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F20CE678004F1118B198C1F4B9A0043 /* STTwitterProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		55ADEB5D5023D025ABE7B66236D3B2CE /* JWTCryptoSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = C5ADCFF6BD04054EA022648360C25874 /* JWTCryptoSecurity.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		5686DA7DF2F7CB3E00079ABCC68C5907 /* JWTCryptoKeyExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A9DC11245EC63737FF251BA9F1B071 /* JWTCryptoKeyExtractor.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		575EA9471E0682B3FFB9EE44A9D143CC /* RLMSchema_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 55981117C3531665AE4707EE12967A66 /* RLMSchema_Private.h */; };
 		57A12314E7C10F391D2B1C748411C796 /* MMDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 69693B552ED0445B12C45A58F8C2557B /* MMDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		58CB5C6059D5EEDB4BDADF409DCF1BD1 /* CSRFC2822DateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7007563760125C15B7F2E67792FC8D65 /* CSRFC2822DateFormatter.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		59F1408C5983821584E3FDC61CE00AC6 /* JWTAlgorithmDataHolderChain.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB16D5E13DA3257D138139E15CC021D /* JWTAlgorithmDataHolderChain.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		59FD3608278199D331104C059EE93C37 /* RLMMigration_Private.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = 64FF3E383A826B56676B1CCA988C4980 /* RLMMigration_Private.h */; };
 		5AE65EA1F0E7A8B220F32135671B2520 /* RLMProperty.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 8073025D72C7F44C86379AE132DA2575 /* RLMProperty.h */; };
 		5BD2967805A2D065C22E5888801E0E3C /* CRFCGIConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB519632F43DFA99DD9B1DE74E41A75 /* CRFCGIConnection.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		5C9BB8F0717BC2192B981912A85DB131 /* CRMimeTypeHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C9443D738F57AAFCA115827C5E46309 /* CRMimeTypeHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D52CF8DC26C71D7B50DB91ECAC748CD /* collection_notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A6CA60186BDEDBEAA7625740AF6BC47 /* collection_notifier.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		5D54B4E91054F014CACF35FED1782B4E /* RLMObjectSchema_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C148D935B235F0CE0FD0973F46A8CA0 /* RLMObjectSchema_Private.h */; };
+		5D641A064649CB365AE72D2B6FED42B6 /* JWTCoding+ResultTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F9BE868D3A5F065AEB32FF477AF580 /* JWTCoding+ResultTypes.m */; };
 		5D8B3DBD55494926AD988B0F2A89DB84 /* RLMListBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC7371B53D87C8E64220FDF47262E2CD /* RLMListBase.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		5D9133C908772F433F11ECDFAF20117A /* JWTCoding+VersionOne.m in Sources */ = {isa = PBXBuildFile; fileRef = B68AE9070F79971FE36051850799B0F3 /* JWTCoding+VersionOne.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		5F87A1E51A0E5698ABEBD8B4108CE5BB /* JWTCryptoSecurity+ExternalRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75502C9841391627C372E17B5B6753BF /* JWTCryptoSecurity+ExternalRepresentation.m */; };
 		5F8D39ABD9C9DB0B36DC49E6122C952B /* JWTCryptoSecurity+Extraction.h in Headers */ = {isa = PBXBuildFile; fileRef = C7B9DBEE056561C89DB114F807341572 /* JWTCryptoSecurity+Extraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FA90678AE10797D2B826EAB592B2A67 /* CSFeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = F00BEB993C65770A623E62FFC15D6075 /* CSFeedChannel.m */; };
 		604DAF05CE9993BB14C4CEE9E7ACBF47 /* CRHTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 437E9D40AFFCAA56BB667B43E9A41E2E /* CRHTTPResponse.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		60CCE4D34F4A8369422B849B271074B7 /* RLMSyncCredentials.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 927EEE2CC9D6B68F1D0DEC1FC2448EC2 /* RLMSyncCredentials.h */; };
+		60F2C5ADDDB132CD2F295C099447D861 /* JWTAlgorithmESBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B0E80A5E0B11EE1209D286628E7E58 /* JWTAlgorithmESBase.m */; };
+		6170A799981A607EC6EE4DC19413A431 /* JWTAlgorithmErrorDescription+Subclass.m in Sources */ = {isa = PBXBuildFile; fileRef = A8431188C3689DB4DDD4521BED9458C8 /* JWTAlgorithmErrorDescription+Subclass.m */; };
 		617D7CA3F9D974A4CEDEDF567A907E9F /* RLMResults.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 757696AA73DF82E0B0F4D6C42055BB6E /* RLMResults.h */; };
+		62D45939800571C00C1EA6CCEDD85D29 /* JWTCryptoKeyExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A9DC11245EC63737FF251BA9F1B071 /* JWTCryptoKeyExtractor.m */; };
 		63FD2B4E76C65659C631AA05CD35E136 /* CRStaticDirectoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C74E28B8E275208420FDD4110933E336 /* CRStaticDirectoryManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		66DDE41A34169934DEB5F959839AF8A3 /* CRViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BE205ABA93B295472F2F53D95A81E725 /* CRViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6785EC08EC6C0CAB3E25F36A5AC2AEBE /* RLMRealmConfiguration.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = B2B1B98D98DEDB65491CD132DDFA424D /* RLMRealmConfiguration.h */; };
 		67D13ED937244D03F1A4E70C0391EE0A /* RLMPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 83379CD583552BBB228DCCB56A776843 /* RLMPlatform.h */; };
 		68EFDB70C771423B3FE78ED19680FA50 /* MMDocument_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B269608DE9DE5F6A39157DD48A22FCE /* MMDocument_Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6B212FA4AC16DC8B8222BE72F1AF6766 /* RLMMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = D44EDED2B1A0E7183C9E147919CCB073 /* RLMMigration.h */; };
-		6B8DC1AB6E729F647635505578AE4608 /* JWTAlgorithmDataHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = EE577B0A9035487C5227673C72DE9568 /* JWTAlgorithmDataHolder.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6BA2F7EE641485E12EE4D72AC6AC5C56 /* RLMObjectSchema_Private.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = 1C148D935B235F0CE0FD0973F46A8CA0 /* RLMObjectSchema_Private.h */; };
 		6C09B33924E9D229F2CABC70A0FB24C9 /* JWTCoding+VersionOne.h in Headers */ = {isa = PBXBuildFile; fileRef = FA1FD944E276E253A18FEF56F9349E65 /* JWTCoding+VersionOne.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6D41D3956646FD59B690D35C8B8279A8 /* RLMSyncSession.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C6B30BBD0DAA180C03E50C0EA6DCF88 /* RLMSyncSession.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6E7643EE0822D52C7904706CFA5D7A2F /* JWTAlgorithmDataHolder+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B8D8C26500ED38D525F6EAC0DC0AA /* JWTAlgorithmDataHolder+FluentStyle.m */; };
 		6E84CC3E7C678675D68E24CE6605FB92 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
 		6FCDE0D44543F4DABF90A88E056D8199 /* JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BBF0230CAABFF7CC5F4E13BF8904F818 /* JSONModel.m */; };
 		6FFB23DD5E8DD756D3A4AB53EEE4BA8E /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C256E46CBD3791769066EB5C7C902BEB /* GCDAsyncUdpSocket.m */; };
@@ -183,6 +180,7 @@
 		7265F1CF671696310B383F20BEF20C52 /* RLMClassInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59842F7E4A0D34AE54A2FDFFA616FEC7 /* RLMClassInfo.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7306149EEA5E90F12BD3A6E17D01D1C3 /* CRHTTPServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 50B6C064894860DB3BC941619C1B0D8A /* CRHTTPServerConfiguration.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		73D4D1F69CC165B9F787E39ACCE86409 /* CRServer.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF678E54F7302C15BEDD5F4F2025619 /* CRServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7424DDD8102340FDC55923BA81FBCFFD /* JWTCryptoSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = C5ADCFF6BD04054EA022648360C25874 /* JWTCryptoSecurity.m */; };
 		74322373B5C6827B01B94E040077A39D /* CRHTTPSHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = D923B5DF3107E5A7C117774EC497DA2C /* CRHTTPSHelper.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7489FE87B15A523CA7DF5E73E5A18D2E /* MMMarkdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F4F3DC37C9D1B2FFCC330DDB8415C96 /* MMMarkdown.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		75C939C90205A780AB001C84A0B90C24 /* JSONModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 21DB68D9E2D076907DD15985C5B53824 /* JSONModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -193,6 +191,7 @@
 		77BB22A92DDCCAA39A1B956E7870CA30 /* MMGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0875F12AB7068A42733D71C42DEB29C0 /* MMGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7871CF948B8D2703AE96C85F8781209A /* RLMSyncSubscription.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6ADA7661E48F20DFCD400A6736BCF131 /* RLMSyncSubscription.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		78A12A3A63DE5D1502D75FA878D0AE68 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B99013841A87966DDAEEF9C058999D3 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		78C7AD8F127F29157C734DB987633043 /* JWTClaimsSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C46652C457312A21354969C496E /* JWTClaimsSet.m */; };
 		793858140877BB223E3157FD93F3EBC7 /* RLMSwiftSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = B8E118F6706A5E9EAFF6A75AEA307C85 /* RLMSwiftSupport.m */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		79B596AE58BA6FFD66C48124D3722122 /* CSSystemInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1906EDC6CB3007312DBA6EB847E3F21A /* CSSystemInfoHelper.m */; };
 		7A747D8182401E1DD092B0695CB924BE /* RLMCollection_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 3483342ACA8F7B20E3CA88D96D6C6356 /* RLMCollection_Private.h */; };
@@ -205,7 +204,6 @@
 		7E21566A775CC49EEDDFDA25B2C58A15 /* NSError+RLMSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D4761EC117E1C5F5FDAA0F3BC9FE8 /* NSError+RLMSync.m */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		7E8DE060E96E4B57CDAE20FDC229D9F4 /* CRRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4314B167C2EFF57A7D0C693D742C711D /* CRRouter.m */; };
 		7EB32E3835DF0A56AA40C151686BDC0B /* CRRouter_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A0237A18B507E2EA81C956CF73DCDA3 /* CRRouter_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		7F263AAC0FA48C94E543BA5B8F07C2A2 /* JWTCoding+ResultTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F9BE868D3A5F065AEB32FF477AF580 /* JWTCoding+ResultTypes.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		81110FF4A4D75EA334F30FC40837CC82 /* RLMAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = DE39DFB2D4CD1FD197324A369BD2A6F3 /* RLMAccessor.h */; };
 		812987495AF3BDD1491A040DAB833441 /* RLMAccessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 91098B0FB59739D769BF560E6866DD28 /* RLMAccessor.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		8157E306265F5987DA44D1DA8E149476 /* results_notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A41A09EC70494E6F98DD5A6034B1B008 /* results_notifier.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -223,14 +221,15 @@
 		8760B31F85D42DD58894166FF81F99A6 /* CSSystemInfoHelper-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0603F9083D2E3B4D893DD4F4A11E07B2 /* CSSystemInfoHelper-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		877EF3DAB61E45BD2E97ABD822055869 /* work_queue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2636D4F21445DF1E2219973D0B3724 /* work_queue.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		87C5EB05E438F38432E2CA59EB79079C /* RLMOptionalBase.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 649AFCAF15187539746BC7441B0CFA0B /* RLMOptionalBase.h */; };
-		8812891184B1A4D09436A6C0B41D1B61 /* JWTBase64Coder.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B3841BBA23EDCF51E4BC9C384927A8 /* JWTBase64Coder.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		88CDCB9BF3A7A023B2C574AF3DB7644F /* JWTCryptoKey.h in Headers */ = {isa = PBXBuildFile; fileRef = D93A66B3860D3D254786D98980EFF9B2 /* JWTCryptoKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89044E2976E7FF6C046D0D08C9689CAA /* RLMRealm_Dynamic.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 3EA46DBBDA8CA2FA07736F868343886B /* RLMRealm_Dynamic.h */; };
 		8A4BE8F6660034C7391B33C295E39258 /* BAVPlistNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AED97F9DF879B71B3DF64894DC18668 /* BAVPlistNode.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		8AAC7FD9886818D2A5F319FE64A80C37 /* JWTCryptoKeyExtractor.h in Headers */ = {isa = PBXBuildFile; fileRef = 472240D1B3E65B827059086F244F81F3 /* JWTCryptoKeyExtractor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B3EE2A27C143D5DF0A12B8B726E9AB6 /* CRMessage_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 40DC75FBD7FFB513FBBA12624B7D1FED /* CRMessage_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		8B91DEAE594220513C19A68E5ABC41DE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
+		8BBB8038DF1F784712B187C30F258A70 /* JWTAlgorithmDataHolderChain.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB16D5E13DA3257D138139E15CC021D /* JWTAlgorithmDataHolderChain.m */; };
 		8D9E44A0C45B4CFAA159307DCED38453 /* CRServer_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 44DDD99868DE24DFE52BC30D866EAF79 /* CRServer_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8DFFFBD8867B08A6006D58BB9C384DDE /* JWTAlgorithmErrorDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AE8354C6E8F8B8C04E8676702381B40 /* JWTAlgorithmErrorDescription.m */; };
 		8E833467B449C5AA8EB04A12B5674FC1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
 		8ED64AF06736A09B4A0287C72B39B57F /* STHTTPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 8787BCECA72B3CA191D64D39709E9E27 /* STHTTPRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8FC38D4A8A1F47705B71A27D7AD85E35 /* RLMProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 8073025D72C7F44C86379AE132DA2575 /* RLMProperty.h */; };
@@ -240,19 +239,18 @@
 		9233DECE24F4F7EE39D35226CECE4765 /* CRFCGIServerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = A67B50C9568CC692A40C1EB266EF9ECD /* CRFCGIServerConfiguration.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		92451007337074765AD6D8DC60DF212F /* RLMQueryUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = B88D0CEFF2093AAA228D7EED4B9FD03E /* RLMQueryUtil.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		93B80CA0C5D2269C69812D0E69415283 /* RLMListBase.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = AAE7A793D704ECBDC70D5BA9A1BBB0AD /* RLMListBase.h */; };
-		93F27D9A6D03AD77B5318E87B8A65F28 /* JWTClaimsSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 482F4C46652C457312A21354969C496E /* JWTClaimsSet.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		945521E8B49764DF0D1578D7CA66B0AB /* STTwitter.h in Headers */ = {isa = PBXBuildFile; fileRef = CED7F839ED0FAC01BEBFC409FB280B5F /* STTwitter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94568FD91C7E96EFFD49A6D3623B1C35 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
 		9541801BDBE3ECDA619F2CF26DD79029 /* RLMRealm.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 11C1FD29C9042A60F92E74FD4BB0947F /* RLMRealm.h */; };
 		9551757DA21170F04D2A708A690979AD /* JWTCryptoKeyExtractor+FluentStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B9C4F35904791B4C1D96A67AA2890E0 /* JWTCryptoKeyExtractor+FluentStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		95CDF606A29752D7B0C7A3973C2B7B9B /* system_configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F1A7931019AC97B3C2FDA0C8926B5 /* system_configuration.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		96927F4A42F9A4CFC7386FE67D229298 /* JWTBuilder+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3F5351A212C43767CA2A21359DA03 /* JWTBuilder+FluentStyle.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		96154DA1AE619C1A51C8E6A2AF053336 /* JWTCoding+VersionTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE96531737A2F32F8F70589A5C082F78 /* JWTCoding+VersionTwo.m */; };
 		9733BF7B86122DBF53FBFBF560657C65 /* RLMUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1DF3C3D1666A30BF0722BF99C22DC85A /* RLMUtil.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		9741F1D4D61D471F55C3797653C2ED4C /* JWTClaimsSetSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B3375CCBDAAD2B6142F9B2E9818A3A /* JWTClaimsSetSerializer.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		97F007A9231D8AF4FFCA5AAFB0EFA3CB /* JWTClaim.h in Headers */ = {isa = PBXBuildFile; fileRef = A709DFB2385EBA9ED4B5BAE17634D823 /* JWTClaim.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		986A63E6F1E1B98DD1B885D5195E405C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE16E50141762E5C35D107ABBEA8F95 /* Security.framework */; };
 		98909195C0219EEC92BF969C3E10A230 /* CRRouteMatchingResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 74F571A67C868A82912B8F8A0CA0389B /* CRRouteMatchingResult.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		99A945775767DCBEC1685F74B597DF23 /* MF_Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = E17ACB8AA2B0690690B9E0299527B61D /* MF_Base64Additions.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		99D887F1F793E1F2CE43E4E38766C242 /* JWTCryptoSecurity+ErrorHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8355E22701D31F809C053DD6F9806C /* JWTCryptoSecurity+ErrorHandling.m */; };
 		9A32DBE9FBEE87472B170BE36B362D01 /* CRNib.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC18F143DAE08F059F32A9B616BFBC7 /* CRNib.m */; };
 		9A3986F73FE097D8A3E36455BA11AA36 /* RLMMigration_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 64FF3E383A826B56676B1CCA988C4980 /* RLMMigration_Private.h */; };
 		9A8F8552705505930B5454FD754B0317 /* RLMSyncUser.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 47A1F62AD167F2AEB8966C5A10D619E0 /* RLMSyncUser.h */; };
@@ -267,6 +265,7 @@
 		9D9EF61B7268FEA02DF6AA6BBC0CF4BA /* NSDateFormatter+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 23CC563DD38AA54FE8A1174F3E79F67D /* NSDateFormatter+STTwitter.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		9DABAE262D7820C30FD2A8F8458F119F /* CSTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA75781110068C994E139E53DC1CBC2 /* CSTimeIntervalFormatter.m */; };
 		9DE79D520319449D9A930A0FF75A559E /* RLMResults_Private.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = 71E32FC57665EBC2618D29AF92741A92 /* RLMResults_Private.h */; };
+		9ED43BD817AEA102AD565030C892916C /* JWT-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E8949A43399658709464B122F7C765C5 /* JWT-dummy.m */; };
 		A00AA2400AE366D2314EEC6437941EE9 /* CRRoute.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E78EC6895524B4A8F023067C14903C7 /* CRRoute.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A07F84E5583E177058645022FBC57592 /* CRConnection_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8AF9EBDD01AEFF756B2E7FC88EC6A256 /* CRConnection_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A0BF39F6EEB6F7D69F8E08C2CC920F98 /* sync_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504C582E2ED2EF871B5BF8515A7F9273 /* sync_manager.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -276,11 +275,12 @@
 		A4304BD3FAF53A35970D1F0ADF5C7712 /* RLMUpdateChecker.mm in Sources */ = {isa = PBXBuildFile; fileRef = FBBF9B846FA747EF65A9F489D84EDAF7 /* RLMUpdateChecker.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		A52DD788A5384665F425D6A2C7493AD0 /* JSONModelError.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1B66FFA00A0DA47C8D63E0380F1E05 /* JSONModelError.m */; };
 		A55949A6A7E60FEDDEB553A0150424B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B935BE2F625215737C7DCEEF101F1BAD /* Foundation.framework */; };
+		A5978E21F0AF7B6D7D917C4A65C9CA34 /* JWTClaimsSetSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B3375CCBDAAD2B6142F9B2E9818A3A /* JWTClaimsSetSerializer.m */; };
 		A59CD880A408F8595F0E2B619442F7EE /* CRMimeTypeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C92F2A8E39D539CC531691596F57E7A /* CRMimeTypeHelper.m */; };
 		A5FAEC3765E28160AF322D1292C1B5DC /* NSString+STTwitter.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9CED5A59118CC694C4D1CCD9F729E1 /* NSString+STTwitter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A6BB75F057B429F88A385D4B2DDA3E3F /* JWT-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E8949A43399658709464B122F7C765C5 /* JWT-dummy.m */; };
 		A6FACD6964F265C9248DB76D05678199 /* CRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80FE2B27AE2CCBCDAC24C06CAFAECD97 /* CRViewController.m */; };
 		A74FC970F8F9401157DB6ECAB813D977 /* RLMProperty.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A8886F477D111F06EA4DFFCA1961863 /* RLMProperty.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		A7535CB3C374C4365CD6E2CBCD4B152F /* JWTAlgorithmAsymmetricBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F64DA0CD78248B2BED2AE9510495D /* JWTAlgorithmAsymmetricBase.m */; };
 		A85EF9C00E26207F13297EEB51A68982 /* STTwitterAppOnly.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F447F3B02DCA05745DCFC77FD3AC2F /* STTwitterAppOnly.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A864AE53B23ED0E9D3E03039D53BD39A /* CRRequestRange_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C84917104B52930414FD4213E8CA6A8 /* CRRequestRange_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A8B92680DDD997EA0A530AE7CFB28115 /* RLMSyncManager.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 8C15F257D8E8BEFD47CAC2302D31888E /* RLMSyncManager.h */; };
@@ -294,6 +294,7 @@
 		AD0D810D9C52EE0AFF5D4EC633FDDE94 /* Criollo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3003CAC67F1928EA91A278FA8AD504A7 /* Criollo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AF59F270DC3EB65A2716239D6DDE9F8D /* CRStaticFileManager_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AE46F7C74070B642CDA8F26F9C1B9480 /* CRStaticFileManager_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B0BA1C31A2A3AB25BC95A4B2DE0A7B5D /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D241F0756F743BC476FEF3DFBA37C /* JSONValueTransformer.m */; };
+		B0F44F433AFD4B1C4DD41C1C01E07B0F /* JWTErrorDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 60741DFAD45182F534C5148E1DAF5F02 /* JWTErrorDescription.m */; };
 		B0FC09DD2F705E50266515B0B768E804 /* Criollo.h in Headers */ = {isa = PBXBuildFile; fileRef = 53EB2D03DA1F2D903FD39A1464F0596A /* Criollo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B11932DEBEBB36DF5AFE91D97BE397D8 /* MMParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FEAD3E8BB88EF612B133FC1036878191 /* MMParser.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B184CCA55A1C200F5B0BC21D4E7F7817 /* JWTAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A37079ED2455BEA7ED463EA62E66D2 /* JWTAlgorithm.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -317,7 +318,6 @@
 		B81F4A2F9B8F18F4E8F62C312EF6387E /* CSFeedItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C19C1446326723362413FDEB07E07EB /* CSFeedItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B89AB69484FDD9B08E47C218C124CDA3 /* CRRouteMatchingResult_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AB3575622E446F0B691AD45442B731 /* CRRouteMatchingResult_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		BB406E6857580186F5B71BE3298311C5 /* CSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = FB059291E3832BF9CED5F178979C345C /* CSFeed.m */; };
-		BBD2D184C3E447A29633325DD1A6146D /* JWTAlgorithmESBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B0E80A5E0B11EE1209D286628E7E58 /* JWTAlgorithmESBase.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		BC363BD064E7398D2234A1FE89C014F2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
 		BD42B7C2A50C6D246C243F332BFEE013 /* CRConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 78584D8B40325C7E937C8C247AA62124 /* CRConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDFDABDB1CF792635276E159195C0716 /* RLMThreadSafeReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A97B1F0DB34E1BB3FA4A78F94D28FD6 /* RLMThreadSafeReference.h */; };
@@ -325,12 +325,13 @@
 		BEDECBAFF470323DA348B5C26D7FF40A /* CRRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = D33D3A58A9B0E3D1CBECA76E7ECC7205 /* CRRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEEF931A031829CF572F1706D1BB397A /* RLMObject_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7034BC928969148F0ABC6DD1B7AE1FD7 /* RLMObject_Private.h */; };
 		BF4CA68A448AC461BF00E0ACAA6326E7 /* STTwitterHTML.h in Headers */ = {isa = PBXBuildFile; fileRef = 484EC084DAB2A3A3FCF2ABC16920F4A6 /* STTwitterHTML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFA09F983CD5B3F546DE54BAF05EFE4C /* JWTAlgorithmNone.m in Sources */ = {isa = PBXBuildFile; fileRef = 42845E0ACD0B803A2BE6E2F617ED305A /* JWTAlgorithmNone.m */; };
 		BFE62F6BBDE36F9B98633C872DCEF4B6 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F06E52DF9B6CB0DCBFED6964C0F8CF38 /* CocoaAsyncSocket.framework */; };
 		C05329F2FD7B42924C6632B74D93A953 /* NSString+Criollo.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C562AE57F0FE86B313A1B432B6898 /* NSString+Criollo.m */; };
+		C07C6FCDBD13FCF9381227825A20A029 /* JWTBuilder+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB3F5351A212C43767CA2A21359DA03 /* JWTBuilder+FluentStyle.m */; };
 		C25BD96E691172D62B98B2F5F8D7F0C7 /* JSONModelLib.h in Headers */ = {isa = PBXBuildFile; fileRef = 761058E03D33D8FAFDE7F707FA16FB39 /* JSONModelLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3E295E38FBD19E2501C79F1858EA941 /* sync_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4A385A18D1BCD32071C174FDCEE89A3 /* sync_file.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C4234021847C78339BBECE87CF170A41 /* RLMSyncManager_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 81CDB338D0E71AC718BEF698E55CCA25 /* RLMSyncManager_Private.h */; };
-		C51AA011FBEC5344BD415D8143F87CEF /* JWTAlgorithmErrorDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AE8354C6E8F8B8C04E8676702381B40 /* JWTAlgorithmErrorDescription.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		C5CB83F32668FF94B7820E633B8A7D21 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
 		C64C8DE746D376EEA160794275302677 /* JSONModelClassProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 79BF0D4BCBBE6E72D395BBCBB0686858 /* JSONModelClassProperty.m */; };
 		C65CBBF120A2DD097498BFA38119D466 /* JSONAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8418DCC35F7ECF2A41959DDB1F7A031D /* JSONAPI.m */; };
@@ -341,16 +342,18 @@
 		C78FD5750438435F6246C4011CAC1A00 /* NSError+RLMSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 0287481490DFB0C71C14E7AF35FDBD46 /* NSError+RLMSync.h */; };
 		C7B7B03C6B0D33D82449FAE29B4875EE /* CRHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFFAEC4D4891D86B79017344CF218B9 /* CRHTTPServer.m */; };
 		C8DF8FBA53284CB9294609F67978BCC4 /* JWTClaimsSet.h in Headers */ = {isa = PBXBuildFile; fileRef = A507B695B774BCB8C5EDFFF4D3B83911 /* JWTClaimsSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C94E69CAEA3F5FC8C403AC3CB885D7B0 /* JWTCodingBuilder+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B4060217FEB439B5392159B397B15D42 /* JWTCodingBuilder+FluentStyle.m */; };
 		C99A678F8B7AE2A932997426CD42EE6A /* JWTAlgorithmRSBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E955C8061010038EEA853A1CB5738060 /* JWTAlgorithmRSBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A538196DD0BF9A0FDF1E91C0AFF50A /* Base64-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E384B44385DDF7C8AC4433721D021261 /* Base64-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CACC88BE814503E8CA80A6AF4B9E1129 /* JWTClaimsSetVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F445A5995B1D4985CF165C7D57037FB /* JWTClaimsSetVerifier.m */; };
 		CB38FE7C01DF6C350C3301720448A6F8 /* object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8979BEAC02131A931B4C328A4D61DA7 /* object.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		CB47F902DC5189478ABA7309EE6A5C37 /* CSLargeNumberFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 261696E0954968C555C98B62FBB898EE /* CSLargeNumberFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CBCFF2BA064B5A3D392F857A5C9FB332 /* STTwitter-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 84DDB40968056596EBE5FE2E314C016F /* STTwitter-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CBD6F5C3872C317D1AB5246F593B86C1 /* RLMOptionalBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD236A3EA72375FD549ED03132886BA6 /* RLMOptionalBase.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		CBDBA660EC19B1A947B4766843E8C73E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38C0D2B80997AB8C178EE8FC03B54C9 /* Cocoa.framework */; };
-		CBFAA0865021E7CD0696B58CD4FB9A78 /* JWTAlgorithmRSBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC4751DCF37BE36DD1F51911AFACFE /* JWTAlgorithmRSBase.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		CC6357A1B17515319208BF35ABBDF009 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = 4916CB7FDA0791CF66DF04297C95C8DB /* NSDate+RFC1123.m */; };
 		CD4A5BC617A94528772F8989EE5F9F10 /* object_notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C0835BC24003402B3E5150EB952BBFA7 /* object_notifier.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		CD53B61F89FBF1EAEBE38BE29A40DFF9 /* JWTBase64Coder.m in Sources */ = {isa = PBXBuildFile; fileRef = 31B3841BBA23EDCF51E4BC9C384927A8 /* JWTBase64Coder.m */; };
 		CDA2702E049BE3A4086F001379393575 /* JWTCryptoSecurity+ErrorHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = D39EA27388CC8278D499432EB85FB716 /* JWTCryptoSecurity+ErrorHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDA3025ACD0B1598B632BAACE01A31BE /* RLMSyncPermissionResults.mm in Sources */ = {isa = PBXBuildFile; fileRef = 753036A5B2BA8A6C4EAB2020D71E77D9 /* RLMSyncPermissionResults.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		CDAE64191C4C117CB2833020C8E46F24 /* primitive_list_notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5794EE7209B102B54CC3588FBE15AB5F /* primitive_list_notifier.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -364,7 +367,6 @@
 		D3419847F4D44AA43F3B8EDE702F0327 /* RLMSyncPermission.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F0216FC0A8EDE568B228DF985A41537 /* RLMSyncPermission.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D358BCEB69D2E10B9BC6504C93D7D14C /* JSONModelClassProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CD02D738DFD3F8B6171A0CFEB6C0FC3 /* JSONModelClassProperty.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3816CFAFF42025EF05AF1FBF74FA172 /* CRRequestRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C58BB029A48E22C33B7ED21C3375F9 /* CRRequestRange.m */; };
-		D456BF75C8B3D9CBD44A5E509383CB12 /* JWTCryptoSecurity+ErrorHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8355E22701D31F809C053DD6F9806C /* JWTCryptoSecurity+ErrorHandling.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D484E5D97FA51C73821F29446D7F71FD /* weak_realm_notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1595DA23B41914325A66A6147C4275E /* weak_realm_notifier.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D4C5BDA8390683729998A9C62800613F /* CRFCGIServerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D81B27F29596E12DB4887DC87253D2F /* CRFCGIServerConfiguration.m */; };
 		D5359BD9EB232C208F89E0A040B6B01A /* STTwitterAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 399952E3E669D5946F188CB34BE7FA7B /* STTwitterAPI.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -374,6 +376,7 @@
 		D68AEC631183ED94393D4056D0BE8F88 /* RLMCollection.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 6C004D5F89351D4B2C432D1C2B6C4073 /* RLMCollection.h */; };
 		D6A7B0278A5EFB5379A3A8DF0B2AA6D0 /* RLMSchema.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = BC6A31625A7557DD29016C42A5C8F21C /* RLMSchema.h */; };
 		D710C072DDCE2EF89BE02424691B98F9 /* CSTimeIntervalFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = EB358CD8EF54F0CB3DB3CE6FA66E8807 /* CSTimeIntervalFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D77BB03AE929ABD5AEFE4CDCD3017DDB /* JWTCryptoKey.m in Sources */ = {isa = PBXBuildFile; fileRef = C616F58D676A28853E99DD9A8AD059EE /* JWTCryptoKey.m */; };
 		D902FF1772CA3A3C6650B550A8D5DDBB /* STTwitterAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 320760AE3CACF996FE6D0DE4D9EE5E47 /* STTwitterAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D935C31B1C596C86422407B3181C288F /* NSHTTPCookie+Criollo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2C17A1B7A6E7AA70DFD0D2524BF3F7 /* NSHTTPCookie+Criollo.m */; };
 		D94E3A0C78AEF3A9C2990F2EAFAC37AD /* collection_change_builder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 601CE1D2212DFEE18B0079FEB0D797D3 /* collection_change_builder.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -400,10 +403,8 @@
 		E2305063DA8A3FE0ABA0A4ED87A5A82F /* CRServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 857E5B33A41899255C953976B819FD2E /* CRServer.m */; };
 		E283C35AB69B695C181FD5BDE9BBB95F /* CSRSSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EEB50FBD8BEAFA19E5BEB2B29082DDB /* CSRSSFeed.m */; };
 		E28D202FDF6A38F35D5B9C1C2909E191 /* RLMSyncConfiguration.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 86F908CB2308E62B67D074A593B6059B /* RLMSyncConfiguration.h */; };
-		E32464CA4DCFA2263A9ADB5FF9B738C0 /* JWTCryptoSecurity+Extraction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6B39263E2E101BC1CA0F9C97D10E56 /* JWTCryptoSecurity+Extraction.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E3385D64A4BB452340254DCBC592B9AE /* CSFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 5388EC85565085F88394C076E5BD0C0A /* CSFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E362E268CD369900915C470A4F4B32DE /* Realm.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = C073463E1C4A271309C0C1E9C54A740B /* Realm.h */; };
-		E3820A305D523E859675596717CBD1AA /* JWTCryptoKeyExtractor+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B1608CF08AC7E0C9498A838E89DB0E /* JWTCryptoKeyExtractor+FluentStyle.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E3886BA871A93B03E984D8BD7823D947 /* JSONValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5200DF20DCB17702F452A2C65F5FF7BF /* JSONValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E4CFBE61018C7B382A70B47F8099F8E0 /* RLMListBase.h in Headers */ = {isa = PBXBuildFile; fileRef = AAE7A793D704ECBDC70D5BA9A1BBB0AD /* RLMListBase.h */; };
 		E56F894E68EB14E9917349C955003D1E /* MMMarkdown.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EC7FB318DA108369E58FEEE5D632338 /* MMMarkdown.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -414,6 +415,7 @@
 		E7D36A7A5FFB6A26C763C621F5139DB7 /* RLMRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 11C1FD29C9042A60F92E74FD4BB0947F /* RLMRealm.h */; };
 		E884236C3ED1CF7B8D51E9833AFEDFCD /* CRNib.h in Headers */ = {isa = PBXBuildFile; fileRef = 1532BDBB80BC0A13FE2CC7F8B0885D04 /* CRNib.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E88AB2C8BA04B79EB3A808EDAF10A3F7 /* MF_Base64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 94FE2B1841B3EE722EC9A50B4C39183E /* MF_Base64Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E97CD1752BA7E77887A02E291DAC0F03 /* JWTAlgorithmHSBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B267CAE95B86E3F0FAB1A7D2B3BDCD0 /* JWTAlgorithmHSBase.m */; };
 		E9A0F5B4E5323F551F3B8781033778FB /* CSSystemInfoHelper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B096BB3BD807EBF360AEA1F7692C5 /* CSSystemInfoHelper-dummy.m */; };
 		EA9D4E07FC616AE2F49A85D7D8DFF594 /* CSFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA705DE49600DA0A7E9B57CEE4CD65C /* CSFeedItem.m */; };
 		EACBD4D25BC408C53A9B802D7423D92D /* CSRSSFeedChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA24D246B1FE3B0940CB7716FADF52E7 /* CSRSSFeedChannel.m */; };
@@ -425,7 +427,6 @@
 		EFCCBDCDBA9EA6F5D24D59E6CE908D3C /* RLMObjectStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 67E1B3B7AA5B8BA628035493DAB3580C /* RLMObjectStore.h */; };
 		F052F15CB4CD8CDF8131385EB3036AAE /* BAVPlistNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 9992A6C118E97D5EAF473437213A575C /* BAVPlistNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F105B2CBB7741F6F2EF95BB107652C79 /* RLMObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 611FE1F3C261977F6B05CB6856190057 /* RLMObject.h */; };
-		F1848C0F8252E3EA1F0DD963D9506CCF /* JWTCryptoSecurity+ExternalRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75502C9841391627C372E17B5B6753BF /* JWTCryptoSecurity+ExternalRepresentation.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F1916B5AA77CDABE1C10F5ADA61E7988 /* sync_metadata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B232A33981042A83B7BAC1CC4D1FFDC0 /* sync_metadata.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F1A3A1D8AB68643E3538B35AB99E1F44 /* RLMObjectSchema.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E44FE81EE307376937016653826A254 /* RLMObjectSchema.h */; };
 		F1DD2C26EE20B34748AE323462207A65 /* shared_realm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0A98101F0A7BAE81F1A0E094E0C67882 /* shared_realm.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -435,9 +436,9 @@
 		F4BD088A95420AD0753894E8EDA3D2E7 /* CRFCGIResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C882B51CAB65EE2A7E1C5E7D4043A /* CRFCGIResponse.m */; };
 		F5B14A48AAC03F373618EEB85E4CFFE4 /* RLMSyncUser.mm in Sources */ = {isa = PBXBuildFile; fileRef = F933194B66FA59269CA67705EE015907 /* RLMSyncUser.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F5D905DA639B8EBC353C227316BE614C /* STTwitterOSRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5754FF58832942BF1F333236622E6DC1 /* STTwitterOSRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F68EEC792081FD4882D26AB378DCCBCD /* JWTAlgorithmErrorDescription+Subclass.m in Sources */ = {isa = PBXBuildFile; fileRef = A8431188C3689DB4DDD4521BED9458C8 /* JWTAlgorithmErrorDescription+Subclass.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		F69C4284F87A135394D133D462EB7E54 /* CRFCGIServer.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDA8F3ADD726F65415702CF04F9A742 /* CRFCGIServer.m */; };
 		F70E9F7DCD7F3807DD12422F03567D53 /* STHTTPRequest+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA4CB5969847AE90DCA9A20DD8588D74 /* STHTTPRequest+STTwitter.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F74CB68C229869A4F411BB2A881F7E2E /* JWTCoding+VersionThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 74769594E0C1FAC230E9BBC4E65A0B1F /* JWTCoding+VersionThree.m */; };
 		F7A8ADCB89DA89544135347B7DC60EDC /* CSOddFormatters-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E15E576A518BE5D012543B25148B8390 /* CSOddFormatters-dummy.m */; };
 		F83D1BDD272E296A8F2B4D8B085A889F /* RLMArray_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 65D77543654D254B9F0CB587AADE5E29 /* RLMArray_Private.h */; };
 		F878F7997BAA083ECA5DC09D3454A57D /* RLMSyncSubscription.h in Headers */ = {isa = PBXBuildFile; fileRef = B86781A0116D88310041AB13CBDD324C /* RLMSyncSubscription.h */; };
@@ -453,7 +454,6 @@
 		FBE0EA1A7F08EA4FBA992FB97A837234 /* RLMJSONModels.m in Sources */ = {isa = PBXBuildFile; fileRef = 227E2702DAE55C29F795068B58F69500 /* RLMJSONModels.m */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"3.3.2\"' -D__ASSERTMACROS__ -DREALM_ENABLE_SYNC -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		FBE3D9CC11CA1FF413AD73306B24F71C /* RLMSyncConfiguration_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6060253D088C5C2F94E4A4DC436B8F31 /* RLMSyncConfiguration_Private.h */; };
 		FD20CCCF9DE80EFE105E24702E23EC9C /* STTwitterOAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 990C0C7312912839E61F6E04DA6FFF57 /* STTwitterOAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FE02F32BA551456303905F08E8A990A3 /* JWTAlgorithmDataHolder+FluentStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B8D8C26500ED38D525F6EAC0DC0AA /* JWTAlgorithmDataHolder+FluentStyle.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		FE2811152907321AB985D58FCAA51415 /* CSRFC2822DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF757EEA9E7AE44276747AA3FFE3DF68 /* CSRFC2822DateFormatter.m */; };
 		FE3FCA7D618F63472C050A4071CFDD83 /* CRUploadedFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A69C8B6BC1C899038DB2283F904073B1 /* CRUploadedFile.m */; };
 		FE4E7DFA70EDF6B683591A427499AF02 /* RLMSyncUtil_Private.h in Copy . Private Headers */ = {isa = PBXBuildFile; fileRef = F80AC08562CB676B7AC385AD27B6CF49 /* RLMSyncUtil_Private.h */; };
@@ -2436,7 +2436,7 @@
 			buildConfigurationList = B56A2F7A7E5DD4BBC0B5B71ED1D75B18 /* Build configuration list for PBXNativeTarget "JWT" */;
 			buildPhases = (
 				A354D62F57AAD195B4C2670584730A04 /* Headers */,
-				37A13906B5AD68465CD7AC8AB88F846F /* Sources */,
+				23A1B07AC9A0981055941636309C7EBA /* Sources */,
 				841108FBE25434C636080E7B1EFF319D /* Frameworks */,
 				A13E2D617FCDB1D0376EC2008C16D4F5 /* Resources */,
 			);
@@ -2612,42 +2612,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37A13906B5AD68465CD7AC8AB88F846F /* Sources */ = {
+		23A1B07AC9A0981055941636309C7EBA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6BB75F057B429F88A385D4B2DDA3E3F /* JWT-dummy.m in Sources */,
-				536A8960CF7ECEE1CCE680B3881FE684 /* JWTAlgorithmAsymmetricBase.m in Sources */,
-				FE02F32BA551456303905F08E8A990A3 /* JWTAlgorithmDataHolder+FluentStyle.m in Sources */,
-				6B8DC1AB6E729F647635505578AE4608 /* JWTAlgorithmDataHolder.m in Sources */,
-				59F1408C5983821584E3FDC61CE00AC6 /* JWTAlgorithmDataHolderChain.m in Sources */,
-				F68EEC792081FD4882D26AB378DCCBCD /* JWTAlgorithmErrorDescription+Subclass.m in Sources */,
-				C51AA011FBEC5344BD415D8143F87CEF /* JWTAlgorithmErrorDescription.m in Sources */,
-				BBD2D184C3E447A29633325DD1A6146D /* JWTAlgorithmESBase.m in Sources */,
-				00453F0C86073188E0B5F4E80D9A7245 /* JWTAlgorithmFactory.m in Sources */,
-				012BA7CA6CAD49D9EE8C1399578EEA7F /* JWTAlgorithmHSBase.m in Sources */,
-				14E8A75E3C372F255445CB7DC74FE51B /* JWTAlgorithmNone.m in Sources */,
-				CBFAA0865021E7CD0696B58CD4FB9A78 /* JWTAlgorithmRSBase.m in Sources */,
-				8812891184B1A4D09436A6C0B41D1B61 /* JWTBase64Coder.m in Sources */,
-				96927F4A42F9A4CFC7386FE67D229298 /* JWTBuilder+FluentStyle.m in Sources */,
-				3C06291D8AD3008E8F7ED1CE67BC9E2F /* JWTClaim.m in Sources */,
-				93F27D9A6D03AD77B5318E87B8A65F28 /* JWTClaimsSet.m in Sources */,
-				9741F1D4D61D471F55C3797653C2ED4C /* JWTClaimsSetSerializer.m in Sources */,
-				522D324E8341263E7628B3B30A228E98 /* JWTClaimsSetVerifier.m in Sources */,
-				7F263AAC0FA48C94E543BA5B8F07C2A2 /* JWTCoding+ResultTypes.m in Sources */,
-				5D9133C908772F433F11ECDFAF20117A /* JWTCoding+VersionOne.m in Sources */,
-				0ECA2B8CA2598A5C55F907079ADEB592 /* JWTCoding+VersionThree.m in Sources */,
-				1D2ED7FE3B589F9180F8C646B17A6642 /* JWTCoding+VersionTwo.m in Sources */,
-				010C52AD4E0FA9DAAF1FD325513A4F3B /* JWTCoding.m in Sources */,
-				4284F94AC2893672515163F55F3A3815 /* JWTCodingBuilder+FluentStyle.m in Sources */,
-				1ED1C24C8A1A359F668F43B6B5B86A60 /* JWTCryptoKey.m in Sources */,
-				E3820A305D523E859675596717CBD1AA /* JWTCryptoKeyExtractor+FluentStyle.m in Sources */,
-				5686DA7DF2F7CB3E00079ABCC68C5907 /* JWTCryptoKeyExtractor.m in Sources */,
-				D456BF75C8B3D9CBD44A5E509383CB12 /* JWTCryptoSecurity+ErrorHandling.m in Sources */,
-				F1848C0F8252E3EA1F0DD963D9506CCF /* JWTCryptoSecurity+ExternalRepresentation.m in Sources */,
-				E32464CA4DCFA2263A9ADB5FF9B738C0 /* JWTCryptoSecurity+Extraction.m in Sources */,
-				55ADEB5D5023D025ABE7B66236D3B2CE /* JWTCryptoSecurity.m in Sources */,
-				0232EDF8C313EAB004B9151772757C24 /* JWTErrorDescription.m in Sources */,
+				9ED43BD817AEA102AD565030C892916C /* JWT-dummy.m in Sources */,
+				A7535CB3C374C4365CD6E2CBCD4B152F /* JWTAlgorithmAsymmetricBase.m in Sources */,
+				6E7643EE0822D52C7904706CFA5D7A2F /* JWTAlgorithmDataHolder+FluentStyle.m in Sources */,
+				4420B64566C1EB48EDFD2F15EBF4CAD9 /* JWTAlgorithmDataHolder.m in Sources */,
+				8BBB8038DF1F784712B187C30F258A70 /* JWTAlgorithmDataHolderChain.m in Sources */,
+				6170A799981A607EC6EE4DC19413A431 /* JWTAlgorithmErrorDescription+Subclass.m in Sources */,
+				8DFFFBD8867B08A6006D58BB9C384DDE /* JWTAlgorithmErrorDescription.m in Sources */,
+				60F2C5ADDDB132CD2F295C099447D861 /* JWTAlgorithmESBase.m in Sources */,
+				2EAB3CCCE13C9F4FBE5B40F8EC9F8CED /* JWTAlgorithmFactory.m in Sources */,
+				E97CD1752BA7E77887A02E291DAC0F03 /* JWTAlgorithmHSBase.m in Sources */,
+				BFA09F983CD5B3F546DE54BAF05EFE4C /* JWTAlgorithmNone.m in Sources */,
+				0B6B04461A43D9D29A2373976C4A3CE7 /* JWTAlgorithmRSBase.m in Sources */,
+				CD53B61F89FBF1EAEBE38BE29A40DFF9 /* JWTBase64Coder.m in Sources */,
+				C07C6FCDBD13FCF9381227825A20A029 /* JWTBuilder+FluentStyle.m in Sources */,
+				235886892B55E60FC7C10A713317A70A /* JWTClaim.m in Sources */,
+				78C7AD8F127F29157C734DB987633043 /* JWTClaimsSet.m in Sources */,
+				A5978E21F0AF7B6D7D917C4A65C9CA34 /* JWTClaimsSetSerializer.m in Sources */,
+				CACC88BE814503E8CA80A6AF4B9E1129 /* JWTClaimsSetVerifier.m in Sources */,
+				5D641A064649CB365AE72D2B6FED42B6 /* JWTCoding+ResultTypes.m in Sources */,
+				19EAAAB9D9AEC7C5703E5DD01427FA5B /* JWTCoding+VersionOne.m in Sources */,
+				F74CB68C229869A4F411BB2A881F7E2E /* JWTCoding+VersionThree.m in Sources */,
+				96154DA1AE619C1A51C8E6A2AF053336 /* JWTCoding+VersionTwo.m in Sources */,
+				085002E395520CED5C3ED3707777DDC0 /* JWTCoding.m in Sources */,
+				C94E69CAEA3F5FC8C403AC3CB885D7B0 /* JWTCodingBuilder+FluentStyle.m in Sources */,
+				D77BB03AE929ABD5AEFE4CDCD3017DDB /* JWTCryptoKey.m in Sources */,
+				3ED74C42486F123F0CAEE704F5A4AA70 /* JWTCryptoKeyExtractor+FluentStyle.m in Sources */,
+				62D45939800571C00C1EA6CCEDD85D29 /* JWTCryptoKeyExtractor.m in Sources */,
+				99D887F1F793E1F2CE43E4E38766C242 /* JWTCryptoSecurity+ErrorHandling.m in Sources */,
+				5F87A1E51A0E5698ABEBD8B4108CE5BB /* JWTCryptoSecurity+ExternalRepresentation.m in Sources */,
+				3F0370CAB1553E146E1005D541FABCB9 /* JWTCryptoSecurity+Extraction.m in Sources */,
+				7424DDD8102340FDC55923BA81FBCFFD /* JWTCryptoSecurity.m in Sources */,
+				B0F44F433AFD4B1C4DD41C1C01E07B0F /* JWTErrorDescription.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3169,7 +3169,7 @@
 				INFOPLIST_FILE = "Target Support Files/JWT/JWT-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MODULEMAP_FILE = "Target Support Files/JWT/JWT.modulemap";
 				PRODUCT_MODULE_NAME = JWT;
 				PRODUCT_NAME = JWT;
@@ -3178,6 +3178,11 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-deprecated",
+					"-Wno-deprecated-implementations",
+				);
 			};
 			name = Release;
 		};
@@ -3546,7 +3551,7 @@
 				INFOPLIST_FILE = "Target Support Files/JWT/JWT-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MODULEMAP_FILE = "Target Support Files/JWT/JWT.modulemap";
 				PRODUCT_MODULE_NAME = JWT;
 				PRODUCT_NAME = JWT;
@@ -3555,6 +3560,11 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-deprecated",
+					"-Wno-deprecated-implementations",
+				);
 			};
 			name = Debug;
 		};
