@@ -25,7 +25,7 @@ post_install do |installer|
       config.build_settings.delete("ARCHS")
       
       if target.name == "JWT"
-        config.build_settings["MACOSX_DEPLOYMENT_TARGET"] = "10.12"
+        config.build_settings["MACOSX_DEPLOYMENT_TARGET"] = "10.10"
         config.build_settings["WARNING_CFLAGS"] = ['$(inherited)', '-Wno-deprecated', '-Wno-deprecated-implementations']
       end
       
