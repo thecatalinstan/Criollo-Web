@@ -17,7 +17,11 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     # Change settings per build config
     if target.name == "MMMarkdown"
-     `git apply Patches/MMMarkdown-0.5.5.diff`
+      `git apply Patches/MMMarkdown-0.5.5.diff`
+    end
+    
+    if target.name == "JWT"
+      `git apply Patches/JWT-3.0.0-beta.12.diff`
     end
     
     # Change settings per build configuration
