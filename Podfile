@@ -25,6 +25,10 @@ post_install do |installer|
       `git apply Patches/MMMarkdown-0.5.5.diff 2> /dev/null`
     end
     
+    if target.name == "STTwitter"
+      `git apply Patches/STTwitter-0.2.6.diff 2> /dev/null`
+    end
+    
     # Change settings per target, per build configuration
     target.build_configurations.each do |config|
       

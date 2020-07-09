@@ -3155,7 +3155,6 @@
 			baseConfigurationReference = 6D3A1FFBF35613F9C72D39A8040B8F9E /* JWT.release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -3181,11 +3180,6 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WARNING_CFLAGS = (
-					"$(inherited)",
-					"-Wno-incomplete-umbrella",
-					"-Wno-undef",
-				);
 			};
 			name = Release;
 		};
@@ -3543,7 +3537,6 @@
 			baseConfigurationReference = 4B6FC34A2EDBCDD92A9E54A4109F0CD6 /* JWT.debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
-				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -3569,11 +3562,6 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WARNING_CFLAGS = (
-					"$(inherited)",
-					"-Wno-incomplete-umbrella",
-					"-Wno-undef",
-				);
 			};
 			name = Debug;
 		};

@@ -52,7 +52,7 @@ static NSDateFormatter *dateFormatter = nil;
             } errorBlock:^(NSError *error) {
                 
                 if([[error domain] isEqualToString:@"STTwitterOS"]) {
-                    NSString *invalidatedAccount = [error userInfo][STTwitterOSInvalidatedAccount];
+                    NSString *invalidatedAccount = [error userInfo][STTwitterOSInvalidatedAccount.copy];
                     [strongSelf.delegate twitterAPI:strongSelf accountWasInvalidated:(ACAccount *)invalidatedAccount];
                 }
                 
