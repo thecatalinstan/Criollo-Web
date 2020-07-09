@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/thecatalinstan/Criollo-Web#readme",
   "devDependencies": {
+    "nib": "^1.1.2",
+    "stylus": "^0.54.7",
     "tokenfield": "^1.4.0"
   }
 }
