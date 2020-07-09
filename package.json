@@ -16,5 +16,7 @@
     "url": "https://github.com/thecatalinstan/Criollo-Web/issues"
   },
   "homepage": "https://github.com/thecatalinstan/Criollo-Web#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "tokenfield": "^1.4.0"
+  }
 }
