@@ -8,8 +8,6 @@
 
 #import <CSSystemInfoHelper/CSSystemInfoHelper.h>
 #import <CSOddFormatters/CSOddFormatters.h>
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 
 #import "CWAppDelegate.h"
 #import "CWLandingPageViewController.h"
@@ -57,12 +55,6 @@ NS_ASSUME_NONNULL_END
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-#ifndef DEBUG
-    [Fabric with:@[[Crashlytics class]]];
-    [CrashlyticsKit setUserIdentifier:[CSSystemInfoHelper sharedHelper].platformUUID];
-    [CrashlyticsKit setUserName:[CSSystemInfoHelper sharedHelper].systemInfo[CSSystemInfoNodenameKey]];
-#endif
-
     [self setupBaseDirectory];
     [self setupBlog];
 
@@ -76,18 +68,18 @@ NS_ASSUME_NONNULL_END
         BOOL isSecure = [[NSUserDefaults standardUserDefaults] boolForKey:@"Secure"];
         if ( isSecure ) {
             NSString *certificatePath = [[CWAppDelegate baseDirectory].path stringByAppendingPathComponent:@"criollo_io.pem"];
-            NSString *certificateKeyPath = [[CWAppDelegate baseDirectory].path stringByAppendingPathComponent:@"criollo_io.key"];
-            if ( [[NSFileManager defaultManager] fileExistsAtPath:certificatePath] && [[NSFileManager defaultManager] fileExistsAtPath:certificateKeyPath]  ) {
+            NSString *privateKeyPath = [[CWAppDelegate baseDirectory].path stringByAppendingPathComponent:@"criollo_io.key"];
+            if ( [[NSFileManager defaultManager] fileExistsAtPath:certificatePath] && [[NSFileManager defaultManager] fileExistsAtPath:privateKeyPath]  ) {
                 ((CRHTTPServer *)self.server).isSecure = YES;
                 ((CRHTTPServer *)self.server).certificatePath = certificatePath;
-                ((CRHTTPServer *)self.server).certificateKeyPath = certificateKeyPath;
+                ((CRHTTPServer *)self.server).privateKeyPath = privateKeyPath;
             } else {
                 [CRApp logErrorFormat:@"%@ HTTPS requested, but certificate and/or private key files were not found. Defaulting to HTTP.", [NSDate date]];
                 if ( ![[NSFileManager defaultManager] fileExistsAtPath:certificatePath] ) {
                     [CRApp logErrorFormat:@"%@ Certificate file not found: %@", [NSDate date], certificatePath];
                 }
-                if ( ![[NSFileManager defaultManager] fileExistsAtPath:certificateKeyPath] ) {
-                    [CRApp logErrorFormat:@"%@ Private key file not found: %@", [NSDate date], certificateKeyPath];
+                if ( ![[NSFileManager defaultManager] fileExistsAtPath:privateKeyPath] ) {
+                    [CRApp logErrorFormat:@"%@ Private key file not found: %@", [NSDate date], privateKeyPath];
                 }
                 ((CRHTTPServer *)self.server).isSecure = NO;
             }
@@ -141,7 +133,7 @@ NS_ASSUME_NONNULL_END
 
     // sitemap.xml
     [self.server add:@"/sitemap.xml" controller:[CWSitemapController class]];
-
+    
     // robots.txt
     [self.server add:@"/robots.txt" block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
         NSString* robotsString = @"User-agent: *\nAllow:\n";
@@ -149,10 +141,18 @@ NS_ASSUME_NONNULL_END
         [response setValue:@(robotsString.length).stringValue forHTTPHeaderField:@"Content-Length"];
         [response send:robotsString];
     }}];
+    
+    // default.css
+    NSString* defaultCss = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
+    [self.server mount:@"/default.css" fileAtPath:defaultCss];
+    
+    // app.js
+    NSString* appJs = [[NSBundle mainBundle] pathForResource:@"app" ofType:@"js"];
+    [self.server mount:@"/app.js" fileAtPath:appJs];
 
     // favicon.ico
-    NSString* faviconPath = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
-    [self.server mount:@"/favicon.ico" fileAtPath:faviconPath];
+    NSString* faviconIco = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
+    [self.server mount:@"/favicon.ico" fileAtPath:faviconIco];
 
     [self startServer];
 }

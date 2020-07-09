@@ -104,24 +104,19 @@ NS_ASSUME_NONNULL_END
     RLMRealm* realm = [CWBlog realm];
 
     [realm beginWriteTransaction];
-    [[CWUser allUsers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, CWUser * _Nonnull user, BOOL * _Nonnull stop) {
-        @autoreleasepool {
-            CWBlogAuthor *author = [CWBlogAuthor getByUser:key];
-            if ( !author ) {
-                author = [[CWBlogAuthor alloc] init];
-            }
-            author.user = user.username;
-            author.email = user.email;
-            author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ? : @"", user.lastName ? : @""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            author.handle = author.displayName.URLFriendlyHandle;
-            author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
-            [realm addOrUpdateObject:author];
-        }
-    }];
+    for (NSString *key in CWUser.allUsers) {
+        CWUser *user = CWUser.allUsers[key];
+        CWBlogAuthor *author = [CWBlogAuthor getByUser:key] ?: [CWBlogAuthor new];
+        author.user = user.username;
+        author.email = user.email;
+        author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ?: @"", user.lastName ?: @""] stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+        author.handle = author.displayName.URLFriendlyHandle;
+        author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
+        [realm addOrUpdateObject:author];
+    }
 
-    BOOL result = [realm commitWriteTransaction:error];
-    if ( !result ) {
-        return result;
+    if (![realm commitWriteTransaction:error]) {
+        return NO;
     }
 
     NSString *TwitterKey = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterKey"];
@@ -129,14 +124,13 @@ NS_ASSUME_NONNULL_END
     NSString *TwitterOAuthToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthToken"];
     NSString *TwitterOAuthTokenSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthTokenSecret"];
 
-    if ( TwitterKey.length == 0 || TwitterSecret.length == 0 || TwitterOAuthToken.length == 0 || TwitterOAuthTokenSecret.length == 0 ) {
-        return result;
+    if (TwitterKey.length == 0 || TwitterSecret.length == 0 || TwitterOAuthToken.length == 0 || TwitterOAuthTokenSecret.length == 0) {
+        return YES;
     }
 
     STTwitterAPI *twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TwitterKey consumerSecret:TwitterSecret oauthToken:TwitterOAuthToken oauthTokenSecret:TwitterOAuthTokenSecret];
 
-    for ( CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm] ) {
-
+    for (CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm]) {
         if ( author.twitter.length == 0 ) {
             continue;
         }
@@ -149,10 +143,11 @@ NS_ASSUME_NONNULL_END
             author.bio = user[@"description"] ? : nil;
             author.location = user[@"location"] ? : nil;
             [realm commitWriteTransaction];
-        } errorBlock:^(NSError *error) {}];
+        } errorBlock:^(NSError *error) {
+        }];
     }
     
-    return result;
+    return YES;
 }
 
 + (NSString *)formattedDate:(NSDate *)date {

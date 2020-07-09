@@ -1,0 +1,26 @@
+diff --git a/Pods/MMMarkdown/Source/MMScanner.m b/Pods/MMMarkdown/Source/MMScanner.m
+index 4b21568..d4014a8 100644
+--- a/Pods/MMMarkdown/Source/MMScanner.m
++++ b/Pods/MMMarkdown/Source/MMScanner.m
+@@ -45,7 +45,7 @@ static NSString *__delimitersForCharacter(unichar character)
+         default:
+             [NSException raise:@"Invalid delimiter character"
+                         format:@"Character '%C' is not a valid delimiter", character];
+-            return '\0';
++            return nil;
+     }
+ }
+ 
+diff --git a/Pods/MMMarkdown/Source/MMSpanParser.m b/Pods/MMMarkdown/Source/MMSpanParser.m
+index 572455b..d0a0369 100644
+--- a/Pods/MMMarkdown/Source/MMSpanParser.m
++++ b/Pods/MMMarkdown/Source/MMSpanParser.m
+@@ -108,7 +108,7 @@ static NSString * const ESCAPABLE_CHARS = @"\\`*_{}[]()#+-.!>";
+ 
+ #pragma mark - Private Methods
+ 
+-- (NSArray *)_parseWithScanner:(MMScanner *)scanner untilTestPasses:(BOOL (^)())test
++- (NSArray *)_parseWithScanner:(MMScanner *)scanner untilTestPasses:(BOOL (^)(void))test
+ {
+     NSMutableArray *result = [NSMutableArray array];
+     

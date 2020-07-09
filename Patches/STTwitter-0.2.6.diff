@@ -1,0 +1,13 @@
+diff --git a/Pods/STTwitter/STTwitter/STTwitterAPI.m b/Pods/STTwitter/STTwitter/STTwitterAPI.m
+index 2ff4b21..9bff7f9 100644
+--- a/Pods/STTwitter/STTwitter/STTwitterAPI.m
++++ b/Pods/STTwitter/STTwitter/STTwitterAPI.m
+@@ -52,7 +52,7 @@ static NSDateFormatter *dateFormatter = nil;
+             } errorBlock:^(NSError *error) {
+                 
+                 if([[error domain] isEqualToString:@"STTwitterOS"]) {
+-                    NSString *invalidatedAccount = [error userInfo][STTwitterOSInvalidatedAccount];
++                    NSString *invalidatedAccount = [error userInfo][STTwitterOSInvalidatedAccount.copy];
+                     [strongSelf.delegate twitterAPI:strongSelf accountWasInvalidated:(ACAccount *)invalidatedAccount];
+                 }
+                 

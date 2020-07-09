@@ -1,0 +1,43 @@
+# rollup-plugin-json changelog
+
+## 2.3.1
+*2018-05-11*
+* Update example in readme ([#38](https://github.com/rollup/rollup-plugin-json/issues/38))
+* Warn when using this version with upcoming rollup versions
+
+## 2.3.0
+
+* Always parse JSON, so malformed JSON is identified at bundle time ([#27](https://github.com/rollup/rollup-plugin-json/issues/27))
+
+## 2.2.0
+
+* Add `indent` option ([#24](https://github.com/rollup/rollup-plugin-json/issues/24))
+
+## 2.1.1
+
+* Add license to package.json ([#25](https://github.com/rollup/rollup-plugin-json/pull/25))
+
+## 2.1.0
+
+* Add support for `preferConst` option ([#16](https://github.com/rollup/rollup-plugin-json/pull/16))
+* Handle JSON files with no valid identifier keys ([#19](https://github.com/rollup/rollup-plugin-json/issues/19))
+
+## 2.0.2
+
+* Generate correct fake AST
+
+## 2.0.1
+
+* Return a `name`
+
+## 2.0.0
+
+* Generate fake AST to avoid unnecessary traversals within Rollup
+
+## 1.1.0
+
+* Generate named exports alongside default exports
+
+## 1.0.0
+
+* First release

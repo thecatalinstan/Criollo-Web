@@ -43,16 +43,21 @@ NS_ASSUME_NONNULL_END
                 users[user.username] = user;
             }
         }];
-        allUsers = users.copy;
+        allUsers = users;
     });
     return allUsers;
 }
 
 + (CWUser *)authenticateWithUsername:(NSString *)username password:(NSString *)password {
-    CWUser * user = [CWUser allUsers][username ? : @""];
-    if ( ![user.password isEqualToString:password] ) {
+    if (username.length == 0 || password.length == 0) {
+        return nil;
+    }
+    
+    CWUser *user = CWUser.allUsers[username ? : @""];
+    if (![user.password isEqualToString:password]) {
         user = nil;
     }
+    
     return user;
 }
 
