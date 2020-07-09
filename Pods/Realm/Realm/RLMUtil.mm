@@ -19,7 +19,9 @@
 #import "RLMUtil.hpp"
 
 #import "RLMArray_Private.hpp"
+#import "RLMDecimal128_Private.hpp"
 #import "RLMListBase.h"
+#import "RLMObjectId_Private.hpp"
 #import "RLMObjectSchema_Private.hpp"
 #import "RLMObjectStore.h"
 #import "RLMObject_Private.hpp"
@@ -28,6 +30,10 @@
 #import "RLMSwiftSupport.h"
 
 #import "shared_realm.hpp"
+
+#if REALM_ENABLE_SYNC
+#import "RLMSyncUtil.h"
+#endif
 
 #import <realm/mixed.hpp>
 #import <realm/table_view.hpp>
@@ -108,6 +114,26 @@ static inline bool checkArrayType(__unsafe_unretained RLMArray *const array,
         && (type != RLMPropertyTypeObject || [array.objectClassName isEqualToString:objectClassName]);
 }
 
+id (*RLMSwiftAsFastEnumeration)(id);
+id<NSFastEnumeration> RLMAsFastEnumeration(__unsafe_unretained id obj) {
+    if (!obj) {
+        return nil;
+    }
+    if ([obj conformsToProtocol:@protocol(NSFastEnumeration)]) {
+        return obj;
+    }
+    if (RLMSwiftAsFastEnumeration) {
+        return RLMSwiftAsFastEnumeration(obj);
+    }
+    return nil;
+}
+
+bool RLMIsSwiftObjectClass(Class cls) {
+    static Class s_swiftObjectClass = NSClassFromString(@"RealmSwiftObject");
+    static Class s_swiftEmbeddedObjectClass = NSClassFromString(@"RealmSwiftEmbeddedObject");
+    return [cls isSubclassOfClass:s_swiftObjectClass] || [cls isSubclassOfClass:s_swiftEmbeddedObjectClass];
+}
+
 BOOL RLMValidateValue(__unsafe_unretained id const value,
                       RLMPropertyType type, bool optional, bool array,
                       __unsafe_unretained NSString *const objectClassName) {
@@ -118,9 +144,9 @@ BOOL RLMValidateValue(__unsafe_unretained id const value,
         if (auto rlmArray = asRLMArray(value)) {
             return checkArrayType(rlmArray, type, optional, objectClassName);
         }
-        if ([value conformsToProtocol:@protocol(NSFastEnumeration)]) {
+        if (id enumeration = RLMAsFastEnumeration(value)) {
             // check each element for compliance
-            for (id el in (id<NSFastEnumeration>)value) {
+            for (id el in enumeration) {
                 if (!RLMValidateValue(el, type, optional, false, objectClassName)) {
                     return NO;
                 }
@@ -170,6 +196,12 @@ BOOL RLMValidateValue(__unsafe_unretained id const value,
             RLMObjectBase *objBase = RLMDynamicCast<RLMObjectBase>(value);
             return objBase && [objBase->_objectSchema.className isEqualToString:objectClassName];
         }
+        case RLMPropertyTypeObjectId:
+            return [value isKindOfClass:[RLMObjectId class]];
+        case RLMPropertyTypeDecimal128:
+            return [value isKindOfClass:[NSNumber class]]
+                || [value isKindOfClass:[RLMDecimal128 class]]
+                || ([value isKindOfClass:[NSString class]] && realm::Decimal128::is_valid_str([value UTF8String]));
     }
     @throw RLMException(@"Invalid RLMPropertyType specified");
 }
@@ -196,7 +228,8 @@ void RLMValidateValueForProperty(__unsafe_unretained id const obj,
         if (!obj || obj == NSNull.null) {
             return;
         }
-        if (![obj conformsToProtocol:@protocol(NSFastEnumeration)]) {
+        id enumeration = RLMAsFastEnumeration(obj);
+        if (!enumeration) {
             @throw RLMException(@"Invalid value (%@) for '%@%s' array property '%@.%@': value is not enumerable.",
                                 obj, prop.objectClassName ?: RLMTypeToString(prop.type), prop.optional ? "?" : "",
                                 objectSchema.className, prop.name);
@@ -215,7 +248,7 @@ void RLMValidateValueForProperty(__unsafe_unretained id const obj,
             return;
         }
 
-        for (id value in obj) {
+        for (id value in enumeration) {
             if (!RLMValidateValue(value, prop.type, prop.optional, false, prop.objectClassName)) {
                 RLMThrowTypeError(value, objectSchema, prop);
             }
@@ -313,12 +346,23 @@ NSError *RLMMakeError(RLMError code, const realm::RealmFileException& exception)
 }
 
 NSError *RLMMakeError(std::system_error const& exception) {
+    int code = exception.code().value();
     BOOL isGenericCategoryError = (exception.code().category() == std::generic_category());
     NSString *category = @(exception.code().category().name());
     NSString *errorDomain = isGenericCategoryError ? NSPOSIXErrorDomain : RLMUnknownSystemErrorDomain;
+#if REALM_ENABLE_SYNC
+    if (exception.code().category() == realm::sync::client_error_category()) {
+        if (exception.code().value() == static_cast<int>(realm::sync::Client::Error::connect_timeout)) {
+            errorDomain = NSPOSIXErrorDomain;
+            code = ETIMEDOUT;
+        }
+        else {
+            errorDomain = RLMSyncErrorDomain;
+        }
+    }
+#endif
 
-    return [NSError errorWithDomain:errorDomain
-                               code:exception.code().value()
+    return [NSError errorWithDomain:errorDomain code:code
                            userInfo:@{NSLocalizedDescriptionKey: @(exception.what()),
                                       @"Error Code": @(exception.code().value()),
                                       @"Category": category}];
@@ -375,12 +419,54 @@ id RLMMixedToObjc(realm::Mixed const& mixed) {
         case realm::type_Timestamp:
             return RLMTimestampToNSDate(mixed.get_timestamp());
         case realm::type_Binary:
-            return RLMBinaryDataToNSData(mixed.get_binary());
+            return RLMBinaryDataToNSData(mixed.get<realm::BinaryData>());
+        case realm::type_Decimal:
+            return [[RLMDecimal128 alloc] initWithDecimal128:mixed.get<realm::Decimal128>()];
+        case realm::type_ObjectId:
+            return [[RLMObjectId alloc] initWithValue:mixed.get<realm::ObjectId>()];
         case realm::type_Link:
         case realm::type_LinkList:
+        case realm::type_OldMixed:
+        case realm::type_OldTable:
+        case realm::type_OldDateTime:
+            REALM_UNREACHABLE();
         default:
             @throw RLMException(@"Invalid data type for RLMPropertyTypeAny property.");
     }
+}
+
+realm::Decimal128 RLMObjcToDecimal128(__unsafe_unretained id const value) {
+    try {
+        if (!value || value == NSNull.null) {
+            return realm::Decimal128(realm::null());
+        }
+        if (auto decimal = RLMDynamicCast<RLMDecimal128>(value)) {
+            return decimal.decimal128Value;
+        }
+        if (auto string = RLMDynamicCast<NSString>(value)) {
+            return realm::Decimal128(string.UTF8String);
+        }
+        if (auto decimal = RLMDynamicCast<NSDecimalNumber>(value)) {
+            return realm::Decimal128(decimal.stringValue.UTF8String);
+        }
+        if (auto number = RLMDynamicCast<NSNumber>(value)) {
+            auto type = number.objCType[0];
+            if (type == *@encode(double) || type == *@encode(float)) {
+                return realm::Decimal128(number.doubleValue);
+            }
+            else if (std::isupper(type)) {
+                return realm::Decimal128(number.unsignedLongLongValue);
+            }
+            else {
+                return realm::Decimal128(number.longLongValue);
+            }
+        }
+    }
+    catch (std::exception const& e) {
+        @throw RLMException(@"Cannot convert value '%@' of type '%@' to decimal128: %s",
+                            value, [value class], e.what());
+    }
+    @throw RLMException(@"Cannot convert value '%@' of type '%@' to decimal128", value, [value class]);
 }
 
 NSString *RLMDefaultDirectoryForBundleIdentifier(NSString *bundleIdentifier) {
@@ -388,7 +474,7 @@ NSString *RLMDefaultDirectoryForBundleIdentifier(NSString *bundleIdentifier) {
     (void)bundleIdentifier;
     // tvOS prohibits writing to the Documents directory, so we use the Library/Caches directory instead.
     return NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-#elif TARGET_OS_IPHONE
+#elif TARGET_OS_IPHONE && !TARGET_OS_MACCATALYST
     (void)bundleIdentifier;
     // On iOS the Documents directory isn't user-visible, so put files there
     return NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
@@ -415,4 +501,13 @@ NSString *RLMDefaultDirectoryForBundleIdentifier(NSString *bundleIdentifier) {
     }
     return path;
 #endif
+}
+
+NSDateFormatter *RLMISO8601Formatter() {
+    // note: NSISO8601DateFormatter can't be used as it doesn't support milliseconds
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    dateFormatter.calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    return dateFormatter;
 }

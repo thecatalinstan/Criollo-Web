@@ -19,36 +19,22 @@
 #import "RLMRealm+Sync.h"
 
 #import "RLMObjectBase.h"
+#import "RLMQueryUtil.hpp"
 #import "RLMObjectSchema.h"
 #import "RLMRealm_Private.hpp"
 #import "RLMResults_Private.hpp"
 #import "RLMSchema.h"
+#import "RLMSyncSession.h"
 
 #import "results.hpp"
-#import "sync/partial_sync.hpp"
 #import "shared_realm.hpp"
 
 using namespace realm;
 
 @implementation RLMRealm (Sync)
 
-- (void)subscribeToObjects:(Class)type where:(NSString *)query callback:(RLMPartialSyncFetchCallback)callback {
-    NSString *className = [type className];
-    auto cb = [=](Results results, std::exception_ptr err) {
-        if (err) {
-            try {
-                rethrow_exception(err);
-            }
-            catch (...) {
-                NSError *error = nil;
-                RLMRealmTranslateException(&error);
-                callback(nil, error);
-            }
-            return;
-        }
-        callback([RLMResults resultsWithObjectInfo:_info[className] results:std::move(results)], nil);
-    };
-    partial_sync::register_query(_realm, className.UTF8String, query.UTF8String, std::move(cb));
+- (RLMSyncSession *)syncSession {
+    return [RLMSyncSession sessionForRealm:self];
 }
 
 @end

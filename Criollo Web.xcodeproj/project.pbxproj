@@ -20,7 +20,7 @@
 		AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */; };
 		AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0351CE48C10001ADEAC /* CWBlogTag.m */; };
 		AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0391CE48C10001ADEAC /* CWBlogPost.m */; };
-		AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0451CE48DCE001ADEAC /* CWBlog.m */; };
+		AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0451CE48DCE001ADEAC /* CWBlog.m */; settings = {COMPILER_FLAGS = "-Wno-strict-prototypes"; }; };
 		AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD4A13F51C9068DD00A3616E /* Assets.xcassets */; };
 		AD5133711D41248900283B67 /* CWBlogAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5133701D41248900283B67 /* CWBlogAPIController.m */; };
 		AD5200601D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD52005E1D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m */; };
@@ -39,7 +39,7 @@
 		ADB5AF9A1D49661A003C14B6 /* CWAPIBlogPost.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF911D49661A003C14B6 /* CWAPIBlogPost.m */; };
 		ADB5AF9B1D49661A003C14B6 /* CWAPIBlogTag.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF931D49661A003C14B6 /* CWAPIBlogTag.m */; };
 		ADB5AF9C1D49661A003C14B6 /* CWModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF951D49661A003C14B6 /* CWModel.m */; };
-		ADB5AF9D1D49661A003C14B6 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF981D49661A003C14B6 /* CWUser.m */; };
+		ADB5AF9D1D49661A003C14B6 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF981D49661A003C14B6 /* CWUser.m */; settings = {COMPILER_FLAGS = "-Wno-incomplete-umbrella"; }; };
 		ADD294851CB936BC006458AF /* CWBlogPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD294841CB936BC006458AF /* CWBlogPostViewController.m */; };
 		ADD5F4A71CCC3908006019FF /* app.js in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */; };

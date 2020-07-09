@@ -18,14 +18,29 @@
 
 #import "RLMSyncConfiguration_Private.h"
 
+#import <functional>
+#import <memory>
+
 namespace realm {
+class SyncSession;
 struct SyncConfig;
+struct SyncError;
+using SyncSessionErrorHandler = void(std::shared_ptr<SyncSession>, SyncError);
 }
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface RLMSyncConfiguration ()
 
+- (instancetype)initWithUser:(RLMSyncUser *)user
+              partitionValue:(id<RLMBSON>)partitionValue
+               customFileURL:(nullable NSURL *)customFileURL
+                  stopPolicy:(RLMSyncStopPolicy)stopPolicy;
+
 - (instancetype)initWithRawConfig:(realm::SyncConfig)config;
 
-- (realm::SyncConfig)rawConfiguration;
+- (realm::SyncConfig&)rawConfiguration;
 
 @end
+
+NS_ASSUME_NONNULL_END

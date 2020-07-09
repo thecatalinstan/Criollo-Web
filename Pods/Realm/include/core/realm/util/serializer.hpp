@@ -29,10 +29,14 @@
 namespace realm {
 
 class BinaryData;
+struct ColKey;
 struct null;
+class ObjectId;
+struct ObjKey;
 class StringData;
 class Timestamp;
 class LinkMap;
+enum class ExpressionComparisonType : unsigned char;
 
 namespace util {
 namespace serializer {
@@ -50,9 +54,17 @@ const static std::string value_separator = ".";
 // Specializations declared here to be defined in the cpp file
 template <> std::string print_value<>(BinaryData);
 template <> std::string print_value<>(bool);
+template <>
+std::string print_value<>(float);
+template <>
+std::string print_value<>(double);
 template <> std::string print_value<>(realm::null);
 template <> std::string print_value<>(StringData);
 template <> std::string print_value<>(realm::Timestamp);
+template <>
+std::string print_value<>(realm::ObjectId);
+template <>
+std::string print_value<>(realm::ObjKey);
 
 // General implementation for most types
 template <typename T>
@@ -73,11 +85,12 @@ std::string print_value(Optional<T> value)
     }
 }
 
-struct SerialisationState
-{
-    std::string describe_column(ConstTableRef table, size_t col_ndx);
-    std::string describe_columns(const LinkMap& link_map, size_t target_col_ndx);
-    std::string get_column_name(ConstTableRef table, size_t col_ndx);
+struct SerialisationState {
+    std::string describe_column(ConstTableRef table, ColKey col_key);
+    std::string describe_columns(const LinkMap& link_map, ColKey target_col_key);
+    std::string describe_expression_type(ExpressionComparisonType type);
+    std::string get_column_name(ConstTableRef table, ColKey col_key);
+    std::string get_backlink_column_name(ConstTableRef from, ColKey col_key);
     std::string get_variable_name(ConstTableRef table);
     std::vector<std::string> subquery_prefix_list;
 };

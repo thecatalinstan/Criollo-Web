@@ -1,26 +1,9 @@
-/*************************************************************************
- *
- * REALM CONFIDENTIAL
- * __________________
- *
- *  [2011] - [2016] Realm Inc
- *  All Rights Reserved.
- *
- * NOTICE:  All information contained herein is, and remains
- * the property of Realm Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Realm Incorporated
- * and its suppliers and may be covered by U.S. and Foreign Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Realm Incorporated.
- *
- **************************************************************************/
 
 #ifndef REALM_UTIL_HTTP_HPP
 #define REALM_UTIL_HTTP_HPP
 
+#include <cstdint>
+#include <type_traits>
 #include <map>
 #include <system_error>
 #include <iosfwd>
@@ -29,6 +12,7 @@
 #include <realm/util/optional.hpp>
 #include <realm/util/network.hpp>
 #include <realm/util/logger.hpp>
+#include <realm/util/string_view.hpp>
 #include <realm/string_data.hpp>
 
 namespace realm {
@@ -39,15 +23,17 @@ enum class HTTPParserError {
     HeaderLineTooLong,
     MalformedResponse,
     MalformedRequest,
+    BadRequest,
 };
 std::error_code make_error_code(HTTPParserError);
 } // namespace util
 } // namespace realm
 
 namespace std {
-    template<>
-    struct is_error_code_enum<realm::util::HTTPParserError>: std::true_type {};
-}
+template <>
+struct is_error_code_enum<realm::util::HTTPParserError> : std::true_type {
+};
+} // namespace std
 
 namespace realm {
 namespace util {
@@ -138,19 +124,27 @@ struct HTTPAuthorization {
 
 HTTPAuthorization parse_authorization(const std::string&);
 
-struct CaseInsensitiveCompare {
-    bool operator()(const std::string& a, const std::string& b) const
+class HeterogeneousCaseInsensitiveCompare {
+public:
+    using is_transparent = std::true_type;
+    template <class A, class B>
+    bool operator()(const A& a, const B& b) const noexcept
+    {
+        return comp(StringView(a), StringView(b));
+    }
+
+private:
+    bool comp(StringView a, StringView b) const noexcept
     {
         auto cmp = [](char lhs, char rhs) {
-            return std::tolower(lhs, std::locale::classic()) <
-                   std::tolower(rhs, std::locale::classic());
+            return std::tolower(lhs, std::locale::classic()) < std::tolower(rhs, std::locale::classic());
         };
         return std::lexicographical_compare(begin(a), end(a), begin(b), end(b), cmp);
     }
 };
 
 /// Case-insensitive map suitable for storing HTTP headers.
-using HTTPHeaders = std::map<std::string, std::string, CaseInsensitiveCompare>;
+using HTTPHeaders = std::map<std::string, std::string, HeterogeneousCaseInsensitiveCompare>;
 
 struct HTTPRequest {
     HTTPMethod method = HTTPMethod::Get;
@@ -166,6 +160,7 @@ struct HTTPRequest {
 
 struct HTTPResponse {
     HTTPStatus status = HTTPStatus::Unknown;
+    std::string reason;
     HTTPHeaders headers;
 
     // A body is only read from the response stream if the server sent the
@@ -185,6 +180,7 @@ std::ostream& operator<<(std::ostream&, HTTPMethod);
 /// Serialize HTTP status to output stream, include reason string ("200 OK" etc.)
 std::ostream& operator<<(std::ostream&, HTTPStatus);
 
+
 struct HTTPParserBase {
     util::Logger& logger;
 
@@ -196,8 +192,8 @@ struct HTTPParserBase {
         }
     };
 
-    HTTPParserBase(util::Logger& logger_2):
-        logger {logger_2}
+    HTTPParserBase(util::Logger& logger_2)
+        : logger{logger_2}
     {
         // Allocating read buffer with calloc to avoid accidentally spilling
         // data from other sessions in case of a buffer overflow exploit.
@@ -230,25 +226,26 @@ struct HTTPParserBase {
     /// Interpret line as the first line of an HTTP request. If the return value
     /// is true, out_method and out_uri have been assigned the appropriate
     /// values found in the request line.
-    static bool parse_first_line_of_request(StringData line, HTTPMethod& out_method,
-                                            StringData& out_uri);
+    static bool parse_first_line_of_request(StringData line, HTTPMethod& out_method, StringData& out_uri);
 
     /// Interpret line as the first line of an HTTP response. If the return
     /// value is true, out_status and out_reason have been assigned the
     /// appropriate values found in the response line.
-    static bool parse_first_line_of_response(StringData line, HTTPStatus& out_status,
-                                             StringData& out_reason, util::Logger& logger);
+    static bool parse_first_line_of_response(StringData line, HTTPStatus& out_status, StringData& out_reason,
+                                             util::Logger& logger);
 
     void set_write_buffer(const HTTPRequest&);
     void set_write_buffer(const HTTPResponse&);
 };
 
-template<class Socket>
-struct HTTPParser: protected HTTPParserBase {
-    explicit HTTPParser(Socket& socket, util::Logger& logger):
-        HTTPParserBase(logger),
-        m_socket(socket)
-    {}
+
+template <class Socket>
+struct HTTPParser : protected HTTPParserBase {
+    explicit HTTPParser(Socket& socket, util::Logger& logger)
+        : HTTPParserBase(logger)
+        , m_socket(socket)
+    {
+    }
 
     void read_first_line()
     {
@@ -267,8 +264,7 @@ struct HTTPParser: protected HTTPParserBase {
             }
             read_headers();
         };
-        m_socket.async_read_until(m_read_buffer.get(), max_header_line_length, '\n',
-                                  std::move(handler));
+        m_socket.async_read_until(m_read_buffer.get(), max_header_line_length, '\n', std::move(handler));
     }
 
     void read_headers()
@@ -285,12 +281,15 @@ struct HTTPParser: protected HTTPParserBase {
                 read_body();
                 return;
             }
-            parse_header_line(n);
+            if (!parse_header_line(n)) {
+                on_complete(HTTPParserError::BadRequest);
+                return;
+            }
+
             // FIXME: Limit the total size of headers. Apache uses 8K.
             read_headers();
         };
-        m_socket.async_read_until(m_read_buffer.get(), max_header_line_length, '\n',
-                                  std::move(handler));
+        m_socket.async_read_until(m_read_buffer.get(), max_header_line_length, '\n', std::move(handler));
     }
 
     void read_body()
@@ -312,8 +311,7 @@ struct HTTPParser: protected HTTPParserBase {
                 }
                 on_complete(ec);
             };
-            m_socket.async_read(m_read_buffer.get(), *m_found_content_length,
-                                std::move(handler));
+            m_socket.async_read(m_read_buffer.get(), *m_found_content_length, std::move(handler));
         }
         else {
             // No body, just finish.
@@ -323,18 +321,21 @@ struct HTTPParser: protected HTTPParserBase {
 
     void write_buffer(std::function<void(std::error_code, size_t)> handler)
     {
-        m_socket.async_write(m_write_buffer.data(), m_write_buffer.size(),
-                             std::move(handler));
+        m_socket.async_write(m_write_buffer.data(), m_write_buffer.size(), std::move(handler));
     }
 
     Socket& m_socket;
 };
 
-template<class Socket>
-struct HTTPClient: protected HTTPParser<Socket> {
+
+template <class Socket>
+struct HTTPClient : protected HTTPParser<Socket> {
     using Handler = void(HTTPResponse, std::error_code);
 
-    explicit HTTPClient(Socket& socket, util::Logger& logger) : HTTPParser<Socket>(socket, logger) {}
+    explicit HTTPClient(Socket& socket, util::Logger& logger)
+        : HTTPParser<Socket>(socket, logger)
+    {
+    }
 
     /// Serialize and send \a request over the connected socket asynchronously.
     ///
@@ -355,7 +356,7 @@ struct HTTPClient: protected HTTPParser<Socket> {
     void async_request(const HTTPRequest& request, std::function<Handler> handler)
     {
         if (REALM_UNLIKELY(m_handler)) {
-            throw std::runtime_error("Request already in progress.");
+            throw util::runtime_error("Request already in progress.");
         }
         this->set_write_buffer(request);
         m_handler = std::move(handler);
@@ -382,7 +383,7 @@ private:
         StringData reason;
         if (this->parse_first_line_of_response(line, status, reason, this->logger)) {
             m_response.status = status;
-            static_cast<void>(reason); // Ignore for now.
+            m_response.reason = reason;
             return std::error_code{};
         }
         return HTTPParserError::MalformedResponse;
@@ -402,18 +403,22 @@ private:
 
     void on_complete(std::error_code ec) override final
     {
-        auto handler = std::move(m_handler); // Nullifies m_handler
+        auto handler = std::move(m_handler);
+        m_handler = nullptr;
         handler(std::move(m_response), ec);
     }
 };
 
-template<class Socket>
-struct HTTPServer: protected HTTPParser<Socket> {
+
+template <class Socket>
+struct HTTPServer : protected HTTPParser<Socket> {
     using RequestHandler = void(HTTPRequest, std::error_code);
     using RespondHandler = void(std::error_code);
 
-    explicit HTTPServer(Socket& socket, util::Logger& logger): HTTPParser<Socket>(socket, logger)
-    {}
+    explicit HTTPServer(Socket& socket, util::Logger& logger)
+        : HTTPParser<Socket>(socket, logger)
+    {
+    }
 
     /// Receive a request on the underlying socket asynchronously.
     ///
@@ -435,7 +440,7 @@ struct HTTPServer: protected HTTPParser<Socket> {
     void async_receive_request(std::function<RequestHandler> handler)
     {
         if (REALM_UNLIKELY(m_request_handler)) {
-            throw std::runtime_error("Response already in progress.");
+            throw util::runtime_error("Response already in progress.");
         }
         m_request_handler = std::move(handler);
         this->read_first_line();
@@ -452,15 +457,14 @@ struct HTTPServer: protected HTTPParser<Socket> {
     /// before the \a handler of a previous invocation has been invoked.
     ///
     /// This function is *NOT* thread-safe.
-    void async_send_response(const HTTPResponse& response,
-                             std::function<RespondHandler> handler)
+    void async_send_response(const HTTPResponse& response, std::function<RespondHandler> handler)
     {
         if (REALM_UNLIKELY(!m_request_handler)) {
-            throw std::runtime_error("No request in progress.");
+            throw util::runtime_error("No request in progress.");
         }
         if (m_respond_handler) {
             // FIXME: Proper exception type.
-            throw std::runtime_error("Already responding to request");
+            throw util::runtime_error("Already responding to request");
         }
         m_respond_handler = std::move(handler);
         this->set_write_buffer(response);
@@ -471,7 +475,8 @@ struct HTTPServer: protected HTTPParser<Socket> {
             m_request_handler = nullptr;
             auto handler = std::move(m_respond_handler);
             handler(ec);
-        });;
+        });
+        ;
     }
 
 private:
@@ -511,9 +516,11 @@ private:
     }
 };
 
+
+std::string make_http_host(bool is_ssl, StringView address, std::uint_fast16_t port);
+
 } // namespace util
 } // namespace realm
 
 
 #endif // REALM_UTIL_HTTP_HPP
-

@@ -24,12 +24,31 @@
  The current state of the session represented by a session object.
  */
 typedef NS_ENUM(NSUInteger, RLMSyncSessionState) {
-    /// The sync session is bound to the Realm Object Server and communicating with it.
+    /// The sync session is actively communicating or attempting to communicate
+    /// with MongoDB Realm. A session is considered Active even if
+    /// it is not currently connected. Check the connection state instead if you
+    /// wish to know if the connection is currently online.
     RLMSyncSessionStateActive,
-    /// The sync session is not currently communicating with the Realm Object Server.
+    /// The sync session is not attempting to communicate with MongoDB
+    /// Realm due to the user logging out or synchronization being paused.
     RLMSyncSessionStateInactive,
     /// The sync session encountered a fatal error and is permanently invalid; it should be discarded.
     RLMSyncSessionStateInvalid
+};
+
+/**
+ The current state of a sync session's connection. Sessions which are not in
+ the Active state will always be Disconnected.
+ */
+typedef NS_ENUM(NSUInteger, RLMSyncConnectionState) {
+    /// The sync session is not connected to the server, and is not attempting
+    /// to connect, either because the session is inactive or because it is
+    /// waiting to retry after a failed connection.
+    RLMSyncConnectionStateDisconnected,
+    /// The sync session is attempting to connect to MongoDB Realm.
+    RLMSyncConnectionStateConnecting,
+    /// The sync session is currently connected to MongoDB Realm.
+    RLMSyncConnectionStateConnected,
 };
 
 /**
@@ -38,7 +57,7 @@ typedef NS_ENUM(NSUInteger, RLMSyncSessionState) {
  Progress notification blocks can be registered on sessions if your app wishes to be informed
  how many bytes have been uploaded or downloaded, for example to show progress indicator UIs.
  */
-typedef NS_ENUM(NSUInteger, RLMSyncProgressDirection) {
+typedef RLM_CLOSED_ENUM(NSUInteger, RLMSyncProgressDirection) {
     /// For monitoring upload progress.
     RLMSyncProgressDirectionUpload,
     /// For monitoring download progress.
@@ -94,9 +113,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- An object encapsulating a Realm Object Server "session". Sessions represent the
+ An object encapsulating a MongoDB Realm "session". Sessions represent the
  communication between the client (and a local Realm file on disk), and the server
- (and a remote Realm at a given URL stored on a Realm Object Server).
+ (and a remote Realm with a given partition value stored on MongoDB Realm).
 
  Sessions are always created by the SDK and vended out through various APIs. The
  lifespans of sessions associated with Realms are managed automatically. Session
@@ -105,10 +124,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RLMSyncSession : NSObject
 
 /// The session's current state.
+///
+/// This property is not KVO-compliant.
 @property (nonatomic, readonly) RLMSyncSessionState state;
 
-/// The Realm Object Server URL of the remote Realm this session corresponds to.
-@property (nullable, nonatomic, readonly) NSURL *realmURL;
+/// The session's current connection state.
+///
+/// This property is KVO-compliant and can be observed to be notified of changes.
+/// Be warned that KVO observers for this property may be called on a background
+/// thread.
+@property (atomic, readonly) RLMSyncConnectionState connectionState;
 
 /// The user that owns this session.
 - (nullable RLMSyncUser *)parentUser;
@@ -118,6 +143,22 @@ NS_ASSUME_NONNULL_BEGIN
  associated with this session.
  */
 - (nullable RLMSyncConfiguration *)configuration;
+
+/**
+ Temporarily suspend syncronization and disconnect from the server.
+
+ The session will not attempt to connect to MongoDB Realm until `resume`
+ is called or the Realm file is closed and re-opened.
+ */
+- (void)suspend;
+
+/**
+ Resume syncronization and reconnect to MongoDB Realm after suspending.
+
+ This is a no-op if the session was already active or if the session is invalid.
+ Newly created sessions begin in the Active state and do not need to be resumed.
+ */
+- (void)resume;
 
 /**
  Register a progress notification block.
@@ -187,6 +228,48 @@ NS_REFINED_FOR_SWIFT;
 /// :nodoc:
 + (instancetype)new __attribute__((unavailable("This type cannot be created directly")));
 
+@end
+
+/**
+ A task object which can be used to observe or cancel an async open.
+
+ When a synchronized Realm is opened asynchronously, the latest state of the
+ Realm is downloaded from the server before the completion callback is invoked.
+ This task object can be used to observe the state of the download or to cancel
+ it. This should be used instead of trying to observe the download via the sync
+ session as the sync session itself is created asynchronously, and may not exist
+ yet when -[RLMRealm asyncOpenWithConfiguration:completion:] returns.
+ */
+@interface RLMAsyncOpenTask : NSObject
+/**
+ Register a progress notification block.
+
+ Each registered progress notification block is called whenever the sync
+ subsystem has new progress data to report until the task is either cancelled
+ or the completion callback is called. Progress notifications are delivered on
+ the main queue.
+ */
+- (void)addProgressNotificationBlock:(RLMProgressNotificationBlock)block;
+
+/**
+ Register a progress notification block which is called on the given queue.
+
+ Each registered progress notification block is called whenever the sync
+ subsystem has new progress data to report until the task is either cancelled
+ or the completion callback is called. Progress notifications are delivered on
+ the supplied queue.
+ */
+- (void)addProgressNotificationOnQueue:(dispatch_queue_t)queue
+                                 block:(RLMProgressNotificationBlock)block;
+
+/**
+ Cancel the asynchronous open.
+
+ Any download in progress will be cancelled, and the completion block for this
+ async open will never be called. If multiple async opens on the same Realm are
+ happening concurrently, all other opens will fail with the error "operation cancelled".
+ */
+- (void)cancel;
 @end
 
 NS_ASSUME_NONNULL_END

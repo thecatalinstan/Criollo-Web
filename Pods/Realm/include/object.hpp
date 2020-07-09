@@ -21,22 +21,60 @@
 
 #include "impl/collection_notifier.hpp"
 
-#include <realm/row.hpp>
+#include <realm/obj.hpp>
 
 namespace realm {
 class ObjectSchema;
 struct Property;
-using RowExpr = BasicRowExpr<Table>;
 
 namespace _impl {
     class ObjectNotifier;
 }
 
+/// Options for how objects should be unboxed by a context.
+///
+/// unbox<Obj>() is used for several different operations which want an Obj
+/// from a SDK type. CreatePolicy packs together all of the different options
+/// around what unbox() should do.
+struct CreatePolicy {
+    /// If given something that is not a managed Object, should an object be
+    /// created in the Realm? False for pure lookup functions such as find(),
+    /// index_of() and queries, true for everything else.
+    bool create : 1;
+    /// Should the input object be copied into the Realm even if it is already
+    /// an object managed by the current Realm? True for realm.create(), false
+    /// for things like setting a link property.
+    bool copy : 1;
+    /// If the object has a primary key and an object with the same primary key
+    /// already exists, should the existing object be updated rather than
+    /// throwing an exception? Only meaningful if .create is true.
+    bool update : 1;
+    /// When updating an object, should the old and new objects be diffed and
+    /// only the values which are different be set, or should all fields be set?
+    /// Only meaningful if .create and .update are true.
+    bool diff : 1;
+
+    // Shorthand aliases for some of the common configurations
+
+    /// {.create = false}}
+    static CreatePolicy Skip;
+    /// {.create = true, .copy = true, .update = false}
+    static CreatePolicy ForceCreate;
+    /// {.create = true, .copy = true, .update = true, .diff = false}
+    static CreatePolicy UpdateAll;
+    /// {.create = true, .copy = true, .update = true, .diff = true}
+    static CreatePolicy UpdateModified;
+    /// {.create = true, .copy = false, .update = false, .diff = false}
+    static CreatePolicy SetLink;
+};
+
 class Object {
 public:
     Object();
-    Object(std::shared_ptr<Realm> r, ObjectSchema const& s, RowExpr const& o);
-    Object(std::shared_ptr<Realm> r, StringData object_type, size_t ndx);
+    Object(std::shared_ptr<Realm> r, Obj const& o);
+    Object(std::shared_ptr<Realm> r, ObjectSchema const& s, Obj const& o);
+    Object(std::shared_ptr<Realm> r, StringData object_type, ObjKey key);
+    Object(std::shared_ptr<Realm> r, StringData object_type, size_t index);
 
     Object(Object const&);
     Object(Object&&);
@@ -46,40 +84,58 @@ public:
     ~Object();
 
     std::shared_ptr<Realm> const& realm() const { return m_realm; }
+    std::shared_ptr<Realm> const& get_realm() const { return m_realm; }
     ObjectSchema const& get_object_schema() const { return *m_object_schema; }
-    RowExpr row() const { return m_row; }
+    Obj obj() const { return m_obj; }
 
-    bool is_valid() const { return m_row.is_attached(); }
+    bool is_valid() const { return m_obj.is_valid(); }
+
+    // Returns a frozen copy of this object.
+    Object freeze(std::shared_ptr<Realm> frozen_realm) const;
+
+    // Returns whether or not this Object is frozen.
+    bool is_frozen() const noexcept;
 
     NotificationToken add_notification_callback(CollectionChangeCallback callback) &;
 
-    void ensure_user_in_everyone_role();
-    void ensure_private_role_exists_for_user();
+    template<typename ValueType>
+    void set_column_value(StringData prop_name, ValueType&& value) { m_obj.set(prop_name, value); }
+
+    template<typename ValueType>
+    ValueType get_column_value(StringData prop_name) const { return m_obj.get<ValueType>(prop_name); }
 
     // The following functions require an accessor context which converts from
     // the binding's native data types to the core data types. See CppContext
     // for a reference implementation of such a context.
     //
-    // The actual definitions of these tempated functions is in object_accessor.hpp
+    // The actual definitions of these templated functions is in object_accessor.hpp
 
     // property getter/setter
     template<typename ValueType, typename ContextType>
     void set_property_value(ContextType& ctx, StringData prop_name,
-                            ValueType value, bool try_update);
+                            ValueType value, CreatePolicy policy = CreatePolicy::SetLink);
+    template<typename ValueType, typename ContextType>
+    void set_property_value(ContextType& ctx, Property const& prop,
+                            ValueType value, CreatePolicy policy = CreatePolicy::SetLink);
 
     template<typename ValueType, typename ContextType>
-    ValueType get_property_value(ContextType& ctx, StringData prop_name);
+    ValueType get_property_value(ContextType& ctx, StringData prop_name) const;
+
+    template<typename ValueType, typename ContextType>
+    ValueType get_property_value(ContextType& ctx, const Property& property) const;
 
     // create an Object from a native representation
     template<typename ValueType, typename ContextType>
     static Object create(ContextType& ctx, std::shared_ptr<Realm> const& realm,
                          const ObjectSchema &object_schema, ValueType value,
-                         bool try_update = false, Row* = nullptr);
+                         CreatePolicy policy = CreatePolicy::ForceCreate,
+                         ObjKey current_obj = ObjKey(), Obj* = nullptr);
 
     template<typename ValueType, typename ContextType>
     static Object create(ContextType& ctx, std::shared_ptr<Realm> const& realm,
                          StringData object_type, ValueType value,
-                         bool try_update = false, Row* = nullptr);
+                         CreatePolicy policy = CreatePolicy::ForceCreate,
+                         ObjKey current_obj = ObjKey(), Obj* = nullptr);
 
     template<typename ValueType, typename ContextType>
     static Object get_for_primary_key(ContextType& ctx,
@@ -94,21 +150,24 @@ public:
                                       ValueType primary_value);
 
 private:
+    friend class Results;
+
     std::shared_ptr<Realm> m_realm;
     const ObjectSchema *m_object_schema;
-    Row m_row;
+    Obj m_obj;
     _impl::CollectionNotifier::Handle<_impl::ObjectNotifier> m_notifier;
 
 
     template<typename ValueType, typename ContextType>
     void set_property_value_impl(ContextType& ctx, const Property &property,
-                                 ValueType value, bool try_update, bool is_default=false);
+                                 ValueType value, CreatePolicy policy, bool is_default);
     template<typename ValueType, typename ContextType>
-    ValueType get_property_value_impl(ContextType& ctx, const Property &property);
+    ValueType get_property_value_impl(ContextType& ctx, const Property &property) const;
 
     template<typename ValueType, typename ContextType>
-    static size_t get_for_primary_key_impl(ContextType& ctx, Table const& table,
-                                           const Property &primary_prop, ValueType primary_value);
+    static ObjKey get_for_primary_key_impl(ContextType& ctx, Table const& table,
+                                           const Property &primary_prop,
+                                           ValueType primary_value);
 
     void verify_attached() const;
     Property const& property_for_name(StringData prop_name) const;
@@ -141,6 +200,13 @@ struct ReadOnlyPropertyException : public std::logic_error {
     const std::string object_type;
     const std::string property_name;
 };
+
+struct ModifyPrimaryKeyException : public std::logic_error {
+    ModifyPrimaryKeyException(const std::string& object_type, const std::string& property_name);
+    const std::string object_type;
+    const std::string property_name;
+};
+
 } // namespace realm
 
 #endif // REALM_OS_OBJECT_HPP

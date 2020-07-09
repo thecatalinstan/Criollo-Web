@@ -1,22 +1,3 @@
-/*************************************************************************
- *
- * REALM CONFIDENTIAL
- * __________________
- *
- *  [2011] - [2016] Realm Inc
- *  All Rights Reserved.
- *
- * NOTICE:  All information contained herein is, and remains
- * the property of Realm Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Realm Incorporated
- * and its suppliers and may be covered by U.S. and Foreign Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Realm Incorporated.
- *
- **************************************************************************/
 
 #ifndef REALM_UTIL_WEBSOCKET_HPP
 #define REALM_UTIL_WEBSOCKET_HPP
@@ -25,6 +6,7 @@
 #include <system_error>
 #include <map>
 
+#include <realm/util/string_view.hpp>
 #include <realm/util/logger.hpp>
 #include <realm/util/http.hpp>
 
@@ -33,13 +15,13 @@ namespace realm {
 namespace util {
 namespace websocket {
 
-using WriteCompletionHandler =
-    std::function<void(std::error_code, size_t num_bytes_transferred)>;
-using ReadCompletionHandler =
-    std::function<void(std::error_code, size_t num_bytes_transferred)>;
+using WriteCompletionHandler = std::function<void(std::error_code, size_t num_bytes_transferred)>;
+using ReadCompletionHandler = std::function<void(std::error_code, size_t num_bytes_transferred)>;
 
 class Config {
 public:
+    virtual ~Config() {}
+
     /// The Socket uses the caller supplied logger for logging.
     virtual util::Logger& websocket_get_logger() noexcept = 0;
 
@@ -72,16 +54,20 @@ public:
     /// websocket_read_error_handler() and websocket_write_error_handler() are called when an
     /// error occurs on the underlying stream given by the async_read and async_write functions above.
     /// The error_code is passed through.
+    ///
     /// websocket_handshake_error_handler() will be called when there is an error in the handshake
     /// such as "404 Not found".
+    ///
     /// websocket_protocol_error_handler() is called when there is an protocol error in the incoming
     /// websocket messages.
+    ///
     /// After calling any of these error callbacks, the Socket will move into the stopped state, and
     /// no more messages should be sent, or will be received.
     /// It is safe to destroy the WebSocket object in these handlers.
     virtual void websocket_read_error_handler(std::error_code) = 0;
     virtual void websocket_write_error_handler(std::error_code) = 0;
-    virtual void websocket_handshake_error_handler(std::error_code, const HTTPHeaders&) = 0;
+    virtual void websocket_handshake_error_handler(std::error_code, const HTTPHeaders*,
+                                                   const util::StringView* body) = 0;
     virtual void websocket_protocol_error_handler(std::error_code) = 0;
     //@}
 
@@ -102,14 +88,7 @@ public:
 };
 
 
-enum class Opcode {
-    continuation =  0,
-    text         =  1,
-    binary       =  2,
-    close        =  8,
-    ping         =  9,
-    pong         = 10
-};
+enum class Opcode { continuation = 0, text = 1, binary = 2, close = 8, ping = 9, pong = 10 };
 
 
 class Socket {
@@ -129,10 +108,8 @@ public:
     /// When the server responds with a valid HTTP response, the callback
     /// function websocket_handshake_completion_handler() is called. Messages
     /// can only be sent and received after the handshake has completed.
-    void initiate_client_handshake(const std::string& request_uri,
-                                   const std::string& host,
-                                   const std::string& sec_websocket_protocol,
-                                   HTTPHeaders headers = HTTPHeaders{});
+    void initiate_client_handshake(const std::string& request_uri, const std::string& host,
+                                   const std::string& sec_websocket_protocol, HTTPHeaders headers = HTTPHeaders{});
 
     /// initiate_server_handshake() starts the Socket in server mode. It will
     /// wait for a HTTP request from a client and respond with a HTTP response.
@@ -208,8 +185,7 @@ util::Optional<std::string> read_sec_websocket_protocol(const HTTPRequest& reque
 /// make_http_response() takes \a request as a WebSocket handshake request,
 /// validates it, and makes a HTTP response. If the request is invalid, the
 /// return value is None, and ec is set to Error::bad_request_header_*.
-util::Optional<HTTPResponse> make_http_response(const HTTPRequest& request,
-                                                const std::string& sec_websocket_protocol,
+util::Optional<HTTPResponse> make_http_response(const HTTPRequest& request, const std::string& sec_websocket_protocol,
                                                 std::error_code& ec);
 
 enum class Error {
@@ -227,6 +203,7 @@ enum class Error {
     bad_response_401_unauthorized,
     bad_response_403_forbidden,
     bad_response_404_not_found,
+    bad_response_410_gone,
     bad_response_5xx_server_error,
     bad_response_500_internal_server_error,
     bad_response_502_bad_gateway,
@@ -247,7 +224,8 @@ std::error_code make_error_code(Error) noexcept;
 
 namespace std {
 
-template<> struct is_error_code_enum<realm::util::websocket::Error> {
+template <>
+struct is_error_code_enum<realm::util::websocket::Error> {
     static const bool value = true;
 };
 

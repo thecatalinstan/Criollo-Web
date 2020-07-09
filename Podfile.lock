@@ -10,9 +10,9 @@ PODS:
   - JWT (3.0.0-beta.12):
     - Base64 (~> 1.1.2)
   - MMMarkdown (0.5.5)
-  - Realm (3.3.2):
-    - Realm/Headers (= 3.3.2)
-  - Realm/Headers (3.3.2)
+  - Realm (10.0.0-beta.2):
+    - Realm/Headers (= 10.0.0-beta.2)
+  - Realm/Headers (10.0.0-beta.2)
   - STTwitter (0.2.6)
 
 DEPENDENCIES:
@@ -23,7 +23,7 @@ DEPENDENCIES:
   - JSONModel (= 1.8.0)
   - JWT (= 3.0.0-beta.12)
   - MMMarkdown (= 0.5.5)
-  - Realm (= 3.3.2)
+  - Realm (= 10.0.0-beta.2)
   - STTwitter (= 0.2.6)
 
 SPEC REPOS:
@@ -50,9 +50,9 @@ SPEC CHECKSUMS:
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   MMMarkdown: 1af97166ce0f6d6e0cb05695665492195d27c3f1
-  Realm: d927fbf66df5532cfafc08afb5f7e53ded37b894
+  Realm: 211e32e680c354c9b1a2bdc0e3aeb01c25849641
   STTwitter: 30ee2f79eff78c3d633a1edc869e97db9c9ead59
 
-PODFILE CHECKSUM: a7411d52ceaf217cdb5e505c4f98de59cb404cb0
+PODFILE CHECKSUM: b821073770ec69a114eb993717cd2b711dd5d44b
 
 COCOAPODS: 1.9.3

@@ -22,59 +22,63 @@
 #include <stdexcept>
 
 #include <realm/util/features.h>
+#include <realm/util/backtrace.hpp>
+#include <realm/util/to_string.hpp>
 
 namespace realm {
 
+using util::ExceptionWithBacktrace;
+
 /// Thrown by various functions to indicate that a specified table does not
 /// exist.
-class NoSuchTable : public std::exception {
+class NoSuchTable : public ExceptionWithBacktrace<std::exception> {
 public:
-    const char* what() const noexcept override;
+    const char* message() const noexcept override;
 };
 
 
 /// Thrown by various functions to indicate that a specified table name is
 /// already in use.
-class TableNameInUse : public std::exception {
+class TableNameInUse : public ExceptionWithBacktrace<std::exception> {
 public:
-    const char* what() const noexcept override;
+    const char* message() const noexcept override;
 };
 
 
 // Thrown by functions that require a table to **not** be the target of link
 // columns, unless those link columns are part of the table itself.
-class CrossTableLinkTarget : public std::exception {
+class CrossTableLinkTarget : public ExceptionWithBacktrace<std::exception> {
 public:
-    const char* what() const noexcept override;
+    const char* message() const noexcept override;
 };
 
 
 /// Thrown by various functions to indicate that the dynamic type of a table
 /// does not match a particular other table type (dynamic or static).
-class DescriptorMismatch : public std::exception {
+class DescriptorMismatch : public ExceptionWithBacktrace<std::exception> {
 public:
-    const char* what() const noexcept override;
+    const char* message() const noexcept override;
 };
 
 
-/// The FileFormatUpgradeRequired exception can be thrown by the SharedGroup
+/// The UnsupportedFileFormatVersion exception is thrown by DB::open()
 /// constructor when opening a database that uses a deprecated file format
-/// and/or a deprecated history schema, and the user has indicated he does not
-/// want automatic upgrades to be performed. This exception indicates that until
-/// an upgrade of the file format is performed, the database will be unavailable
-/// for read or write operations.
-class FileFormatUpgradeRequired : public std::exception {
+/// and/or a deprecated history schema which this version of Realm cannot
+/// upgrade from.
+class UnsupportedFileFormatVersion : public ExceptionWithBacktrace<> {
 public:
-    const char* what() const noexcept override;
+    UnsupportedFileFormatVersion(int source_version);
+    /// The unsupported version of the file.
+    int source_version = 0;
 };
 
 
 /// Thrown when a sync agent attempts to join a session in which there is
 /// already a sync agent. A session may only contain one sync agent at any given
 /// time.
-class MultipleSyncAgents : public std::exception {
+class MultipleSyncAgents : public ExceptionWithBacktrace<std::exception> {
 public:
-    const char* what() const noexcept override;
+    const char* message() const noexcept override;
 };
 
 
@@ -99,12 +103,79 @@ public:
     /// runtime_error::what() returns the msg provided in the constructor.
 };
 
+/// Thrown when a key can not by found
+class KeyNotFound : public std::runtime_error {
+public:
+    KeyNotFound(const std::string& msg)
+        : std::runtime_error(msg)
+    {
+    }
+};
 
+/// Thrown when a column can not by found
+class ColumnNotFound : public std::runtime_error {
+public:
+    ColumnNotFound()
+        : std::runtime_error("Column not found")
+    {
+    }
+};
+
+/// Thrown when a column key is already used
+class ColumnAlreadyExists : public std::runtime_error {
+public:
+    ColumnAlreadyExists()
+        : std::runtime_error("Column already exists")
+    {
+    }
+};
+
+/// Thrown when a key is already existing when trying to create a new object
+class KeyAlreadyUsed : public std::runtime_error {
+public:
+    KeyAlreadyUsed(const std::string& msg)
+        : std::runtime_error(msg)
+    {
+    }
+};
+
+// SerialisationError intentionally does not inherit ExceptionWithBacktrace
+// because the query-based-sync permissions queries generated on the server
+// use a LinksToNode which is not currently serialisable (this limitation can
+// be lifted in core 6 given stable ids). Coupled with query metrics which
+// serialize all queries, the capturing of the stack for these frequent
+// permission queries shows up in performance profiles.
 class SerialisationError : public std::runtime_error {
 public:
     SerialisationError(const std::string& msg);
     /// runtime_error::what() returns the msg provided in the constructor.
 };
+
+// thrown when a user constructed link path is not a valid input
+class InvalidPathError : public std::runtime_error {
+public:
+    InvalidPathError(const std::string& msg);
+    /// runtime_error::what() returns the msg provided in the constructor.
+};
+
+class DuplicatePrimaryKeyValueException : public std::logic_error {
+public:
+    DuplicatePrimaryKeyValueException(std::string object_type, std::string property);
+
+    std::string const& object_type() const
+    {
+        return m_object_type;
+    }
+    std::string const& property() const
+    {
+        return m_property;
+    }
+
+private:
+    std::string m_object_type;
+    std::string m_property;
+};
+
 
 /// The \c LogicError exception class is intended to be thrown only when
 /// applications (or bindings) violate rules that are stated (or ought to have
@@ -138,13 +209,15 @@ public:
 ///
 /// FIXME: This exception class should probably be moved to the `_impl`
 /// namespace, in order to avoid some confusion.
-class LogicError : public std::exception {
+class LogicError : public ExceptionWithBacktrace<std::exception> {
 public:
     enum ErrorKind {
         string_too_big,
         binary_too_big,
         table_name_too_long,
         column_name_too_long,
+        column_name_in_use,
+        invalid_column_name,
         table_index_out_of_range,
         row_index_out_of_range,
         column_index_out_of_range,
@@ -196,31 +269,28 @@ public:
 
         /// Group::open() is called on a group accessor that is already in the
         /// attached state. Or Group::open() or Group::commit() is called on a
-        /// group accessor that is managed by a SharedGroup object.
+        /// group accessor that is managed by a DB object.
         wrong_group_state,
 
-        /// No active transaction on a particular SharedGroup object (e.g.,
-        /// SharedGroup::commit()), or the active transaction on the SharedGroup
-        /// object is of the wrong type (read/write), or an attampt was made to
-        /// initiate a new transaction while one is already in progress on the
-        /// same SharedGroup object.
+        /// No active transaction on a particular Transaction object (e.g. after commit)
+        /// or the Transaction object is of the wrong type (write to a read-only transaction)
         wrong_transact_state,
 
-        /// Attempted use of a continuous transaction through a SharedGroup
+        /// Attempted use of a continuous transaction through a DB
         /// object with no history. See Replication::get_history().
         no_history,
 
-        /// Durability setting (as passed to the SharedGroup constructor) was
+        /// Durability setting (as passed to the DB constructor) was
         /// not consistent across the session.
         mixed_durability,
 
         /// History type (as specified by the Replication implementation passed
-        /// to the SharedGroup constructor) was not consistent across the
+        /// to the DB constructor) was not consistent across the
         /// session.
         mixed_history_type,
 
         /// History schema version (as specified by the Replication
-        /// implementation passed to the SharedGroup constructor) was not
+        /// implementation passed to the DB constructor) was not
         /// consistent across the session.
         mixed_history_schema_version,
 
@@ -231,12 +301,15 @@ public:
         column_does_not_exist,
 
         /// You can not add index on a subtable of a subtable
-        subtable_of_subtable_index
+        subtable_of_subtable_index,
+
+        /// You try to instantiate a list object not matching column type
+        list_type_mismatch
     };
 
     LogicError(ErrorKind message);
 
-    const char* what() const noexcept override;
+    const char* message() const noexcept override;
     ErrorKind kind() const noexcept;
 
 private:
@@ -248,32 +321,34 @@ private:
 
 // LCOV_EXCL_START (Wording of what() strings are not to be tested)
 
-inline const char* NoSuchTable::what() const noexcept
+inline const char* NoSuchTable::message() const noexcept
 {
     return "No such table exists";
 }
 
-inline const char* TableNameInUse::what() const noexcept
+inline const char* TableNameInUse::message() const noexcept
 {
     return "The specified table name is already in use";
 }
 
-inline const char* CrossTableLinkTarget::what() const noexcept
+inline const char* CrossTableLinkTarget::message() const noexcept
 {
     return "Table is target of cross-table link columns";
 }
 
-inline const char* DescriptorMismatch::what() const noexcept
+inline const char* DescriptorMismatch::message() const noexcept
 {
     return "Table descriptor mismatch";
 }
 
-inline const char* FileFormatUpgradeRequired::what() const noexcept
+inline UnsupportedFileFormatVersion::UnsupportedFileFormatVersion(int version)
+    : ExceptionWithBacktrace<>(
+          util::format("Database has an unsupported version (%1) and cannot be upgraded", version))
+    , source_version(version)
 {
-    return "Database upgrade required but prohibited";
 }
 
-inline const char* MultipleSyncAgents::what() const noexcept
+inline const char* MultipleSyncAgents::message() const noexcept
 {
     return "Multiple sync agents attempted to join the same session";
 }
@@ -291,12 +366,17 @@ inline MaximumFileSizeExceeded::MaximumFileSizeExceeded(const std::string& msg)
 }
 
 inline OutOfDiskSpace::OutOfDiskSpace(const std::string& msg)
-: std::runtime_error(msg)
+    : std::runtime_error(msg)
 {
 }
 
 inline SerialisationError::SerialisationError(const std::string& msg)
-: std::runtime_error(msg)
+    : std::runtime_error(msg)
+{
+}
+
+inline InvalidPathError::InvalidPathError(const std::string& msg)
+    : runtime_error(msg)
 {
 }
 
@@ -312,5 +392,6 @@ inline LogicError::ErrorKind LogicError::kind() const noexcept
 
 
 } // namespace realm
+
 
 #endif // REALM_EXCEPTIONS_HPP

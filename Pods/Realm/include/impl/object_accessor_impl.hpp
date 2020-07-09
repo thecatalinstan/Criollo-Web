@@ -36,9 +36,11 @@ public:
     // This constructor is the only one used by the object accessor code, and is
     // used when recurring into a link or array property during object creation
     // (i.e. prop.type will always be Object or Array).
-    CppContext(CppContext& c, Property const& prop)
+    CppContext(CppContext& c, Obj parent, Property const& prop)
     : realm(c.realm)
     , object_schema(prop.type == PropertyType::Object ? &*realm->schema().find(prop.object_type) : c.object_schema)
+    , m_parent(std::move(parent))
+    , m_property(&prop)
     { }
 
     CppContext() = default;
@@ -55,11 +57,11 @@ public:
     // property and its index within the ObjectScehma's persisted_properties
     // array.
     util::Optional<util::Any> value_for_property(util::Any& dict,
-                                                 std::string const& prop_name,
+                                                 const Property& prop,
                                                  size_t /* property_index */) const
     {
-        auto const& v = any_cast<AnyDict&>(dict);
-        auto it = v.find(prop_name);
+        auto const& v = util::any_cast<AnyDict&>(dict);
+        auto it = v.find(prop.name);
         return it == v.end() ? util::none : util::make_optional(it->second);
     }
 
@@ -70,7 +72,7 @@ public:
     // This implementation does not support default values; see the default
     // value tests for an example of one which does.
     util::Optional<util::Any>
-    default_value_for_property(ObjectSchema const&, std::string const&) const
+    default_value_for_property(ObjectSchema const&, Property const&) const
     {
         return util::none;
     }
@@ -78,14 +80,14 @@ public:
     // Invoke `fn` with each of the values from an enumerable type
     template<typename Func>
     void enumerate_list(util::Any& value, Func&& fn) {
-        for (auto&& v : any_cast<AnyVector&>(value))
+        for (auto&& v : util::any_cast<AnyVector&>(value))
             fn(v);
     }
 
     // Determine if `value` boxes the same List as `list`
     bool is_same_list(List const& list, util::Any const& value)
     {
-        if (auto list2 = any_cast<List>(&value))
+        if (auto list2 = util::any_cast<List>(&value))
             return list == *list2;
         return false;
     }
@@ -101,11 +103,14 @@ public:
     util::Any box(double v) const { return v; }
     util::Any box(float v) const { return v; }
     util::Any box(int64_t v) const { return v; }
+    util::Any box(ObjectId v) const { return v; }
+    util::Any box(Decimal v) const { return v; }
     util::Any box(util::Optional<bool> v) const { return v; }
     util::Any box(util::Optional<double> v) const { return v; }
     util::Any box(util::Optional<float> v) const { return v; }
     util::Any box(util::Optional<int64_t> v) const { return v; }
-    util::Any box(RowExpr) const;
+    util::Any box(util::Optional<ObjectId> v) const { return v; }
+    util::Any box(Obj) const;
 
     // Any properties are only supported by the Cocoa binding to enable reading
     // old Realm files that may have used them. Other bindings can safely not
@@ -113,17 +118,23 @@ public:
     util::Any box(Mixed) const { REALM_TERMINATE("not supported"); }
 
     // Convert from the boxed type to core types. This needs to be implemented
-    // for all of the types which `box()` can take, plus `RowExpr` and optional
+    // for all of the types which `box()` can take, plus `Obj` and optional
     // versions of the numeric types, minus `List` and `Results`.
     //
-    // `create` and `update` are only applicable to `unbox<RowExpr>`. If
+    // `create` and `update` are only applicable to `unbox<Obj>`. If
     // `create` is false then when given something which is not a managed Realm
-    // object `unbox()` should simply return a detached row expr, while if it's
+    // object `unbox()` should simply return a detached obj, while if it's
     // true then `unbox()` should create a new object in the context's Realm
     // using the provided value. If `update` is true then upsert semantics
     // should be used for this.
+    // If `update_only_diff` is true, only properties that are different from
+    // already existing properties should be updated. If `create` and `update_only_diff`
+    // is true, `current_row` may hold a reference to the object that should
+    // be compared against.
     template<typename T>
-    T unbox(util::Any& v, bool /*create*/= false, bool /*update*/= false) const { return any_cast<T>(v); }
+    T unbox(util::Any& v, CreatePolicy = CreatePolicy::Skip, ObjKey /*current_row*/ = ObjKey()) const { return util::any_cast<T>(v); }
+
+    Obj create_embedded_object();
 
     bool is_null(util::Any const& v) const noexcept { return !v.has_value(); }
     util::Any null_value() const noexcept { return {}; }
@@ -145,75 +156,88 @@ public:
 private:
     std::shared_ptr<Realm> realm;
     const ObjectSchema* object_schema = nullptr;
+    Obj m_parent;
+    const Property* m_property = nullptr;
 
 };
 
-inline util::Any CppContext::box(RowExpr row) const
+inline util::Any CppContext::box(Obj obj) const
 {
     REALM_ASSERT(object_schema);
-    return Object(realm, *object_schema, row);
+    return Object(realm, *object_schema, obj);
 }
 
 template<>
-inline StringData CppContext::unbox(util::Any& v, bool, bool) const
+inline StringData CppContext::unbox(util::Any& v, CreatePolicy, ObjKey) const
 {
     if (!v.has_value())
         return StringData();
-    auto& value = any_cast<std::string&>(v);
+    auto& value = util::any_cast<std::string&>(v);
     return StringData(value.c_str(), value.size());
 }
 
 template<>
-inline BinaryData CppContext::unbox(util::Any& v, bool, bool) const
+inline BinaryData CppContext::unbox(util::Any& v, CreatePolicy, ObjKey) const
 {
     if (!v.has_value())
         return BinaryData();
-    auto& value = any_cast<std::string&>(v);
+    auto& value = util::any_cast<std::string&>(v);
     return BinaryData(value.c_str(), value.size());
 }
 
 template<>
-inline RowExpr CppContext::unbox(util::Any& v, bool create, bool update) const
+inline Obj CppContext::unbox(util::Any& v, CreatePolicy policy, ObjKey current_obj) const
 {
-    if (auto object = any_cast<Object>(&v))
-        return object->row();
-    if (auto row = any_cast<RowExpr>(&v))
-        return *row;
-    if (!create)
-        return RowExpr();
+    if (auto object = util::any_cast<Object>(&v))
+        return object->obj();
+    if (auto obj = util::any_cast<Obj>(&v))
+        return *obj;
+    if (!policy.create)
+        return Obj();
 
     REALM_ASSERT(object_schema);
-    return Object::create(const_cast<CppContext&>(*this), realm, *object_schema, v, update).row();
+    return Object::create(const_cast<CppContext&>(*this), realm, *object_schema, v, policy, current_obj).obj();
 }
 
 template<>
-inline util::Optional<bool> CppContext::unbox(util::Any& v, bool, bool) const
+inline util::Optional<bool> CppContext::unbox(util::Any& v, CreatePolicy, ObjKey) const
 {
     return v.has_value() ? util::make_optional(unbox<bool>(v)) : util::none;
 }
 
 template<>
-inline util::Optional<int64_t> CppContext::unbox(util::Any& v, bool, bool) const
+inline util::Optional<int64_t> CppContext::unbox(util::Any& v, CreatePolicy, ObjKey) const
 {
     return v.has_value() ? util::make_optional(unbox<int64_t>(v)) : util::none;
 }
 
 template<>
-inline util::Optional<double> CppContext::unbox(util::Any& v, bool, bool) const
+inline util::Optional<double> CppContext::unbox(util::Any& v, CreatePolicy, ObjKey) const
 {
     return v.has_value() ? util::make_optional(unbox<double>(v)) : util::none;
 }
 
 template<>
-inline util::Optional<float> CppContext::unbox(util::Any& v, bool, bool) const
+inline util::Optional<float> CppContext::unbox(util::Any& v, CreatePolicy, ObjKey) const
 {
     return v.has_value() ? util::make_optional(unbox<float>(v)) : util::none;
 }
 
 template<>
-inline Mixed CppContext::unbox(util::Any&, bool, bool) const
+inline util::Optional<ObjectId> CppContext::unbox(util::Any& v, CreatePolicy, ObjKey) const
+{
+    return v.has_value() ? util::make_optional(unbox<ObjectId>(v)) : util::none;
+}
+
+template<>
+inline Mixed CppContext::unbox(util::Any&, CreatePolicy, ObjKey) const
 {
     throw std::logic_error("'Any' type is unsupported");
+}
+
+inline Obj CppContext::create_embedded_object()
+{
+    return m_parent.create_and_set_linked_object(m_property->column_key);
 }
 }
 

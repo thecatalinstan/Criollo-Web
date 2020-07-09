@@ -9,7 +9,7 @@ target 'Criollo Web' do
     pod 'JSONModel',          '1.8.0'
     pod 'JWT',                '3.0.0-beta.12'
     pod 'MMMarkdown',         '0.5.5'
-    pod 'Realm',              '3.3.2',          :inhibit_warnings => true
+    pod 'Realm',              '10.0.0-beta.2'
     pod 'STTwitter',          '0.2.6'
 end
 
@@ -37,10 +37,8 @@ post_install do |installer|
       
       if target.name == "JWT"
         config.build_settings["MACOSX_DEPLOYMENT_TARGET"] = "10.10"
-#        config.build_settings["WARNING_CFLAGS"] = ['$(inherited)', '-Wno-incomplete-umbrella', '-Wno-undef']
         config.build_settings["GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS"] = "NO"
         config.build_settings["CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS"] = "NO"
-#        config.build_settings["CLANG_WARN_STRICT_PROTOTYPES"] = "NO"
       end
       
       if target.name == "MMMarkdown"

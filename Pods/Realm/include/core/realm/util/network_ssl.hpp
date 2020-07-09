@@ -1,24 +1,3 @@
-#include <iostream>  // REMOVE
-
-/*************************************************************************
- *
- * REALM CONFIDENTIAL
- * __________________
- *
- *  [2011] - [2015] Realm Inc
- *  All Rights Reserved.
- *
- * NOTICE:  All information contained herein is, and remains
- * the property of Realm Incorporated and its suppliers,
- * if any.  The intellectual and technical concepts contained
- * herein are proprietary to Realm Incorporated
- * and its suppliers and may be covered by U.S. and Foreign Patents,
- * patents in process, and are protected by trade secret or copyright law.
- * Dissemination of this information or reproduction of this material
- * is strictly forbidden unless prior written permission is obtained
- * from Realm Incorporated.
- *
- **************************************************************************/
 #ifndef REALM_UTIL_NETWORK_SSL_HPP
 #define REALM_UTIL_NETWORK_SSL_HPP
 
@@ -37,12 +16,12 @@
 #include <realm/util/logger.hpp>
 
 #if REALM_HAVE_OPENSSL
-#  include <openssl/ssl.h>
-#  include <openssl/err.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 #elif REALM_HAVE_SECURE_TRANSPORT
-#  include <realm/util/cf_ptr.hpp>
-#  include <Security/Security.h>
-#  include <Security/SecureTransport.h>
+#include <realm/util/cf_ptr.hpp>
+#include <Security/Security.h>
+#include <Security/SecureTransport.h>
 
 #define REALM_HAVE_KEYCHAIN_APIS (TARGET_OS_MAC && !TARGET_OS_IPHONE)
 
@@ -69,13 +48,30 @@ namespace util {
 namespace network {
 namespace ssl {
 
-enum class Error {
+enum class Errors {
     certificate_rejected = 1,
 };
 
-const std::error_category& ssl_error_category();
+class ErrorCategory : public std::error_category {
+public:
+    const char* name() const noexcept override final;
+    std::string message(int) const override final;
+    bool equivalent(const std::error_code&, int) const noexcept override final;
+};
 
-std::error_condition make_error_condition(Error value);
+/// The error category associated with \ref Errors. The name of this category is
+/// `realm.util.network.ssl`.
+extern ErrorCategory error_category;
+
+inline std::error_code make_error_code(Errors err)
+{
+    return std::error_code(int(err), error_category);
+}
+
+inline std::error_condition make_error_condition(Errors err)
+{
+    return std::error_condition(int(err), error_category);
+}
 
 } // namespace ssl
 } // namespace network
@@ -85,25 +81,39 @@ std::error_condition make_error_condition(Error value);
 namespace std {
 
 template <>
-struct is_error_condition_enum<realm::util::network::ssl::Error> : public true_type {};
+class is_error_condition_enum<realm::util::network::ssl::Errors> {
+public:
+    static const bool value = true;
+};
 
 } // namespace std
 
 namespace realm {
 namespace util {
 namespace network {
+
+class OpensslErrorCategory : public std::error_category {
+public:
+    const char* name() const noexcept override final;
+    std::string message(int) const override final;
+};
+
+/// The error category associated with error codes produced by the third-party
+/// library, OpenSSL. The name of this category is `openssl`.
+extern OpensslErrorCategory openssl_error_category;
+
+class SecureTransportErrorCategory : public std::error_category {
+public:
+    const char* name() const noexcept override final;
+    std::string message(int) const override final;
+};
+
+/// The error category associated with error codes produced by Apple's
+/// SecureTransport library. The name of this category is `securetransport`.
+extern SecureTransportErrorCategory secure_transport_error_category;
+
+
 namespace ssl {
-
-#if REALM_HAVE_OPENSSL
-
-const std::error_category& openssl_error_category();
-
-#elif REALM_HAVE_SECURE_TRANSPORT
-
-const std::error_category& secure_transport_error_category();
-
-#endif
-
 
 class ProtocolNotSupported;
 
@@ -153,8 +163,6 @@ private:
 #elif REALM_HAVE_SECURE_TRANSPORT
 
 #if REALM_HAVE_KEYCHAIN_APIS
-    static util::CFPtr<CFArrayRef> load_pem_file(const std::string& path, SecKeychainRef, std::error_code&);
-
     std::error_code open_temporary_keychain_if_needed();
     std::error_code update_identity_if_needed();
 
@@ -167,8 +175,14 @@ private:
 
     util::CFPtr<CFArrayRef> m_certificate_chain;
 
-    util::CFPtr<CFArrayRef> m_trust_anchors;
+#else
+    using SecKeychainRef = std::nullptr_t;
+
 #endif // REALM_HAVE_KEYCHAIN_APIS
+    static util::CFPtr<CFArrayRef> load_pem_file(const std::string& path, SecKeychainRef, std::error_code&);
+
+    util::CFPtr<CFArrayRef> m_trust_anchors;
+    util::CFPtr<CFDataRef> m_pinned_certificate;
 
 #endif
 
@@ -184,16 +198,12 @@ private:
 class Stream {
 public:
     using port_type = util::network::Endpoint::port_type;
-    using SSLVerifyCallback = bool(const std::string& server_address,
-                                   port_type server_port,
-                                   const char* pem_data,
-                                   size_t pem_size,
-                                   int preverify_ok,
-                                   int depth);
+    using SSLVerifyCallback = bool(const std::string& server_address, port_type server_port, const char* pem_data,
+                                   size_t pem_size, int preverify_ok, int depth);
 
     enum HandshakeType { client, server };
 
-    util::Logger* logger;
+    util::Logger* logger = nullptr;
 
     Stream(Socket&, Context&, HandshakeType);
     ~Stream() noexcept;
@@ -222,20 +232,22 @@ public:
 
     /// \brief Check the certificate against a host_name.
     ///
-    /// set_check_host() includes a host name check in the
-    /// certificate verification. It is typically used by clients
-    /// to secure that the received certificate has a common name
-    /// or subject alternative name that matches \param host_name.
+    /// On the client side, this enables the Server Name Indication (TLS/SNI)
+    /// extension if supported by the underlying platform. For OpenSSL, it is
+    /// enabled starting from version 1.1.1.
     ///
-    /// set_check_host() is only useful if verify_mode is
-    /// set to VerifyMode::peer.
-    void set_check_host(std::string host_name);
-    const std::string& get_host_name();
+    /// Additionally, this turns on a host name check as part of certificate
+    /// verification, if certificate verification is enabled
+    /// (set_verify_mode()).
+    ///
+    /// NOTE: With Secure Transport on macos, host name check will be turned on
+    /// regardless of whether certificate verification is enabled (see
+    /// https://github.com/curl/curl/pull/1240#issuecomment-285281512).
+    void set_host_name(std::string host_name);
 
     /// get_server_port() and set_server_port() are getter and setter for
     /// the server port. They are only used by the verify callback function
     /// below.
-    port_type get_server_port();
     void set_server_port(port_type server_port);
 
     /// If use_verify_callback() is called, the SSL certificate chain of
@@ -340,8 +352,7 @@ public:
     std::size_t read(char* buffer, std::size_t size, ReadAheadBuffer&);
     std::size_t read(char* buffer, std::size_t size, ReadAheadBuffer&, std::error_code& ec);
     std::size_t read_until(char* buffer, std::size_t size, char delim, ReadAheadBuffer&);
-    std::size_t read_until(char* buffer, std::size_t size, char delim, ReadAheadBuffer&,
-                           std::error_code& ec);
+    std::size_t read_until(char* buffer, std::size_t size, char delim, ReadAheadBuffer&, std::error_code& ec);
 
     std::size_t write(const char* data, std::size_t size);
     std::size_t write(const char* data, std::size_t size, std::error_code& ec);
@@ -355,20 +366,27 @@ public:
     void shutdown();
     std::error_code shutdown(std::error_code&);
 
-    template<class H> void async_handshake(H handler);
+    template <class H>
+    void async_handshake(H handler);
 
-    template<class H> void async_read(char* buffer, std::size_t size, H handler);
-    template<class H> void async_read(char* buffer, std::size_t size, ReadAheadBuffer&, H handler);
-    template<class H> void async_read_until(char* buffer, std::size_t size, char delim,
-                                            ReadAheadBuffer&, H handler);
+    template <class H>
+    void async_read(char* buffer, std::size_t size, H handler);
+    template <class H>
+    void async_read(char* buffer, std::size_t size, ReadAheadBuffer&, H handler);
+    template <class H>
+    void async_read_until(char* buffer, std::size_t size, char delim, ReadAheadBuffer&, H handler);
 
-    template<class H> void async_write(const char* data, std::size_t size, H handler);
+    template <class H>
+    void async_write(const char* data, std::size_t size, H handler);
 
-    template<class H> void async_read_some(char* buffer, std::size_t size, H handler);
+    template <class H>
+    void async_read_some(char* buffer, std::size_t size, H handler);
 
-    template<class H> void async_write_some(const char* data, std::size_t size, H handler);
+    template <class H>
+    void async_write_some(const char* data, std::size_t size, H handler);
 
-    template<class H> void async_shutdown(H handler);
+    template <class H>
+    void async_shutdown(H handler);
 
     /// @}
 
@@ -380,12 +398,14 @@ private:
     using StreamOps = Service::BasicStreamOps<Stream>;
 
     class HandshakeOperBase;
-    template<class H> class HandshakeOper;
+    template <class H>
+    class HandshakeOper;
     class ShutdownOperBase;
-    template<class H> class ShutdownOper;
+    template <class H>
+    class ShutdownOper;
 
     using LendersHandshakeOperPtr = std::unique_ptr<HandshakeOperBase, Service::LendersOperDeleter>;
-    using LendersShutdownOperPtr  = std::unique_ptr<ShutdownOperBase,  Service::LendersOperDeleter>;
+    using LendersShutdownOperPtr = std::unique_ptr<ShutdownOperBase, Service::LendersOperDeleter>;
 
     Socket& m_tcp_socket;
     Context& m_ssl_context;
@@ -410,14 +430,10 @@ private:
     // See Service::BasicStreamOps for details on these these 6 functions.
     void do_init_read_async(std::error_code&, Want&) noexcept;
     void do_init_write_async(std::error_code&, Want&) noexcept;
-    std::size_t do_read_some_sync(char* buffer, std::size_t size,
-                                  std::error_code&) noexcept;
-    std::size_t do_write_some_sync(const char* data, std::size_t size,
-                                   std::error_code&) noexcept;
-    std::size_t do_read_some_async(char* buffer, std::size_t size,
-                                   std::error_code&, Want&) noexcept;
-    std::size_t do_write_some_async(const char* data, std::size_t size,
-                                    std::error_code&, Want&) noexcept;
+    std::size_t do_read_some_sync(char* buffer, std::size_t size, std::error_code&) noexcept;
+    std::size_t do_write_some_sync(const char* data, std::size_t size, std::error_code&) noexcept;
+    std::size_t do_read_some_async(char* buffer, std::size_t size, std::error_code&, Want&) noexcept;
+    std::size_t do_write_some_async(const char* data, std::size_t size, std::error_code&, Want&) noexcept;
 
     // The meaning of the arguments and return values of ssl_read() and
     // ssl_write() are identical to do_read_some_async() and
@@ -447,16 +463,14 @@ private:
     void ssl_init();
     void ssl_destroy() noexcept;
     void ssl_set_verify_mode(VerifyMode, std::error_code&);
-    void ssl_set_check_host(std::string, std::error_code&);
+    void ssl_set_host_name(const std::string&, std::error_code&);
     void ssl_use_verify_callback(const std::function<SSLVerifyCallback>&, std::error_code&);
     void ssl_use_included_certificates(std::error_code&);
 
     void ssl_handshake(std::error_code&, Want& want) noexcept;
     bool ssl_shutdown(std::error_code& ec, Want& want) noexcept;
-    std::size_t ssl_read(char* buffer, std::size_t size,
-                         std::error_code&, Want& want) noexcept;
-    std::size_t ssl_write(const char* data, std::size_t size,
-                          std::error_code&, Want& want) noexcept;
+    std::size_t ssl_read(char* buffer, std::size_t size, std::error_code&, Want& want) noexcept;
+    std::size_t ssl_write(const char* data, std::size_t size, std::error_code&, Want& want) noexcept;
 
 #if REALM_HAVE_OPENSSL
     class BioMethod;
@@ -466,7 +480,7 @@ private:
 
     int m_ssl_index = -1;
 
-    template<class Oper>
+    template <class Oper>
     std::size_t ssl_perform(Oper oper, std::error_code& ec, Want& want) noexcept;
 
     int do_ssl_accept() noexcept;
@@ -485,15 +499,15 @@ private:
     // verify_callback_using_hostname is used as an argument to OpenSSL's SSL_set_verify function.
     // verify_callback_using_hostname verifies that the certificate is valid and contains
     // m_host_name as a Common Name or Subject Alternative Name.
-    static int verify_callback_using_hostname(int preverify_ok, X509_STORE_CTX *ctx) noexcept;
+    static int verify_callback_using_hostname(int preverify_ok, X509_STORE_CTX* ctx) noexcept;
 
     // verify_callback_using_delegate() is also used as an argument to OpenSSL's set_verify_function.
     // verify_callback_using_delegate() calls out to the user supplied verify callback.
-    static int verify_callback_using_delegate(int preverify_ok, X509_STORE_CTX *ctx) noexcept;
+    static int verify_callback_using_delegate(int preverify_ok, X509_STORE_CTX* ctx) noexcept;
 
     // verify_callback_using_root_certs is used by OpenSSL to handle certificate verification
     // using the included root certifictes.
-    static int verify_callback_using_root_certs(int preverify_ok, X509_STORE_CTX *ctx);
+    static int verify_callback_using_root_certs(int preverify_ok, X509_STORE_CTX* ctx);
 #elif REALM_HAVE_SECURE_TRANSPORT
     util::CFPtr<SSLContextRef> m_ssl;
     VerifyMode m_verify_mode = VerifyMode::none;
@@ -512,7 +526,7 @@ private:
     // written to the underlying socket.
     std::size_t m_num_partially_written_bytes = 0;
 
-    template<class Oper>
+    template <class Oper>
     std::size_t ssl_perform(Oper oper, std::error_code& ec, Want& want) noexcept;
 
     std::pair<OSStatus, std::size_t> do_ssl_handshake() noexcept;
@@ -586,9 +600,9 @@ inline void Context::use_verify_file(const std::string& path)
 
 class Stream::HandshakeOperBase : public Service::IoOper {
 public:
-    HandshakeOperBase(std::size_t size, Stream& stream) :
-        IoOper{size},
-        m_stream{&stream}
+    HandshakeOperBase(std::size_t size, Stream& stream)
+        : IoOper{size}
+        , m_stream{&stream}
     {
     }
     Want initiate()
@@ -623,16 +637,18 @@ public:
     {
         return m_stream->lowest_layer().m_desc;
     }
+
 protected:
     Stream* m_stream;
     std::error_code m_error_code;
 };
 
-template<class H> class Stream::HandshakeOper : public HandshakeOperBase {
+template <class H>
+class Stream::HandshakeOper : public HandshakeOperBase {
 public:
-    HandshakeOper(std::size_t size, Stream& stream, H handler) :
-        HandshakeOperBase{size, stream},
-        m_handler{std::move(handler)}
+    HandshakeOper(std::size_t size, Stream& stream, H handler)
+        : HandshakeOperBase{size, stream}
+        , m_handler{std::move(handler)}
     {
     }
     void recycle_and_execute() override final
@@ -645,15 +661,16 @@ public:
         // Note: do_recycle_and_execute() commits suicide.
         do_recycle_and_execute<H>(orphaned, m_handler, ec); // Throws
     }
+
 private:
     H m_handler;
 };
 
 class Stream::ShutdownOperBase : public Service::IoOper {
 public:
-    ShutdownOperBase(std::size_t size, Stream& stream) :
-        IoOper{size},
-        m_stream{&stream}
+    ShutdownOperBase(std::size_t size, Stream& stream)
+        : IoOper{size}
+        , m_stream{&stream}
     {
     }
     Want initiate()
@@ -689,16 +706,18 @@ public:
     {
         return m_stream->lowest_layer().m_desc;
     }
+
 protected:
     Stream* m_stream;
     std::error_code m_error_code;
 };
 
-template<class H> class Stream::ShutdownOper : public ShutdownOperBase {
+template <class H>
+class Stream::ShutdownOper : public ShutdownOperBase {
 public:
-    ShutdownOper(std::size_t size, Stream& stream, H handler) :
-        ShutdownOperBase{size, stream},
-        m_handler{std::move(handler)}
+    ShutdownOper(std::size_t size, Stream& stream, H handler)
+        : ShutdownOperBase{size, stream}
+        , m_handler{std::move(handler)}
     {
     }
     void recycle_and_execute() override final
@@ -711,14 +730,15 @@ public:
         // Note: do_recycle_and_execute() commits suicide.
         do_recycle_and_execute<H>(orphaned, m_handler, ec); // Throws
     }
+
 private:
     H m_handler;
 };
 
-inline Stream::Stream(Socket& socket, Context& context, HandshakeType type) :
-    m_tcp_socket{socket},
-    m_ssl_context{context},
-    m_handshake_type{type}
+inline Stream::Stream(Socket& socket, Context& context, HandshakeType type)
+    : m_tcp_socket{socket}
+    , m_ssl_context{context}
+    , m_handshake_type{type}
 {
     ssl_init(); // Throws
 }
@@ -742,23 +762,13 @@ inline void Stream::set_verify_mode(VerifyMode mode)
         throw std::system_error(ec);
 }
 
-inline void Stream::set_check_host(std::string host_name)
+inline void Stream::set_host_name(std::string host_name)
 {
-    m_host_name = host_name;
+    m_host_name = std::move(host_name);
     std::error_code ec;
-    ssl_set_check_host(host_name, ec);
+    ssl_set_host_name(m_host_name, ec);
     if (ec)
         throw std::system_error(ec);
-}
-
-inline const std::string& Stream::get_host_name()
-{
-    return m_host_name;
-}
-
-inline Stream::port_type Stream::get_server_port()
-{
-    return m_server_port;
 }
 
 inline void Stream::set_server_port(port_type server_port)
@@ -814,15 +824,13 @@ inline std::size_t Stream::read(char* buffer, std::size_t size, ReadAheadBuffer&
     return size;
 }
 
-inline std::size_t Stream::read(char* buffer, std::size_t size, ReadAheadBuffer& rab,
-                                std::error_code& ec)
+inline std::size_t Stream::read(char* buffer, std::size_t size, ReadAheadBuffer& rab, std::error_code& ec)
 {
     int delim = std::char_traits<char>::eof();
     return StreamOps::buffered_read(*this, buffer, size, delim, rab, ec); // Throws
 }
 
-inline std::size_t Stream::read_until(char* buffer, std::size_t size, char delim,
-                                      ReadAheadBuffer& rab)
+inline std::size_t Stream::read_until(char* buffer, std::size_t size, char delim, ReadAheadBuffer& rab)
 {
     std::error_code ec;
     std::size_t n = read_until(buffer, size, delim, rab, ec); // Throws
@@ -831,8 +839,8 @@ inline std::size_t Stream::read_until(char* buffer, std::size_t size, char delim
     return n;
 }
 
-inline std::size_t Stream::read_until(char* buffer, std::size_t size, char delim,
-                                      ReadAheadBuffer& rab, std::error_code& ec)
+inline std::size_t Stream::read_until(char* buffer, std::size_t size, char delim, ReadAheadBuffer& rab,
+                                      std::error_code& ec)
 {
     int delim_2 = std::char_traits<char>::to_int_type(delim);
     return StreamOps::buffered_read(*this, buffer, size, delim_2, rab, ec); // Throws
@@ -887,59 +895,62 @@ inline void Stream::shutdown()
         throw std::system_error(ec);
 }
 
-template<class H> inline void Stream::async_handshake(H handler)
+template <class H>
+inline void Stream::async_handshake(H handler)
 {
-    LendersHandshakeOperPtr op =
-        Service::alloc<HandshakeOper<H>>(m_tcp_socket.m_read_oper, *this,
-                                         std::move(handler)); // Throws
-    m_tcp_socket.m_desc.initiate_oper(std::move(op)); // Throws
+    LendersHandshakeOperPtr op = Service::alloc<HandshakeOper<H>>(m_tcp_socket.m_read_oper, *this,
+                                                                  std::move(handler)); // Throws
+    m_tcp_socket.m_desc.initiate_oper(std::move(op));                                  // Throws
 }
 
-template<class H> inline void Stream::async_read(char* buffer, std::size_t size, H handler)
+template <class H>
+inline void Stream::async_read(char* buffer, std::size_t size, H handler)
 {
     bool is_read_some = false;
     StreamOps::async_read(*this, buffer, size, is_read_some, std::move(handler)); // Throws
 }
 
-template<class H>
+template <class H>
 inline void Stream::async_read(char* buffer, std::size_t size, ReadAheadBuffer& rab, H handler)
 {
     int delim = std::char_traits<char>::eof();
     StreamOps::async_buffered_read(*this, buffer, size, delim, rab, std::move(handler)); // Throws
 }
 
-template<class H>
-inline void Stream::async_read_until(char* buffer, std::size_t size, char delim,
-                                     ReadAheadBuffer& rab, H handler)
+template <class H>
+inline void Stream::async_read_until(char* buffer, std::size_t size, char delim, ReadAheadBuffer& rab, H handler)
 {
     int delim_2 = std::char_traits<char>::to_int_type(delim);
     StreamOps::async_buffered_read(*this, buffer, size, delim_2, rab, std::move(handler)); // Throws
 }
 
-template<class H> inline void Stream::async_write(const char* data, std::size_t size, H handler)
+template <class H>
+inline void Stream::async_write(const char* data, std::size_t size, H handler)
 {
     bool is_write_some = false;
     StreamOps::async_write(*this, data, size, is_write_some, std::move(handler)); // Throws
 }
 
-template<class H> inline void Stream::async_read_some(char* buffer, std::size_t size, H handler)
+template <class H>
+inline void Stream::async_read_some(char* buffer, std::size_t size, H handler)
 {
     bool is_read_some = true;
     StreamOps::async_read(*this, buffer, size, is_read_some, std::move(handler)); // Throws
 }
 
-template<class H> inline void Stream::async_write_some(const char* data, std::size_t size, H handler)
+template <class H>
+inline void Stream::async_write_some(const char* data, std::size_t size, H handler)
 {
     bool is_write_some = true;
     StreamOps::async_write(*this, data, size, is_write_some, std::move(handler)); // Throws
 }
 
-template<class H> inline void Stream::async_shutdown(H handler)
+template <class H>
+inline void Stream::async_shutdown(H handler)
 {
-    LendersShutdownOperPtr op =
-        Service::alloc<ShutdownOper<H>>(m_tcp_socket.m_write_oper, *this,
-                                        std::move(handler)); // Throws
-    m_tcp_socket.m_desc.initiate_oper(std::move(op)); // Throws
+    LendersShutdownOperPtr op = Service::alloc<ShutdownOper<H>>(m_tcp_socket.m_write_oper, *this,
+                                                                std::move(handler)); // Throws
+    m_tcp_socket.m_desc.initiate_oper(std::move(op));                                // Throws
 }
 
 inline void Stream::do_init_read_async(std::error_code&, Want& want) noexcept
@@ -952,8 +963,7 @@ inline void Stream::do_init_write_async(std::error_code&, Want& want) noexcept
     want = Want::nothing; // Proceed immediately unless there is an error
 }
 
-inline std::size_t Stream::do_read_some_sync(char* buffer, std::size_t size,
-                                             std::error_code& ec) noexcept
+inline std::size_t Stream::do_read_some_sync(char* buffer, std::size_t size, std::error_code& ec) noexcept
 {
     Want want = Want::nothing;
     std::size_t n = do_read_some_async(buffer, size, ec, want);
@@ -962,8 +972,7 @@ inline std::size_t Stream::do_read_some_sync(char* buffer, std::size_t size,
     return n;
 }
 
-inline std::size_t Stream::do_write_some_sync(const char* data, std::size_t size,
-                                              std::error_code& ec) noexcept
+inline std::size_t Stream::do_write_some_sync(const char* data, std::size_t size, std::error_code& ec) noexcept
 {
     Want want = Want::nothing;
     std::size_t n = do_write_some_async(data, size, ec, want);
@@ -972,14 +981,14 @@ inline std::size_t Stream::do_write_some_sync(const char* data, std::size_t size
     return n;
 }
 
-inline std::size_t Stream::do_read_some_async(char* buffer, std::size_t size,
-                                              std::error_code& ec, Want& want) noexcept
+inline std::size_t Stream::do_read_some_async(char* buffer, std::size_t size, std::error_code& ec,
+                                              Want& want) noexcept
 {
     return ssl_read(buffer, size, ec, want);
 }
 
-inline std::size_t Stream::do_write_some_async(const char* data, std::size_t size,
-                                               std::error_code& ec, Want& want) noexcept
+inline std::size_t Stream::do_write_some_async(const char* data, std::size_t size, std::error_code& ec,
+                                               Want& want) noexcept
 {
     return ssl_write(data, size, ec, want);
 }
@@ -1008,12 +1017,11 @@ inline void Stream::ssl_handshake(std::error_code& ec, Want& want) noexcept
     REALM_ASSERT(n == 0 || n == 1);
     if (want == Want::nothing && n == 0 && !ec) {
         // End of input on TCP socket
-        ec = network::premature_end_of_input;
+        ec = MiscExtErrors::premature_end_of_input;
     }
 }
 
-inline std::size_t Stream::ssl_read(char* buffer, std::size_t size,
-                                    std::error_code& ec, Want& want) noexcept
+inline std::size_t Stream::ssl_read(char* buffer, std::size_t size, std::error_code& ec, Want& want) noexcept
 {
     auto perform = [this, buffer, size]() noexcept {
         return do_ssl_read(buffer, size);
@@ -1022,17 +1030,16 @@ inline std::size_t Stream::ssl_read(char* buffer, std::size_t size,
     if (want == Want::nothing && n == 0 && !ec) {
         // End of input on TCP socket
         if (SSL_get_shutdown(m_ssl) & SSL_RECEIVED_SHUTDOWN) {
-            ec = network::end_of_input;
+            ec = MiscExtErrors::end_of_input;
         }
         else {
-            ec = network::premature_end_of_input;
+            ec = MiscExtErrors::premature_end_of_input;
         }
     }
     return n;
 }
 
-inline std::size_t Stream::ssl_write(const char* data, std::size_t size,
-                                     std::error_code& ec, Want& want) noexcept
+inline std::size_t Stream::ssl_write(const char* data, std::size_t size, std::error_code& ec, Want& want) noexcept
 {
     // While OpenSSL is able to continue writing after we have received the
     // close notify alert fro the remote peer, Apple's Secure Transport API is
@@ -1049,7 +1056,7 @@ inline std::size_t Stream::ssl_write(const char* data, std::size_t size,
     std::size_t n = ssl_perform(std::move(perform), ec, want);
     if (want == Want::nothing && n == 0 && !ec) {
         // End of input on TCP socket
-        ec = network::premature_end_of_input;
+        ec = MiscExtErrors::premature_end_of_input;
     }
     return n;
 }
@@ -1088,7 +1095,7 @@ inline bool Stream::ssl_shutdown(std::error_code& ec, Want& want) noexcept
         // end of input", and 1 means "full success" (peers shutdown alert has
         // now been received).
         if ((SSL_get_shutdown(m_ssl) & SSL_SENT_SHUTDOWN) == 0)
-            ec = network::premature_end_of_input;
+            ec = MiscExtErrors::premature_end_of_input;
     }
     return (n > 0);
 }
@@ -1129,7 +1136,7 @@ inline bool Stream::ssl_shutdown(std::error_code& ec, Want& want) noexcept
 //
 // ssl_shutdown() should use `SSL_get_shutdown() & SSL_SENT_SHUTDOWN` to
 // distinguish between the two possible meanings of zero.
-template<class Oper>
+template <class Oper>
 std::size_t Stream::ssl_perform(Oper oper, std::error_code& ec, Want& want) noexcept
 {
     ERR_clear_error();
@@ -1211,15 +1218,15 @@ std::size_t Stream::ssl_perform(Oper oper, std::error_code& ec, Want& want) noex
                 // that errno should be consulted. However,
                 // errno = 0(Undefined error) in the observed case.
                 // At the moment. we will report
-                // premature_end_of_input.
+                // MiscExtErrors::premature_end_of_input.
                 // If we see this error case occurring in other situations in
                 // the future, we will have to update this case.
-                ec = network::premature_end_of_input;
+                ec = MiscExtErrors::premature_end_of_input;
             }
             want = Want::nothing;
             return 0;
         case SSL_ERROR_SSL:
-            ec = std::error_code(sys_error, openssl_error_category());
+            ec = std::error_code(sys_error, openssl_error_category);
             want = Want::nothing;
             return 0;
         default:
@@ -1290,7 +1297,7 @@ inline int Stream::do_ssl_shutdown() noexcept
 // returned value is the number of transferred bytes. Zero for read on end of
 // input. Never zero for write. For handshake it is always 1. For shutdown it is
 // 1 if the peer shutdown alert was already received, otherwise it is zero.
-template<class Oper>
+template <class Oper>
 std::size_t Stream::ssl_perform(Oper oper, std::error_code& ec, Want& want) noexcept
 {
     OSStatus result;
@@ -1312,13 +1319,13 @@ std::size_t Stream::ssl_perform(Oper oper, std::error_code& ec, Want& want) noex
     }
 
     if (result == errSSLClosedGraceful) {
-        ec = network::end_of_input;
+        ec = MiscExtErrors::end_of_input;
         want = Want::nothing;
         return n;
     }
 
     if (result == errSSLClosedAbort || result == errSSLClosedNoNotify) {
-        ec = network::premature_end_of_input;
+        ec = MiscExtErrors::premature_end_of_input;
         want = Want::nothing;
         return n;
     }
@@ -1332,7 +1339,7 @@ std::size_t Stream::ssl_perform(Oper oper, std::error_code& ec, Want& want) noex
         return n;
     }
 
-    ec = std::error_code(result, secure_transport_error_category());
+    ec = std::error_code(result, secure_transport_error_category);
     want = Want::nothing;
     return 0;
 }
