@@ -8,7 +8,12 @@
 
 #import <JSONModel/JSONModel.h>
 #import <MMMarkdown/MMMarkdown.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
 #import <STTwitter/STTwitter.h>
+#pragma clang diagnostic pop
+
 
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"

@@ -8,7 +8,11 @@
 
 #import <Criollo/Criollo.h>
 #import <CSSystemInfoHelper/CSSystemInfoHelper.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincomplete-umbrella"
 #import <JWT/JWT.h>
+#pragma clang diagnostic pop
 
 #import "CWUser.h"
 #import "NSString+MD5.h"
