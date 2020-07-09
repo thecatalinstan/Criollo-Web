@@ -33,7 +33,10 @@ post_install do |installer|
       
       if target.name == "JWT"
         config.build_settings["MACOSX_DEPLOYMENT_TARGET"] = "10.10"
-        config.build_settings["WARNING_CFLAGS"] = ['$(inherited)', '-Wno-deprecated', '-Wno-deprecated-implementations']
+#        config.build_settings["WARNING_CFLAGS"] = ['$(inherited)', '-Wno-incomplete-umbrella', '-Wno-undef']
+        config.build_settings["GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS"] = "NO"
+        config.build_settings["CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS"] = "NO"
+#        config.build_settings["CLANG_WARN_STRICT_PROTOTYPES"] = "NO"
       end
       
       if target.name == "MMMarkdown"
@@ -42,6 +45,9 @@ post_install do |installer|
       
       if target.name == "STTwitter"
         config.build_settings["MACOSX_DEPLOYMENT_TARGET"] = "10.10"
+        config.build_settings["CLANG_WARN_STRICT_PROTOTYPES"] = "NO"
+        config.build_settings["CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF"] = "NO"
+        config.build_settings["CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS"] = "NO"
       end
       
     end

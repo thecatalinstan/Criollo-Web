@@ -3154,6 +3154,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6D3A1FFBF35613F9C72D39A8040B8F9E /* JWT.release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -3166,6 +3168,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = "Target Support Files/JWT/JWT-prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = "Target Support Files/JWT/JWT-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -3180,8 +3183,8 @@
 				VERSION_INFO_PREFIX = "";
 				WARNING_CFLAGS = (
 					"$(inherited)",
-					"-Wno-deprecated",
-					"-Wno-deprecated-implementations",
+					"-Wno-incomplete-umbrella",
+					"-Wno-undef",
 				);
 			};
 			name = Release;
@@ -3411,6 +3414,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EA5D52F4B98F108A2E0E7CCB8F35EA42 /* STTwitter.debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -3536,6 +3542,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B6FC34A2EDBCDD92A9E54A4109F0CD6 /* JWT.debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -3548,6 +3556,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_PREFIX_HEADER = "Target Support Files/JWT/JWT-prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = "Target Support Files/JWT/JWT-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -3562,8 +3571,8 @@
 				VERSION_INFO_PREFIX = "";
 				WARNING_CFLAGS = (
 					"$(inherited)",
-					"-Wno-deprecated",
-					"-Wno-deprecated-implementations",
+					"-Wno-incomplete-umbrella",
+					"-Wno-undef",
 				);
 			};
 			name = Debug;
@@ -3702,6 +3711,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 61DC063BC8001BA9DFF77B87165E7C31 /* STTwitter.release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
+				CLANG_WARN_STRICT_PROTOTYPES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
