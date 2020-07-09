@@ -18,6 +18,8 @@
   "homepage": "https://github.com/thecatalinstan/Criollo-Web#readme",
   "devDependencies": {
     "nib": "^1.1.2",
+    "pug": "^3.0.0",
+    "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.7",
     "tokenfield": "^1.4.0"
   }

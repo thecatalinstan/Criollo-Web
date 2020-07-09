@@ -67,7 +67,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).html",
 			);
-			script = "#\"$PROJECT_DIR/node_modules/.bin/pug\" -p \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"\n";
+			script = "\"$PROJECT_DIR/node_modules/.bin/pug\" -p \"$INPUT_FILE_DIR\" -o \"$DERIVED_FILE_DIR\" \"$INPUT_FILE_PATH\"\n";
 		};
 		AD7396921C90747700D9F4B3 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
@@ -93,7 +93,7 @@
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).js",
 			);
-			script = "#\"$PROJECT_DIR/node_modules/.bin/rollup\" -c \"$PROJECT_DIR/Criollo Web/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\"\n";
+			script = "cp \"$INPUT_FILE_PATH\" \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\"\n#\"$PROJECT_DIR/node_modules/.bin/rollup\" -c \"$PROJECT_DIR/Criollo Web/rollup-config.js\" -f iife -o \"$DERIVED_FILE_DIR/$INPUT_FILE_BASE.js\" \"$INPUT_FILE_PATH\"\n";
 		};
 /* End PBXBuildRule section */
 
