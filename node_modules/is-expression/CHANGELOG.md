@@ -1,5 +1,7 @@
 # Change Log
-All notable changes to this project will be documented in this file.
+
+Version 4.0.0 onwards are documented in [Releases](https://github.com/pugjs/is-expression/releases).
+
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.0.0 - 2016-09-11

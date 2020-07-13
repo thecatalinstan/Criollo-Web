@@ -4,6 +4,7 @@ Validates a string as a JavaScript expression
 
 [![Build Status](https://img.shields.io/travis/pugjs/is-expression/master.svg)](https://travis-ci.org/pugjs/is-expression)
 [![Dependency Status](https://img.shields.io/david/pugjs/is-expression.svg)](https://david-dm.org/pugjs/is-expression)
+[![Rolling Versions](https://img.shields.io/badge/Rolling%20Versions-Enabled-brightgreen)](https://rollingversions.com/pugjs/is-expression)
 [![npm version](https://img.shields.io/npm/v/is-expression.svg)](https://www.npmjs.org/package/is-expression)
 
 ## Installation
