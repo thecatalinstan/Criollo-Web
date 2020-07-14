@@ -11,6 +11,7 @@
 
 #define CWBlogErrorDomain           @"CWBlogErrorDomain"
 #define CWBlogUnknownAuthor         1001
+#define CWBlogEmptyPostContent      1002
 #define CWBlogUnknownError          1999
 
 #define CWBlogPath                  @"/blog"

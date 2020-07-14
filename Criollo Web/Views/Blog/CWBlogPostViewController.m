@@ -29,20 +29,22 @@
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
     self.vars[@"id"] = self.post.uid;
-    self.vars[@"title"] = self.post.title ? : @"";
-    self.vars[@"permalink"] = [self.post permalinkForRequest:request];
-    self.vars[@"author"] = self.post.author.displayName ? : @"";
-    self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
-    if (self.post.publishedDate) {
-        self.vars[@"publishedDate"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:self.post.publishedDate], [CWBlog formattedTime:self.post.publishedDate]];
-    } else {
-        self.vars[@"publishedDate"] = @"";
+    self.vars[@"title"] = self.post.title ?: @"";
+    if (!self.post.published) {
+        self.vars[@"title"] = [self.vars[@"title"] stringByAppendingString:@" [draft]"];
     }
-    self.vars[@"content"] = self.post.excerpt ? : ( self.post.renderedContent ? : @"" );
+    self.vars[@"permalink"] = [self.post permalinkForRequest:request];
+    self.vars[@"author"] = self.post.author.displayName ?: @"";
+    self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
+    
+    NSDate *date = self.post.publishedDate ?: self.post.lastUpdatedDate;
+    self.vars[@"publishedDate"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:date], [CWBlog formattedTime:date]];
 
-    NSMutableString* toolbar = [NSMutableString new];
-    CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-    if ( currentUser ) {
+    self.vars[@"content"] = self.post.excerpt ?: ( self.post.renderedContent ?: @"" );
+
+    NSMutableString *toolbar = [[NSMutableString alloc] initWithCapacity:255];
+    CWUser *currentUser;;
+    if ((currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]])) {
         [toolbar appendString:@"&nbsp;&nbsp;&middot;&nbsp;&nbsp;"];
         [toolbar appendFormat:@"<a href=\"%@/edit\">edit</a>", [self.post permalinkForRequest:request]];
         [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];

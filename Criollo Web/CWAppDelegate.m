@@ -204,7 +204,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)setupBaseDirectory {
-    NSError* error = nil;
+    NSError* error;
     BOOL shouldFail = NO;
     NSURL* baseDirectory = [CWAppDelegate baseDirectory];
     NSString* failureReason = @"There was an error creating or loading the application's saved data.";

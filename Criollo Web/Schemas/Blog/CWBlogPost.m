@@ -33,7 +33,7 @@
 #pragma mark - API
 
 - (NSString *)publicPath {
-    NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.publishedDate];
+    NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.publishedDate ?: self.lastUpdatedDate];
     return [NSString stringWithFormat:@"%@/%ld/%s%ld/%@", CWBlogPath, (long)dateComponents.year, dateComponents.month < 10 ? "0" : "", (long)dateComponents.month, self.handle];
 }
 
@@ -67,7 +67,7 @@
         return [CWBlogPost getByHandle:handle];
     }
     CWBlogDatePair* datePair = [CWBlog datePairArchivePeriod:period];
-    return [CWBlogPost getSingleObjectWhere:@"handle = %@ and publishedDate >= %@ and publishedDate <= %@", handle, datePair.startDate, datePair.endDate];
+    return [CWBlogPost getSingleObjectWhere:@"handle = %@ and ((published = true and publishedDate >= %@ and publishedDate <= %@) or (published = false and lastUpdatedDate >= %@ and lastUpdatedDate <= %@))", handle, datePair.startDate, datePair.endDate, datePair.startDate, datePair.endDate];
 }
 
 @end

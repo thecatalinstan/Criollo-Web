@@ -213,20 +213,26 @@ NS_ASSUME_NONNULL_END
 }
 
 + (NSString *)renderMarkdown:(NSString *)markdownString error:(NSError *__autoreleasing  _Nullable *)error {
-    if ( [markdownString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+    if ([markdownString stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet].length == 0) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogEmptyPostContent userInfo:@{NSLocalizedDescriptionKey: @"Post was empty."}];
+        }
         return nil;
     }
+    
     return [MMMarkdown HTMLStringWithMarkdown:markdownString extensions:MMMarkdownExtensionsGitHubFlavored error:error];
 }
 
 + (NSString *)excerptFromMarkdown:(NSString *)markdownString error:(NSError *__autoreleasing  _Nullable * _Nullable)error {
-    if ( [markdownString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+    if ([markdownString stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet].length == 0) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogEmptyPostContent userInfo:@{NSLocalizedDescriptionKey: @"Post was empty."}];
+        }
         return nil;
     }
 
-    NSString * htmlString = [CWBlog renderMarkdown:markdownString error:error];
-
-    if ( htmlString == nil ) {
+    NSString * htmlString;
+    if (!(htmlString = [CWBlog renderMarkdown:markdownString error:error])) {
         return nil;
     }
 
@@ -234,29 +240,34 @@ NS_ASSUME_NONNULL_END
 }
 
 + (NSString *)excerptFromHTML:(NSString *)htmlString error:(NSError *__autoreleasing  _Nullable * _Nullable)error {
-    if ( [htmlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0 ) {
+    if ([htmlString stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet].length == 0) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogEmptyPostContent userInfo:@{NSLocalizedDescriptionKey: @"Post was empty."}];
+        }
         return nil;
     }
 
     NSString* contentMarkup = [NSString stringWithFormat:@"<div>%@</div>", htmlString];
     NSMutableString *excerpt = [[NSMutableString alloc] init];
 
-    __block NSUInteger i = 0;
-    NSError * xmlError;
-    NSXMLElement* element = [[NSXMLElement alloc] initWithXMLString:contentMarkup error:&xmlError];
-    [element.children enumerateObjectsUsingBlock:^(NSXMLNode * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ( [obj.name.lowercaseString isEqualToString:@"p"] ) {
+    NSXMLElement* element;
+    if (!(element = [[NSXMLElement alloc] initWithXMLString:contentMarkup error:error])) {
+        return nil;
+    }
+    
+    NSUInteger i = 0;
+    for (NSXMLNode *obj in element.children) {
+        if ([obj.name.lowercaseString isEqualToString:@"p"]) {
             [excerpt appendString:[obj.stringValue stringByReplacingOccurrencesOfString:@"\n" withString:@" "]];
             [excerpt appendString:@" "];
             i++;
         }
-
-        if ( excerpt.length > CWExcerptLength || i >= 3 ) {
-            *stop = YES;
-            return;
+        
+        if (excerpt.length > CWExcerptLength || i >= 3) {
+            break;
         }
-    }];
-
+    }
+    
     return excerpt;
 }
 

@@ -40,24 +40,25 @@
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
     self.vars[@"id"] = self.isNewPost ? @"": self.post.uid;
-    self.vars[@"title"] = self.post.title ? : @"";
+    self.vars[@"title"] = self.post.title ?: @"";
+    if (!self.post.published) {
+        self.vars[@"title"] = [self.vars[@"title"] stringByAppendingString:@" [draft]"];
+    }
     self.vars[@"permalink"] = [self.post permalinkForRequest:request];
 
-    if (self.post.publishedDate) {
-        self.vars[@"publishedDate"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:self.post.publishedDate], [CWBlog formattedTime:self.post.publishedDate]];
-    } else {
-        self.vars[@"publishedDate"] = @"";
-    }
-    self.vars[@"content"] = self.post.renderedContent ? : @"";
+    NSDate *date = self.post.publishedDate ?: self.post.lastUpdatedDate;
+    self.vars[@"publishedDate"] = [NSString stringWithFormat:@", %@ at %@", [CWBlog formattedDate:date], [CWBlog formattedTime:date]];
+    
+    self.vars[@"content"] = self.post.renderedContent ?: @"";
     self.vars[@"editable"] = self.isNewPost ? @" contenteditable=\"true\"" : @"";
 
-    self.vars[@"author"] = self.post.author.displayName ? : @"";
+    self.vars[@"author"] = self.post.author.displayName ?: @"";
     self.vars[@"author-url"] = [self.post.author permalinkForRequest:request];
-    self.vars[@"author-image-url"] = self.post.author.imageURL ? : @"";
-    self.vars[@"author-location"] = self.post.author.location ? : @"";
+    self.vars[@"author-image-url"] = self.post.author.imageURL ?: @"";
+    self.vars[@"author-location"] = self.post.author.location ?: @"";
     self.vars[@"author-bio"] = self.post.author.bio ? [CWBlog stringByReplacingTwitterTokens:self.post.author.bio] : @"";
     self.vars[@"author-twitter-url"] = self.post.author.twitter ? [NSString stringWithFormat:@"http://twitter.com/%@", self.post.author.twitter] : @"";
-    self.vars[@"author-twitter"] = self.post.author.twitter ? : @"";
+    self.vars[@"author-twitter"] = self.post.author.twitter ?: @"";
 
     NSMutableString* toolbar = [NSMutableString new];
     CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
