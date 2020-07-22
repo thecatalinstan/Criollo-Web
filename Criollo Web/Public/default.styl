@@ -7,19 +7,6 @@
 @import tokenfield
 @import blog
 
-// Layout colors and fonts
-body-color                          = criollo-dark-gray
-masthead-color                      = criollo-light-gray
-masthead-background-color           = criollo-black
-heading-color                       = criollo-dark-orange
-link-color                          = criollo-orange
-link-hover-color                    = criollo-light-orange
-footer-color                        = criollo-light-gray
-footer-background-color             = criollo-black
-footer-link-color                   = criollo-light-orange
-footer-link-hover-color             = criollo-light-gray
-footer-heading-color                = criollo-light-gray
-
 body,
 html
   width 100%
@@ -46,7 +33,7 @@ h1, h2, h3
   font-weight bold
   line-height 1.5em
   letter-spacing -0.05em
-  color heading-color
+  color criollo-dark-orange
 
 body
   font-size 1.2em
@@ -59,7 +46,8 @@ p, ul, li
 
 code
   font-family monotype-font-family
-  background-color alpha(criollo-light-gray, 0.25)
+  background-color criollo-lighter-gray
+  color criollo-dark-gray
   font-size 0.9em
   font-weight 400
   padding 2px 5px
@@ -67,18 +55,21 @@ code
   border-radius 4px
   margin-right 3px
   margin-left 3px
+    
+  &.hljs
+    color criollo-light-gray
 
 strong
   font-weight 600
 
 a
-  color link-color
+  color criollo-orange
   text-decoration underline
   transition all 0.25s ease-in-out 0
   overflow-wrap break-word
 
 a:hover
-  color link-hover-color
+  color criollo-light-orange
 
 body
 
@@ -99,7 +90,7 @@ body
   &>section
     padding 3em 0
     min-height 18.75em
-    border-bottom 1px solid criollo-light-gray
+    border-bottom 1px solid criollo-lighter-gray
     vertical-align middle
     background-color white
 
@@ -141,7 +132,7 @@ body
       box-sizing border-box
 
   .masthead
-    background-color masthead-background-color
+    background-color criollo-black
     text-align center
     min-height 30em
 
@@ -169,13 +160,13 @@ body
           font-size 1.5em
 
       h1, h2
-        color masthead-color
+        color criollo-lighter-gray
 
       h2
         font-weight normal
 
       p
-        color masthead-color
+        color criollo-lighter-gray
 
       .get-started
         margin-top 4em
@@ -304,7 +295,7 @@ body
 
           &:hover
             text-decoration none
-            background-color criollo-light-gray
+            background-color criollo-lighter-gray
 
             span
               text-decoration underline
@@ -330,9 +321,11 @@ body
       max-height auto
       min-height 0
       background-color criollo-orange
-      color criollo-medium-gray
+      color criollo-light-gray
       padding 0.5em 1em 0.4em 1em
       border none
+      border-bottom 1px solid criollo-medium-gray
+      
 
       .content
         font-family monotype-font-family
@@ -346,19 +339,19 @@ body
           line-height 1.25em
 
   .footer
-    background-color footer-background-color
-    color footer-color
+    background-color criollo-black
+    color criollo-lighter-gray
     font-size 1em
     padding-bottom 0
 
     .content
 
       a
-        color footer-link-color
+        color criollo-light-orange
         text-decoration none
 
         &:hover
-          color footer-link-hover-color
+          color criollo-lighter-gray
           text-decoration underline
 
       .col
@@ -371,7 +364,7 @@ body
           margin 2em 1em 0 1em
 
         h3
-          color footer-heading-color
+          color criollo-lighter-gray
           margin-bottom 0.25em
 
         ul
