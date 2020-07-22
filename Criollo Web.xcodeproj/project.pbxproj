@@ -17,6 +17,7 @@
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
 		AD1226321D75CD5200B3D752 /* NSString+RegEx.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1226311D75CD5200B3D752 /* NSString+RegEx.m */; };
+		AD24E76924C8DD3A00BA0497 /* logoLight.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD24E76824C8DD3900BA0497 /* logoLight.svg */; };
 		AD41F03B1CE48C10001ADEAC /* CWBlogAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */; };
 		AD41F03D1CE48C10001ADEAC /* CWBlogTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0351CE48C10001ADEAC /* CWBlogTag.m */; };
 		AD41F03F1CE48C10001ADEAC /* CWBlogPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD41F0391CE48C10001ADEAC /* CWBlogPost.m */; };
@@ -110,6 +111,7 @@
 				3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */,
 				ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */,
 				AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */,
+				AD24E76924C8DD3A00BA0497 /* logoLight.svg in Copy Public Resources */,
 				AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */,
 				AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */,
 			);
@@ -139,6 +141,7 @@
 		AD0BA9A21C96387C005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		AD1226301D75CD5200B3D752 /* NSString+RegEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegEx.h"; sourceTree = "<group>"; };
 		AD1226311D75CD5200B3D752 /* NSString+RegEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegEx.m"; sourceTree = "<group>"; };
+		AD24E76824C8DD3900BA0497 /* logoLight.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = logoLight.svg; sourceTree = "<group>"; };
 		AD3B68FB1CCC532400563E22 /* rollup-config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "rollup-config.js"; sourceTree = "<group>"; };
 		AD41F0301CE48C10001ADEAC /* CWBlogAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWBlogAuthor.h; sourceTree = "<group>"; };
 		AD41F0311CE48C10001ADEAC /* CWBlogAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWBlogAuthor.m; sourceTree = "<group>"; };
@@ -264,6 +267,7 @@
 		AD0BA96E1C960068005206A1 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AD24E76824C8DD3900BA0497 /* logoLight.svg */,
 				AD089EE51C998E6E007434A1 /* criollo-web-icon.png */,
 				3A5692741C9B200D003C99EC /* logoWithTextLight.svg */,
 				3A5692761C9B2012003C99EC /* logoDark.svg */,
