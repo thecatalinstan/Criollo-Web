@@ -6,6 +6,13 @@ body.blog
     padding 1em
     text-align left
     border-bottom 1px solid criollo-lighter-gray
+    margin-left 5em
+    margin-right @margin-left
+    
+    @media screen and (max-width: phone-cutoff)
+      margin-left 0
+      margin-right @margin-left
+      padding 0.5em 1em
     
     @media screen and (prefers-color-scheme: dark)
       border-bottom 1px solid criollo-dark-gray
@@ -65,15 +72,13 @@ body.blog
         .article-date
           text-transform lowercase
 
-
-    .CodeMirror
-      .CodeMirror-scroll
-        font-size 1em
-        line-height 1.5em
-        color criollo-dark-gray
-
     .article-content
       margin 1.5em auto
+      overflow hidden
+      text-overflow ellipsis
+      
+      @media screen and (max-width: phone-cutoff)
+        margin-top 0
       
       p.excerpt
         .text
@@ -98,12 +103,17 @@ body.blog
       blockquote
         padding 1em 0 1em 1.5em
         margin 1.5em 0 1.5em 1.5em
-        border-left 4px solid criollo-lighter-gray
         border-radius 4px
         font-size 0.9em
         font-style italic
         line-height 1.9em
         box-sizing border-box
+        border-left 4px solid criollo-lighter-gray
+        color criollo-medium-gray
+        
+        @media screen and (prefers-color-scheme: dark)
+          border-left 4px solid criollo-dark-gray
+          color criollo-medium-gray
 
         @media screen and (max-width: phone-cutoff)
           margin-left 0 !important
@@ -244,12 +254,15 @@ body.blog
       margin-top 1em
 
     .article-footer
-      margin 1.5em 0
+      margin 1.5em auto
       padding-top 1.5em
-      border-top 1px solid criollo-lighter-gray
       font-size 0.9em
       vertical-align middle
       min-height 80px
+      border-top 1px solid criollo-lighter-gray
+      
+      @media screen and (prefers-color-scheme: dark)
+        border-top 1px solid criollo-dark-gray
 
       .tags
         line-height 1.5em
@@ -267,16 +280,22 @@ body.blog
           font-weight 400
 
         .permalink-item
-          background-color white
-          border 1px solid criollo-lighter-gray
           border-radius 4px
           width 40%
-          color criollo-dark-gray
           padding 8px 16px
-          font-weight 100
+          font-family monotype-font-family
+          font-weight 300
           font-size 0.75em
           box-sizing border-box
           cursor text
+          color criollo-medium-gray
+          background-color transparent
+          border 1px solid criollo-light-gray
+          
+          @media screen and (prefers-color-scheme: dark)
+            color criollo-medium-gray
+            background-color transparent
+            border 1px solid criollo-dark-gray
 
           @media screen and (max-width: phone-cutoff)
             width auto
@@ -329,25 +348,45 @@ body.blog
           display inline
           margin-right 1.5em
           cursor pointer
+          opacity 1
+        
+          @media screen and (prefers-color-scheme: dark)
+            opacity 0.7
+            
+          @media screen and (max-width: phone-cutoff)
+            display none
+
 
         .author-name
           font-weight 700
-          color criollo-dark-orange
           font-family heading-font-family
           margin-bottom 0
           margin-left 7.5em
           line-height 2em
+          color criollo-dark-gray
+
+          @media screen and (prefers-color-scheme: dark)
+            color criollo-light-gray
+            
+          @media screen and (max-width: phone-cutoff)
+            margin-left 0
 
           a
             text-decoration none
 
         .author-location
-          color criollo-lighter-gray
           font-style italic
           line-height 1em
           font-size 0.85em
           margin-bottom 1em
           margin-left 7.5em
+          color criollo-medium-gray
+          
+          @media screen and (prefers-color-scheme: dark)
+            color criollo-medium-gray
+          
+          @media screen and (max-width: phone-cutoff)
+            margin-left 0
 
         .author-bio
           margin-bottom 1em
@@ -356,7 +395,8 @@ body.blog
           margin-left 7.5em
 
           @media screen and (max-width: phone-cutoff)
-            max-width auto
+            max-width 100%
+            margin-left 0            
 
         .author-follow
           font-weight 300
@@ -364,10 +404,13 @@ body.blog
         .author-more
           margin-bottom 0
           margin-left 7.5em
+          
+          @media screen and (max-width: phone-cutoff)
+            max-width 100%
+            margin-left 0
 
           a
-            font-size 0.85em
-            text-decoration none
+            font-size 0.85em            
 
     button
       display block
