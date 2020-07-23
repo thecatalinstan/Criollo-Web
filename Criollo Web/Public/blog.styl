@@ -4,8 +4,11 @@ body.blog
 
   .article
     padding 1em
-    border-bottom 1px solid criollo-lighter-gray
     text-align left
+    border-bottom 1px solid criollo-lighter-gray
+    
+    @media screen and (prefers-color-scheme: dark)
+      border-bottom 1px solid criollo-dark-gray
 
     &:first-of-type
       padding-top 0
@@ -70,8 +73,12 @@ body.blog
         color criollo-dark-gray
 
     .article-content
-      margin 1.5em 0
-
+      margin 1.5em auto
+      
+      p.excerpt
+        .text
+          margin-right 0.4em
+        
       ul
         list-style-type disc
 

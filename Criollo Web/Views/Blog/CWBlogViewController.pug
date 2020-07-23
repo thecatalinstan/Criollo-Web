@@ -3,7 +3,6 @@ html(lang="en")
   include ../Shared/Header.pug
   body.blog
     include ../Shared/Menu.pug
-    section.blog
-      .content {{content}}
-      //- aside.sidebar {{sidebar}}
+    section.blog {{content}}      
+    //- aside.sidebar {{sidebar}}
     include ../Shared/Footer.pug
