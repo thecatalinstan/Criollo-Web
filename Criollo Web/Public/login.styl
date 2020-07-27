@@ -8,18 +8,20 @@ body
       text-align center
       width 100%
       max-width 100% !important
+      box-sizing border-box
 
       .content
         width 100%
         max-width 100% !important
+        box-sizing border-box
 
-        .form
-          background-color criollo-light-orange
+        .form        
           display block
-          padding 30px 20px 20px 20px
+          padding 0 20px 20px 20px
           text-align center
           margin-top 60px
           margin-bottom 80px
+          box-sizing border-box
 
           input
             display block
@@ -30,12 +32,19 @@ body
             font-family heading-font-family
             font-weight 200
             padding 10px 20px
-            border 1px solid criollo-dark-orange
             width 320px
+            background-color criollo-lighter-gray
+            border 1px solid criollo-light-gray
+            color criollo-dark-gray
+            border-radius 4px
 
             @media screen and (max-width: phone-cutoff)
               width 280px
-
+              
+            @media screen and (prefers-color-scheme: dark)
+              background-color criollo-dark-gray
+              border 1px solid criollo-darker-gray
+              color criollo-light-gray
 
           button
             display block
@@ -43,13 +52,27 @@ body
             font-family heading-font-family
             font-size 1em
             padding 10px 40px
-            background-color criollo-dark-orange
-            color white
             border none
             transition all 0.25s ease-in-out 0
             cursor pointer
-            border 1px solid criollo-dark-orange
-
+            box-sizing border-box
+            border 1px solid criollo-orange
+            background-color criollo-orange            
+            color criollo-lighter-gray
+            border-radius 4px
+            
             &:hover
-              background-color white
+              background-color criollo-light-orange
+              border 1px solid criollo-light-orange
               color criollo-dark-orange
+              
+            @media screen and (prefers-color-scheme: dark)
+              border 1px solid criollo-dark-orange
+              background-color criollo-dark-orange            
+              color criollo-light-gray              
+              
+              &:hover
+                background-color criollo-orange
+                border 1px solid criollo-orange
+                color criollo-dark-orange
+              
