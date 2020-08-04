@@ -24,7 +24,15 @@ body.blog
       border none
 
     &.single
-
+      
+      &.editing
+        
+        .article-header
+          margin-bottom 0
+          
+        .article-footer
+          padding-top 0 !important
+          
       .article-header
         margin-bottom 2.5em
 
@@ -48,18 +56,21 @@ body.blog
         line-height 1.2em
 
         &[contenteditable="true"]
-          border 1px solid criollo-lighter-gray
           border-radius 4px
           outline none
           margin-bottom 0.1em
-          padding 0 0.07em
+          padding 0.07em 0.07em 0 0.07em
+          border 1px solid criollo-light-gray
+          
+          @media screen and (prefers-color-scheme: dark)
+            border 1px solid criollo-dark-gray
 
         a
-          color heading-color
+          color criollo-orange
           text-decoration none
 
           &:hover
-            color link-color
+            color criollo-light-orange
             text-decoration none
 
       .article-info
@@ -71,6 +82,53 @@ body.blog
 
         .article-date
           text-transform lowercase
+
+      .article-handle-container
+        margin 1em 0 1em 0
+        padding-top 1px
+        padding-bottom @padding-top
+        vertical-align middle
+        white-space nowrap
+        line-height 1.5em
+        font-size 0.9em
+        font-weight 400
+
+        .article-handle-editor-label
+          margin-right 0.5em
+          vertical-align middle
+          display inline-block
+
+          @media screen and (max-width: phone-cutoff)
+            width 100%
+            display block
+
+        .article-handle-editor
+          vertical-align middle
+          display inline-block
+          background-color white
+          border-radius 4px
+          width 60%
+          padding 0.5em
+          box-sizing border-box
+          cursor text
+          line-height 1.5em
+          font-size 0.9em
+          font-weight 400
+          background-color criollo-lighter-gray
+          border 1px solid criollo-light-gray
+          color criollo-dark-gray
+
+          @media screen and (prefers-color-scheme: dark)
+            background-color criollo-dark-gray
+            border 1px solid criollo-darker-gray
+            color criollo-light-gray
+
+          @media screen and (max-width: phone-cutoff)
+            width 100%
+            display block
+
+          &:focus
+            outline none
 
     .article-content
       margin 1.5em auto
@@ -135,60 +193,28 @@ body.blog
           padding 1.5em 1em
           box-sizing border-box
           overflow-scrolling touch
-
-    .article-handle-container
-      margin 1em 0 1em 0
-      padding-top 1px
-      padding-bottom @padding-top
-      vertical-align middle
-      white-space nowrap
-      line-height 1.5em
-      font-size 0.9em
-      font-weight 400
-
-      .article-handle-editor-label
-        margin-right 0.5em
-        vertical-align middle
-        display inline-block
-
-        @media screen and (max-width: phone-cutoff)
-          width 100%
-          display block
-
-      .article-handle-editor
-        vertical-align middle
-        display inline-block
-        background-color white
-        border 1px solid criollo-lighter-gray
-        border-radius 4px
-        width 60%
-        padding 0.5em
-        box-sizing border-box
-        cursor text
-        color criollo-dark-gray
-        line-height 1.5em
-        font-size 0.9em
-        font-weight 400
-
-        @media screen and (max-width: phone-cutoff)
-          width 100%
-          display block
-
-        &:focus
-          outline none
-
+          
     .article-content-editor
-      font-size 1em
-      line-height 1.5em 0
+      font-size 0.85em
+      font-family monotype-font-family
+      line-height 1.5em
       outline none
       width 100%
       height auto
       min-height 300px
-      border 1px solid criollo-lighter-gray
+      max-height 500px
       padding 0.5em
       box-sizing border-box
+      border-radius 4px
+      background-color criollo-lighter-gray
+      border 1px solid criollo-light-gray
       color criollo-dark-gray
 
+      @media screen and (prefers-color-scheme: dark)
+        background-color criollo-dark-gray
+        border 1px solid criollo-darker-gray
+        color criollo-light-gray
+      
     .article-excerpt-editor-label,
     .article-tags-editor-label
       display block
@@ -196,24 +222,36 @@ body.blog
       width 100%
       height auto
       box-sizing border-box
-      margin-top 1em
+      margin-top 2.5em
       margin-bottom 0.5em
+      font-weight 400
       color criollo-dark-orange
-      font-weight 700
-
-    .article-excerpt-editor
-      font-size 1em
-      line-height 1.5em
-      outline none
+      
+      @media screen and (prefers-color-scheme: dark)
+        color criollo-light-orange
+        
+    .article-excerpt-editor      
+      min-height 100px
+      
+    .article-excerpt-editor,
+    .article-tags-editor
       width 100%
       height auto
-      max-width 100%
-      min-height 100px
-      border 1px solid criollo-lighter-gray
+      // max-width 100%
+      font-size 1em
+      line-height 1.5em
+      outline none      
       border-radius 4px
       padding 0.5em
       box-sizing border-box
+      background-color criollo-lighter-gray
+      border 1px solid criollo-light-gray
       color criollo-dark-gray
+
+      @media screen and (prefers-color-scheme: dark)
+        background-color criollo-dark-gray
+        border 1px solid criollo-darker-gray
+        color criollo-light-gray
 
     .article-published-container
       margin 1em 0
@@ -226,14 +264,18 @@ body.blog
         vertical-align middle
         width 1em
         height @width
-        display inline-block
+        display inline-block  
 
       .article-published-editor-label
         margin-left 0.5em
-        font-weight 700
+        font-weight 400
         vertical-align middle
         line-height 1.5em
         display inline-block
+        color criollo-dark-gray
+      
+        @media screen and (prefers-color-scheme: dark)
+          color criollo-light-gray
 
       .article-published-editor-permalink
         float right
@@ -418,13 +460,26 @@ body.blog
       font-family heading-font-family
       font-size 1em
       padding 10px 40px
-      background-color criollo-dark-orange
-      color white
       border none
       transition all 0.25s ease-in-out 0
       cursor pointer
-      border 1px solid criollo-dark-orange
-
+      box-sizing border-box
+      border 1px solid criollo-orange
+      background-color criollo-orange            
+      color criollo-lighter-gray
+      border-radius 4px
+      
       &:hover
-        background-color white
+        background-color criollo-light-orange
+        border 1px solid criollo-light-orange
         color criollo-dark-orange
+        
+      @media screen and (prefers-color-scheme: dark)
+        border 1px solid criollo-dark-orange
+        background-color criollo-dark-orange            
+        color criollo-light-gray              
+        
+        &:hover
+          background-color criollo-orange
+          border 1px solid criollo-orange
+          color criollo-dark-orange

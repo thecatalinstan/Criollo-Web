@@ -1,39 +1,44 @@
+@import globals
+
 .tokenfield
   position relative
 
-.tokenfield:before,
-.tokenfield:after
-  content " "
-  display table
-
-.tokenfield:after
-  clear both
-
 .tokenfield.tokenfield-mode-tokens
-  display block
+  display inline-block
   width 100%
   padding 6px 12px 4px 12px
   font-size 16px
   line-height 1.5
-  color criollo-dark-gray
-  background-color white
-  background-image none
-  border 1px solid criollo-medium-gray
   border-radius 4px
   box-sizing border-box
+  background-image none
+  background-color criollo-lighter-gray
+  border 1px solid criollo-light-gray
+  color criollo-dark-gray
+
+  @media screen and (prefers-color-scheme: dark)
+    background-color criollo-dark-gray
+    border 1px solid criollo-darker-gray
+    color criollo-light-gray
 
 .tokenfield.tokenfield-mode-tokens:focus
   outline 0
 
 .tokenfield.tokenfield-mode-tokens::-moz-placeholder
-  color criollo-light-gray
   opacity 1
+  color criollo-light-gray
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-dark-gray
 
 .tokenfield.tokenfield-mode-tokens:-ms-input-placeholder
   color criollo-light-gray
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-dark-gray
 
 .tokenfield.tokenfield-mode-tokens::-webkit-input-placeholder
   color criollo-light-gray
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-dark-gray
 
 .tokenfield.tokenfield-mode-tokens::-ms-expand
   border 0
@@ -42,52 +47,72 @@
 .tokenfield.tokenfield-mode-tokens[disabled],
 .tokenfield.tokenfield-mode-tokens[readonly],
 fieldset[disabled] .tokenfield.tokenfield-mode-tokens
-  background-color criollo-light-gray
   opacity 1
+  background-color criollo-lighter-gray
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-dark-gray
 
 .tokenfield.tokenfield-mode-tokens[disabled],
 fieldset[disabled] .tokenfield.tokenfield-mode-tokens
   cursor not-allowed
 
-// .tokenfield.tokenfield-mode-tokens .focused
-//   box-shadow 0 0 0 1px #337ab7 inset
-
-// .tokenfield.tokenfield-mode-tokens .selected
-//   background rgba(0, 0, 0, 0.1)
-
+.tokenfield .tokenfield-set
+  display inline-block
+  
 .tokenfield .tokenfield-set > ul
-  margin 0
-  padding 0
-  list-style-type none
+  margin 0 !important
+  padding 0 !important
+  list-style-type none !important
 
 .tokenfield .tokenfield-set > ul > li
-  float left
-  margin-right 5px
-  // margin-bottom 5px
-  padding 0 5px
-  border-radius 4px
-  line-height 1.5
+  display inline-block
+  margin-right 5px !important
+  margin-bottom 5px !important
+  padding 0 5px !important
+  border-radius 4px !important
+  line-height 1.5em !important
   cursor pointer
-  color criollo-dark-gray
-  background criollo-light-orange
+  background-color criollo-orange
+  color criollo-light-gray
+      
+  @media screen and (prefers-color-scheme: dark)
+    background-color criollo-dark-orange
+    color criollo-medium-gray
 
 .tokenfield .tokenfield-set > ul > li:hover
-  color white
   background criollo-dark-orange
+  color criollo-medium-gray
+  
+  @media screen and (prefers-color-scheme: dark)
+    background-color criollo-orange
+    color criollo-light-gray
 
 .tokenfield .tokenfield-set > ul > li .item-remove
   display inline-block
-  font-weight bold
+  font-weight 400
   font-size 0.9285em
   cursor pointer
+  text-decoration none
+  color criollo-light-gray
+      
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-medium-gray
 
 .tokenfield .tokenfield-input
   margin-bottom 5px
   border none
   outline none
-  float left
-  font-size 16px
-  // line-height
+  background transparent
+  display inline-block
+  font-size 1em
+  padding 0
+  box-sizing border-box
+  width 60px
+  min-Width 60px
+  color criollo-dark-gray
+
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-light-gray
 
 .tokenfield .tokenfield-suggest
   position absolute
@@ -96,20 +121,29 @@ fieldset[disabled] .tokenfield.tokenfield-mode-tokens
   width 100%
   z-index 10
   background-color #fff
-  border 1px solid criollo-medium-gray
   border-radius 4px
   box-sizing border-box
+  border 1px solid criollo-light-gray
+  overflow hidden
+  
+  @media screen and (prefers-color-scheme: dark)
+    border 1px solid criollo-dark-gray
 
 .tokenfield .tokenfield-suggest > ul
-  margin 0
-  padding 0
-  list-style none
+  margin 0 !important
+  padding 0 !important
+  list-style none !important
 
 .tokenfield .tokenfield-suggest > ul > li
   padding 6px 10px
   cursor pointer
 
   &.selected
-    background-color criollo-light-orange
-    color criollo-dark-gray
+    background criollo-dark-orange
+    color criollo-medium-gray
+  
+    @media screen and (prefers-color-scheme: dark)
+      background-color criollo-orange
+      color criollo-light-gray
+
 

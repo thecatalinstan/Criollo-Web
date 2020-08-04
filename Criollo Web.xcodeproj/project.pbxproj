@@ -33,6 +33,8 @@
 		AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */; };
 		AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113CB1D251C39005B8208 /* CWAPIController.m */; };
 		AD6D8F6F1D713CB8000AD91E /* tokenfield.min.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */; };
+		AD6F6C9224DA0FC200B5EDFF /* tokenfield.styl in Resources */ = {isa = PBXBuildFile; fileRef = AD6F6C9024DA0FC100B5EDFF /* tokenfield.styl */; };
+		AD6F6C9324DA0FC200B5EDFF /* editor.styl in Resources */ = {isa = PBXBuildFile; fileRef = AD6F6C9124DA0FC200B5EDFF /* editor.styl */; };
 		AD7396931C90767D00D9F4B3 /* default.styl in Resources */ = {isa = PBXBuildFile; fileRef = AD7396901C9073A700D9F4B3 /* default.styl */; };
 		AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */; };
 		ADAF51571D3AD7F300D5917B /* NSString+URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAF51561D3AD7F300D5917B /* NSString+URLUtils.m */; };
@@ -167,6 +169,8 @@
 		AD6113CA1D251C39005B8208 /* CWAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPIController.h; sourceTree = "<group>"; };
 		AD6113CB1D251C39005B8208 /* CWAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPIController.m; sourceTree = "<group>"; };
 		AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = tokenfield.min.js; path = node_modules/tokenfield/dist/tokenfield.min.js; sourceTree = SOURCE_ROOT; };
+		AD6F6C9024DA0FC100B5EDFF /* tokenfield.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokenfield.styl; sourceTree = "<group>"; };
+		AD6F6C9124DA0FC200B5EDFF /* editor.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = editor.styl; sourceTree = "<group>"; };
 		AD7280911C908ED6007A7FA6 /* CWLandingPageViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CWLandingPageViewController.pug; sourceTree = "<group>"; };
 		AD7396901C9073A700D9F4B3 /* default.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.styl; sourceTree = "<group>"; };
 		AD8FE0B91CE477E70085612C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../../../Library/Developer/Xcode/DerivedData/Criollo_Web-bxldpoilqgcohudzadiiettgdbiy/Build/Products/Debug/Realm/Realm.framework"; sourceTree = "<group>"; };
@@ -341,6 +345,8 @@
 		AD7290E91C7058C90079AD76 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				AD6F6C9124DA0FC200B5EDFF /* editor.styl */,
+				AD6F6C9024DA0FC100B5EDFF /* tokenfield.styl */,
 				AD0BA84B1D1C26AB00F0C865 /* Login */,
 				AD0BA8431D1C207100F0C865 /* Menu */,
 				AD0BA8441D1C207700F0C865 /* Notifications */,
@@ -570,9 +576,11 @@
 				AD7396931C90767D00D9F4B3 /* default.styl in Resources */,
 				AD5F02271CE0BD8900D810B6 /* CWLandingPageViewController.pug in Resources */,
 				AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */,
+				AD6F6C9324DA0FC200B5EDFF /* editor.styl in Resources */,
 				ADF347021CF1F7F800EFC211 /* CWLoginPageViewController.pug in Resources */,
 				AD5200611D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug in Resources */,
 				AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */,
+				AD6F6C9224DA0FC200B5EDFF /* tokenfield.styl in Resources */,
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,
 				AD7D7FB91C9650A300DBBF4C /* io.criollo.Criollo-Web.plist in Resources */,
 				AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */,
