@@ -264,7 +264,7 @@ NS_ASSUME_NONNULL_END
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
     self.vars[@"content"] = self.contents.copy;
     if (self.showPageTitle) {
-        self.vars[@"content"] = [NSString stringWithFormat:@"<header class=\"page-header\"><h1 class=\"page-title\">%@</h1></header>%@", self.title, self.vars[@"content"]];
+        self.vars[@"content"] = [NSString stringWithFormat:@"<header class=\"page-header content\"><h1 class=\"page-title\">%@</h1></header>%@", self.title, self.vars[@"content"]];
     }
     self.vars[@"title"] = self.title;
     if ( self.ogType ) {

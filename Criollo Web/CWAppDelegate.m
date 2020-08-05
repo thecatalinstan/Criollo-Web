@@ -143,16 +143,19 @@ NS_ASSUME_NONNULL_END
     }}];
     
     // default.css
-    NSString* defaultCss = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
-    [self.server mount:@"/default.css" fileAtPath:defaultCss];
+    [self.server mount:@"/default.css" fileAtPath:[NSBundle.mainBundle pathForResource:@"default" ofType:@"css"]];
+    
+//    // editor.css
+//    [self.server mount:@"/editor.css" fileAtPath:[NSBundle.mainBundle pathForResource:@"editor" ofType:@"css"]];
+    
+    // tokenfield.css
+    [self.server mount:@"/tokenfield.css" fileAtPath:[NSBundle.mainBundle pathForResource:@"tokenfield" ofType:@"css"]];
     
     // app.js
-    NSString* appJs = [[NSBundle mainBundle] pathForResource:@"app" ofType:@"js"];
-    [self.server mount:@"/app.js" fileAtPath:appJs];
+    [self.server mount:@"/app.js" fileAtPath:[NSBundle.mainBundle pathForResource:@"app" ofType:@"js"]];
 
     // favicon.ico
-    NSString* faviconIco = [[NSBundle mainBundle] pathForResource:@"favicon" ofType:@"ico"];
-    [self.server mount:@"/favicon.ico" fileAtPath:faviconIco];
+    [self.server mount:@"/favicon.ico" fileAtPath:[NSBundle.mainBundle pathForResource:@"favicon" ofType:@"ico"]];
 
     [self startServer];
 }

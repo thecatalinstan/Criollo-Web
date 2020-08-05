@@ -4,21 +4,7 @@
 @import notifications
 @import menu
 @import login
-@import tokenfield
 @import blog
-
-// Layout colors and fonts
-body-color                          = criollo-dark-gray
-masthead-color                      = criollo-light-gray
-masthead-background-color           = criollo-black
-heading-color                       = criollo-dark-orange
-link-color                          = criollo-orange
-link-hover-color                    = criollo-light-orange
-footer-color                        = criollo-light-gray
-footer-background-color             = criollo-black
-footer-link-color                   = criollo-light-orange
-footer-link-hover-color             = criollo-light-gray
-footer-heading-color                = criollo-light-gray
 
 body,
 html
@@ -31,6 +17,9 @@ body
   font-weight 300
   color criollo-dark-gray
   background-color criollo-black
+  
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-light-gray
 
 h1
   font-size 3.6em
@@ -46,7 +35,10 @@ h1, h2, h3
   font-weight bold
   line-height 1.5em
   letter-spacing -0.05em
-  color heading-color
+  color criollo-dark-orange
+  
+  @media screen and (prefers-color-scheme: dark)
+    color criollo-light-orange
 
 body
   font-size 1.2em
@@ -59,7 +51,8 @@ p, ul, li
 
 code
   font-family monotype-font-family
-  background-color alpha(criollo-light-gray, 0.25)
+  background-color criollo-lighter-gray
+  color criollo-dark-gray
   font-size 0.9em
   font-weight 400
   padding 2px 5px
@@ -67,18 +60,29 @@ code
   border-radius 4px
   margin-right 3px
   margin-left 3px
+  
+  @media screen and (prefers-color-scheme: dark)
+    background-color criollo-dark-gray
+    color criollo-light-gray
+    border 1px solid alpha(criollo-medium-gray, 0.25)
+    
+  &.hljs
+    color criollo-light-gray
+    
+    @media screen and (prefers-color-scheme: dark)
+      color criollo-medium-gray
 
 strong
   font-weight 600
 
 a
-  color link-color
+  color criollo-orange
   text-decoration underline
   transition all 0.25s ease-in-out 0
   overflow-wrap break-word
 
 a:hover
-  color link-hover-color
+  color criollo-light-orange
 
 body
 
@@ -99,9 +103,13 @@ body
   &>section
     padding 3em 0
     min-height 18.75em
-    border-bottom 1px solid criollo-light-gray
+    border-bottom 1px solid criollo-lighter-gray
     vertical-align middle
     background-color white
+    
+    @media screen and (prefers-color-scheme: dark)
+      background-color criollo-darker-gray
+      border-bottom 1px solid criollo-dark-gray
 
     @media screen and (max-width: phone-cutoff)
       padding 0.5em 0
@@ -141,7 +149,7 @@ body
       box-sizing border-box
 
   .masthead
-    background-color masthead-background-color
+    background-color criollo-black
     text-align center
     min-height 30em
 
@@ -155,6 +163,9 @@ body
       .logo
         margin 8em auto 3em auto
         opacity 1
+        
+        @media screen and (prefers-color-scheme: dark)
+          opacity 0.7
 
         @media screen and (max-width: phone-cutoff)
           margin 4em 2em 1.5em 2em
@@ -169,13 +180,16 @@ body
           font-size 1.5em
 
       h1, h2
-        color masthead-color
+        color criollo-lighter-gray
+        
+        @media screen and (prefers-color-scheme: dark)
+          color criollo-light-gray
 
       h2
         font-weight normal
 
       p
-        color masthead-color
+        color criollo-lighter-gray
 
       .get-started
         margin-top 4em
@@ -292,7 +306,7 @@ body
         padding-top 2em
 
         @media screen and (max-width: phone-cutoff)
-            padding-top 1em
+          padding-top 1em
 
         a
           display inline-block
@@ -301,10 +315,14 @@ body
           padding 1em
           text-align center
           text-decoration none
+          border-radius 4px
 
           &:hover
             text-decoration none
-            background-color criollo-light-gray
+            background-color criollo-lighter-gray
+            
+            @media screen and (prefers-color-scheme: dark)
+              background-color criollo-dark-gray                
 
             span
               text-decoration underline
@@ -314,6 +332,26 @@ body
             height @width
             margin 0 auto 0.5em auto
             display block
+            
+          &.github-button            
+            img
+              &.dark
+                display block
+              &.light 
+                display none              
+                opacity 1
+              @media screen and (prefers-color-scheme: dark)
+                &.dark
+                  display none              
+                &.light 
+                  display block
+                  opacity 0.7
+              
+            
+          &.criollo-web-icon
+            img
+              @media screen and (prefers-color-scheme: dark)
+                filter invert(80%)
 
           span
             display block
@@ -324,15 +362,24 @@ body
             font-size 0.6em
             line-height 1em
             color criollo-dark-gray
+            
+            @media screen and (prefers-color-scheme: dark)
+              color criollo-medium-gray
 
     &.process-info
       height auto
       max-height auto
       min-height 0
-      background-color criollo-orange
-      color criollo-medium-gray
       padding 0.5em 1em 0.4em 1em
       border none
+      background-color criollo-orange
+      color criollo-light-gray
+      border-bottom 1px solid criollo-medium-gray
+      
+      @media screen and (prefers-color-scheme: dark)
+        background-color criollo-dark-orange
+        color criollo-medium-gray
+        border-bottom 1px solid criollo-dark-gray
 
       .content
         font-family monotype-font-family
@@ -346,20 +393,29 @@ body
           line-height 1.25em
 
   .footer
-    background-color footer-background-color
-    color footer-color
+    background-color criollo-black
+    color criollo-lighter-gray
     font-size 1em
     padding-bottom 0
+    
+    @media screen and (prefers-color-scheme: dark)
+      color criollo-light-gray
 
     .content
 
       a
-        color footer-link-color
+        color criollo-light-orange
         text-decoration none
+        
+        @media screen and (prefers-color-scheme: dark)
+          color criollo-orange
 
         &:hover
-          color footer-link-hover-color
+          color criollo-lighter-gray
           text-decoration underline
+          
+          @media screen and (prefers-color-scheme: dark)
+            color criollo-light-gray
 
       .col
         display inline-block
@@ -371,8 +427,11 @@ body
           margin 2em 1em 0 1em
 
         h3
-          color footer-heading-color
+          color criollo-lighter-gray          
           margin-bottom 0.25em
+          
+          @media screen and (prefers-color-scheme: dark)
+            color criollo-light-gray
 
         ul
           li
@@ -383,9 +442,11 @@ body
       .copyright
         font-size 0.75em
         line-height 1em
-        border-top 1px solid criollo-light-orange
+        border-top 1px solid criollo-orange
         padding 0
         margin-top 2em
-
+        
+        @media screen and (prefers-color-scheme: dark)
+          border-top 1px solid criollo-dark-orange
         p
           margin 1em

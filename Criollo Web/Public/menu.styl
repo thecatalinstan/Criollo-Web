@@ -1,17 +1,9 @@
 @import globals
 
-menu-background-color               = criollo-black
-menu-link-color                     = criollo-light-gray
-menu-link-hover-color               = criollo-orange
-
-menu-scrolled-background-color      = criollo-black
-menu-scrolled-link-color            = menu-link-color
-menu-scrolled-link-hover-color      = menu-link-hover-color
-
 body
 
   .main-menu
-    background-color menu-background-color
+    background-color criollo-black
     text-align center
     height auto
     width 100%
@@ -71,20 +63,28 @@ body
             line-height 2em
             margin 0
             padding 0
-            color menu-link-color
+            color criollo-light-gray
             text-decoration none
+            
+            @media screen and (prefers-color-scheme: dark)
+              color criollo-light-gray
+
 
             &:hover
-              color menu-link-hover-color
+              color criollo-orange
               text-decoration underline
 
     &.scrolled
-      background-color menu-scrolled-background-color
+      background-color criollo-black
 
       .content
         .logo
           display inline-block
           width 30%
+          opacity 1
+          
+          @media screen and (prefers-color-scheme: dark)
+            opacity 0.7
 
           @media screen and (max-width: phone-cutoff)
             width 25%
@@ -101,7 +101,10 @@ body
             margin 0 0 0 0.75em
 
             a
-              color menu-scrolled-link-color
+              color criollo-light-gray
+              
+              @media screen and (prefers-color-scheme: dark)
+                color criollo-medium-gray
 
               &:hover
-                color menu-scrolled-link-hover-color
+                color criollo-orange

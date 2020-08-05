@@ -8,12 +8,12 @@ const excerptPlaceholder = 'The post excerpt (leave blank to autogenerate)'
 const tagsPlaceholder = 'Enter some tags'
 
 const displayValidationError = (element, message) => {
-  if ( window.notifier ) {
+  if (window.notifier) {
     window.notifier.error('Unable to Save Post', message)
   } else {
     console.error(message)
   }
-  if ( element ) {
+  if (element) {
     element.focus()
   }
 }
@@ -30,12 +30,12 @@ const savePost = (post, success, failure) => {
 const setupPlaceholder = (element, placeholder) => {
 
   element.contentEditable = true
-  if ( element.textContent.trim() == '' ) {
+  if (element.textContent.trim() == '') {
     element.innerHTML = placeholder
   }
 
   element.addEventListener('focus', () => {
-    if ( element.textContent.trim() == placeholder ) {
+    if (element.textContent.trim() == placeholder) {
       element.innerHTML = ''
     }
   })
@@ -47,7 +47,7 @@ const setupPlaceholder = (element, placeholder) => {
   })
 
   element.addEventListener('blur', () => {
-    if ( element.textContent.trim() == '') {
+    if (element.textContent.trim() == '') {
       element.innerHTML = placeholder
     }
   })
@@ -56,12 +56,10 @@ const setupPlaceholder = (element, placeholder) => {
 const setupEditor = (postElement, post) => {
   console.log('Received post:', post)
 
-  const footerElement = postElement.querySelector('.article-footer')
-
   // Set the title as editable
   const titleElement = postElement.querySelector('h1.article-title')
   setupPlaceholder(titleElement, titlePlaceholder)
-  if ( post.title ) {
+  if (post.title) {
     titleElement.innerHTML = post.title
   }
   titleElement.addEventListener('paste', (e) => {
@@ -73,7 +71,7 @@ const setupEditor = (postElement, post) => {
   // Setup the post meta data (author and date)
   const authorElement = postElement.querySelector('span.article-author')
   let authorDisplayName = post.author ? post.author.displayName : `${window.currentUser.firstName} ${window.currentUser.lastName}`.trim()
-  if ( authorDisplayName == '' ) {
+  if (authorDisplayName == '') {
     authorDisplayName = window.currentUser.username
   }
   authorElement.innerHTML = authorDisplayName
@@ -81,7 +79,7 @@ const setupEditor = (postElement, post) => {
   // Edit the handle
   const handleContainer = document.createElement('div')
   handleContainer.className = 'article-handle-container'
-  if ( !post.uid ) {
+  if (!post.uid) {
     handleContainer.style.display = 'none'
   }
 
@@ -94,7 +92,7 @@ const setupEditor = (postElement, post) => {
   const handleLabel = document.createElement('label')
   handleLabel.htmlFor = handleEditor.id
   handleLabel.className = 'article-handle-editor-label'
-  if ( post.publicPath ) {
+  if (post.publicPath) {
     handleLabel.innerHTML = `${location.protocol}//${location.host}${post.publicPath.substr(0, post.publicPath.lastIndexOf('/') + 1)}`
   } else {
     handleLabel.innerHTML = `${location.protocol}//${location.host}/blog/${(new Date()).getFullYear()}/${(new Date()).getMonth()}/`
@@ -105,10 +103,10 @@ const setupEditor = (postElement, post) => {
 
   titleElement.parentNode.appendChild(handleContainer)
 
-  if ( !post.uid) {
+  if (!post.uid) {
       titleElement.onblur = (e) => {
         makeHandle(e.target.textContent, (data) => {
-          if ( !data ) {
+          if (!data) {
             return
           }
           handleEditor.value = data
@@ -122,89 +120,51 @@ const setupEditor = (postElement, post) => {
 
   // Remove the (rendered) body of the post
   const contentElement = postElement.querySelector('.article-content')
-  contentElement.parentNode.removeChild(contentElement)
+  contentElement.innerHTML = ''
 
   // Create a 'textarea' that we can edit the markdown in
   const contentEditor = document.createElement('textarea')
   contentEditor.className = 'article-content-editor'
   contentEditor.contentEditable = true
-  if ( post.content ) {
-    contentEditor.value = post.content
+  if (post.content) {
+    contentEditor.value = post.content    
   }
-  postElement.insertBefore(contentEditor, footerElement)
+  contentElement.appendChild(contentEditor)
+  contentEditor.style.height = contentEditor.scrollHeight + 'px'
 
   // Create the excerpt label and editor element
   const excerptLabel = document.createElement('label')
   excerptLabel.className = 'article-excerpt-editor-label'
-  excerptLabel.innerHTML = 'Excerpt:'
-  postElement.insertBefore(excerptLabel, footerElement)
+  excerptLabel.innerHTML = 'Excerpt:'  
+  contentElement.appendChild(excerptLabel)
 
   const excerptEditor = document.createElement('textarea')
   excerptEditor.className = 'article-excerpt-editor'
   excerptEditor.contentEditable = true
-  if ( post.excerpt ) {
+  if (post.excerpt) {
     excerptEditor.innerHTML = post.excerpt
   }
   excerptEditor.placeholder = excerptPlaceholder
-  postElement.insertBefore(excerptEditor, footerElement)
-
-  // Add the editor js and css
-  const excerptEditorCss = document.createElement('link')
-  excerptEditorCss.rel = 'stylesheet'
-  excerptEditorCss.href = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css'
-  postElement.parentNode.appendChild(excerptEditorCss)
-
-  let simpleMDE = undefined
-  const excerptEditorJs = document.createElement('script')
-  excerptEditorJs.src = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js'
-  excerptEditorJs.onload = (e) => {
-    simpleMDE = new SimpleMDE( {
-      element: contentEditor,
-      placeholder: contentPlaceholder,
-      forceSync: true,
-    })
-  }
-  postElement.parentNode.appendChild(excerptEditorJs)
+  contentElement.appendChild(excerptEditor)
 
   // Create the tags label and editor element
   const tagsLabel = document.createElement('label')
   tagsLabel.className = 'article-tags-editor-label'
   tagsLabel.innerHTML = 'Tags:'
-  postElement.insertBefore(tagsLabel, footerElement)
+  contentElement.appendChild(tagsLabel)
 
   const tagsEditor = document.createElement('input')
   tagsEditor.type = 'text'
   tagsEditor.className = 'article-tags-editor'
   tagsEditor.contentEditable = true
-  if ( post.tags ) {
+  if (post.tags) {
     tagsEditor.innerHTML = post.tags
   }
-  postElement.insertBefore(tagsEditor, footerElement)
+  contentElement.appendChild(tagsEditor)
 
-  let tokenField = undefined
-  const tagsEditorJs = document.createElement('script')
-  tagsEditorJs.src = '/static/tokenfield.min.js'
-  tagsEditorJs.onload = (e) => {
-    tokenField = new Tokenfield({
-      el: document.querySelector('.article-tags-editor'),
-      setItems: post.tags || [],
-      placeholder: tagsPlaceholder,
-      newItems: true,
-      itemValue: 'uid',
-      remote: {
-        type: 'GET',
-        url: '/api/blog/tags/search',
-        queryParam: 'q',
-        delay: 300,
-        timestampParam: 't'
-      }
-    })
-
-    tokenField.remapData = (data) => {
-      return data.data
-    }
-  }
-  postElement.parentNode.appendChild(tagsEditorJs)
+  // Clear the footer
+  const footerElement = postElement.querySelector('.article-footer')
+  footerElement.innerHTML = ''
 
   // Create the published checkbox and label
   const publishedContainer = document.createElement('div')
@@ -212,7 +172,7 @@ const setupEditor = (postElement, post) => {
 
   const publishedPermalink = document.createElement('a')
   publishedPermalink.className = 'article-published-editor-permalink'
-  if ( !post.uid ) {
+  if (!post.uid) {
     publishedPermalink.style.display = 'none'
   }
   publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
@@ -232,11 +192,8 @@ const setupEditor = (postElement, post) => {
   publishedLabel.className = 'article-published-editor-label'
   publishedLabel.innerHTML = 'Published'
   publishedContainer.appendChild(publishedLabel)
-
-  postElement.insertBefore(publishedContainer, footerElement)
-
-  // Clear the footer and add the save button at the bottom
-  footerElement.innerHTML = ''
+  
+  footerElement.appendChild(publishedContainer)
 
   const saveButton = document.createElement('button')
   saveButton.innerHTML = 'Save'
@@ -244,13 +201,13 @@ const setupEditor = (postElement, post) => {
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
     post.title = titleElement.textContent
-    if ( post.uid ) {
+    if (post.uid) {
       post.handle = handleEditor.value
     }
     post.content = contentEditor.value
     post.excerpt = excerptEditor.value
     post.tags = tokenField.getItems().map ( (item) => {
-      if ( item.isNew ) {
+      if (item.isNew) {
         return { 'name': item.name }
       } else {
         return item
@@ -264,7 +221,7 @@ const setupEditor = (postElement, post) => {
 
       window.notifier.confirm('Post saved', data.publicPath)
 
-      if ( !post.uid ) {
+      if (!post.uid) {
         window.location.href = data.publicPath + '/edit'
         return
       }
@@ -287,6 +244,57 @@ const setupEditor = (postElement, post) => {
     })
   }
   footerElement.appendChild(saveButton)
+
+  // // Add the editor js and css
+  // const excerptEditorCss = document.createElement('link')
+  // excerptEditorCss.rel = 'stylesheet'
+  // excerptEditorCss.href = '/editor.css'
+  // postElement.parentNode.appendChild(excerptEditorCss)
+
+  // let simpleMDE = undefined
+  // const excerptEditorJs = document.createElement('script')
+  // excerptEditorJs.src = '//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js'
+  // excerptEditorJs.onload = (e) => {
+  //   simpleMDE = new SimpleMDE({
+  //     element: contentEditor,
+  //     placeholder: contentPlaceholder,
+  //     forceSync: true,
+  //   })
+  // }
+  // postElement.parentNode.appendChild(excerptEditorJs)
+
+  // Add tags editorjs and css
+  const tagsEditorCss = document.createElement('link')
+  tagsEditorCss.rel = 'stylesheet'
+  tagsEditorCss.href = '/tokenfield.css'
+  postElement.parentNode.appendChild(tagsEditorCss)
+
+  let tokenField = undefined
+  const tagsEditorJs = document.createElement('script')
+  tagsEditorJs.src = '/static/tokenfield.min.js'
+  tagsEditorJs.onload = (e) => {
+    tokenField = new Tokenfield({
+      el: document.querySelector('.article-tags-editor'),
+      setItems: post.tags || [],
+      placeholder: tagsPlaceholder,
+      newItems: true,
+      itemValue: 'uid',
+      remote: {
+        type: 'GET',
+        url: '/api/blog/tags/search',
+        queryParam: 'q',
+        delay: 300,
+        timestampParam: 't'
+      },
+      minWidth: 60
+    })
+    tokenField.remapData = (data) => {
+      return data.data
+    }    
+  }
+  postElement.parentNode.appendChild(tagsEditorJs)
+
+  postElement.classList.add("editing")
 }
 
 const getPost = (path, success, failure) => {
@@ -300,20 +308,20 @@ const makeHandle = (input, success, failure) => {
 blog.getPost = getPost
 
 blog.setup = () => {
-  const postElement = document.querySelector('.content article.article')
-  if ( !postElement ) {
+  const postElement = document.querySelector('.blog article.article.single')
+  if (!postElement) {
     console.log(`There is no post element. Exiting.`)
     return
   }
 
   const postId = postElement.dataset.post
   const lastPathComponent = location.pathname.substr(location.pathname.lastIndexOf('/') + 1)
-  if ( postId != '' && lastPathComponent != 'edit' ) {
+  if (postId != '' && lastPathComponent != 'edit') {
     console.log(`Post id is ${postId}. Pathname is ${lastPathComponent}. Exiting.`)
     return
   }
 
-  if ( postId && lastPathComponent == 'edit' ) {
+  if (postId && lastPathComponent == 'edit') {
     const postPath = '/' + postId
     getPost(postPath, (data) => {
       setupEditor(postElement, data)
@@ -325,13 +333,13 @@ blog.setup = () => {
 
 blog.relatedPosts = () => {
   const postElement = document.querySelector('.content article.article')
-  if ( !postElement ) {
+  if (!postElement) {
     console.log(`There is no post element. Exiting.`)
     return
   }
 
   const postId = postElement.dataset.post
-  if ( !postId ) {
+  if (!postId) {
     return
   }
 

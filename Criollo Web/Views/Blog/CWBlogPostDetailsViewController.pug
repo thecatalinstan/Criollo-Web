@@ -1,13 +1,13 @@
 article.article.single(id="article-{{id}}",data-post="{{id}}")
-  header.article-header
+  header.article-header.content 
     h1.article-title {{title}}
     p.article-info Posted by
       span.article-author
         a(href="{{author-url}}") {{author}}
       span.article-date {{publishedDate}}
       span.article-toolbar {{toolbar}}
-  .article-content {{content}}
-  footer.article-footer
+  .article-content.content {{content}}
+  footer.article-footer.content
     .sharing
       .addthis_inline_share_toolbox
     .tags(style="{{tags-style}}")
@@ -30,7 +30,7 @@ article.article.single(id="article-{{id}}",data-post="{{id}}")
       .author-location {{author-location}}
       .author-bio {{author-bio}}
       .author-more
-        a(href="{{author-url}}") See other posts by {{author}} &raquo;
+        a(href="{{author-url}}") See other posts by {{author}}
 link(rel="stylesheet",href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/monokai-sublime.min.css")
 script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js")
 script(src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57c4039a427916ac")
