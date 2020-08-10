@@ -11,7 +11,6 @@
 		3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692761C9B2012003C99EC /* logoDark.svg */; };
 		3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3ACC94C01C9BFAEF000C6180 /* githubMark.svg */; };
 		A9BE8AC2A40942A84A700FD3 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E683BEB429F21767BA0843D6 /* Pods_Criollo_Web.framework */; };
-		AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD089EE51C998E6E007434A1 /* criollo-web-icon.png */; };
 		AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0A14791D48EA27003D8DAB /* CWSchema.m */; };
 		AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA96C1C96004B005206A1 /* logo.png */; };
 		AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA99F1C963752005206A1 /* GitHub-Mark-64px.png */; };
@@ -112,7 +111,6 @@
 				3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */,
 				3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */,
 				ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */,
-				AD089EE71C998E7F007434A1 /* criollo-web-icon.png in Copy Public Resources */,
 				AD24E76924C8DD3A00BA0497 /* logoLight.svg in Copy Public Resources */,
 				AD0BA9A11C96376F005206A1 /* GitHub-Mark-64px.png in Copy Public Resources */,
 				AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */,
@@ -128,7 +126,6 @@
 		3ACC94C01C9BFAEF000C6180 /* githubMark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = githubMark.svg; sourceTree = "<group>"; };
 		4A1E2669206A7E0F00BB1DE7 /* rollup-config.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "rollup-config.js"; path = "Criollo Web/rollup-config.js"; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
-		AD089EE51C998E6E007434A1 /* criollo-web-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-web-icon.png"; sourceTree = "<group>"; };
 		AD0A14781D48EA27003D8DAB /* CWSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSchema.h; sourceTree = "<group>"; };
 		AD0A14791D48EA27003D8DAB /* CWSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSchema.m; sourceTree = "<group>"; };
 		AD0BA8391D1BEAD900F0C865 /* notifications.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = notifications.js; sourceTree = "<group>"; };
@@ -272,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				AD24E76824C8DD3900BA0497 /* logoLight.svg */,
-				AD089EE51C998E6E007434A1 /* criollo-web-icon.png */,
 				3A5692741C9B200D003C99EC /* logoWithTextLight.svg */,
 				3A5692761C9B2012003C99EC /* logoDark.svg */,
 				3ACC94C01C9BFAEF000C6180 /* githubMark.svg */,
