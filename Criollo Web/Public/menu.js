@@ -1,36 +1,30 @@
+const scrolledClass = 'scrolled'
 const addScrolledClass = (menu) => {
-  if (menu.className.indexOf('scrolled') < 0) {
-    menu.className += ' scrolled'
-  }
-  if (document.body.className.indexOf('scrolled') < 0) {
-    document.body.className += ' scrolled'
-  }
+  menu.classList.add(scrolledClass)
+  document.body.classList.add(scrolledClass)
 }
 
 const removeScrolledClass = (menu) => {
-  if (menu.className.indexOf('scrolled') >= 0) {
-    menu.className = menu.className.replace('scrolled', '')
-  }
-  if (document.body.className.indexOf('scrolled') >= 0) {
-    document.body.className = document.body.className.replace('scrolled', '')
-  }
+  menu.classList.remove(scrolledClass)
+  document.body.classList.remove(scrolledClass)
 }
 
 export default {
   setup: () => {
     let mastheadLogo = document.querySelector('.masthead .logo')
     let mainMenu = document.querySelector('nav.main-menu')
-    if (mastheadLogo) {
-      document.body.onscroll = () => {
-        var scroll = document.body.scrollTop
-        if (scroll >= mastheadLogo.offsetTop - mainMenu.offsetHeight) {
-          addScrolledClass(mainMenu)
-        } else {
-          removeScrolledClass(mainMenu)
-        }
-      }
-    } else {
+    if (!mastheadLogo) {
       addScrolledClass(mainMenu)
+      return
+    }
+    
+    document.body.onscroll = () => {
+      let scroll = Math.max(parseInt(document.body.scrollTop, 10), parseInt(document.documentElement.scrollTop, 10))
+      if (scroll >= mastheadLogo.offsetTop - mainMenu.offsetHeight) {
+        addScrolledClass(mainMenu)
+      } else {
+        removeScrolledClass(mainMenu)
+      }
     }
   }
 }
