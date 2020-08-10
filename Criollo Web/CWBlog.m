@@ -18,27 +18,7 @@
 #import "NSString+URLUtils.h"
 #import "NSString+RegEx.h"
 
-#define CWExcerptLength     400
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CWBlog ()
-
-@end
-
-NS_ASSUME_NONNULL_END
-
-@implementation CWBlogDatePair
-
-@end
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CWBlog()
-
-@end
-
-NS_ASSUME_NONNULL_END
+static NSUInteger const CWExcerptLength = 400;
 
 @implementation CWBlog
 
@@ -46,12 +26,16 @@ NS_ASSUME_NONNULL_END
     static RLMRealmConfiguration *realmConfig;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSURL *realmURL = [[[CWAppDelegate baseDirectory] URLByAppendingPathComponent:self.className] URLByAppendingPathExtension:@"realm"];
+        NSURL *realmURL = [[CWAppDelegate.baseDirectory URLByAppendingPathComponent:self.className] URLByAppendingPathExtension:@"realm"];
         realmConfig = [RLMRealmConfiguration defaultConfiguration];
         realmConfig.fileURL = realmURL;
         realmConfig.readOnly = NO;
         realmConfig.deleteRealmIfMigrationNeeded = NO;
-        realmConfig.objectClasses = @[[CWBlogAuthor class], [CWBlogPost class], [CWBlogTag class]];
+        realmConfig.objectClasses = @[
+            CWBlogAuthor.class,
+            CWBlogPost.class,
+            CWBlogTag.class
+        ];
         realmConfig.schemaVersion = 5;
         realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
             // Nothing to do for migration
@@ -70,22 +54,21 @@ NS_ASSUME_NONNULL_END
                 }];
             }
 
-//            // Add the twitter, imageURL and bio properties to the user
-//            if (oldSchemaVersion < 4) {
-//                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
-//                    newObject[@"twitter"] = @"";
-//                    newObject[@"imageURL"] = @"";
-//                    newObject[@"bio"] = @"";
-//                    newObject[@"location"] = @"";
-//                }];
-//            }
+            // Add the twitter, imageURL and bio properties to the user
+            if (oldSchemaVersion < 4) {
+                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                    newObject[@"twitter"] = @"";
+                    newObject[@"imageURL"] = @"";
+                    newObject[@"bio"] = @"";
+                }];
+            }
 
-//            // Add the locatoon to the user model
-//            if (oldSchemaVersion < 5) {
-//                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
-//                    newObject[@"location"] = @"";
-//                }];
-//            }
+            // Add the locatoon to the user model
+            if (oldSchemaVersion < 5) {
+                [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                    newObject[@"location"] = @"";
+                }];
+            }
         };
     });
     return realmConfig;
@@ -326,5 +309,9 @@ NS_ASSUME_NONNULL_END
     return [[text stringByReplacingPattern:@"(@[\\w]+)" withTemplate:@"<a href=\"https://twitter.com/$1\">$1</a>" error:nil] stringByReplacingPattern:@"#([\\w]+)" withTemplate:@"<a href=\"https://twitter.com/hashtag/$1\">#$1</a>" error:nil];
 
 }
+
+@end
+
+@implementation CWBlogDatePair
 
 @end

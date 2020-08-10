@@ -17,15 +17,28 @@
 #import "CWAPIController.h"
 #import "CWSitemapController.h"
 
-#define DefaultPortNumber          10781
+NSNotificationName const CWRoutesChangedNotificationName = @"CWRoutesChangedNotification";
+NSString * const CWGitHubURL = @"https://github.com/thecatalinstan/Criollo";
+NSString * const CWWebGitHubURL = @"https://github.com/thecatalinstan/Criollo-Web";
+NSString * const CWStaticDirPath = @"/static";
+NSString * const CWLoginPath = @"/login";
+
+NSUInteger const DefaultPortNumber = 10781;
+
 #define LogConnections             0
 #define LogRequests                1
 
-static NSDate * processStartTime;
+static NSDate *processStartTime;
 static NSUInteger requestsServed;
-static NSURL * baseURL;
+static NSURL *baseURL;
 static NSUInteger portNumber;
 static dispatch_queue_t backgroundQueue;
+static NSString *serverSpecString;
+static NSString *processName;
+static NSString *criolloVersion;
+static NSString *bundleVersion;
+static NSURL *baseDirectory;
+static NSString *ETag;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,16 +58,10 @@ NS_ASSUME_NONNULL_END
 @implementation CWAppDelegate
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
-    processStartTime = [NSDate date];
-    requestsServed = 0;
-    backgroundQueue = dispatch_queue_create([NSBundle mainBundle].bundleIdentifier.UTF8String, DISPATCH_QUEUE_SERIAL);
-    dispatch_set_target_queue(backgroundQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0));
-
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-
     [self setupBaseDirectory];
     [self setupBlog];
 
@@ -237,8 +244,7 @@ NS_ASSUME_NONNULL_END
 - (void)setupBlog {
     _blog = [[CWBlog alloc] init];
     NSError *error;
-    [self.blog importUsersFromDefaults:&error];
-    if ( error ) {
+    if ([self.blog importUsersFromDefaults:&error]) {
         [CRApp logErrorFormat:@"%@ Failed to import users from defaults. %@", [NSDate date], error.localizedDescription];
         [CRApp terminate:nil];
     } else {
@@ -282,20 +288,37 @@ NS_ASSUME_NONNULL_END
 
 #pragma mark - Utils
 
-+ (NSString *)serverSpecString {
-    static NSString* serverSpecString;
-    if ( serverSpecString == nil ) {
-        NSBundle* bundle = [NSBundle mainBundle];
-        serverSpecString = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
++ (void)initialize {
+    if (self != [CWAppDelegate class]) {
+        return;
     }
+    
+    NSBundle *bundle = [NSBundle mainBundle];
+    bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+
+    NSBundle *criollo = [NSBundle bundleWithPath:[bundle.bundlePath.stringByStandardizingPath stringByAppendingPathComponent:@"Contents/Frameworks/Criollo.framework"]];
+    criolloVersion = [criollo objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    
+    serverSpecString = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
+    
+    baseDirectory = [NSFileManager.defaultManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask].lastObject;
+    baseDirectory = [baseDirectory URLByAppendingPathComponent:[bundle objectForInfoDictionaryKey:(__bridge NSString *)kCFBundleNameKey]];
+
+    ETag = [NSUUID.UUID.UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""].lowercaseString;
+    
+    processName = NSProcessInfo.processInfo.processName;
+    processStartTime = [NSDate date];
+    requestsServed = 0;
+    
+    backgroundQueue = dispatch_queue_create(bundle.bundleIdentifier.UTF8String, DISPATCH_QUEUE_SERIAL);
+    dispatch_set_target_queue(backgroundQueue, dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0));
+}
+
++ (NSString *)serverSpecString {
     return serverSpecString;
 }
 
 + (NSString *)processName {
-    static NSString* processName;
-    if ( processName == nil ) {
-        processName = [NSProcessInfo processInfo].processName;
-    }
     return processName;
 }
 
@@ -308,40 +331,18 @@ NS_ASSUME_NONNULL_END
 }
 
 + (NSString *)criolloVersion {
-    static NSString* criolloVersion;
-    if ( criolloVersion == nil ) {
-        NSBundle *criolloBundle = [NSBundle bundleForClass:[CRServer class]];
-        criolloVersion = [criolloBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-        if ( criolloVersion == nil ) {
-            criolloVersion = CWCriolloVersion;
-        }
-    }
     return criolloVersion;
 }
 
 + (NSString *)bundleVersion {
-    static NSString* bundleVersion;
-    if ( bundleVersion == nil ) {
-        NSBundle *bundle = [NSBundle mainBundle];
-        bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    }
     return bundleVersion;
 }
 
 + (NSString *)ETag {
-    static NSString* ETag;
-    if ( ETag == nil ) {
-        ETag = [[NSUUID UUID].UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""].lowercaseString;
-    }
     return ETag;
 }
 
 + (NSURL *)baseDirectory {
-    static NSURL* baseDirectory;
-    if ( baseDirectory == nil ) {
-        baseDirectory = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask].lastObject;
-        baseDirectory = [baseDirectory URLByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(__bridge NSString*)kCFBundleNameKey]];
-    }
     return baseDirectory;
 }
 

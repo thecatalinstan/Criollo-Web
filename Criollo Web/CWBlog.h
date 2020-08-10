@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error;
 
-+ (RLMRealmConfiguration *) realmConfiguration;
++ (RLMRealmConfiguration *)realmConfiguration;
 + (nullable RLMRealm *)realm;
 
 + (NSString *)formattedDate:(NSDate *)date;

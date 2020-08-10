@@ -83,7 +83,6 @@ static CSLargeNumberFormatter* sharedFormatter;
                 if ( idx > 0 ) {
                     decimalNumber = [decimalNumber decimalNumberByDividingBy:base];
                 }
-//                NSLog(@" -- %@", decimalNumber);
                 if ( [decimalNumber compare:base] == NSOrderedAscending ) {
                     *stop = YES;
                 }

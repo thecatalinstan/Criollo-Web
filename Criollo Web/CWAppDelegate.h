@@ -8,19 +8,18 @@
 
 #import <Criollo/Criollo.h>
 
-#define CWRoutesChangedNotificationName     @"CWRoutesChangedNotification"
-
-#define CWGitHubURL                         @"https://github.com/thecatalinstan/Criollo"
-#define CWWebGitHubURL                      @"https://github.com/thecatalinstan/Criollo-Web"
-#define CWSessionCookie                     @"cwsession"
-#define CWCriolloVersion                    @"0.5.1"
-
-#define CWStaticDirPath                     @"/static"
-#define CWLoginPath                         @"/login"
-
 @class CWBlog;  
 
 NS_ASSUME_NONNULL_BEGIN
+
+FOUNDATION_EXPORT NSNotificationName const CWRoutesChangedNotificationName;
+
+FOUNDATION_EXPORT NSString * const CWGitHubURL;
+FOUNDATION_EXPORT NSString * const CWWebGitHubURL;
+
+FOUNDATION_EXPORT NSString * const CWStaticDirPath;
+FOUNDATION_EXPORT NSString * const CWLoginPath;
+
 
 @interface CWAppDelegate : NSObject <CRApplicationDelegate>
 
