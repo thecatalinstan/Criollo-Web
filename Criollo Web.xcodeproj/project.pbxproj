@@ -12,7 +12,6 @@
 		3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3ACC94C01C9BFAEF000C6180 /* githubMark.svg */; };
 		A9BE8AC2A40942A84A700FD3 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E683BEB429F21767BA0843D6 /* Pods_Criollo_Web.framework */; };
 		AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0A14791D48EA27003D8DAB /* CWSchema.m */; };
-		AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD0BA96C1C96004B005206A1 /* logo.png */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
 		AD1226321D75CD5200B3D752 /* NSString+RegEx.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1226311D75CD5200B3D752 /* NSString+RegEx.m */; };
 		AD24E76924C8DD3A00BA0497 /* logoLight.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD24E76824C8DD3900BA0497 /* logoLight.svg */; };
@@ -111,7 +110,6 @@
 				3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */,
 				ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */,
 				AD24E76924C8DD3A00BA0497 /* logoLight.svg in Copy Public Resources */,
-				AD0BA9841C9600B9005206A1 /* logo.png in Copy Public Resources */,
 			);
 			name = "Copy Public Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,7 +130,6 @@
 		AD0BA8401D1C1EB100F0C865 /* menu.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = menu.styl; sourceTree = "<group>"; };
 		AD0BA8451D1C26A400F0C865 /* login.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = login.js; sourceTree = "<group>"; };
 		AD0BA8461D1C26A400F0C865 /* login.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = login.styl; sourceTree = "<group>"; };
-		AD0BA96C1C96004B005206A1 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AD0BA9971C962922005206A1 /* app.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.js; sourceTree = "<group>"; };
 		AD0BA9A21C96387C005206A1 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		AD1226301D75CD5200B3D752 /* NSString+RegEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegEx.h"; sourceTree = "<group>"; };
@@ -270,7 +267,6 @@
 				3A5692761C9B2012003C99EC /* logoDark.svg */,
 				3ACC94C01C9BFAEF000C6180 /* githubMark.svg */,
 				ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */,
-				AD0BA96C1C96004B005206A1 /* logo.png */,
 				AD0BA9A21C96387C005206A1 /* favicon.ico */,
 			);
 			path = Images;
