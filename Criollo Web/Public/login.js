@@ -3,20 +3,37 @@ import api from './api.js'
 const login = {}
 
 login.setup = (success, failure) => {
-  if (!document.getElementById('login-button')) {
+  const loginButton = document.getElementById('login-button')
+  if (!loginButton) {
     return
   }
 
-  document.getElementById('login-button').onclick = (e) => {
+  const usernameField = document.getElementById('username');
+  const passwordField = document.getElementById('password');
+
+  const login = (e) => {
     api({
       url: `/api/login?${Math.random()}`,
       method: 'post',
       data: JSON.stringify({
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value
+        username: usernameField.value,
+        password: passwordField.value
       })
     }, success, failure)
   }
+
+  const enter = (callback, e) => {
+    if (event.keyCode !== 13) {
+      return
+    }
+
+    e.preventDefault()
+    callback(e)  
+  }
+
+  loginButton.onclick = login
+  usernameField.addEventListener('keyup', enter.bind(null, login))
+  passwordField.addEventListener('keyup', enter.bind(null, login))
 }
 
 login.confirm = (success, failure) => {
