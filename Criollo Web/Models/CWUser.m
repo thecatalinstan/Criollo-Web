@@ -19,12 +19,10 @@
 static NSArray<CWUser *> *allUsers;
 
 + (void)initialize {
-    if (self != CWUser.class) {
-        return;
+    if (self == CWUser.class) {
+        [self updateUsers];
+        [self monitorAndUpdateUsersFile];
     }
-        
-    [self updateUsers];
-    [self monitorAndUpdateUsersFile];
 }
 
 + (void)monitorAndUpdateUsersFile {
@@ -61,13 +59,13 @@ static NSArray<CWUser *> *allUsers;
 
     NSData *data;
     if (!(data = [[NSData alloc] initWithContentsOfURL:[CWAppDelegate.baseDirectory URLByAppendingPathComponent:@"users.json"] options:NSDataReadingUncached error:&error])) {
-        [CRApp logErrorFormat:@"%@ Error opening users file. %@", [NSDate date], error];
+        [CRApp logErrorFormat:@"%@ Error opening users file. %@", [NSDate date], error.localizedDescription];
         return;
     }
     
     NSArray<CWUser *> *users;
     if (!(users = [CWUser arrayOfModelsFromData:data error:&error])) {
-        [CRApp logErrorFormat:@"%@ Error parsing users file. %@", [NSDate date], error];
+        [CRApp logErrorFormat:@"%@ Error parsing users file. %@", [NSDate date], error.localizedDescription];
         return;
     }
     

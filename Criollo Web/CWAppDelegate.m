@@ -47,10 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CRServer *server;
 @property (nonatomic, strong) CWBlog* blog;
 
-- (void)startServer;
-- (void)setupBaseDirectory;
-- (void)setupBlog;
-
 @end
 
 NS_ASSUME_NONNULL_END

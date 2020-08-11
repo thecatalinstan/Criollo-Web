@@ -16,12 +16,10 @@
 static CWTwitterConfiguration *defaultConfiguration;
 
 + (void)initialize {
-    if (self != CWTwitterConfiguration.class) {
-        return;
+    if (self == CWTwitterConfiguration.class) {
+        [self updateDefaultConfiguration];
+        [self monitorAndUpdateDefaultConfiguration];
     }
-    
-    [self updateDefaultConfiguration];
-    [self monitorAndUpdateDefaultConfiguration];
 }
 
 + (void)monitorAndUpdateDefaultConfiguration {
@@ -57,13 +55,13 @@ static CWTwitterConfiguration *defaultConfiguration;
 
     NSData *data;
     if (!(data = [[NSData alloc] initWithContentsOfURL:[CWAppDelegate.baseDirectory URLByAppendingPathComponent:@"twitter.json"] options:NSDataReadingUncached error:&error])) {
-        [CRApp logErrorFormat:@"%@ Error opening twitter configuration file. %@", [NSDate date], error];
+        [CRApp logErrorFormat:@"%@ Error opening twitter configuration file. %@", [NSDate date], error.localizedDescription];
         return;
     }
     
     CWTwitterConfiguration *configuration;
     if (!(configuration = [[CWTwitterConfiguration alloc] initWithData:data error:&error])) {
-        [CRApp logErrorFormat:@"%@ Error parsing twitter configuration file. %@", [NSDate date], error];
+        [CRApp logErrorFormat:@"%@ Error parsing twitter configuration file. %@", [NSDate date], error.localizedDescription];
         return;
     }
     

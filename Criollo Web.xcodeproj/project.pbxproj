@@ -30,6 +30,8 @@
 		AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = ADD294871CB936EE006458AF /* CWBlogPostViewController.pug */; };
 		AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */ = {isa = PBXBuildFile; fileRef = AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */; };
 		AD6113CC1D251C39005B8208 /* CWAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6113CB1D251C39005B8208 /* CWAPIController.m */; };
+		AD64C10F24E33B1B005ED688 /* CWImageSize.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64C10E24E33B1B005ED688 /* CWImageSize.m */; };
+		AD64C11124E33BD4005ED688 /* image-sizes.json in Resources */ = {isa = PBXBuildFile; fileRef = AD64C11024E33BD4005ED688 /* image-sizes.json */; };
 		AD6D8F6F1D713CB8000AD91E /* tokenfield.min.js in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */; };
 		AD6F6C9224DA0FC200B5EDFF /* tokenfield.styl in Resources */ = {isa = PBXBuildFile; fileRef = AD6F6C9024DA0FC100B5EDFF /* tokenfield.styl */; };
 		AD6F6C9324DA0FC200B5EDFF /* editor.styl in Resources */ = {isa = PBXBuildFile; fileRef = AD6F6C9124DA0FC200B5EDFF /* editor.styl */; };
@@ -165,6 +167,9 @@
 		AD5F02241CE0BCF000D810B6 /* CWBlogViewController.pug */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CWBlogViewController.pug; path = Blog/CWBlogViewController.pug; sourceTree = "<group>"; };
 		AD6113CA1D251C39005B8208 /* CWAPIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPIController.h; sourceTree = "<group>"; };
 		AD6113CB1D251C39005B8208 /* CWAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPIController.m; sourceTree = "<group>"; };
+		AD64C10D24E33B1B005ED688 /* CWImageSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWImageSize.h; sourceTree = "<group>"; };
+		AD64C10E24E33B1B005ED688 /* CWImageSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWImageSize.m; sourceTree = "<group>"; };
+		AD64C11024E33BD4005ED688 /* image-sizes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "image-sizes.json"; sourceTree = "<group>"; };
 		AD6D8F6B1D713C9C000AD91E /* tokenfield.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = tokenfield.min.js; path = node_modules/tokenfield/dist/tokenfield.min.js; sourceTree = SOURCE_ROOT; };
 		AD6F6C9024DA0FC100B5EDFF /* tokenfield.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokenfield.styl; sourceTree = "<group>"; };
 		AD6F6C9124DA0FC200B5EDFF /* editor.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = editor.styl; sourceTree = "<group>"; };
@@ -362,6 +367,8 @@
 				ADB5AF981D49661A003C14B6 /* CWUser.m */,
 				4A52F6D124E2C58C00C3ABF3 /* CWTwitterConfiguration.h */,
 				4A52F6D224E2C58C00C3ABF3 /* CWTwitterConfiguration.m */,
+				AD64C10D24E33B1B005ED688 /* CWImageSize.h */,
+				AD64C10E24E33B1B005ED688 /* CWImageSize.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -454,6 +461,7 @@
 				ADC098871C90F6D4009CC72F /* Readme.md */,
 				4A52F6CE24E2BDD000C3ABF3 /* users.json */,
 				4A52F6CF24E2C40E00C3ABF3 /* twitter.json */,
+				AD64C11024E33BD4005ED688 /* image-sizes.json */,
 				AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */,
 				ADD680091C6CBEC600FC41EE /* Info.plist */,
 				ADB9D1651CE5C72A002F35B5 /* Criollo Web.entitlements */,
@@ -575,6 +583,7 @@
 				AD5F02281CE0BD8900D810B6 /* CWBlogPostViewController.pug in Resources */,
 				AD6F6C9324DA0FC200B5EDFF /* editor.styl in Resources */,
 				ADF347021CF1F7F800EFC211 /* CWLoginPageViewController.pug in Resources */,
+				AD64C11124E33BD4005ED688 /* image-sizes.json in Resources */,
 				AD5200611D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug in Resources */,
 				AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */,
 				AD6F6C9224DA0FC200B5EDFF /* tokenfield.styl in Resources */,
@@ -698,6 +707,7 @@
 				ADE62C961D490E7C0023837F /* CWAPIResponse.m in Sources */,
 				ADE62C951D490E7C0023837F /* CWAPIError.m in Sources */,
 				AD41F0461CE48DCE001ADEAC /* CWBlog.m in Sources */,
+				AD64C10F24E33B1B005ED688 /* CWImageSize.m in Sources */,
 				ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */,
 				ADFA57131D27E66B002FB626 /* NSString+MD5.m in Sources */,
 			);
