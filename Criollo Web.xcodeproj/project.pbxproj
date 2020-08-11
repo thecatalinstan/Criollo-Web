@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35324D402F0FAE5EDA65147B /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBD9184EAD44CBE95DA3BCD /* Pods_Criollo_Web.framework */; };
 		3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692741C9B200D003C99EC /* logoWithTextLight.svg */; };
 		3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692761C9B2012003C99EC /* logoDark.svg */; };
 		3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3ACC94C01C9BFAEF000C6180 /* githubMark.svg */; };
-		A9BE8AC2A40942A84A700FD3 /* Pods_Criollo_Web.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E683BEB429F21767BA0843D6 /* Pods_Criollo_Web.framework */; };
 		AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0A14791D48EA27003D8DAB /* CWSchema.m */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
 		AD1226321D75CD5200B3D752 /* NSString+RegEx.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1226311D75CD5200B3D752 /* NSString+RegEx.m */; };
@@ -121,6 +121,7 @@
 		3A5692761C9B2012003C99EC /* logoDark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = logoDark.svg; sourceTree = "<group>"; };
 		3ACC94C01C9BFAEF000C6180 /* githubMark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = githubMark.svg; sourceTree = "<group>"; };
 		4A1E2669206A7E0F00BB1DE7 /* rollup-config.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "rollup-config.js"; path = "Criollo Web/rollup-config.js"; sourceTree = "<group>"; };
+		522A650A40613C3E53C5A098 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
 		AD0A14781D48EA27003D8DAB /* CWSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSchema.h; sourceTree = "<group>"; };
 		AD0A14791D48EA27003D8DAB /* CWSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSchema.m; sourceTree = "<group>"; };
@@ -206,9 +207,8 @@
 		ADFA57121D27E66B002FB626 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		ADFB2EC31D4F68EA00F64B04 /* CWBlogRSSController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogRSSController.h; path = Blog/CWBlogRSSController.h; sourceTree = "<group>"; };
 		ADFB2EC41D4F68EA00F64B04 /* CWBlogRSSController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWBlogRSSController.m; path = Blog/CWBlogRSSController.m; sourceTree = "<group>"; };
-		B91D7568DF423F9980BEFB23 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
-		E489151C8108803400DFB81E /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
-		E683BEB429F21767BA0843D6 /* Pods_Criollo_Web.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Criollo_Web.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFBD9184EAD44CBE95DA3BCD /* Pods_Criollo_Web.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Criollo_Web.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE996C5FCD0574D506066EF1 /* Pods-Criollo Web.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.release.xcconfig"; path = "Target Support Files/Pods-Criollo Web/Pods-Criollo Web.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,7 +216,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9BE8AC2A40942A84A700FD3 /* Pods_Criollo_Web.framework in Frameworks */,
+				35324D402F0FAE5EDA65147B /* Pods_Criollo_Web.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,7 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				AD8FE0B91CE477E70085612C /* Realm.framework */,
-				E683BEB429F21767BA0843D6 /* Pods_Criollo_Web.framework */,
+				EFBD9184EAD44CBE95DA3BCD /* Pods_Criollo_Web.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -483,8 +483,8 @@
 		C2487EA480B17824D1D0277D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B91D7568DF423F9980BEFB23 /* Pods-Criollo Web.debug.xcconfig */,
-				E489151C8108803400DFB81E /* Pods-Criollo Web.release.xcconfig */,
+				522A650A40613C3E53C5A098 /* Pods-Criollo Web.debug.xcconfig */,
+				FE996C5FCD0574D506066EF1 /* Pods-Criollo Web.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -496,13 +496,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ADD6800C1C6CBEC600FC41EE /* Build configuration list for PBXNativeTarget "Criollo Web" */;
 			buildPhases = (
-				D45898594B008425FD2C7F05 /* [CP] Check Pods Manifest.lock */,
+				7808FB68BA0FE9D531377C6F /* [CP] Check Pods Manifest.lock */,
 				AD3CF7AE24B668FE0003BE2A /* Touch non-tracked includes (pug, js, styl) */,
 				ADD67FF71C6CBEC600FC41EE /* Sources */,
 				ADD67FF81C6CBEC600FC41EE /* Frameworks */,
 				ADD67FF91C6CBEC600FC41EE /* Resources */,
 				AD7290EA1C7058F50079AD76 /* Copy Public Resources */,
-				93E3F1500FE9DBDF71E58D96 /* [CP] Embed Pods Frameworks */,
+				39710BCC6A911C534257D212 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 				ADD5F4A81CCC3A37006019FF /* PBXBuildRule */,
@@ -578,7 +578,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		93E3F1500FE9DBDF71E58D96 /* [CP] Embed Pods Frameworks */ = {
+		39710BCC6A911C534257D212 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -616,25 +616,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Criollo Web/Pods-Criollo Web-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AD3CF7AE24B668FE0003BE2A /* Touch non-tracked includes (pug, js, styl) */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Touch non-tracked includes (pug, js, styl)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "touch -- ${PROJECT_DIR}/Criollo\\ Web/Views/*.pug\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Views/*/*.pug\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Public/app.js\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Public/default.styl\n";
-		};
-		D45898594B008425FD2C7F05 /* [CP] Check Pods Manifest.lock */ = {
+		7808FB68BA0FE9D531377C6F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -655,6 +637,24 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AD3CF7AE24B668FE0003BE2A /* Touch non-tracked includes (pug, js, styl) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Touch non-tracked includes (pug, js, styl)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "touch -- ${PROJECT_DIR}/Criollo\\ Web/Views/*.pug\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Views/*/*.pug\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Public/app.js\ntouch -- ${PROJECT_DIR}/Criollo\\ Web/Public/default.styl\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -795,7 +795,7 @@
 		};
 		ADD6800D1C6CBEC600FC41EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B91D7568DF423F9980BEFB23 /* Pods-Criollo Web.debug.xcconfig */;
+			baseConfigurationReference = 522A650A40613C3E53C5A098 /* Pods-Criollo Web.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Criollo Web/Criollo Web.entitlements";
@@ -817,7 +817,7 @@
 		};
 		ADD6800E1C6CBEC600FC41EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E489151C8108803400DFB81E /* Pods-Criollo Web.release.xcconfig */;
+			baseConfigurationReference = FE996C5FCD0574D506066EF1 /* Pods-Criollo Web.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Criollo Web/Criollo Web.entitlements";
