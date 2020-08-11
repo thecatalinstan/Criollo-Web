@@ -108,7 +108,7 @@ fieldset[disabled] .tokenfield.tokenfield-mode-tokens
   padding 0
   box-sizing border-box
   width 60px
-  min-Width 60px
+  min-width 60px
   color criollo-dark-gray
 
   @media screen and (prefers-color-scheme: dark)
@@ -116,18 +116,18 @@ fieldset[disabled] .tokenfield.tokenfield-mode-tokens
 
 .tokenfield .tokenfield-suggest
   position absolute
-  left -1px
   top 100%
-  width 100%
+  min-width 100px
   z-index 10
-  background-color #fff
   border-radius 4px
   box-sizing border-box
-  border 1px solid criollo-light-gray
   overflow hidden
+  background-color criollo-lighter-gray
+  border 1px solid criollo-light-gray
   
   @media screen and (prefers-color-scheme: dark)
-    border 1px solid criollo-dark-gray
+    background-color criollo-dark-gray
+    border 1px solid criollo-darker-gray
 
 .tokenfield .tokenfield-suggest > ul
   margin 0 !important
