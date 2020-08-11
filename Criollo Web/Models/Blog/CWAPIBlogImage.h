@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, strong) NSString *filename;
 @property (nullable, nonatomic, strong) NSString *mimeType;
-@property (nonatomic) NSUInteger filesize;
+@property (nonatomic) NSInteger filesize;
 @property (nullable, nonatomic, strong) NSString<Optional> *handle;
 
 @end

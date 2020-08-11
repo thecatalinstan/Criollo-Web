@@ -9,9 +9,11 @@
 #import "CWBlogPost.h"
 #import "CWBlogAuthor.h"
 #import "CWBlogTag.h"
+#import "CWBlogImage.h"
 #import "CWBlog.h"
 #import "CWAPIBlogPost.h"
 #import "CWAPIBlogAuthor.h"
+#import "CWAPIBlogImage.h"
 #import "CWAPIBlogTag.h"
 #import "CWUser.h"
 
@@ -50,6 +52,7 @@
     post.renderedContent = self.renderedContent;
     post.excerpt = self.excerpt;
     post.author = (CWAPIBlogAuthor *)self.author.modelObject;
+    post.image = (CWAPIBlogImage *)self.image.modelObject;
     post.handle = self.handle;
     post.tags = (NSMutableArray<CWAPIBlogTag>*)[NSMutableArray array];
     post.published = self.published;

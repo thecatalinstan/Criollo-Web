@@ -13,6 +13,7 @@
 #import "CWBlog.h"
 #import "CWBlogAuthor.h"
 #import "CWBlogTag.h"
+#import "CWBlogImage.h"
 #import "CWUser.h"
 #import "CWAppDelegate.h"
 #import "CWTwitterConfiguration.h"
@@ -54,9 +55,10 @@ static NSUInteger const CWExcerptLength = 400;
         realmConfig.objectClasses = @[
             CWBlogAuthor.class,
             CWBlogPost.class,
-            CWBlogTag.class
+            CWBlogTag.class,
+            CWBlogImage.class
         ];
-        realmConfig.schemaVersion = 5;
+        realmConfig.schemaVersion = 6;
         realmConfig.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
             // Nothing to do for migration
             if (oldSchemaVersion < 1) {
@@ -88,6 +90,10 @@ static NSUInteger const CWExcerptLength = 400;
                 [migration enumerateObjects:CWBlogAuthor.className block:^(RLMObject *oldObject, RLMObject *newObject) {
                     newObject[@"location"] = @"";
                 }];
+            }
+            
+            // Add the image 
+            if (oldSchemaVersion < 6) {
             }
         };
     });

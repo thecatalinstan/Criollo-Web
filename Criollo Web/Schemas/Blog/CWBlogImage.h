@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property NSString *filename;
 @property NSString *mimeType;
-@property NSUInteger filesize;
+@property NSInteger filesize;
 
 @end
 

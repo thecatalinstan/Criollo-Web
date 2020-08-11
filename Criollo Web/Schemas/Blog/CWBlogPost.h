@@ -9,7 +9,7 @@
 #import "CWSchema.h"
 #import "CWBlogTag.h"
 
-@class CWBlogAuthor;
+@class CWBlogAuthor, CWBlogImage;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString * excerpt;
 @property CWBlogAuthor * author;
 @property RLMArray<CWBlogTag *><CWBlogTag> * tags;
+@property CWBlogImage *image;
 @property BOOL published;
 
 + (nullable instancetype)getByHandle:(NSString *)handle year:(NSUInteger)year month:(NSUInteger)month;

@@ -11,8 +11,10 @@
 #import "CWBlogPost.h"
 #import "CWBlogAuthor.h"
 #import "CWBlogTag.h"
+#import "CWBlogImage.h"
 #import "CWAPIBlogTag.h"
 #import "CWAPIBlogAuthor.h"
+#import "CWAPIBlogImage.h"
 
 @implementation CWAPIBlogPost
 
@@ -35,6 +37,7 @@
     post.renderedContent = self.renderedContent;
     post.excerpt = self.excerpt;
     post.author = (CWBlogAuthor *)self.author.schemaObject;
+    post.image = (CWBlogImage *)self.image.schemaObject;
     post.published = self.published;
 
     [post.tags removeAllObjects];
