@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlog : NSObject
 
-- (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error;
+- (BOOL)updateAuthors:(NSError * _Nullable __autoreleasing *)error;
 
 + (RLMRealmConfiguration *)realmConfiguration;
 + (nullable RLMRealm *)realm;

@@ -244,12 +244,13 @@ NS_ASSUME_NONNULL_END
 - (void)setupBlog {
     _blog = [[CWBlog alloc] init];
     NSError *error;
-    if ([self.blog importUsersFromDefaults:&error]) {
-        [CRApp logErrorFormat:@"%@ Failed to import users from defaults. %@", [NSDate date], error.localizedDescription];
+    if ([self.blog updateAuthors:&error]) {
+        [CRApp logErrorFormat:@"%@ Failed to update authors. %@", [NSDate date], error.localizedDescription];
         [CRApp terminate:nil];
     } else {
         [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
     }
+    
 }
 
 #if LogConnections

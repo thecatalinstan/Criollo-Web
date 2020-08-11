@@ -8,8 +8,6 @@
 
 #import "CWModel.h"
 
-#define CWDefaultsUsersKey      @"Users"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWUser : CWModel
@@ -22,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString<Ignore> * tokenHash;
 @property (nonatomic, strong) NSString<Optional> * twitter;
 
-+ (NSDictionary<NSString *, CWUser *> *)allUsers;
+@property (class, readonly, strong) NSArray<CWUser *> *allUsers;
 
 + (nullable CWUser *)authenticateWithUsername:(NSString * _Nullable)username password:(NSString * _Nullable)password;
 

@@ -84,13 +84,13 @@ static NSUInteger const CWExcerptLength = 400;
     return realm;
 }
 
-- (BOOL)importUsersFromDefaults:(NSError * _Nullable __autoreleasing *)error {
+- (BOOL)updateAuthors:(NSError * _Nullable __autoreleasing *)error {
     RLMRealm* realm = [CWBlog realm];
 
     [realm beginWriteTransaction];
-    for (NSString *key in CWUser.allUsers) {
-        CWUser *user = CWUser.allUsers[key];
-        CWBlogAuthor *author = [CWBlogAuthor getByUser:key] ?: [CWBlogAuthor new];
+    
+    for (CWUser *user in CWUser.allUsers) {
+        CWBlogAuthor *author = [CWBlogAuthor getByUser:user.username] ?: [CWBlogAuthor new];
         author.user = user.username;
         author.email = user.email;
         author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ?: @"", user.lastName ?: @""] stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
@@ -98,7 +98,7 @@ static NSUInteger const CWExcerptLength = 400;
         author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
         [realm addOrUpdateObject:author];
     }
-
+    
     if (![realm commitWriteTransaction:error]) {
         return NO;
     }
@@ -109,13 +109,14 @@ static NSUInteger const CWExcerptLength = 400;
     NSString *TwitterOAuthTokenSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthTokenSecret"];
 
     if (TwitterKey.length == 0 || TwitterSecret.length == 0 || TwitterOAuthToken.length == 0 || TwitterOAuthTokenSecret.length == 0) {
+        [CRApp logFormat:@"%@ Missing twitter login information. Extended user info will not be fetched from Twitter", [NSDate date]];
         return YES;
     }
 
     STTwitterAPI *twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TwitterKey consumerSecret:TwitterSecret oauthToken:TwitterOAuthToken oauthTokenSecret:TwitterOAuthTokenSecret];
 
     for (CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm]) {
-        if ( author.twitter.length == 0 ) {
+        if (author.twitter.length == 0) {
             continue;
         }
 

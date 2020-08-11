@@ -1,0 +1,12 @@
+// This is a sample of the users file format.
+// It is not actually shipped with the application bundle
+[
+	{
+		"username": "criollo",
+	    "password": "123456",
+	    "email": "criollo@criollo.io",
+	    "firstName": "Criollo",
+	    "lastName": "",
+	    "twitter": "@criolloio"
+	}
+]

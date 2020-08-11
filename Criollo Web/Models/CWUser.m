@@ -11,41 +11,49 @@
 #import <JWT/JWT.h>
 
 #import "CWUser.h"
+#import "CWAppDelegate.h"
 #import "NSString+MD5.h"
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CWUser ()
-
-
-
-@end
-
-NS_ASSUME_NONNULL_END
 
 @implementation CWUser
 
-+ (NSDictionary<NSString *,CWUser *> *)allUsers {
-    static NSDictionary<NSString *,CWUser *> * allUsers;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [[NSUserDefaults standardUserDefaults ] synchronize];
-        NSArray<NSString *> * defaultsUsers = [[NSUserDefaults standardUserDefaults] arrayForKey:CWDefaultsUsersKey];
-        NSMutableDictionary<NSString *,CWUser *> * users = [NSMutableDictionary dictionary];
-        [defaultsUsers enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            JSONModelError * jsonModelError = nil;
-            CWUser * user = [[CWUser alloc] initWithString:obj error:&jsonModelError];
-            user.tokenHash = [NSString stringWithFormat:@"%@%@%@", user.email, user.password, user.username].MD5Stirng;
+static NSArray<CWUser *> *allUsers;
 
-            if ( jsonModelError ) {
-                [CRApp logErrorFormat:@"Error parsing user JSON: %@", jsonModelError];
-            } else {
-                users[user.username] = user;
-            }
-        }];
++ (void)initialize {
+    if (self != CWUser.class) {
+        return;
+    }
+        
+    [self updateUsers];
+}
+
++ (void)updateUsers {
+    NSError *error;
+
+    NSData *data;
+    if (!(data = [[NSData alloc] initWithContentsOfURL:[CWAppDelegate.baseDirectory URLByAppendingPathComponent:@"users.json"] options:NSDataReadingUncached error:&error])) {
+        [CRApp logErrorFormat:@"%@ Error opening users file. %@", [NSDate date], error];
+        return;
+    }
+    
+    NSArray<CWUser *> *users;
+    if (!(users = [CWUser arrayOfModelsFromData:data error:&error])) {
+        [CRApp logErrorFormat:@"%@ Error parsing users file. %@", [NSDate date], error];
+        return;
+    }
+    
+    for (CWUser *user in users) {
+        user.tokenHash = [NSString stringWithFormat:@"%@%@%@", user.email, user.password, user.username].MD5Stirng;
+    }
+    
+    @synchronized (allUsers) {
         allUsers = users;
-    });
-    return allUsers;
+    }
+}
+
++ (NSArray<CWUser *> *)allUsers {
+    @synchronized (allUsers) {
+        return allUsers;
+    }
 }
 
 + (CWUser *)authenticateWithUsername:(NSString *)username password:(NSString *)password {
@@ -53,17 +61,18 @@ NS_ASSUME_NONNULL_END
         return nil;
     }
     
-    CWUser *user = CWUser.allUsers[username ? : @""];
-    if (![user.password isEqualToString:password]) {
-        user = nil;
+    for (CWUser *user in CWUser.allUsers) {
+        if ([user.username isEqualToString:username] && [user.password isEqualToString:password]) {
+            return user;
+        }
     }
     
-    return user;
+    return nil;
 }
 
 
 + (NSString *)authenticationTokenForUser:(CWUser *)user {
-    if ( user == nil ) {
+    if (!user) {
         return nil;
     }
 
@@ -72,36 +81,28 @@ NS_ASSUME_NONNULL_END
 }
 
 + (NSDictionary *)debugLoginInfo:(NSString *)token{
-    NSMutableDictionary* payload = [NSMutableDictionary dictionary];
-    payload[@"token"] = token ? : @"";
-
-//    NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
-//    payload[@"password"] = password ? : @"";
-//    NSString* plainTextTokenHash = [JWTBuilder decodeMessage:token].secret(password).algorithmName(@"HS256").decode[@"payload"][@"token"];
-//    payload[@"plainTextTokenHash"] = plainTextTokenHash ? : @"";
-
-    CWUser *currentUser = [CWUser authenticatedUserForToken:token];
-    if ( currentUser ) {
-        NSMutableDictionary * dictionary = currentUser.toDictionary.mutableCopy;
-        [dictionary removeObjectForKey:@"password"];
-        payload[@"user"] = dictionary;
-    }
-
+    NSMutableDictionary* payload = [NSMutableDictionary dictionaryWithCapacity:2];
+    payload[@"token"] = token;
+    payload[@"user"] = [CWUser authenticatedUserForToken:token].toDictionary.mutableCopy;
+    [(NSMutableDictionary *)payload[@"user"] removeObjectForKey:@"password"];
     return payload;
 }
 
 + (CWUser *)authenticatedUserForToken:(NSString *)token {
-    if ( token.length == 0 ) {
+    if (token.length == 0) {
         return nil;
     }
 
-    NSString* password = [CSSystemInfoHelper sharedHelper].platformUUID;
+    NSString* password = CSSystemInfoHelper.sharedHelper.platformUUID;
     NSString* plainTextTokenHash = [JWTBuilder decodeMessage:token].secret(password).algorithmName(@"HS256").decode[@"payload"][@"token"];
-    CWUser* user = [[CWUser allUsers].allValues filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(CWUser * _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return [evaluatedObject.tokenHash isEqualToString:plainTextTokenHash];
-    }]].firstObject;
-
-    return user;
+    
+    for (CWUser *user in CWUser.allUsers) {
+        if ([user.tokenHash  isEqualToString:plainTextTokenHash]) {
+            return user;
+        }
+    }
+    
+    return nil;
 }
 
 
