@@ -33,8 +33,6 @@ static NSUInteger const CWExcerptLength = 400;
                 [CRApp logErrorFormat:@"%@ Failed to update authors. %@", [NSDate date], error.localizedDescription];
                 return;
             }
-            
-            [CRApp logFormat:@"%@ Successfully updated authors externaly.", [NSDate date]];
         }];
     }
     return self;
@@ -170,7 +168,13 @@ static NSUInteger const CWExcerptLength = 400;
             author.imageURL = user[@"profile_image_url_https"];
             author.bio = user[@"description"];
             author.location = user[@"location"];
-            [realm commitWriteTransaction];
+            NSError *err;
+            if (![realm commitWriteTransaction:&err]) {
+                [CRApp logErrorFormat:@"%@ Failed to update author %@. %@", [NSDate date], authorTwitter, err.localizedDescription];
+                return;
+            }
+            
+            [CRApp logFormat:@"%@ Successfully updated Twitter information for %@.", [NSDate date], authorTwitter];
         } errorBlock:^(NSError *error){
             [CRApp logErrorFormat:@"%@ Failed to get Twitter information for %@. %@", [NSDate date], authorTwitter, error.localizedDescription];
         }];

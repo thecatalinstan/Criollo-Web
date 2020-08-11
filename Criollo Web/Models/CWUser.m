@@ -43,6 +43,7 @@ static NSArray<CWUser *> *allUsers;
             return;
         }
         if(flags & DISPATCH_VNODE_WRITE) {
+            [CRApp logFormat:@"%@ Users file changed reloading.", [NSDate date]];
             [CWUser updateUsers];
             [NSNotificationCenter.defaultCenter postNotificationName:CWUsersDidUpdateExternallyNotification object:nil];
         }
