@@ -9,14 +9,6 @@
 #import "CWModel.h"
 #import "CWAPIController.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CWModel ()
-
-@end
-
-NS_ASSUME_NONNULL_END
-
 @implementation CWModel
 
 - (NSString<Optional> *)path {

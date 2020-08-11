@@ -19,6 +19,7 @@
 #define CWBlogNewPostPath           @"/new"
 #define CWBlogArchivePath           @"/archive"
 #define CWBlogTagPath               @"/tag"
+#define CWBlogImagePath             @"/image"
 #define CWBlogAuthorPath            @"/author"
 #define CWBlogFeedPath              @"/feed"
 #define CWBlogArchiveYearPath       @"/[0-9]{4}"
