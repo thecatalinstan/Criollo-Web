@@ -11,6 +11,7 @@
 		3A5692781C9B2D11003C99EC /* logoWithTextLight.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692741C9B200D003C99EC /* logoWithTextLight.svg */; };
 		3A5692791C9B2D15003C99EC /* logoDark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3A5692761C9B2012003C99EC /* logoDark.svg */; };
 		3ACC94C21C9BFB01000C6180 /* githubMark.svg in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = 3ACC94C01C9BFAEF000C6180 /* githubMark.svg */; };
+		4A52F6D324E2C58C00C3ABF3 /* CWTwitterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A52F6D224E2C58C00C3ABF3 /* CWTwitterConfiguration.m */; };
 		AD0A147A1D48EA27003D8DAB /* CWSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0A14791D48EA27003D8DAB /* CWSchema.m */; };
 		AD0BA9A31C96387C005206A1 /* favicon.ico in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9A21C96387C005206A1 /* favicon.ico */; };
 		AD1226321D75CD5200B3D752 /* NSString+RegEx.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1226311D75CD5200B3D752 /* NSString+RegEx.m */; };
@@ -122,6 +123,9 @@
 		3ACC94C01C9BFAEF000C6180 /* githubMark.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = githubMark.svg; sourceTree = "<group>"; };
 		4A1E2669206A7E0F00BB1DE7 /* rollup-config.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "rollup-config.js"; path = "Criollo Web/rollup-config.js"; sourceTree = "<group>"; };
 		4A52F6CE24E2BDD000C3ABF3 /* users.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
+		4A52F6CF24E2C40E00C3ABF3 /* twitter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = twitter.json; sourceTree = "<group>"; };
+		4A52F6D124E2C58C00C3ABF3 /* CWTwitterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWTwitterConfiguration.h; sourceTree = "<group>"; };
+		4A52F6D224E2C58C00C3ABF3 /* CWTwitterConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWTwitterConfiguration.m; sourceTree = "<group>"; };
 		522A650A40613C3E53C5A098 /* Pods-Criollo Web.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Criollo Web.debug.xcconfig"; path = "Target Support Files/Pods-Criollo Web/Pods-Criollo Web.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "io.criollo.Criollo-Web.plist"; sourceTree = "<group>"; };
 		AD0A14781D48EA27003D8DAB /* CWSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSchema.h; sourceTree = "<group>"; };
@@ -356,6 +360,8 @@
 				ADB5AF961D49661A003C14B6 /* CWModelProxy.h */,
 				ADB5AF971D49661A003C14B6 /* CWUser.h */,
 				ADB5AF981D49661A003C14B6 /* CWUser.m */,
+				4A52F6D124E2C58C00C3ABF3 /* CWTwitterConfiguration.h */,
+				4A52F6D224E2C58C00C3ABF3 /* CWTwitterConfiguration.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -447,6 +453,7 @@
 				ADE63E491CCC504F006FC170 /* package.json */,
 				ADC098871C90F6D4009CC72F /* Readme.md */,
 				4A52F6CE24E2BDD000C3ABF3 /* users.json */,
+				4A52F6CF24E2C40E00C3ABF3 /* twitter.json */,
 				AD0194671C8DA37B00E035B6 /* io.criollo.Criollo-Web.plist */,
 				ADD680091C6CBEC600FC41EE /* Info.plist */,
 				ADB9D1651CE5C72A002F35B5 /* Criollo Web.entitlements */,
@@ -676,6 +683,7 @@
 				ADB5AF991D49661A003C14B6 /* CWAPIBlogAuthor.m in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
 				ADB5AF9A1D49661A003C14B6 /* CWAPIBlogPost.m in Sources */,
+				4A52F6D324E2C58C00C3ABF3 /* CWTwitterConfiguration.m in Sources */,
 				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,
 				AD5200601D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.m in Sources */,
 				ADDF76881D8D4C3F008CD497 /* CWSitemapController.m in Sources */,

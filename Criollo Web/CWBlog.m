@@ -15,6 +15,8 @@
 #import "CWBlogTag.h"
 #import "CWUser.h"
 #import "CWAppDelegate.h"
+#import "CWTwitterConfiguration.h"
+
 #import "NSString+URLUtils.h"
 #import "NSString+RegEx.h"
 
@@ -86,35 +88,44 @@ static NSUInteger const CWExcerptLength = 400;
 
 - (BOOL)updateAuthors:(NSError * _Nullable __autoreleasing *)error {
     RLMRealm* realm = [CWBlog realm];
-
-    [realm beginWriteTransaction];
     
     for (CWUser *user in CWUser.allUsers) {
+        [realm beginWriteTransaction];
+        
         CWBlogAuthor *author = [CWBlogAuthor getByUser:user.username] ?: [CWBlogAuthor new];
         author.user = user.username;
         author.email = user.email;
         author.displayName = [[NSString stringWithFormat:@"%@ %@", user.firstName ?: @"", user.lastName ?: @""] stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
         author.handle = author.displayName.URLFriendlyHandle;
         author.twitter = [user.twitter hasPrefix:@"@"] ? user.twitter : [NSString stringWithFormat:@"@%@", user.twitter];
+        
         [realm addOrUpdateObject:author];
-    }
-    
-    if (![realm commitWriteTransaction:error]) {
-        return NO;
+        if (![realm commitWriteTransaction:error]) {
+            return NO;
+        }
     }
 
-    NSString *TwitterKey = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterKey"];
-    NSString *TwitterSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterSecret"];
-    NSString *TwitterOAuthToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthToken"];
-    NSString *TwitterOAuthTokenSecret = [[NSUserDefaults standardUserDefaults] stringForKey:@"TwitterOAuthTokenSecret"];
+    return [self fetchTwitterInfo:error];
+}
 
-    if (TwitterKey.length == 0 || TwitterSecret.length == 0 || TwitterOAuthToken.length == 0 || TwitterOAuthTokenSecret.length == 0) {
+- (BOOL)fetchTwitterInfo:(NSError * _Nullable __autoreleasing *)error {
+    if (!CWTwitterConfiguration.defaultConfiguration) {
         [CRApp logFormat:@"%@ Missing twitter login information. Extended user info will not be fetched from Twitter", [NSDate date]];
         return YES;
     }
 
-    STTwitterAPI *twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:TwitterKey consumerSecret:TwitterSecret oauthToken:TwitterOAuthToken oauthTokenSecret:TwitterOAuthTokenSecret];
-
+    STTwitterAPI *twitter;
+    if (!(twitter = [STTwitterAPI twitterAPIWithOAuthConsumerKey:CWTwitterConfiguration.defaultConfiguration.key
+                                                  consumerSecret:CWTwitterConfiguration.defaultConfiguration.secret
+                                                      oauthToken:CWTwitterConfiguration.defaultConfiguration.token
+                                                oauthTokenSecret:CWTwitterConfiguration.defaultConfiguration.tokenSecret])) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogTwitterError userInfo:@{NSLocalizedDescriptionKey: @"Failed to initialize the Twitter interface."}];
+        }
+        return NO;
+    }
+    
+    RLMRealm* realm = [CWBlog realm];
     for (CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm]) {
         if (author.twitter.length == 0) {
             continue;
@@ -124,16 +135,19 @@ static NSUInteger const CWExcerptLength = 400;
         [twitter getUserInformationFor:author.twitter successBlock:^(NSDictionary *user) {
             RLMRealm* realm = [CWBlog realm];
             [realm beginWriteTransaction];
-            author.imageURL = user[@"profile_image_url_https"] ? : nil;
-            author.bio = user[@"description"] ? : nil;
-            author.location = user[@"location"] ? : nil;
+            author.imageURL = user[@"profile_image_url_https"];
+            author.bio = user[@"description"];
+            author.location = user[@"location"];
             [realm commitWriteTransaction];
-        } errorBlock:^(NSError *error) {
+        } errorBlock:^(NSError *error){
+            [CRApp logErrorFormat:@"%@ Failed to get Twitter information for %@. %@", [NSDate date], author.twitter, error.localizedDescription];
         }];
     }
     
     return YES;
 }
+
+
 
 + (NSString *)formattedDate:(NSDate *)date {
     static NSDateFormatter* dateFormatter;

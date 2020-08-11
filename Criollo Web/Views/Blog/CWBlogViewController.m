@@ -184,18 +184,20 @@ NS_ASSUME_NONNULL_END
             completionHandler();
             return;
         }
+
+        [controller.contents appendString:@"<div class=\"content\">"];
         
         // Write some message to the user
         [controller.contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
         
         // Check if there is a user and link to "add post"
-        CWUser* currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-        if ( !currentUser ) {
-            completionHandler();
-            return;
+        CWUser* currentUser;
+        if ((currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]])) {
+            [controller.contents appendFormat:@"<p><a href=\"%@%@\">Add a new post</a>", CWBlogPath, CWBlogNewPostPath];
         }
         
-        [controller.contents appendFormat:@"<p><a href=\"%@%@\">Add a new post</a>", CWBlogPath, CWBlogNewPostPath];
+        [controller.contents appendString:@"</div>"];
+        
         completionHandler();
     }};
 

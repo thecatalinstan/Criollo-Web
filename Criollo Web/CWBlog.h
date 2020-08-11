@@ -12,6 +12,7 @@
 #define CWBlogErrorDomain           @"CWBlogErrorDomain"
 #define CWBlogUnknownAuthor         1001
 #define CWBlogEmptyPostContent      1002
+#define CWBlogTwitterError          1003
 #define CWBlogUnknownError          1999
 
 #define CWBlogPath                  @"/blog"
@@ -41,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlog : NSObject
 
-- (BOOL)updateAuthors:(NSError * _Nullable __autoreleasing *)error;
+- (BOOL)updateAuthors:(NSError * _Nullable __autoreleasing * _Nullable)error;
+- (BOOL)fetchTwitterInfo:(NSError * _Nullable __autoreleasing * _Nullable)error;
 
 + (RLMRealmConfiguration *)realmConfiguration;
 + (nullable RLMRealm *)realm;
