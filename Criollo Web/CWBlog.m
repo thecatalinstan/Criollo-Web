@@ -98,7 +98,7 @@ static NSUInteger const CWExcerptLength = 400;
     NSError *error;
     RLMRealm *realm;
     if (!(realm = [RLMRealm realmWithConfiguration:CWBlog.realmConfiguration error:&error])) {
-        [CRApp logErrorFormat:@"There was an error initializing the blog realm: %@", error];
+        [CRApp logErrorFormat:@"%@ There was an error initializing the blog realm. %@", [NSDate date], error.localizedDescription];
         @throw [NSException exceptionWithName:NSGenericException reason:NSLocalizedString(@"Unable to get realm.",) userInfo:nil];
     }
     return realm;
@@ -165,7 +165,7 @@ static NSUInteger const CWExcerptLength = 400;
             }
             
             [realm beginWriteTransaction];
-            author.imageURL = user[@"profile_image_url_https"];
+            author.imageURL = [user[@"profile_image_url_https"] stringByReplacingOccurrencesOfString:@"_normal.jpg" withString:@"_400x400.jpg"];
             author.bio = user[@"description"];
             author.location = user[@"location"];
             NSError *err;
