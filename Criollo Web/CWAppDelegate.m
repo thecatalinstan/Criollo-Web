@@ -301,7 +301,7 @@ NS_ASSUME_NONNULL_END
     
     serverSpecString = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
     
-    baseDirectory = [NSFileManager.defaultManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask].lastObject;
+    baseDirectory = [NSFileManager.defaultManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSSystemDomainMask].lastObject;
     baseDirectory = [baseDirectory URLByAppendingPathComponent:[bundle objectForInfoDictionaryKey:(__bridge NSString *)kCFBundleNameKey]];
 
     ETag = [NSUUID.UUID.UUIDString stringByReplacingOccurrencesOfString:@"-" withString:@""].lowercaseString;

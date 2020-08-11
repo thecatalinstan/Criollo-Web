@@ -76,9 +76,10 @@ static NSUInteger const CWExcerptLength = 400;
 
 + (RLMRealm *)realm {
     NSError *error;
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:[CWBlog realmConfiguration] error:&error];
-    if ( !realm ) {
-        @throw [NSException exceptionWithName:NSGenericException reason:NSLocalizedString(@"Unable to get realm.",) userInfo:@{NSUnderlyingErrorKey: error}];
+    RLMRealm *realm;
+    if (!(realm = [RLMRealm realmWithConfiguration:CWBlog.realmConfiguration error:&error])) {
+        [CRApp logErrorFormat:@"There was an error initializing the blog realm: %@", error];
+        @throw [NSException exceptionWithName:NSGenericException reason:NSLocalizedString(@"Unable to get realm.",) userInfo:nil];
     }
     return realm;
 }
