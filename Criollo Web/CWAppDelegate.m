@@ -242,8 +242,8 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)setupBlog {
-    _blog = [[CWBlog alloc] init];
     NSError *error;
+    _blog = [[CWBlog alloc] init];
     if (![self.blog updateAuthors:&error]) {
         [CRApp logErrorFormat:@"%@ Failed to update authors. %@", [NSDate date], error.localizedDescription];
         [CRApp terminate:nil];

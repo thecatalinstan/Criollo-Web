@@ -24,6 +24,26 @@ static NSUInteger const CWExcerptLength = 400;
 
 @implementation CWBlog
 
+- (instancetype)init {
+    self = [super init];
+    if (self != nil) {
+        [NSNotificationCenter.defaultCenter addObserverForName:CWUsersDidUpdateExternallyNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+            NSError *error;
+            if (![self updateAuthors:&error]) {
+                [CRApp logErrorFormat:@"%@ Failed to update authors. %@", [NSDate date], error.localizedDescription];
+                return;
+            }
+            
+            [CRApp logFormat:@"%@ Successfully updated authors externaly.", [NSDate date]];
+        }];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
 + (RLMRealmConfiguration *) realmConfiguration {
     static RLMRealmConfiguration *realmConfig;
     static dispatch_once_t onceToken;
@@ -125,22 +145,34 @@ static NSUInteger const CWExcerptLength = 400;
         return NO;
     }
     
-    RLMRealm* realm = [CWBlog realm];
-    for (CWBlogAuthor* author in [CWBlogAuthor allObjectsInRealm:realm]) {
+    RLMResults *authors = [CWBlogAuthor allObjectsInRealm:CWBlog.realm];
+    NSMutableArray *twitterInfo = [NSMutableArray arrayWithCapacity:authors.count];
+    for (CWBlogAuthor* author in authors) {
         if (author.twitter.length == 0) {
             continue;
         }
-
+        
+        [twitterInfo addObject:@[author.uid, author.twitter]];
+    }
+    
+    for (NSArray *info in twitterInfo) {
+        NSString *authorTwitter = info[1];
+        NSString *uid = info[0];
         // Get info from twitter
-        [twitter getUserInformationFor:author.twitter successBlock:^(NSDictionary *user) {
+        [twitter getUserInformationFor:authorTwitter successBlock:^(NSDictionary *user) {
             RLMRealm* realm = [CWBlog realm];
+            CWBlogAuthor *author;
+            if (!(author = [CWBlogAuthor objectsInRealm:realm where:@"uid=%@", uid].firstObject)) {
+                return;
+            }
+            
             [realm beginWriteTransaction];
             author.imageURL = user[@"profile_image_url_https"];
             author.bio = user[@"description"];
             author.location = user[@"location"];
             [realm commitWriteTransaction];
         } errorBlock:^(NSError *error){
-            [CRApp logErrorFormat:@"%@ Failed to get Twitter information for %@. %@", [NSDate date], author.twitter, error.localizedDescription];
+            [CRApp logErrorFormat:@"%@ Failed to get Twitter information for %@. %@", [NSDate date], authorTwitter, error.localizedDescription];
         }];
     }
     

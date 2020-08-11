@@ -8,6 +8,8 @@
 
 #import "CWModel.h"
 
+#define CWUsersDidUpdateExternallyNotification @"CWUsersDidUpdateExternally"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWUser : CWModel

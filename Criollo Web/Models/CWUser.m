@@ -24,6 +24,35 @@ static NSArray<CWUser *> *allUsers;
     }
         
     [self updateUsers];
+    [self monitorAndUpdateUsersFile];
+}
+
++ (void)monitorAndUpdateUsersFile {
+    NSString *path = [CWAppDelegate.baseDirectory URLByAppendingPathComponent:@"users.json"].path;
+    int handle;
+    if (-1 == (handle = open(path.UTF8String, O_EVTONLY))) {
+        [CRApp logErrorFormat:@"%@ Failed to monitor users file. %@", [NSDate date], strerror(errno)];
+        return;
+    }
+
+    dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, handle, DISPATCH_VNODE_WRITE | DISPATCH_VNODE_DELETE, dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0));
+    dispatch_source_set_event_handler(source, ^{
+        unsigned long flags = dispatch_source_get_data(source);
+        if(flags & DISPATCH_VNODE_DELETE) {
+            dispatch_source_cancel(source);
+            return;
+        }
+        if(flags & DISPATCH_VNODE_WRITE) {
+            [CWUser updateUsers];
+            [NSNotificationCenter.defaultCenter postNotificationName:CWUsersDidUpdateExternallyNotification object:nil];
+        }
+    });
+  
+    dispatch_source_set_cancel_handler(source, ^(void) {
+        close(handle);
+    });
+    
+    dispatch_resume(source);
 }
 
 + (void)updateUsers {
