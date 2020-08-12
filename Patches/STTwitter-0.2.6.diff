@@ -11,3 +11,16 @@ index 2ff4b21..9bff7f9 100644
                      [strongSelf.delegate twitterAPI:strongSelf accountWasInvalidated:(ACAccount *)invalidatedAccount];
                  }
                  
+diff --git a/Pods/STTwitter/STTwitter/STTwitterAPI.m b/Pods/STTwitter/STTwitter/STTwitterAPI.m
+index 9bff7f9..155ef6f 100644
+--- a/Pods/STTwitter/STTwitter/STTwitterAPI.m
++++ b/Pods/STTwitter/STTwitter/STTwitterAPI.m
+@@ -60,8 +60,6 @@ static NSDateFormatter *dateFormatter = nil;
+         }
+     }];
+     
+-    NSLog(@"-- %@", _observer);
+-    
+     return self;
+ }
+ 
