@@ -7,18 +7,22 @@
 //
 
 #import "CWBlogAPIController.h"
+#import "CWAppDelegate.h"
 #import "CWAPIController.h"
 #import "CWAPIError.h"
 #import "CWUser.h"
+#import "CWBlog.h"
+#import "NSString+URLUtils.h"
+
 #import "CWAPIBlogTag.h"
 #import "CWAPIBlogAuthor.h"
 #import "CWAPIBlogPost.h"
+#import "CWAPIBlogImage.h"
+
 #import "CWBlogTag.h"
 #import "CWBlogAuthor.h"
 #import "CWBlogPost.h"
-#import "CWBlog.h"
-#import "CWAppDelegate.h"
-#import "NSString+URLUtils.h"
+#import "CWBlogImage.h"
 
 #define CWBlogAPIPostsPath              @"/posts"
 #define CWBlogAPISinglePostPath         @"/posts/:pid"
@@ -28,17 +32,10 @@
 #define CWBlogAPISearchTagsPath         @"/tags/search"
 #define CWBlogAPISingleTagPath          @"/tags/:tid"
 
+#define CWBlogAPIImagesPath             @"/images"
+#define CWBlogAPISingleImagePath        @"/images/:iid"
+
 #define CWBlogAPIMakeHandlePath         @"/make-handle"
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CWBlogAPIController ()
-
-- (void)setupRoutes;
-
-@end
-
-NS_ASSUME_NONNULL_END
 
 @implementation CWBlogAPIController
 
@@ -53,7 +50,6 @@ NS_ASSUME_NONNULL_END
 #pragma mark - Routing
 
 - (void)setupRoutes {
-
     // Get post block
     [self get:CWBlogAPISinglePostPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
         NSString* pid = request.query[@"pid"];
@@ -66,7 +62,7 @@ NS_ASSUME_NONNULL_END
         [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];
     }}];
 
-    [self delete:CWBlogAPISinglePostPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {        
+    [self delete:CWBlogAPISinglePostPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
         NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
         [CWAPIController failWithError:error request:request response:response];
     }}];
@@ -178,6 +174,7 @@ NS_ASSUME_NONNULL_END
         [CWAPIController succeedWithPayload:input.URLFriendlyHandle request:request response:response];
     }}];
 
+    // Get single tag
     [self get:CWBlogAPISingleTagPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
         NSString *tid = request.query[@"tid"];
         
@@ -190,11 +187,13 @@ NS_ASSUME_NONNULL_END
         [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
     }}];
 
+    // Delete single tag
     [self delete:CWBlogAPISingleTagPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
         NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
         [CWAPIController failWithError:error request:request response:response];
     }}];
 
+    // Create/update single tag
     CRRouteBlock createOrUpdateTagBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
         NSError* error;
         CWAPIBlogTag *receivedTag;
@@ -221,6 +220,53 @@ NS_ASSUME_NONNULL_END
     }};
     [self put:CWBlogAPITagsPath block:createOrUpdateTagBlock];
     [self post:CWBlogAPITagsPath block:createOrUpdateTagBlock];
+    
+    // Get single image
+    [self get:CWBlogAPISingleImagePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
+        NSString *iid = request.query[@"iid"];
+        
+        CWBlogImage *image;
+        if (!(image = [CWBlogImage getByUID:iid])) {
+            [response setStatusCode:404 description:nil];
+            [CWAPIController failWithError:nil request:request response:response];
+            return;
+        }
+        [CWAPIController succeedWithPayload:image.modelObject.toDictionary request:request response:response];
+    }}];
+
+    // Delete single image
+    [self delete:CWBlogAPISingleImagePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
+        NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
+        [CWAPIController failWithError:error request:request response:response];
+    }}];
+
+    // Create/update single image
+    CRRouteBlock createOrUpdateImageBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
+        NSError* error;
+        CWAPIBlogImage *receivedImage;
+        if (!(receivedImage = [[CWAPIBlogImage alloc] initWithDictionary:request.body error:&error])) {
+            [CWAPIController failWithError:error request:request response:response];
+            return;
+        }
+        
+        RLMRealm *realm = [CWBlog realm];
+        [realm beginWriteTransaction];
+        
+        CWBlogImage *image = (CWBlogImage *)receivedImage.schemaObject;
+        image.handle = NSString.randomURLFriendlyHandle;
+        
+        [realm addOrUpdateObject:image];
+        if (![realm commitWriteTransaction:&error]) {
+            [CWAPIController failWithError:error request:request response:response];
+        }
+
+        [CWAPIController succeedWithPayload:image.modelObject.toDictionary request:request response:response];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:CWRoutesChangedNotificationName object:nil];
+        
+    }};
+    [self put:CWBlogAPITagsPath block:createOrUpdateImageBlock];
+    [self post:CWBlogAPITagsPath block:createOrUpdateImageBlock];
 }
 
 @end
