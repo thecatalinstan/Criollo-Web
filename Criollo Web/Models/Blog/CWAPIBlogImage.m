@@ -9,6 +9,10 @@
 #import "CWAPIBlogImage.h"
 #import "CWBlog.h"
 #import "CWBlogImage.h"
+#import "CWImageSize.h"
+
+@implementation CWImageSizeRepresentation
+@end
 
 @implementation CWAPIBlogImage
 

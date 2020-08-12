@@ -11,8 +11,10 @@
 
 #define CWBlogErrorDomain           @"CWBlogErrorDomain"
 #define CWBlogUnknownAuthor         1001
-#define CWBlogEmptyPostContent      1002
-#define CWBlogTwitterError          1003
+#define CWBlogUnknownImage          1002
+#define CWBlogUnknownTag            1003
+#define CWBlogEmptyPostContent      1050
+#define CWBlogTwitterError          1100
 #define CWBlogUnknownError          1999
 
 #define CWBlogPath                  @"/blog"

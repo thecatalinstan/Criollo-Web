@@ -39,16 +39,21 @@ NS_ASSUME_NONNULL_END
 
 + (void)succeedWithPayload:(id)payload request:(CRRequest *)request response:(CRResponse *)response {
     CWAPIResponse * apiResponse = [CWAPIResponse successResponseWithData:payload];
-    NSData * jsonData = [apiResponse toJSONData];
-
-    [response setValue:[NSString stringWithFormat:@"%lu", (unsigned long)jsonData.length] forHTTPHeaderField:@"Content-length"];
-    [response sendData:jsonData];
+    [self sendAPIResponse:apiResponse request:request response:response];
 }
 
 + (void)failWithError:(NSError*)error request:(CRRequest *)request response:(CRResponse *)response {
     CWAPIResponse * apiResponse = [CWAPIResponse failureResponseWithError:error];
-    NSData * jsonData = [apiResponse toJSONData];
+    [self sendAPIResponse:apiResponse request:request response:response];
+}
 
++ (void)sendAPIResponse:(CWAPIResponse *)apiResponse request:(CRRequest *)request response:(CRResponse *)response {
+#if DEBUG
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:apiResponse.toDictionary options:NSJSONWritingPrettyPrinted error:nil];
+#else
+    NSData *jsonData = [apiResponse toJSONData];
+#endif
+    
     [response setValue:[NSString stringWithFormat:@"%lu", (unsigned long)jsonData.length] forHTTPHeaderField:@"Content-length"];
     [response sendData:jsonData];
 }

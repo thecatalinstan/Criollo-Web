@@ -9,6 +9,7 @@
 #import "CWBlogImage.h"
 #import "CWBlog.h"
 #import "CWAPIBlogImage.h"
+#import "CWImageSize.h"
 
 @implementation CWBlogImage
 
@@ -27,7 +28,15 @@
 #pragma mark - API
 
 - (NSString *)publicPath {
-    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogImagePath, self.handle];
+    return [self publicPathForImageSize:nil];
+}
+
+- (NSString *)publicPathForImageSize:(CWImageSize *)imageSize {
+    NSString *baseName = self.handle;
+    if (imageSize) {
+        baseName = [baseName stringByAppendingFormat:@"_%lux%lu", (unsigned long)imageSize.width, (unsigned long)imageSize.height];
+    }
+    return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogImagePath, [baseName stringByAppendingPathExtension:self.filename.pathExtension]];
 }
 
 #pragma mark - CWModelProxy
@@ -40,6 +49,18 @@
     image.mimeType = self.mimeType;
     image.filesize = self.filesize;
     image.handle = self.handle;
+        
+    NSArray<CWImageSize *> *sizes = CWImageSize.allSizes;
+    NSMutableArray<CWImageSizeRepresentation *><CWImageSizeRepresentation, Optional> *sizeRepresentations = [NSMutableArray<CWImageSizeRepresentation *><CWImageSizeRepresentation, Optional> arrayWithCapacity:sizes.count];
+    for (CWImageSize *size in sizes) {
+        CWImageSizeRepresentation *sizeRepresentation = [[CWImageSizeRepresentation alloc] init];
+        sizeRepresentation.publicPath = [self publicPathForImageSize:size];
+        sizeRepresentation.width = size.width;
+        sizeRepresentation.height = size.height;
+        [sizeRepresentations addObject:sizeRepresentation];
+    }
+    
+    image.sizeRepresentations =  sizeRepresentations;
     return image;
 }
 @end

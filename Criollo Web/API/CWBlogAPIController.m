@@ -103,6 +103,15 @@
             return;
         }
         
+        CWBlogImage *image;
+        if (receivedPost.image.uid.length) {
+            if (!(image = [CWBlogImage getByUID:receivedPost.image.uid])) {
+                error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownImage userInfo:nil];
+                [CWAPIController failWithError:error request:request response:response];
+                return;
+            }
+        }
+                
         RLMRealm *realm = [CWBlog realm];
         [realm beginWriteTransaction];
         
@@ -110,11 +119,12 @@
         post.renderedContent = renderedContent;
         post.excerpt = excerpt;
         post.author = author;
+        post.image = image;
         post.lastUpdatedDate = [NSDate date];
         if (!post.publishedDate) {
             post.publishedDate = [NSDate date];
         }
-        if (post.handle.length == 0) {
+        if (!post.handle.length) {
             post.handle = post.title.URLFriendlyHandle;
         }
         for (CWBlogTag* tag in post.tags) {
@@ -181,7 +191,8 @@
         CWBlogTag *tag;
         if (!(tag = [CWBlogTag getByUID:tid])) {
             [response setStatusCode:404 description:nil];
-            [CWAPIController failWithError:nil request:request response:response];
+            NSError *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownTag userInfo:nil];
+            [CWAPIController failWithError:error request:request response:response];
             return;
         }
         [CWAPIController succeedWithPayload:tag.modelObject.toDictionary request:request response:response];
@@ -228,7 +239,8 @@
         CWBlogImage *image;
         if (!(image = [CWBlogImage getByUID:iid])) {
             [response setStatusCode:404 description:nil];
-            [CWAPIController failWithError:nil request:request response:response];
+            NSError *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownImage userInfo:nil];
+            [CWAPIController failWithError:error request:request response:response];
             return;
         }
         [CWAPIController succeedWithPayload:image.modelObject.toDictionary request:request response:response];
@@ -265,8 +277,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:CWRoutesChangedNotificationName object:nil];
         
     }};
-    [self put:CWBlogAPITagsPath block:createOrUpdateImageBlock];
-    [self post:CWBlogAPITagsPath block:createOrUpdateImageBlock];
+    [self put:CWBlogAPIImagesPath block:createOrUpdateImageBlock];
+    [self post:CWBlogAPIImagesPath block:createOrUpdateImageBlock];
 }
 
 @end

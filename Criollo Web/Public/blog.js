@@ -18,6 +18,10 @@ const displayValidationError = (element, message) => {
   }
 }
 
+const saveImage = (image, success, failure) => {
+  
+}
+
 const savePost = (post, success, failure) => {
   const postElement = document.querySelector('.content article.article')
   api({

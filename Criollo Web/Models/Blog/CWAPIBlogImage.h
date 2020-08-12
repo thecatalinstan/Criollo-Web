@@ -7,8 +7,20 @@
 //
 
 #import "CWModel.h"
+#import "CWImageSize.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol CWImageSizeRepresentation
+@end
+
+@interface CWImageSizeRepresentation : JSONModel
+
+@property (nonatomic) NSUInteger width;
+@property (nonatomic) NSUInteger height;
+@property (nullable, nonatomic, strong) NSString<Optional> *publicPath;
+
+@end
 
 @interface CWAPIBlogImage : CWModel
 
@@ -16,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSString *mimeType;
 @property (nonatomic) NSInteger filesize;
 @property (nullable, nonatomic, strong) NSString<Optional> *handle;
+
+@property (nullable, nonatomic, strong) NSArray<CWImageSizeRepresentation *><CWImageSizeRepresentation, Optional> *sizeRepresentations;
 
 @end
 
