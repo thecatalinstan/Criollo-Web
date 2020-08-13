@@ -40,7 +40,7 @@
 }
 
 - (NSArray<CWImageSizeRepresentation *> *)sizeRepresentations {
-    NSArray<CWImageSize *> *sizes = CWImageSize.allSizes;
+    NSArray<CWImageSize *> *sizes = CWImageSize.availableSizes;
     NSMutableArray<CWImageSizeRepresentation *> *sizeRepresentations = [NSMutableArray<CWImageSizeRepresentation *> arrayWithCapacity:sizes.count];
     for (CWImageSize *size in sizes) {
         CWImageSizeRepresentation *sizeRepresentation = [[CWImageSizeRepresentation alloc] init];
@@ -51,8 +51,6 @@
     }
     return sizeRepresentations;
 }
-
-
 
 #pragma mark - CWModelProxy
 

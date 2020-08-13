@@ -13,7 +13,7 @@
 
 @implementation CWImageSize
 
-static NSArray<CWImageSize *> *allSizes;
+static NSArray<CWImageSize *> *availableSizes;
 
 + (void)initialize {
     if (self == CWImageSize.class) {
@@ -36,14 +36,14 @@ static NSArray<CWImageSize *> *allSizes;
         return;
     }
 
-    @synchronized (allSizes) {
-        allSizes = sizes;
+    @synchronized (availableSizes) {
+        availableSizes = sizes;
     }
 }
 
-+ (NSArray<CWImageSize *> *)allSizes {
-    @synchronized (allSizes) {
-        return allSizes;
++ (NSArray<CWImageSize *> *)availableSizes {
+    @synchronized (availableSizes) {
+        return availableSizes;
     }
 }
 

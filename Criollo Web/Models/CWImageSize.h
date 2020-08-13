@@ -16,9 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSUInteger width;
 @property (nonatomic) NSUInteger height;
 
-@property (class, nonatomic, strong, readonly) NSArray<CWImageSize *> *allSizes;
+@property (class, nonatomic, strong, readonly) NSArray<CWImageSize *> *availableSizes;
 
 @end
+
+typedef NS_ENUM(NSUInteger, CWImageSizeLabel) {
+    CWImageSizeLabelThumb          = 0,
+    CWImageSizeLabelMedium         = 1,
+    CWImageSizeLabelLarge          = 2,
+    CWImageSizeLabelShareImage     = 3
+};
 
 @protocol CWImageSizeRepresentation
 @end
