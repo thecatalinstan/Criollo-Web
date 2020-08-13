@@ -8,6 +8,8 @@
 
 #import "CWSchema.h"
 
+@class CWImageSizeRepresentation;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogImage : CWSchema
@@ -15,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *filename;
 @property NSString *mimeType;
 @property NSInteger filesize;
+
+@property (nullable, nonatomic, strong, readonly) NSArray<CWImageSizeRepresentation *> *sizeRepresentations;
 
 @end
 

@@ -48,3 +48,6 @@ static NSArray<CWImageSize *> *allSizes;
 }
 
 @end
+
+@implementation CWImageSizeRepresentation
+@end

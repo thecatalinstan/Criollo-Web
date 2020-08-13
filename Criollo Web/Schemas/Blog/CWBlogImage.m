@@ -39,6 +39,21 @@
     return [NSString stringWithFormat:@"%@%@/%@", CWBlogPath, CWBlogImagePath, [baseName stringByAppendingPathExtension:self.filename.pathExtension]];
 }
 
+- (NSArray<CWImageSizeRepresentation *> *)sizeRepresentations {
+    NSArray<CWImageSize *> *sizes = CWImageSize.allSizes;
+    NSMutableArray<CWImageSizeRepresentation *> *sizeRepresentations = [NSMutableArray<CWImageSizeRepresentation *> arrayWithCapacity:sizes.count];
+    for (CWImageSize *size in sizes) {
+        CWImageSizeRepresentation *sizeRepresentation = [[CWImageSizeRepresentation alloc] init];
+        sizeRepresentation.publicPath = [self publicPathForImageSize:size];
+        sizeRepresentation.width = size.width;
+        sizeRepresentation.height = size.height;
+        [sizeRepresentations addObject:sizeRepresentation];
+    }
+    return sizeRepresentations;
+}
+
+
+
 #pragma mark - CWModelProxy
 
 - (CWModel *)modelObject {
@@ -49,18 +64,7 @@
     image.mimeType = self.mimeType;
     image.filesize = self.filesize;
     image.handle = self.handle;
-        
-    NSArray<CWImageSize *> *sizes = CWImageSize.allSizes;
-    NSMutableArray<CWImageSizeRepresentation *><CWImageSizeRepresentation, Optional> *sizeRepresentations = [NSMutableArray<CWImageSizeRepresentation *><CWImageSizeRepresentation, Optional> arrayWithCapacity:sizes.count];
-    for (CWImageSize *size in sizes) {
-        CWImageSizeRepresentation *sizeRepresentation = [[CWImageSizeRepresentation alloc] init];
-        sizeRepresentation.publicPath = [self publicPathForImageSize:size];
-        sizeRepresentation.width = size.width;
-        sizeRepresentation.height = size.height;
-        [sizeRepresentations addObject:sizeRepresentation];
-    }
-    
-    image.sizeRepresentations =  sizeRepresentations;
+    image.sizeRepresentations =  (NSArray<CWImageSizeRepresentation *><CWImageSizeRepresentation,Optional> *)self.sizeRepresentations;
     return image;
 }
 @end

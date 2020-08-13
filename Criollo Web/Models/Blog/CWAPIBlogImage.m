@@ -11,9 +11,6 @@
 #import "CWBlogImage.h"
 #import "CWImageSize.h"
 
-@implementation CWImageSizeRepresentation
-@end
-
 @implementation CWAPIBlogImage
 
 #pragma mark - CWSchemaProxy

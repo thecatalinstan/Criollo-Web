@@ -11,17 +11,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol CWImageSizeRepresentation
-@end
-
-@interface CWImageSizeRepresentation : JSONModel
-
-@property (nonatomic) NSUInteger width;
-@property (nonatomic) NSUInteger height;
-@property (nullable, nonatomic, strong) NSString<Optional> *publicPath;
-
-@end
-
 @interface CWAPIBlogImage : CWModel
 
 @property (nullable, nonatomic, strong) NSString *filename;
