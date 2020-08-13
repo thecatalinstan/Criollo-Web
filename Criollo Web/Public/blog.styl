@@ -135,9 +135,54 @@ body.blog
       background-size cover
       background-repeat no-repeat
       background-position center
-      background-color red
+      position relative
       width 100%
-      padding-top calc(100% * 9/16)
+      min-height 400px
+      padding-top 44.64%
+      box-sizing border-box
+      border-radius 4px
+      background-color criollo-lighter-gray
+      border 1px solid criollo-light-gray
+      color criollo-dark-gray
+  
+      @media screen and (max-width: phone-cutoff)
+        min-height 300px
+
+      @media screen and (prefers-color-scheme: dark)
+        background-color criollo-dark-gray
+        border 1px solid criollo-darker-gray
+        color criollo-light-gray
+      
+      .image-selector
+        color criollo-lighter-gray
+        background-color alpha(criollo-darker-gray, 0.25);
+        display flex
+        justify-content center
+        align-items center
+        overflow hidden
+        cursor pointer
+        position absolute
+        top 50%
+        left 50%
+        width 200px
+        height @width
+        border-radius (@width / 2)
+        margin-top (-@height / 2)
+        margin-left (-@width / 2)
+        
+        @media screen and (max-width: phone-cutoff)
+          width 150px
+          height @width
+          border-radius (@width / 2)
+          margin-top (-@height / 2)
+          margin-left (-@width / 2)
+          
+        &:hover
+          background-color alpha(criollo-darker-gray, 0.5);
+
+      .upload-progress 
+        display none
+        width 50%
 
     .article-content
       margin 1.5em auto
