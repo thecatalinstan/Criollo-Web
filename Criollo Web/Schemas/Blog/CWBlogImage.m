@@ -32,7 +32,11 @@
 }
 
 - (NSString *)publicPathForImageSize:(CWImageSize *)imageSize {
-    NSString *baseName = self.handle;
+    NSString *baseName;
+    if (!(baseName = self.handle)) {
+        return nil;
+    }
+    
     if (imageSize) {
         baseName = [baseName stringByAppendingFormat:@"_%lux%lu", (unsigned long)imageSize.width, (unsigned long)imageSize.height];
     }
@@ -40,6 +44,10 @@
 }
 
 - (NSArray<CWImageSizeRepresentation *> *)sizeRepresentations {
+    if (!self.handle) {
+        return nil;
+    }
+    
     NSArray<CWImageSize *> *sizes = CWImageSize.availableSizes;
     NSMutableArray<CWImageSizeRepresentation *> *sizeRepresentations = [NSMutableArray<CWImageSizeRepresentation *> arrayWithCapacity:sizes.count];
     for (CWImageSize *size in sizes) {

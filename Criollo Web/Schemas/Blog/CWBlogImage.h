@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property NSString *filename;
 @property NSString *mimeType;
-@property NSInteger filesize;
+@property NSNumber<RLMInt> *filesize;
 
 @property (nullable, nonatomic, strong, readonly) NSArray<CWImageSizeRepresentation *> *sizeRepresentations;
 

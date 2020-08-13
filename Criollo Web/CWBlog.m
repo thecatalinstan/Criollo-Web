@@ -189,8 +189,6 @@ static NSUInteger const CWExcerptLength = 400;
     return YES;
 }
 
-
-
 + (NSString *)formattedDate:(NSDate *)date {
     static NSDateFormatter* dateFormatter;
     static dispatch_once_t onceToken;

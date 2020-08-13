@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CWAPIBlogImage : CWModel
 
-@property (nullable, nonatomic, strong) NSString *filename;
-@property (nullable, nonatomic, strong) NSString *mimeType;
-@property (nonatomic) NSInteger filesize;
+@property (nullable, nonatomic, strong) NSString<Optional> *filename;
+@property (nullable, nonatomic, strong) NSString<Optional> *mimeType;
+@property (nonatomic) NSNumber<Optional> *filesize;
 @property (nullable, nonatomic, strong) NSString<Optional> *handle;
 
 @property (nullable, nonatomic, strong) NSArray<CWImageSizeRepresentation *><CWImageSizeRepresentation, Optional> *sizeRepresentations;

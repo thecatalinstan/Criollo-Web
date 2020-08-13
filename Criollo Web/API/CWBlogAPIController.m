@@ -265,7 +265,9 @@
         [realm beginWriteTransaction];
         
         CWBlogImage *image = (CWBlogImage *)receivedImage.schemaObject;
-        image.handle = NSString.randomURLFriendlyHandle;
+        if (!image.handle) {
+            image.handle = NSString.randomURLFriendlyHandle;
+        }
         
         [realm addOrUpdateObject:image];
         if (![realm commitWriteTransaction:&error]) {
