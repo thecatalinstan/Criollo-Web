@@ -130,9 +130,17 @@ body.blog
           &:focus
             outline none
 
+    .article-image
+      margin 1.5em auto
+      background-size cover
+      background-repeat no-repeat
+      background-position center
+      background-color red
+      width 100%
+      padding-top calc(100% * 9/16)
+
     .article-content
       margin 1.5em auto
-      // overflow hidden
       text-overflow ellipsis
       
       @media screen and (max-width: phone-cutoff)

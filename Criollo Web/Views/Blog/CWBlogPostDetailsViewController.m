@@ -12,6 +12,8 @@
 #import "CWBlog.h"
 #import "CWAPIController.h"
 #import "CWUser.h"
+#import "CWBlogImage.h"
+#import "CWImageSize.h"
 
 @interface CWBlogPostDetailsViewController ()
 
@@ -38,10 +40,9 @@
 }
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
-
     self.vars[@"id"] = self.isNewPost ? @"": self.post.uid;
     self.vars[@"title"] = self.post.title ?: @"";
-    if (!self.post.published) {
+    if (!self.post.published && self.vars[@"title"].length) {
         self.vars[@"title"] = [self.vars[@"title"] stringByAppendingString:@" [draft]"];
     }
     self.vars[@"permalink"] = [self.post permalinkForRequest:request];
@@ -61,14 +62,28 @@
     self.vars[@"author-twitter"] = self.post.author.twitter ?: @"";
 
     NSMutableString* toolbar = [NSMutableString new];
-    CWUser * currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]];
-    if ( currentUser ) {
+    CWUser *currentUser;
+    if ((currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]])) {
         [toolbar appendString:@"&nbsp;&nbsp;&middot;&nbsp;&nbsp;"];
         [toolbar appendFormat:@"<a href=\"%@/edit\">edit</a>", [self.post permalinkForRequest:request]];
         [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];
     }
     self.vars[@"toolbar"] = toolbar;
-
+   
+    CWImageSizeRepresentation *largeImage;
+    if ((largeImage = self.post.image.sizeRepresentations[CWImageSizeLabelLarge])) {
+        self.vars[@"article-image-class"] = @"";
+        self.vars[@"article-image-url"] = [largeImage permalinkForRequest:request];
+    } else {
+        self.vars[@"article-image-class"] = @"hidden";
+        self.vars[@"article-image-url"] = @"";
+    }
+    
+    CWImageSizeRepresentation *shareImage;
+    if ((shareImage = self.post.image.sizeRepresentations[CWImageSizeLabelShareImage])) {
+        self.vars[@"image"] = [shareImage permalinkForRequest:request];
+    }
+    
     NSMutableArray* tags = [NSMutableArray array];
     for ( CWBlogTag* tag in self.post.tags ) {
         NSString * tagHref = [NSString stringWithFormat:@"<a href=\"%@\">%@</a>", [tag permalinkForRequest:request], tag.name];

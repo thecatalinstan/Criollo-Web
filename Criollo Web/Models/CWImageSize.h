@@ -8,6 +8,8 @@
 
 #import <JSONModel/JSONModel.h>
 
+@class CRRequest;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWImageSize : JSONModel
@@ -35,6 +37,8 @@ typedef NS_ENUM(NSUInteger, CWImageSizeLabel) {
 @property (nonatomic) NSUInteger width;
 @property (nonatomic) NSUInteger height;
 @property (nullable, nonatomic, strong) NSString<Optional> *publicPath;
+
+- (NSString *)permalinkForRequest:(CRRequest *)request;
 
 @end
 

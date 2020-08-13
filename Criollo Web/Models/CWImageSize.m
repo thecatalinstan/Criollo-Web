@@ -50,4 +50,9 @@ static NSArray<CWImageSize *> *availableSizes;
 @end
 
 @implementation CWImageSizeRepresentation
+
+- (NSString *)permalinkForRequest:(CRRequest *)request {
+    return [NSURL URLWithString:self.publicPath relativeToURL:CWAppDelegate.baseURL].absoluteString;
+}
+
 @end

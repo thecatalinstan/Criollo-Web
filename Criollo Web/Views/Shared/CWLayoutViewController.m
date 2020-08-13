@@ -20,12 +20,6 @@ NS_ASSUME_NONNULL_END
 
 @implementation CWLayoutViewController
 
-static NSString * imagePath;
-
-+ (void)initialize {
-    imagePath = [NSURL URLWithString:[NSString stringWithFormat:@"%@/criollo-icon-square-padded.png", CWStaticDirPath] relativeToURL:[CWAppDelegate baseURL]].absoluteString;
-}
-
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
 
     NSString* productTitle = @"Criollo";
@@ -37,7 +31,7 @@ static NSString * imagePath;
     self.vars[@"url"] = self.vars[@"url"] ? : request.env[@"REQUEST_URI"];
     self.vars[@"og-type"] = self.vars[@"og-type"] ? : @"website";
     self.vars[@"blogFeedPath"] = self.vars[@"blogFeedPath"] ? : [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", CWBlogPath, CWBlogFeedPath] relativeToURL:[CWAppDelegate baseURL]].absoluteString;
-    self.vars[@"image"] = self.vars[@"image"] ? : imagePath;
+    self.vars[@"image"] = self.vars[@"image"] ? : [NSURL URLWithString:[NSString stringWithFormat:@"%@/criollo-icon-square-padded.png", CWStaticDirPath] relativeToURL:CWAppDelegate.baseURL].absoluteString;
 
     // These vars are not overriden
     self.vars[@"github-url"] = CWGitHubURL;
