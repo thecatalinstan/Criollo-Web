@@ -281,6 +281,17 @@
     }};
     [self put:CWBlogAPIImagesPath block:createOrUpdateImageBlock];
     [self post:CWBlogAPIImagesPath block:createOrUpdateImageBlock];
+    
+    [self get:CWBlogAPIImagesPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        RLMRealm *realm = [CWBlog realm];
+        RLMResults<CWBlogImage *> *images = [CWBlogImage allObjectsInRealm:realm];
+        NSMutableArray<NSDictionary *> *result = [NSMutableArray arrayWithCapacity:images.count];
+        for (CWBlogImage *image in images) {
+            [result addObject:image.modelObject.toDictionary];
+        }
+        
+        [CWAPIController succeedWithPayload:result request:request response:response];
+    }];
 }
 
 @end
