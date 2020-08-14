@@ -35,7 +35,7 @@
 #pragma mark - API
 
 - (NSString *)publicPath {
-    NSDateComponents* dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.publishedDate ?: self.lastUpdatedDate];
+    NSDateComponents* dateComponents = [NSCalendar.currentCalendar components:NSCalendarUnitMonth|NSCalendarUnitYear fromDate:self.publishedDate ?: self.lastUpdatedDate];
     return [NSString stringWithFormat:@"%@/%ld/%s%ld/%@", CWBlogPath, (long)dateComponents.year, dateComponents.month < 10 ? "0" : "", (long)dateComponents.month, self.handle];
 }
 

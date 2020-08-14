@@ -213,13 +213,13 @@ static NSUInteger const CWExcerptLength = 400;
 }
 
 + (CWBlogArchivePeriod)parseYear:(NSUInteger)year month:(NSUInteger)month {
-    if ( year == 0 ) {
+    if (year == 0) {
         month = 0;
     }
-    if ( month > 12 ) {
+    if (month > 12) {
         month = 0;
     }
-    return (CWBlogArchivePeriod){ year, month };
+    return (CWBlogArchivePeriod){ .year =  year, .month =  month };
 }
 
 + (CWBlogDatePair *)datePairArchivePeriod:(CWBlogArchivePeriod)period {
@@ -241,8 +241,8 @@ static NSUInteger const CWExcerptLength = 400;
     }
 
     CWBlogDatePair *datePair = [CWBlogDatePair new];
-    datePair.startDate = [[NSCalendar currentCalendar] dateWithEra:1 year:startYear month:startMonth day:1 hour:0 minute:0 second:0 nanosecond:0];
-    datePair.endDate = [[[NSCalendar currentCalendar] dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
+    datePair.startDate = [NSCalendar.currentCalendar dateWithEra:1 year:startYear month:startMonth day:1 hour:0 minute:0 second:0 nanosecond:0];
+    datePair.endDate = [[NSCalendar.currentCalendar dateWithEra:1 year:endYear month:endMonth day:1 hour:0 minute:0 second:0 nanosecond:0] dateByAddingTimeInterval:-1];
 
     return datePair;
 }
