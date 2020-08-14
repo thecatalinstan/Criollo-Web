@@ -137,8 +137,8 @@ body.blog
       background-position center
       position relative
       width 100%
-      min-height 400px
       padding-top 44.64%
+      min-height 300px
       box-sizing border-box
       border-radius 4px
       background-color criollo-lighter-gray
@@ -146,7 +146,7 @@ body.blog
       color criollo-dark-gray
   
       @media screen and (max-width: phone-cutoff)
-        min-height 300px
+        min-height 200px
 
       @media screen and (prefers-color-scheme: dark)
         background-color criollo-dark-gray
@@ -157,21 +157,23 @@ body.blog
         color criollo-lighter-gray
         background-color alpha(criollo-darker-gray, 0.25);
         display flex
-        justify-content center
         align-items center
+        justify-content center
         overflow hidden
         cursor pointer
         position absolute
+        box-sizing border-box
+        padding 10px
         top 50%
         left 50%
-        width 200px
+        width 180px
         height @width
         border-radius (@width / 2)
         margin-top (-@height / 2)
         margin-left (-@width / 2)
         
         @media screen and (max-width: phone-cutoff)
-          width 150px
+          width 130px
           height @width
           border-radius (@width / 2)
           margin-top (-@height / 2)
