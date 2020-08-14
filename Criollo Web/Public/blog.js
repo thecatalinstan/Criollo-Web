@@ -108,19 +108,49 @@ const setupEditor = (postElement, post) => {
   titleElement.parentNode.appendChild(handleContainer)
 
   if (!post.uid) {
-      titleElement.onblur = (e) => {
-        makeHandle(e.target.textContent, (data) => {
-          if (!data) {
-            return
-          }
-          handleEditor.value = data
-          handleContainer.style.display = 'initial'
-          titleElement.onblur = null
-        }, (err) => {
-          console.error(err)
-        })
-      }
+    titleElement.onblur = (e) => {
+      makeHandle(e.target.textContent, (data) => {
+        if (!data) {
+          return
+        }
+        handleEditor.value = data
+        handleContainer.style.display = 'initial'
+        titleElement.onblur = null
+      }, (err) => {
+        console.error(err)
+      })
     }
+  }
+
+  // Enable image editor
+  const imageContainer = document.querySelector('.article-image-container');
+  imageContainer.classList.remove('hidden')
+  
+  const imageEditor = document.querySelector('.article-image')
+
+  const imageOverlay = document.createElement('div')
+  imageOverlay.className = 'image-overlay'
+  imageEditor.appendChild(imageOverlay)      
+
+  const imageSelector = document.createElement('div')
+  // .article-image.uploading(style="background-image:url({{article-image-url}})")
+  imageSelector.className = 'image-selector'
+  imageSelector.innerHTML = 'Select Image'
+  imageEditor.appendChild(imageSelector)
+
+  const imageUploadProgress = document.createElement('div')
+  imageUploadProgress.className = 'image-upload-progress'
+  imageUploadProgress.innerHTML = 'Select Image'
+
+  const imageUploadProgressIndicator = document.createElement('div')
+  imageUploadProgressIndicator.className = 'progress-indicator'
+  imageUploadProgressIndicator.innerHTML = ''
+  imageUploadProgress.appendChild(imageUploadProgressIndicator)
+
+  imageEditor.appendChild(imageUploadProgress)
+
+
+
 
   // Remove the (rendered) body of the post
   const contentElement = postElement.querySelector('.article-content')
@@ -207,6 +237,9 @@ const setupEditor = (postElement, post) => {
     post.title = titleElement.textContent
     if (post.uid) {
       post.handle = handleEditor.value
+    }
+    post.image = {
+      uid: imageEditor.value
     }
     post.content = contentEditor.value
     post.excerpt = excerptEditor.value
