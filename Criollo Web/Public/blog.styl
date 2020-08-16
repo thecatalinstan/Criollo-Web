@@ -159,8 +159,8 @@ body.blog
           display none
           
         .image-upload-progress
-          display block          
-      
+          display block                
+
       .image-overlay
         display block
         position absolute
@@ -194,8 +194,8 @@ body.blog
         border-radius (@width / 2)
         margin-top (-@height / 2)
         margin-left (-@width / 2)
-        background-color alpha(criollo-darker-gray, 0.25)
-        backdrop-filter blur(2px) brightness(150%)
+        background-color alpha(criollo-darker-gray, 0.5)
+        backdrop-filter blur(3px) brightness(150%)
         -webkit-backdrop-filter @backdrop-filter
         
         @media screen and (max-width: phone-cutoff)
@@ -206,7 +206,8 @@ body.blog
           margin-left (-@width / 2)
           
         &:hover
-          background-color alpha(criollo-darker-gray, 0.5)
+          background-color alpha(criollo-darker-gray, 0.3)
+          color criollo-orange
 
       .image-upload-progress         
         display none

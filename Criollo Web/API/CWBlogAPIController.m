@@ -245,6 +245,27 @@
         }
         [CWAPIController succeedWithPayload:image.modelObject.toDictionary request:request response:response];
     }}];
+    
+    [self post:CWBlogAPISingleImagePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) {
+        NSString *iid = request.query[@"iid"];
+        
+        CWBlogImage *image;
+        if (!(image = [CWBlogImage getByUID:iid])) {
+            [response setStatusCode:404 description:nil];
+            NSError *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownImage userInfo:nil];
+            [CWAPIController failWithError:error request:request response:response];
+            return;
+        }
+        
+        NSError *error;
+        if (![image preocessUploadedFile:request.files.allValues.firstObject error:&error]) {
+            [response setStatusCode:500 description:nil];
+            [CWAPIController failWithError:error request:request response:response];
+            return;
+        }
+        
+        [CWAPIController succeedWithPayload:image.modelObject.toDictionary request:request response:response];
+    }];
 
     // Delete single image
     [self delete:CWBlogAPISingleImagePath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
@@ -275,9 +296,7 @@
         }
 
         [CWAPIController succeedWithPayload:image.modelObject.toDictionary request:request response:response];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:CWRoutesChangedNotificationName object:nil];
-        
+//        [[NSNotificationCenter defaultCenter] postNotificationName:CWRoutesChangedNotificationName object:nil];
     }};
     [self put:CWBlogAPIImagesPath block:createOrUpdateImageBlock];
     [self post:CWBlogAPIImagesPath block:createOrUpdateImageBlock];

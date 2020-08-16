@@ -18,12 +18,29 @@ const displayValidationError = (element, message) => {
   }
 }
 
-const saveImage = (image, success, failure) => {
-  
+const saveImage = (file, success, failure) => {
+  const image = {
+    "filename" : file.name,
+    "filesize" : file.size,
+    "mimeType" : file.type
+  }
+  api({
+    url: `/api/blog/images?${Math.random()}`,
+    method: 'put',
+    data: JSON.stringify(image)
+  }, success, failure)
+}
+
+const uploadImage = (iid, file, success, failure) => {
+  api({
+    url: `/api/blog/images/${iid}?${Math.random()}`,
+    method: 'post',
+    data: file,
+    dontSetContentType: true
+  }, success, failure)
 }
 
 const savePost = (post, success, failure) => {
-  const postElement = document.querySelector('.content article.article')
   api({
     url: `/api/blog/posts?${Math.random()}`,
     method: post.uid ? 'post' : 'put',
@@ -127,15 +144,32 @@ const setupEditor = (postElement, post) => {
   imageContainer.classList.remove('hidden')
   
   const imageEditor = document.querySelector('.article-image')
+  // .article-image.uploading(style="background-image:url({{article-image-url}})")
 
-  const imageOverlay = document.createElement('div')
-  imageOverlay.className = 'image-overlay'
-  imageEditor.appendChild(imageOverlay)      
+  let selectedFile;
+
+  const imageUploadFile = document.createElement('input')
+  imageUploadFile.type = 'file'
+  imageUploadFile.multiple = false
+  imageUploadFile.className = 'image-upload-file'
+  imageUploadFile.accept = 'image/*'
+  imageUploadFile.style.display = 'none'
+  imageUploadFile.onchange = (e) => {
+    e.preventDefault()
+    if(imageUploadFile.files.length) {
+      selectedFile = imageUploadFile.files[0]    
+      imageEditor.style.backgroundImage = `url('${URL.createObjectURL(selectedFile)}')`
+    }
+  }
+  imageEditor.appendChild(imageUploadFile)
 
   const imageSelector = document.createElement('div')
-  // .article-image.uploading(style="background-image:url({{article-image-url}})")
   imageSelector.className = 'image-selector'
   imageSelector.innerHTML = 'Select Image'
+  imageSelector.onclick = (e) => {
+    e.preventDefault()
+    imageUploadFile.click()
+  }
   imageEditor.appendChild(imageSelector)
 
   const imageUploadProgress = document.createElement('div')
@@ -148,9 +182,6 @@ const setupEditor = (postElement, post) => {
   imageUploadProgress.appendChild(imageUploadProgressIndicator)
 
   imageEditor.appendChild(imageUploadProgress)
-
-
-
 
   // Remove the (rendered) body of the post
   const contentElement = postElement.querySelector('.article-content')
@@ -234,51 +265,80 @@ const setupEditor = (postElement, post) => {
   saveButton.className = 'save-button'
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
-    post.title = titleElement.textContent
-    if (post.uid) {
-      post.handle = handleEditor.value
-    }
-    post.image = {
-      uid: imageEditor.value
-    }
-    post.content = contentEditor.value
-    post.excerpt = excerptEditor.value
-    post.tags = tokenField.getItems().map ( (item) => {
-      if (item.isNew) {
-        return { 'name': item.name }
-      } else {
-        return item
+
+    const submitPost = () => {
+      post.title = titleElement.textContent
+      if (post.uid) {
+        post.handle = handleEditor.value
       }
-    })
-    post.published = publishedEditor.checked
-    console.log('Saving post:', post)
-
-    savePost(post, (data) => {
-      console.log('Saved post:', data)
-
-      window.notifier.confirm('Post saved', data.publicPath)
-
-      if (!post.uid) {
-        window.location.href = data.publicPath + '/edit'
-        return
+      post.image = {
+        uid: imageEditor.value
       }
+      post.content = contentEditor.value
+      post.excerpt = excerptEditor.value
+      post.tags = tokenField.getItems().map ( (item) => {
+        if (item.isNew) {
+          return { 'name': item.name }
+        } else {
+          return item
+        }
+      })
+      post.published = publishedEditor.checked
+      console.log('Saving post:', post)
 
-      post = data
-      postElement.dataset.post = post.uid
-      postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
+      savePost(post, (data) => {
+        console.log('Saved post:', data)
 
-      handleLabel.innerHTML = `${location.protocol}//${location.host}${post.publicPath.substr(0, post.publicPath.lastIndexOf('/') + 1)}`
-      handleEditor.value = post.handle
+        window.notifier.confirm('Post saved', data.publicPath)
 
-      tokenField.setItems(post.tags)
-      publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
-      publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
+        if (!post.uid) {
+          window.location.href = data.publicPath + '/edit'
+          return
+        }
 
-      window.history.pushState('', '', post.publicPath + '/edit')
-    }, (err) => {
-      console.error(err)
-      window.notifier.error('Unable to save post', err.message)
-    })
+        post = data
+        postElement.dataset.post = post.uid
+        postElement.id = `article-${post.uid.substr(post.uid.lastIndexOf('/') + 1)}`
+
+        handleLabel.innerHTML = `${location.protocol}//${location.host}${post.publicPath.substr(0, post.publicPath.lastIndexOf('/') + 1)}`
+        handleEditor.value = post.handle
+
+        tokenField.setItems(post.tags)
+        publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
+        publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
+
+        window.history.pushState('', '', post.publicPath + '/edit')
+      }, (err) => {
+        console.error(err)
+        window.notifier.error('Unable to save post', err.message)
+      })
+    }
+
+    if (!selectedFile) {
+      submitPost()
+    } else {
+      saveImage(selectedFile, (data) => {
+        console.log('Created image:', data)
+        const iid = data.uid
+
+        uploadImage(iid, selectedFile, (data) => {
+          console.log('Uploaded image:', data)
+
+          post.image = iid
+
+          submitPost()
+          
+        }, (err) => {
+          console.error(err)
+          window.notifier.error('Image upload failed', err.message)
+        })      
+      }, (err) => {
+        console.error(err)
+        window.notifier.error('Image creation failed', err.message)
+      })    
+
+    }
+
   }
   footerElement.appendChild(saveButton)
 

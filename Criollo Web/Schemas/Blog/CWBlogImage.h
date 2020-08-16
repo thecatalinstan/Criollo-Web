@@ -8,7 +8,7 @@
 
 #import "CWSchema.h"
 
-@class CWImageSizeRepresentation;
+@class CWImageSizeRepresentation, CRUploadedFile;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSNumber<RLMInt> *filesize;
 
 @property (nullable, nonatomic, strong, readonly) NSArray<CWImageSizeRepresentation *> *sizeRepresentations;
+
+- (BOOL)preocessUploadedFile:(CRUploadedFile *)file error:(NSError *__autoreloasing *)error;
 
 @end
 

@@ -13,6 +13,10 @@
 
 @implementation CWBlogImage
 
+- (BOOL)preocessUploadedFile:(CRUploadedFile *)file error:(NSError *)error {
+    return YES;
+}
+
 #pragma mark - Realm
 
 + (NSArray<NSString *> *)indexedProperties {
@@ -73,4 +77,5 @@
     image.sizeRepresentations =  (NSArray<CWImageSizeRepresentation *><CWImageSizeRepresentation,Optional> *)self.sizeRepresentations;
     return image;
 }
+
 @end

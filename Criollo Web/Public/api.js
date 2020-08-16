@@ -8,6 +8,8 @@ const api = (config, success, failure) => {
 
     const method = config.method || 'GET'
     const data = config.data || null
+    const contentType = config.contentType || 'application/json;charset=utf-8'
+    const dontSetContentType = config.dontSetContentType || false
 
     let request = null
     if (window.XMLHttpRequest) {
@@ -28,8 +30,8 @@ const api = (config, success, failure) => {
     }
 
     request.open(method, url)
-    if ( method != 'GET' ) {
-      request.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
+    if (method != 'GET' && !dontSetContentType) {
+      request.setRequestHeader('Content-Type', contentType);
     }
 
     request.addEventListener('load', () => {
