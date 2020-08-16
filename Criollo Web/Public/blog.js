@@ -31,13 +31,13 @@ const saveImage = (file, success, failure) => {
   }, success, failure)
 }
 
-const uploadImage = (iid, file, success, failure) => {
+const uploadImage = (iid, file, success, failure, progress) => {
   api({
     url: `/api/blog/images/${iid}?${Math.random()}`,
     method: 'post',
     data: file,
     dontSetContentType: true
-  }, success, failure)
+  }, success, failure, progress)
 }
 
 const savePost = (post, success, failure) => {
@@ -144,7 +144,6 @@ const setupEditor = (postElement, post) => {
   imageContainer.classList.remove('hidden')
   
   const imageEditor = document.querySelector('.article-image')
-  // .article-image.uploading(style="background-image:url({{article-image-url}})")
 
   let selectedFile;
 
@@ -174,7 +173,7 @@ const setupEditor = (postElement, post) => {
 
   const imageUploadProgress = document.createElement('div')
   imageUploadProgress.className = 'image-upload-progress'
-  imageUploadProgress.innerHTML = 'Select Image'
+  imageUploadProgress.innerHTML = ''
 
   const imageUploadProgressIndicator = document.createElement('div')
   imageUploadProgressIndicator.className = 'progress-indicator'
@@ -271,9 +270,6 @@ const setupEditor = (postElement, post) => {
       if (post.uid) {
         post.handle = handleEditor.value
       }
-      post.image = {
-        uid: imageEditor.value
-      }
       post.content = contentEditor.value
       post.excerpt = excerptEditor.value
       post.tags = tokenField.getItems().map ( (item) => {
@@ -307,6 +303,8 @@ const setupEditor = (postElement, post) => {
         publishedPermalink.href = `${location.protocol}//${location.host}${post.publicPath}`
         publishedPermalink.innerHTML = `${location.protocol}//${location.host}${post.publicPath}`
 
+        imageSelector.classList.remove('hidden') 
+
         window.history.pushState('', '', post.publicPath + '/edit')
       }, (err) => {
         console.error(err)
@@ -317,21 +315,31 @@ const setupEditor = (postElement, post) => {
     if (!selectedFile) {
       submitPost()
     } else {
+      imageContainer.scrollIntoView()
+      imageEditor.classList.add('uploading')
       saveImage(selectedFile, (data) => {
         console.log('Created image:', data)
-        const iid = data.uid
+        let image = data
 
-        uploadImage(iid, selectedFile, (data) => {
+        uploadImage(image.uid, selectedFile, (data) => {
           console.log('Uploaded image:', data)
 
-          post.image = iid
-
+          post.image = image
+          imageEditor.classList.remove('uploading')
+          imageSelector.classList.add('hidden')         
+          
           submitPost()
           
         }, (err) => {
           console.error(err)
           window.notifier.error('Image upload failed', err.message)
-        })      
+        }, (loaded, total) => {
+          let percent = loaded/total*100
+          imageUploadProgressIndicator.style.width = `${percent}%`
+          if (percent > 10) {
+            imageUploadProgressIndicator.innerHTML = `${Math.round(percent)}%`
+          }
+        })     
       }, (err) => {
         console.error(err)
         window.notifier.error('Image creation failed', err.message)

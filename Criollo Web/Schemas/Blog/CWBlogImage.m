@@ -13,7 +13,7 @@
 
 @implementation CWBlogImage
 
-- (BOOL)preocessUploadedFile:(CRUploadedFile *)file error:(NSError *)error {
+- (BOOL)preocessUploadedFile:(CRUploadedFile *)file error:(NSError *__autoreleasing  _Nullable * _Nullable)error {
     return YES;
 }
 

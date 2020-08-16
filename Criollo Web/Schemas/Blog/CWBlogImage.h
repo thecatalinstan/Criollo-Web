@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, strong, readonly) NSArray<CWImageSizeRepresentation *> *sizeRepresentations;
 
-- (BOOL)preocessUploadedFile:(CRUploadedFile *)file error:(NSError *__autoreloasing *)error;
+- (BOOL)preocessUploadedFile:(CRUploadedFile *)file
+                       error:(NSError * __autoreleasing *)error;
 
 @end
 

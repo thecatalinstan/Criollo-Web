@@ -1,4 +1,4 @@
-const api = (config, success, failure) => {
+const api = (config, success, failure, progress) => {
 
     const url = config.url
     if (!url) {
@@ -32,6 +32,12 @@ const api = (config, success, failure) => {
     request.open(method, url)
     if (method != 'GET' && !dontSetContentType) {
       request.setRequestHeader('Content-Type', contentType);
+    }
+
+    if (progress) {
+      request.upload.addEventListener('progress', (e) => {
+        progress(e.loaded, e.total)
+      }, false)
     }
 
     request.addEventListener('load', () => {
