@@ -17,6 +17,7 @@
 #import "CWUser.h"
 #import "CWAppDelegate.h"
 #import "CWBlogRSSController.h"
+#import "CWBlogImageController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -261,6 +262,9 @@ NS_ASSUME_NONNULL_END
     [self get:CRPathSeparator block:enumeratePostsBlock];
     [self get:CRPathSeparator block:noContentsBlock];
     [self get:CRPathSeparator block:presentViewControllerBlock];
+    
+    // Images
+    [self get:CWBlogSingleImagePath block:CWBlogImageController.sharedController.routeBlock];
 }
 
 - (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {

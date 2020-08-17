@@ -23,6 +23,7 @@
 #define CWBlogArchivePath           @"/archive"
 #define CWBlogTagPath               @"/tag"
 #define CWBlogImagePath             @"/image"
+#define CWBlogSingleImagePath       @"/image/[A-Za-z0-9]{16}_*[0-9]*x*[0-9]*.[A-Za-z]{3,4}"
 #define CWBlogAuthorPath            @"/author"
 #define CWBlogFeedPath              @"/feed"
 #define CWBlogArchiveYearPath       @"/[0-9]{4}"

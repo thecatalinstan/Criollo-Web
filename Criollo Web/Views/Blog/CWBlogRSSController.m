@@ -22,8 +22,6 @@
 @property (nonatomic, strong) CSRSSFeed * feed;
 @property (nonatomic, strong) CSRSSFeedChannel * channel;
 
-- (void)setupRoutes;
-
 @end
 
 @implementation CWBlogRSSController
