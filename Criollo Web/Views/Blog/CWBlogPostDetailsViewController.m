@@ -78,12 +78,7 @@
         self.vars[@"article-image-class"] = @"hidden";
         self.vars[@"article-image-url"] = @"https://drscdn.500px.org/photo/1020210490/q%3D80_m%3D1500/v2?sig=bb2df100f0c79a83b76e6ea633d80652049f48f140e724152cfb668d896533e0";
     }
-    
-    CWImageSizeRepresentation *shareImage;
-    if ((shareImage = self.post.image.sizeRepresentations[CWImageSizeLabelShareImage])) {
-        self.vars[@"image"] = [shareImage permalinkForRequest:request];
-    }
-    
+        
     NSMutableArray* tags = [NSMutableArray array];
     for ( CWBlogTag* tag in self.post.tags ) {
         NSString * tagHref = [NSString stringWithFormat:@"<a href=\"%@\">%@</a>", [tag permalinkForRequest:request], tag.name];

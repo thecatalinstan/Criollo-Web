@@ -8,6 +8,8 @@
 
 #import <Criollo/Criollo.h>
 
+@class CWBlogImage, CWImageSizeRepresentation;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CWBlogImageController : NSObject
@@ -19,6 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithBaseDirectory:(NSURL *)baseDirectory NS_DESIGNATED_INITIALIZER;
 
 - (NSString *)pathForRequestedPath:(NSString *)requestedPath;
+
+- (BOOL)preocessUploadedFile:(CRUploadedFile *)file
+                       image:(CWBlogImage *)image
+                       error:(NSError * __autoreleasing *)error;
+
+- (BOOL)gnerateImageSizeRepresentation:(CWImageSizeRepresentation *)representation
+                        forImageAtPath:(NSString *)imagePath
+                                 error:(NSError * __autoreleasing *)error;
 
 @end
 

@@ -331,6 +331,8 @@ const setupEditor = (postElement, post) => {
           submitPost()
           
         }, (err) => {
+          imageEditor.classList.remove('uploading')
+
           console.error(err)
           window.notifier.error('Image upload failed', err.message)
         }, (loaded, total) => {
@@ -341,6 +343,7 @@ const setupEditor = (postElement, post) => {
           }
         })     
       }, (err) => {
+        imageEditor.classList.remove('uploading')
         console.error(err)
         window.notifier.error('Image creation failed', err.message)
       })    

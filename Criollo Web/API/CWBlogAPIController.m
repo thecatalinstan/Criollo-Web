@@ -9,6 +9,8 @@
 #import "CWBlogAPIController.h"
 #import "CWAppDelegate.h"
 #import "CWAPIController.h"
+#import "CWBlogImageController.h"
+
 #import "CWAPIError.h"
 #import "CWUser.h"
 #import "CWBlog.h"
@@ -258,7 +260,7 @@
         }
         
         NSError *error;
-        if (![image preocessUploadedFile:request.files.allValues.firstObject error:&error]) {
+        if (![CWBlogImageController.sharedController preocessUploadedFile:request.files.allValues.firstObject image:image error:&error]) {
             [response setStatusCode:500 description:nil];
             [CWAPIController failWithError:error request:request response:response];
             return;

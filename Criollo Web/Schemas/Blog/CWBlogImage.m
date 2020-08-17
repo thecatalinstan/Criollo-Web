@@ -13,10 +13,6 @@
 
 @implementation CWBlogImage
 
-- (BOOL)preocessUploadedFile:(CRUploadedFile *)file error:(NSError *__autoreleasing  _Nullable * _Nullable)error {
-    return YES;
-}
-
 #pragma mark - Realm
 
 + (NSArray<NSString *> *)indexedProperties {

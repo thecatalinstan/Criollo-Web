@@ -18,6 +18,8 @@
 #import "CWAppDelegate.h"
 #import "CWBlogRSSController.h"
 #import "CWBlogImageController.h"
+#import "CWImageSize.h"
+#import "CWBlogImage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString * url;
 @property (nonatomic, strong) NSString * ogType;
 @property (nonatomic, strong) NSString * metaDescription;
+@property (nonatomic, strong) NSString * image;
 
 - (void)setupRoutes;
 
@@ -151,6 +154,11 @@ NS_ASSUME_NONNULL_END
             controller.metaDescription = post.excerpt;
             controller.url = [post permalinkForRequest:request];
             controller.showPageTitle = NO;
+            CWImageSizeRepresentation *shareImage;
+            if ((shareImage = post.image.sizeRepresentations[CWImageSizeLabelShareImage])) {
+                controller.image = [shareImage permalinkForRequest:request];
+            }
+
         }
         completionHandler();
     }};
@@ -273,17 +281,23 @@ NS_ASSUME_NONNULL_END
         self.vars[@"content"] = [NSString stringWithFormat:@"<header class=\"page-header content\"><h1 class=\"page-title\">%@</h1></header>%@", self.title, self.vars[@"content"]];
     }
     self.vars[@"title"] = self.title;
-    if ( self.ogType ) {
+    
+    if (self.ogType) {
         self.vars[@"og-type"] = self.ogType;
     }
-    if ( self.url ) {
+    if (self.url) {
         self.vars[@"url"] = self.url;
     }
-    if ( self.metaDescription ) {
+    if (self.metaDescription) {
         self.vars[@"meta-description"] = self.metaDescription;
     }
 
+    if (self.image) {
+        self.vars[@"image"] = self.image;
+    }
+    
     self.vars[@"sidebar"] = @"";
+
 
     return [super presentViewControllerWithRequest:request response:response];
 }
