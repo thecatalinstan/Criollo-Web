@@ -51,15 +51,19 @@ p, ul, li
 
 code
   font-family monotype-font-family
-  background-color criollo-lighter-gray
-  color criollo-dark-gray
   font-size 0.9em
   font-weight 400
-  padding 2px 5px
-  border 1px solid alpha(criollo-dark-gray, 0.25)
+  line-height 1.5em
+  text-align left
+  padding 1em
   border-radius 4px
-  margin-right 3px
+  margin-right 6px
   margin-left 3px
+  box-sizing border-box
+  overflow-scrolling touch
+  background-color criollo-lighter-gray
+  border 1px solid alpha(criollo-dark-gray, 0.25)
+  color criollo-dark-gray  
   
   @media screen and (prefers-color-scheme: dark)
     background-color criollo-dark-gray
@@ -68,6 +72,8 @@ code
     
   &.hljs
     color criollo-light-gray
+    padding @padding
+    box-sizing border-box
     
     @media screen and (prefers-color-scheme: dark)
       color criollo-medium-gray
@@ -252,15 +258,6 @@ body
 
       .hello-world
         padding 2em 1em
-
-        code
-          text-align left
-          font-family monotype-font-family
-          font-size 0.9em
-          line-height 1.5em
-          padding 1.5em 1em
-          box-sizing border-box
-          overflow-scrolling touch
 
     &.key-features
       whitespace wrap

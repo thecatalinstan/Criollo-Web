@@ -194,9 +194,12 @@ body.blog
         border-radius (@width / 2)
         margin-top (-@height / 2)
         margin-left (-@width / 2)
-        background-color alpha(criollo-darker-gray, 0.5)
         backdrop-filter blur(3px) brightness(150%)
         -webkit-backdrop-filter @backdrop-filter
+        background-color alpha(criollo-darker-gray, 0.5)
+        
+        @media screen and (prefers-color-scheme: dark)
+          background-color alpha(criollo-dark-gray, 0.5)
         
         @media screen and (max-width: phone-cutoff)
           width 120px
@@ -206,8 +209,11 @@ body.blog
           margin-left (-@width / 2)
           
         &:hover
-          background-color alpha(criollo-darker-gray, 0.3)
-          color criollo-orange
+          color criollo-light-orange
+          background-color alpha(criollo-dark-gray, 0.3)
+          
+          @media screen and (prefers-color-scheme: dark)
+            background-color alpha(criollo-medium-gray, 0.3)
 
       .image-upload-progress         
         display none
@@ -269,7 +275,7 @@ body.blog
       ul
         list-style-type disc
 
-      li
+      ol
         list-style-type decimal
 
       ul,
@@ -307,16 +313,7 @@ body.blog
           margin-bottom 0
 
       pre
-        margin 1.5em 0
-
-        code
-          text-align left
-          font-family monotype-font-family
-          font-size 0.9em
-          line-height 1.5em
-          padding 1.5em 1em
-          box-sizing border-box
-          overflow-scrolling touch
+        margin 1.5em 0        
           
     .article-content-editor
       font-size 0.85em
