@@ -174,9 +174,9 @@
     scaledSize.height = imageSize.height * scaleFactor;
     
     NSPoint thumbnailPoint = NSZeroPoint;
-    if (widthFactor < heightFactor) {
+    if (widthFactor > heightFactor) {
         thumbnailPoint.y = (targetHeight - scaledSize.height) * 0.5;
-    } else if (widthFactor > heightFactor) {
+    } else if (widthFactor < heightFactor) {
         thumbnailPoint.x = (targetWidth - scaledSize.width) * 0.5;
     }
     
