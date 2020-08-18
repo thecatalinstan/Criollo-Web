@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CWAPIResponse : JSONModel
 
 @property (nonatomic) BOOL success;
-@property (nonatomic, strong) id<Optional> data;
-@property (nonatomic, strong) CWAPIError<Optional> * error;
+@property (nonatomic, strong, nullable) id<Optional> data;
+@property (nonatomic, strong, nullable) CWAPIError<Optional> * error;
 
 - (instancetype)initWithSucces:(BOOL)success data:(id _Nullable)data error:(CWAPIError<Optional> * _Nullable)error NS_DESIGNATED_INITIALIZER;
 

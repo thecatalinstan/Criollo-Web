@@ -62,8 +62,7 @@
     self.vars[@"author-twitter"] = self.post.author.twitter ?: @"";
 
     NSMutableString* toolbar = [NSMutableString new];
-    CWUser *currentUser;
-    if ((currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]])) {
+    if ([CWUser authenticatedUserForToken:request.cookies[CWUserCookie]]) {
         [toolbar appendString:@"&nbsp;&nbsp;&middot;&nbsp;&nbsp;"];
         [toolbar appendFormat:@"<a href=\"%@/edit\">edit</a>", [self.post permalinkForRequest:request]];
         [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];

@@ -200,8 +200,7 @@ NS_ASSUME_NONNULL_END
         [controller.contents appendFormat:@"<p>%@</p>", @"There are no posts to show for now :("];
         
         // Check if there is a user and link to "add post"
-        CWUser* currentUser;
-        if ((currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]])) {
+        if ([CWUser authenticatedUserForToken:request.cookies[CWUserCookie]]) {
             [controller.contents appendFormat:@"<p><a href=\"%@%@\">Add a new post</a>", CWBlogPath, CWBlogNewPostPath];
         }
         

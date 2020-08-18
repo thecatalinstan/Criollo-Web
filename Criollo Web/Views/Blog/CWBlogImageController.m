@@ -47,11 +47,11 @@
         [self setupDirectory:_baseDirectory];
         
         CWBlogImageController * __weak controller = self;
-        _routeBlock = ^(CRRequest *request, CRResponse *response, CRRouteCompletionBlock completionHandler) {
+        _routeBlock = ^(CRRequest *request, CRResponse *response, CRRouteCompletionBlock completionHandler) { @autoreleasepool {
             NSString *imagePath = [controller pathForRequestedPath:request.query[@"0"]];
             CRStaticFileManager *manager = [CRStaticFileManager managerWithFileAtPath:imagePath options:CRStaticFileServingOptionsCache];
             manager.routeBlock(request, response, completionHandler);
-        };
+        }};
     }
     return self;
 }
@@ -83,18 +83,18 @@
     [CRApp logFormat:@"%@ Successfully set up the blog's images directory %@.", [NSDate date], path];
 }
 
-- (BOOL)preocessUploadedFile:(CRUploadedFile *)file image:(CWBlogImage *)image error:(NSError *__autoreleasing  _Nullable *)error {
-    // Move the main image
-    NSString *imagePath = [self pathForRequestedPath:image.publicPath.lastPathComponent];
-    [self setupDirectory:[NSURL fileURLWithPath:imagePath.stringByDeletingLastPathComponent]];
+- (BOOL)preocessUploadedFile:(CRUploadedFile *)file publicPath:(NSString *)publicPath imageSizeRepresentations:(NSArray<CWImageSizeRepresentation *> *)representations error:(NSError *__autoreleasing  _Nullable *)error {
+    NSString *path = [self pathForRequestedPath:publicPath.lastPathComponent];
+    [self setupDirectory:[NSURL fileURLWithPath:path.stringByDeletingLastPathComponent]];
     
-    if (![NSFileManager.defaultManager moveItemAtPath:file.temporaryFileURL.path toPath:imagePath error:error]) {
+    // Move the main image
+    if (![NSFileManager.defaultManager moveItemAtPath:file.temporaryFileURL.path toPath:path error:error]) {
         return NO;
     }
     
     // Iterate through the size representations and generate the appropriate files
-    for (CWImageSizeRepresentation *rep in image.sizeRepresentations) {
-        if (![self gnerateImageSizeRepresentation:rep forImageAtPath:imagePath error:error]) {
+    for (CWImageSizeRepresentation *rep in representations) {
+        if (![self gnerateImageSizeRepresentation:rep forImageAtPath:path error:error]) {
             return NO;
         }
     }

@@ -260,7 +260,7 @@
         }
         
         NSError *error;
-        if (![CWBlogImageController.sharedController preocessUploadedFile:request.files.allValues.firstObject image:image error:&error]) {
+        if (![CWBlogImageController.sharedController preocessUploadedFile:request.files.allValues.firstObject publicPath:image.publicPath imageSizeRepresentations:image.sizeRepresentations error:&error]) {
             [response setStatusCode:500 description:nil];
             [CWAPIController failWithError:error request:request response:response];
             return;

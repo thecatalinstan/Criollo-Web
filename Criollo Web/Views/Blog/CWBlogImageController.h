@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)pathForRequestedPath:(NSString *)requestedPath;
 
 - (BOOL)preocessUploadedFile:(CRUploadedFile *)file
-                       image:(CWBlogImage *)image
+                  publicPath:(NSString *)publicPath
+    imageSizeRepresentations:(NSArray<CWImageSizeRepresentation *> *)representations
                        error:(NSError * __autoreleasing *)error;
 
 - (BOOL)gnerateImageSizeRepresentation:(CWImageSizeRepresentation *)representation
