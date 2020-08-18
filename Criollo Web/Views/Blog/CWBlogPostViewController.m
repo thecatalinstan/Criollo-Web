@@ -12,6 +12,8 @@
 #import "CWBlog.h"
 #import "CWUser.h"
 #import "CWAPIController.h"
+#import "CWBlogImage.h"
+#import "CWImageSize.h"
 
 @implementation CWBlogPostViewController
 
@@ -49,6 +51,15 @@
         [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];
     }
     self.vars[@"toolbar"] = toolbar;
+    
+    CWImageSizeRepresentation *largeImage;
+    if ((largeImage = self.post.image.sizeRepresentations[CWImageSizeLabelLarge])) {
+        self.vars[@"article-image-class"] = @"";
+        self.vars[@"article-image-url"] = [largeImage permalinkForRequest:request];
+    } else {
+        self.vars[@"article-image-class"] = @"hidden";
+        self.vars[@"article-image-url"] = @"";
+    }
 
     return [super presentViewControllerWithRequest:request response:response];
 }
