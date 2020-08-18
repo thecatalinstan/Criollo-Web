@@ -6,10 +6,13 @@
 //  Copyright © 2020 Criollo.io. All rights reserved.
 //
 
+#import <AppKit/AppKit.h>
+
 #import "CWBlogImageController.h"
 #import "CWAppDelegate.h"
 #import "CWBlogImage.h"
 #import "CWImageSize.h"
+#import "CWBlog.h"
 
 @interface CRStaticFileManager : NSObject
 
@@ -92,9 +95,25 @@
         return NO;
     }
     
+    NSData *data;
+    if (!(data = [[NSData alloc] initWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:error])) {
+        return NO;
+    }
+    
+    NSImage *image;
+    if (!(image = [[NSImage alloc] initWithData:data])) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogInvalidImage userInfo:@{
+                NSLocalizedDescriptionKey: @"Unable to create image.",
+                NSURLErrorFailingURLStringErrorKey: [NSURL fileURLWithPath:path].absoluteString
+            }];
+        }
+        return NO;
+    }
+    
     // Iterate through the size representations and generate the appropriate files
     for (CWImageSizeRepresentation *rep in representations) {
-        if (![self gnerateImageSizeRepresentation:rep forImageAtPath:path error:error]) {
+        if (![self gnerateImageSizeRepresentation:rep forImage:image error:error]) {
             return NO;
         }
     }
@@ -102,12 +121,75 @@
     return YES;
 }
 
-- (BOOL)gnerateImageSizeRepresentation:(CWImageSizeRepresentation *)representation forImageAtPath:(NSString *)imagePath error:(NSError *__autoreleasing  _Nullable *)error  {
-    NSString *repPath = [self pathForRequestedPath:representation.publicPath.lastPathComponent];
-    if (![NSFileManager.defaultManager copyItemAtPath:imagePath toPath:repPath error:error]) {
+- (BOOL)gnerateImageSizeRepresentation:(CWImageSizeRepresentation *)representation forImage:(NSImage *)image error:(NSError *__autoreleasing  _Nullable *)error  {
+    // Resample the image
+    NSImage *scaledImage;
+    if (!(scaledImage = [self scaleImage:image toSize:NSMakeSize(representation.width, representation.height) error:error])) {
         return NO;
     }
+    
+    // Output to representation path
+    CGImageRef scaledImageRef = [scaledImage CGImageForProposedRect:NULL context:nil hints:nil];
+    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCGImage:scaledImageRef];
+    rep.size = scaledImage.size;
+    
+    NSData *data = [rep representationUsingType:NSJPEGFileType properties:@{
+        NSImageCompressionFactor: @(0.85),
+        NSImageProgressive: @YES,
+        NSImageFallbackBackgroundColor: NSColor.whiteColor
+    }];
+    
+    NSString *repPath = [self pathForRequestedPath:representation.publicPath.lastPathComponent];
+    if (![data writeToFile:repPath options:NSDataWritingAtomic error:error]) {
+        return NO;
+    }
+    
     return YES;
+}
+
+- (NSImage *)scaleImage:(NSImage *)image toSize:(NSSize)targetSize error:(NSError *__autoreleasing *)error {
+    NSSize imageSize = image.size;
+    CGFloat width  = imageSize.width;
+    CGFloat height = imageSize.height;
+    
+    if (width == 0 || height == 0) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogInvalidImage userInfo:@{
+                NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The image size is ivalid. %@", NSStringFromSize(imageSize)]
+            }];
+        }
+        return nil;
+    }
+    
+    CGFloat targetWidth  = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+    
+    CGFloat widthFactor  = targetSize.width / width;
+    CGFloat heightFactor = targetSize.height / height;
+    
+    CGFloat scaleFactor  = MAX(widthFactor, heightFactor);
+    
+    NSSize scaledSize = NSZeroSize;
+    scaledSize.width = imageSize.width * scaleFactor;
+    scaledSize.height = imageSize.height * scaleFactor;
+    
+    NSPoint thumbnailPoint = NSZeroPoint;
+    if (widthFactor < heightFactor) {
+        thumbnailPoint.y = (targetHeight - scaledSize.height) * 0.5;
+    } else if (widthFactor > heightFactor) {
+        thumbnailPoint.x = (targetWidth - scaledSize.width) * 0.5;
+    }
+    
+    NSRect thumbnailRect;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size = scaledSize;
+    
+    NSImage *result = [[NSImage alloc] initWithSize:targetSize];
+    [result lockFocus];
+    [image drawInRect:thumbnailRect fromRect:NSZeroRect operation:NSCompositingOperationSourceOver fraction:1.0];
+    [result unlockFocus];
+    
+    return result;
 }
 
 @end

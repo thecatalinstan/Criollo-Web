@@ -27,10 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
     imageSizeRepresentations:(NSArray<CWImageSizeRepresentation *> *)representations
                        error:(NSError * __autoreleasing *)error;
 
-- (BOOL)gnerateImageSizeRepresentation:(CWImageSizeRepresentation *)representation
-                        forImageAtPath:(NSString *)imagePath
-                                 error:(NSError * __autoreleasing *)error;
-
 @end
 
 NS_ASSUME_NONNULL_END

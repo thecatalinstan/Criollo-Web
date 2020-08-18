@@ -14,6 +14,7 @@
 #define CWBlogUnknownImage          1002
 #define CWBlogUnknownTag            1003
 #define CWBlogUploadFailed          1004
+#define CWBlogInvalidImage          1005
 #define CWBlogEmptyPostContent      1050
 #define CWBlogTwitterError          1100
 #define CWBlogUnknownError          1999
