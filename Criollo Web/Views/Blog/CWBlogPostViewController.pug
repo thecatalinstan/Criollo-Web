@@ -8,8 +8,9 @@ article.article(id="article-{{id}}")
       span.article-date {{publishedDate}}
       span.article-toolbar {{toolbar}}
   .article-content.content 
-    .article-image-container(class="{{article-image-class}}")
-      .article-image(style="background-image:url({{article-image-url}})")
-    p.excerpt 
+    figure.article-thumbnail(class="{{article-thumbnail-class}}")
+      img.article-thumbnail-image(src="{{article-thumbnail-url}}",width="{{article-thumbnail-width}}",height="{{article-thumbnail-height}}")
+    p.excerpt(class="{{article-excerpt-class}}") 
       span.text {{content}} ...
       a.read-more(href="{{permalink}}") continue reading
+    br(style="clear:both")
