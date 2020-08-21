@@ -10,6 +10,8 @@
 
 @interface NSString (URLUtils)
 
++ (nonnull NSString *)randomURLFriendlyHandle;
+
 - (nonnull NSString *)URLFriendlyHandle;
 
 @end

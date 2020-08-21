@@ -1,0 +1,22 @@
+[
+    {
+        "label":"thumb",
+        "width":300,
+        "height":200
+    },
+    {
+        "label":"medium",
+        "width":600,
+        "height":400
+    },
+    {
+        "label":"large",
+        "width":1200,
+        "height":800
+    },
+    {
+        "label":"share-image",
+        "width":1024,
+        "height":1024
+    }
+]

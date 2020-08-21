@@ -47,10 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CRServer *server;
 @property (nonatomic, strong) CWBlog* blog;
 
-- (void)startServer;
-- (void)setupBaseDirectory;
-- (void)setupBlog;
-
 @end
 
 NS_ASSUME_NONNULL_END
@@ -58,7 +54,7 @@ NS_ASSUME_NONNULL_END
 @implementation CWAppDelegate
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
+    [NSUserDefaults.standardUserDefaults registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -66,35 +62,17 @@ NS_ASSUME_NONNULL_END
     [self setupBlog];
 
     // Setup server
-    BOOL isFastCGI = [[NSUserDefaults standardUserDefaults] boolForKey:@"FastCGI"];
+    BOOL isFastCGI = [NSUserDefaults.standardUserDefaults boolForKey:@"FastCGI"];
     Class serverClass = isFastCGI ? [CRFCGIServer class] : [CRHTTPServer class];
     self.server = [[serverClass alloc] initWithDelegate:self];
 
     // Setup HTTPS
-    if ( !isFastCGI ) {
-        BOOL isSecure = [[NSUserDefaults standardUserDefaults] boolForKey:@"Secure"];
-        if ( isSecure ) {
-            NSString *certificatePath = [[CWAppDelegate baseDirectory].path stringByAppendingPathComponent:@"criollo_io.pem"];
-            NSString *privateKeyPath = [[CWAppDelegate baseDirectory].path stringByAppendingPathComponent:@"criollo_io.key"];
-            if ( [[NSFileManager defaultManager] fileExistsAtPath:certificatePath] && [[NSFileManager defaultManager] fileExistsAtPath:privateKeyPath]  ) {
-                ((CRHTTPServer *)self.server).isSecure = YES;
-                ((CRHTTPServer *)self.server).certificatePath = certificatePath;
-                ((CRHTTPServer *)self.server).privateKeyPath = privateKeyPath;
-            } else {
-                [CRApp logErrorFormat:@"%@ HTTPS requested, but certificate and/or private key files were not found. Defaulting to HTTP.", [NSDate date]];
-                if ( ![[NSFileManager defaultManager] fileExistsAtPath:certificatePath] ) {
-                    [CRApp logErrorFormat:@"%@ Certificate file not found: %@", [NSDate date], certificatePath];
-                }
-                if ( ![[NSFileManager defaultManager] fileExistsAtPath:privateKeyPath] ) {
-                    [CRApp logErrorFormat:@"%@ Private key file not found: %@", [NSDate date], privateKeyPath];
-                }
-                ((CRHTTPServer *)self.server).isSecure = NO;
-            }
-        }
+    if (!isFastCGI && [NSUserDefaults.standardUserDefaults boolForKey:@"Secure"]) {
+        [self setupHTTPS];
     }
 
-    portNumber = [[[NSUserDefaults standardUserDefaults] objectForKey:@"Port"] integerValue] ? : DefaultPortNumber;
-    NSString * baseURLString = [[NSUserDefaults standardUserDefaults] objectForKey:@"BaseURL"];
+    portNumber = [[NSUserDefaults.standardUserDefaults objectForKey:@"Port"] integerValue] ? : DefaultPortNumber;
+    NSString * baseURLString = [NSUserDefaults.standardUserDefaults objectForKey:@"BaseURL"];
     if ( !baseURLString ) {
         NSString* address = [CSSystemInfoHelper sharedHelper].IPAddress;
         baseURLString = [NSString stringWithFormat:@"http%@://%@:%lu", isFastCGI ? @"" : (((CRHTTPServer *)self.server).isSecure ? @"s" : @"" ),address ? : @"127.0.0.1", (unsigned long)portNumber];
@@ -168,49 +146,71 @@ NS_ASSUME_NONNULL_END
 }
 
 - (CRApplicationTerminateReply)applicationShouldTerminate:(CRApplication *)sender {
-    static CRApplicationTerminateReply reply;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        // Delay the shutdown for a bit
-        reply = CRTerminateLater;
-        // Close server connections
-        [CRApp logFormat:@"%@ Closing server connections.", [NSDate date]];
-        [self.server closeAllConnections:^{
-            // Stop the server and close the socket cleanly
-            [CRApp logFormat:@"%@ Sutting down server.", [NSDate date]];
-            [self.server stopListening];
-            reply = CRTerminateNow;
-        }];
-    });
-    return reply;
+    [CRApp logFormat:@"%@ Closing server connections.", [NSDate date]];
+    [self.server closeAllConnections:^{
+        [sender replyToApplicationShouldTerminate:CRTerminateNow];
+    }];
+    return CRTerminateLater;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [CRApp logFormat:@"%@ Sutting down server.", [NSDate date]];
+    [self.server stopListening];
 }
 
 - (void)startServer {
-
     NSError *serverError;
-    if ( [self.server startListening:&serverError portNumber:portNumber] ) {
-        [CRApp logFormat:@"%@ Started %@HTTP server at %@", [NSDate date], ((CRHTTPServer *)self.server).isSecure ? @"secure " : @"", baseURL];
-
-        // Get the list of paths
-        NSArray<NSString *> * routePaths = [self.server valueForKeyPath:@"routes.path"];
-        NSMutableArray<NSURL *> *paths = [NSMutableArray array];
-        [routePaths enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ( [obj isKindOfClass:[NSNull class]] ) {
-                return;
-            }
-            [paths addObject:[NSURL URLWithString:obj relativeToURL:baseURL]];
-        }];
-        NSArray<NSURL*>* sortedPaths =[paths sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"absoluteString" ascending:YES]]];
-
-        [CRApp logFormat:@"%@ Available paths are:", [NSDate date]];
-        [sortedPaths enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [CRApp logFormat:@"%@ * %@", [NSDate date], obj.absoluteString];
-        }];
-
-    } else {
+    if (![self.server startListening:&serverError portNumber:portNumber]) {
         [CRApp logErrorFormat:@"%@ Failed to start HTTP server. %@", [NSDate date], serverError.localizedDescription];
         [CRApp terminate:nil];
+        return;
     }
+
+    [CRApp logFormat:@"%@ Started %@HTTP server at %@", [NSDate date], ((CRHTTPServer *)self.server).isSecure ? @"secure " : @"", baseURL];
+    [CRApp logFormat:@"%@ Available paths are:", [NSDate date]];
+    [self.availablePaths enumerateObjectsUsingBlock:^(NSURL * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [CRApp logFormat:@"%@ * %@", [NSDate date], obj.absoluteString];
+    }];
+}
+
+- (NSArray<NSURL *> *)availablePaths {
+    // Get the list of paths
+    NSArray<NSString *> * routePaths = [self.server valueForKeyPath:@"routes.path"];
+    NSMutableArray<NSURL *> *paths = [NSMutableArray array];
+    [routePaths enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( [obj isKindOfClass:[NSNull class]] ) {
+            return;
+        }
+        [paths addObject:[NSURL URLWithString:obj relativeToURL:baseURL]];
+    }];
+    
+    return [paths sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"absoluteString" ascending:YES]]];
+}
+
+- (void)setupHTTPS {
+    NSString *certificatePath = [CWAppDelegate.baseDirectory.path stringByAppendingPathComponent:@"criollo_io.pem"];
+    NSString *privateKeyPath = [CWAppDelegate.baseDirectory.path stringByAppendingPathComponent:@"criollo_io.key"];
+
+    NSFileManager *manager = [NSFileManager defaultManager];
+    BOOL haveCertificate = [manager fileExistsAtPath:certificatePath];
+    BOOL havePrivateKey = [manager fileExistsAtPath:privateKeyPath];
+    
+    CRHTTPServer *server = (CRHTTPServer *)self.server;
+    if (!haveCertificate || !havePrivateKey) {
+        [CRApp logErrorFormat:@"%@ HTTPS requested, but certificate and/or private key files were not found. Defaulting to HTTP.", [NSDate date]];
+        if (!haveCertificate) {
+            [CRApp logErrorFormat:@"%@ Certificate file not found: %@", [NSDate date], certificatePath];
+        }
+        if (!havePrivateKey) {
+            [CRApp logErrorFormat:@"%@ Private key file not found: %@", [NSDate date], privateKeyPath];
+        }
+        server.isSecure = NO;
+        return;
+    }
+        
+    server.certificatePath = certificatePath;
+    server.privateKeyPath = privateKeyPath;
+    server.isSecure = YES;
 }
 
 - (void)setupBaseDirectory {
@@ -250,7 +250,6 @@ NS_ASSUME_NONNULL_END
     } else {
         [CRApp logFormat:@"%@ Successfully set up blog.", [NSDate date]];
     }
-    
 }
 
 #if LogConnections

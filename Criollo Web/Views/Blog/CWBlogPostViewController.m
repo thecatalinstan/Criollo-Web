@@ -12,6 +12,8 @@
 #import "CWBlog.h"
 #import "CWUser.h"
 #import "CWAPIController.h"
+#import "CWBlogImage.h"
+#import "CWImageSize.h"
 
 @implementation CWBlogPostViewController
 
@@ -21,7 +23,7 @@
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil post:(CWBlogPost *)post {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil prefix:nil];
-    if ( self != nil ) {
+    if (self != nil) {
         _post = post;
     }
     return self;
@@ -43,13 +45,24 @@
     self.vars[@"content"] = self.post.excerpt ?: ( self.post.renderedContent ?: @"" );
 
     NSMutableString *toolbar = [[NSMutableString alloc] initWithCapacity:255];
-    CWUser *currentUser;;
-    if ((currentUser = [CWUser authenticatedUserForToken:request.cookies[CWUserCookie]])) {
+    if ([CWUser authenticatedUserForToken:request.cookies[CWUserCookie]]) {
         [toolbar appendString:@"&nbsp;&nbsp;&middot;&nbsp;&nbsp;"];
         [toolbar appendFormat:@"<a href=\"%@/edit\">edit</a>", [self.post permalinkForRequest:request]];
         [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];
     }
     self.vars[@"toolbar"] = toolbar;
+    
+    CWImageSizeRepresentation *largeImage;
+    if ((largeImage = self.post.image.sizeRepresentations[CWImageSizeLabelThumb])) {
+        self.vars[@"article-thumbnail-class"] = @"";
+        self.vars[@"article-excerpt-class"] = @"";
+    } else {
+        self.vars[@"article-thumbnail-class"] = @"hidden";
+        self.vars[@"article-excerpt-class"] = @"no-thumb";
+    }
+    self.vars[@"article-thumbnail-url"] = [largeImage permalinkForRequest:request];
+    self.vars[@"article-thumbnail-width"] = [NSString stringWithFormat:@"%lu", (unsigned long)largeImage.width];
+    self.vars[@"article-thumbnail-height"] = [NSString stringWithFormat:@"%lu", (unsigned long)largeImage.height];
 
     return [super presentViewControllerWithRequest:request response:response];
 }

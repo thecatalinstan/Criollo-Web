@@ -11,14 +11,20 @@
 
 #define CWBlogErrorDomain           @"CWBlogErrorDomain"
 #define CWBlogUnknownAuthor         1001
-#define CWBlogEmptyPostContent      1002
-#define CWBlogTwitterError          1003
+#define CWBlogUnknownImage          1002
+#define CWBlogUnknownTag            1003
+#define CWBlogUploadFailed          1004
+#define CWBlogInvalidImage          1005
+#define CWBlogEmptyPostContent      1050
+#define CWBlogTwitterError          1100
 #define CWBlogUnknownError          1999
 
 #define CWBlogPath                  @"/blog"
 #define CWBlogNewPostPath           @"/new"
 #define CWBlogArchivePath           @"/archive"
 #define CWBlogTagPath               @"/tag"
+#define CWBlogImagePath             @"/image"
+#define CWBlogSingleImagePath       @"/image/[A-Za-z0-9]{16}_*[0-9]*x*[0-9]*.[A-Za-z]{3,4}"
 #define CWBlogAuthorPath            @"/author"
 #define CWBlogFeedPath              @"/feed"
 #define CWBlogArchiveYearPath       @"/[0-9]{4}"

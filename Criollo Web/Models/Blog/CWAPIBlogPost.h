@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class CWAPIBlogAuthor, CWAPIBlogTag;
+@class CWAPIBlogAuthor, CWAPIBlogTag, CWAPIBlogImage;
 
 @protocol CWAPIBlogTag
 @end
@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, strong) NSString<Optional> *renderedContent;
 @property (nullable, nonatomic, strong) NSString<Optional> *excerpt;
 @property (nullable, nonatomic, strong) CWAPIBlogAuthor<Optional> *author;
-@property (nullable, nonatomic, strong) NSArray<CWAPIBlogTag *><CWAPIBlogTag,Optional> *tags;
+@property (nullable, nonatomic, strong) NSArray<CWAPIBlogTag *><CWAPIBlogTag, Optional> *tags;
+@property (nullable, nonatomic, strong) CWAPIBlogImage<Optional> *image;
 @property (nonatomic, assign) BOOL published;
 
 @end

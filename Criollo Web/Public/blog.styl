@@ -130,22 +130,176 @@ body.blog
           &:focus
             outline none
 
+    .article-image
+      margin 1.5em auto
+      background-size cover
+      background-repeat no-repeat
+      background-position center
+      position relative
+      width 100%
+      // padding-top 44.64%
+      padding-top 56.25%
+      box-sizing border-box
+      border-radius 4px
+      background-color criollo-lighter-gray
+      border 1px solid criollo-light-gray
+      color criollo-dark-gray
+        
+      @media screen and (prefers-color-scheme: dark)
+        background-color criollo-dark-gray
+        border 1px solid criollo-darker-gray
+        color criollo-light-gray
+        
+      &.uploading        
+        
+        .image-overlay
+          opacity 1
+
+        .image-selector
+          display none
+          
+        .image-upload-progress
+          display block                
+
+      .image-overlay
+        display block
+        position absolute
+        top 0
+        right 0
+        bottom 0
+        left 0
+        width 100%
+        height 100%
+        background-color alpha(criollo-medium-gray, 0.25)        
+        backdrop-filter blur(20px) brightness(60%)
+        -webkit-backdrop-filter @backdrop-filter
+        opacity 0
+        transition opacity 0.25s ease-in-out 0
+
+      .image-selector        
+        color criollo-lighter-gray
+        display flex
+        align-items center
+        justify-content center
+        text-align center
+        overflow hidden
+        cursor pointer
+        position absolute
+        box-sizing border-box
+        padding 10px
+        top 50%
+        left 50%
+        width 150px
+        height @width
+        border-radius (@width / 2)
+        margin-top (-@height / 2)
+        margin-left (-@width / 2)
+        backdrop-filter blur(3px) brightness(150%)
+        -webkit-backdrop-filter @backdrop-filter
+        background-color alpha(criollo-darker-gray, 0.5)
+        
+        @media screen and (prefers-color-scheme: dark)
+          background-color alpha(criollo-dark-gray, 0.5)
+        
+        @media screen and (max-width: phone-cutoff)
+          width 120px
+          height @width
+          border-radius (@width / 2)
+          margin-top (-@height / 2)
+          margin-left (-@width / 2)
+          
+        &:hover
+          color criollo-light-orange
+          background-color alpha(criollo-dark-gray, 0.3)
+          
+          @media screen and (prefers-color-scheme: dark)
+            background-color alpha(criollo-medium-gray, 0.3)
+
+      .image-upload-progress         
+        display none
+        overflow hidden
+        cursor default
+        position absolute
+        top 50%
+        left 50%
+        width 60%
+        height 30px
+        margin-top (-@height / 2)
+        margin-left (-@width / 2)        
+        box-sizing border-box
+        border-radius 4px                
+        color criollo-lighter-gray        
+        border 1px solid criollo-medium-gray
+        background-color alpha(criollo-darker-gray, 0.25)
+          
+        @media screen and (prefers-color-scheme: dark)
+          color criollo-light-gray
+          border 1px solid criollo-dark-gray
+          background-color alpha(criollo-lighter-gray, 0.25)
+          
+        @media screen and (max-width: phone-cutoff)
+          height 20px
+          
+        .progress-indicator
+          cursor default
+          width 20%
+          height 30px
+          font-size 0.7em
+          text-align center
+          white-space nowrap
+          text-overflow ellipsis
+          overflow hidden
+          box-sizing border-box
+          padding 0 10px
+          line-height (@height - 2px)
+          color criollo-light-gray
+          background-color criollo-orange
+          
+          @media screen and (max-width: phone-cutoff)
+            font-size 0.6em
+            height 20px
+            line-height (@height - 2px)
+          
+          
     .article-content
       margin 1.5em auto
-      // overflow hidden
       text-overflow ellipsis
       
       @media screen and (max-width: phone-cutoff)
         margin-top 0
+        
+      figure
+        margin-top 0.35em
+        
+        &.article-thumbnail
+          display inline
+          float left          
+          width 300px
+          height 200px
+          overflow hidden
+          border-radius 4px
+          clear none
+          vertical-align top
+        
+      img
+        &.article-thumbnail-image          
+          width 100%
+          height 100%
       
-      p.excerpt
-        .text
-          margin-right 0.4em
+      p
+        &.excerpt
+          padding-left calc(300px + 2.25em)
+          
+          &.no-thumb
+            padding-left 0
+
+          .text
+            margin-right 0.4em
         
       ul
         list-style-type disc
 
-      li
+      ol
         list-style-type decimal
 
       ul,
@@ -183,16 +337,7 @@ body.blog
           margin-bottom 0
 
       pre
-        margin 1.5em 0
-
-        code
-          text-align left
-          font-family monotype-font-family
-          font-size 0.9em
-          line-height 1.5em
-          padding 1.5em 1em
-          box-sizing border-box
-          overflow-scrolling touch
+        margin 1.5em 0        
           
     .article-content-editor
       font-size 0.85em

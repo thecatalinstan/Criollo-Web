@@ -6,6 +6,8 @@ article.article.single(id="article-{{id}}",data-post="{{id}}")
         a(href="{{author-url}}") {{author}}
       span.article-date {{publishedDate}}
       span.article-toolbar {{toolbar}}
+  .article-image-container.content(class="{{article-image-class}}")
+    .article-image(style="background-image:url({{article-image-url}})")
   .article-content.content {{content}}
   footer.article-footer.content
     .sharing

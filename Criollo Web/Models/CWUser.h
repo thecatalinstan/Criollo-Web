@@ -22,12 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString<Ignore> * tokenHash;
 @property (nonatomic, strong) NSString<Optional> * twitter;
 
-@property (class, readonly, strong) NSArray<CWUser *> *allUsers;
+@property (class, readonly, strong, nullable) NSArray<CWUser *> *allUsers;
 
 + (nullable CWUser *)authenticateWithUsername:(NSString * _Nullable)username password:(NSString * _Nullable)password;
 
 + (NSString *)authenticationTokenForUser:(CWUser *)user;
-+ (CWUser *)authenticatedUserForToken:(NSString *)token;
++ (nullable CWUser *)authenticatedUserForToken:(NSString *)token;
 
 + (NSDictionary *)debugLoginInfo:(NSString *)token;
 
