@@ -115,9 +115,14 @@
         }
                 
         RLMRealm *realm = [CWBlog realm];
+        
         [realm beginWriteTransaction];
         
-        CWBlogPost* post = (CWBlogPost *)receivedPost.schemaObject;
+        // Save the current image uid
+        CWBlogImage *previousImage = [CWBlogPost getByUID:receivedPost.uid].image;
+        
+        // Update the post
+        CWBlogPost *post = (CWBlogPost *)receivedPost.schemaObject;
         post.renderedContent = renderedContent;
         post.excerpt = excerpt;
         post.author = author;
@@ -138,6 +143,20 @@
         if (![realm commitWriteTransaction:&error]) {
             [CWAPIController failWithError:error request:request response:response];
             return;
+        }
+        
+        // Delete the old image and its representations
+        if (previousImage) {
+            NSString *uid = previousImage.uid, *publicPath = previousImage.publicPath;
+            NSArray<CWImageSizeRepresentation *> *representations = previousImage.sizeRepresentations;
+            
+            [realm beginWriteTransaction];
+            [realm deleteObject:previousImage];
+            if (![realm commitWriteTransaction:&error]) {
+                [CRApp logErrorFormat:@"%@ Unable to delete image %@. %@", NSDate.date, uid, error.localizedDescription];
+            } else if (![CWBlogImageController.sharedController deleteImageAtPublicPath:publicPath imageSizeRepresentations:representations error:&error]) {
+                [CRApp logErrorFormat:@"%@ Unable to delete image files %@. %@", NSDate.date, publicPath, error.localizedDescription];
+            }
         }
         
         [CWAPIController succeedWithPayload:post.modelObject.toDictionary request:request response:response];

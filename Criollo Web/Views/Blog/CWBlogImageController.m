@@ -121,6 +121,42 @@
     return YES;
 }
 
+- (BOOL)deleteImageAtPublicPath:(NSString *)publicPath imageSizeRepresentations:(NSArray<CWImageSizeRepresentation *> *)representations error:(NSError *__autoreleasing  _Nullable *)error {
+    NSString *mainImagePath = [self pathForRequestedPath:publicPath.lastPathComponent];
+    
+    NSMutableArray<NSString *> *pathsToDelete = [NSMutableArray arrayWithCapacity:representations.count + 1];
+    pathsToDelete[0] = mainImagePath;
+    for (CWImageSizeRepresentation *rep in representations) {
+        NSString *repImagePath;
+        if(!(repImagePath = [self pathForRequestedPath:rep.publicPath.lastPathComponent])) {
+            continue;
+        }
+        [pathsToDelete addObject:repImagePath];
+    }
+        
+    // Delete the main image file and size representations
+    for (NSString *path in pathsToDelete) {
+        if (![NSFileManager.defaultManager removeItemAtPath:path error:error]) {
+            return NO;
+        }
+    }
+       
+    // Delete folder if empty
+    NSString *imageDir = mainImagePath.stringByDeletingLastPathComponent;
+    NSArray<NSString *> *remainingFilesImageDir;
+    if (!(remainingFilesImageDir = [NSFileManager.defaultManager contentsOfDirectoryAtPath:imageDir error:error])) {
+        return NO;
+    }
+    
+    if (NSNotFound == ([remainingFilesImageDir indexOfObjectPassingTest:^BOOL(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return [obj.pathExtension localizedCaseInsensitiveCompare:@"jpg"] == NSOrderedSame;
+    }])) {
+        return [NSFileManager.defaultManager removeItemAtPath:imageDir error:error];
+    }
+        
+    return YES;
+}
+
 - (BOOL)gnerateImageSizeRepresentation:(CWImageSizeRepresentation *)representation forImage:(NSImage *)image error:(NSError *__autoreleasing  _Nullable *)error  {
     // Resample the image
     NSImage *scaledImage;
