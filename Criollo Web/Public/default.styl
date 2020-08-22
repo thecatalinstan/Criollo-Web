@@ -191,8 +191,13 @@ body
           max-height 150px
 
       h2
+        margin-right 2em
+        margin-left @margin-right
+        
         @media screen and (max-width: phone-cutoff)
           font-size 1.5em
+          margin-right 0
+          margin-left @margin-right
 
       h1, h2
         color criollo-lighter-gray
