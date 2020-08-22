@@ -46,6 +46,7 @@
 		ADB5AF9B1D49661A003C14B6 /* CWAPIBlogTag.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF931D49661A003C14B6 /* CWAPIBlogTag.m */; };
 		ADB5AF9C1D49661A003C14B6 /* CWModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF951D49661A003C14B6 /* CWModel.m */; };
 		ADB5AF9D1D49661A003C14B6 /* CWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = ADB5AF981D49661A003C14B6 /* CWUser.m */; settings = {COMPILER_FLAGS = "-Wno-incomplete-umbrella"; }; };
+		ADBC83D824F1908A009ED4D7 /* CWGithubHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = ADBC83D724F1908A009ED4D7 /* CWGithubHelper.m */; };
 		ADD294851CB936BC006458AF /* CWBlogPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD294841CB936BC006458AF /* CWBlogPostViewController.m */; };
 		ADD5F4A71CCC3908006019FF /* app.js in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */; };
@@ -199,6 +200,8 @@
 		ADB5AF971D49661A003C14B6 /* CWUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUser.h; sourceTree = "<group>"; };
 		ADB5AF981D49661A003C14B6 /* CWUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUser.m; sourceTree = "<group>"; };
 		ADB9D1651CE5C72A002F35B5 /* Criollo Web.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Criollo Web.entitlements"; sourceTree = "<group>"; };
+		ADBC83D624F1908A009ED4D7 /* CWGithubHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWGithubHelper.h; sourceTree = "<group>"; };
+		ADBC83D724F1908A009ED4D7 /* CWGithubHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWGithubHelper.m; sourceTree = "<group>"; };
 		ADC098871C90F6D4009CC72F /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = Readme.md; path = ../Readme.md; sourceTree = "<group>"; };
 		ADD294831CB936BC006458AF /* CWBlogPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWBlogPostViewController.h; path = Blog/CWBlogPostViewController.h; sourceTree = "<group>"; };
 		ADD294841CB936BC006458AF /* CWBlogPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWBlogPostViewController.m; path = Blog/CWBlogPostViewController.m; sourceTree = "<group>"; };
@@ -462,6 +465,8 @@
 				ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */,
 				ADDF76861D8D4C3F008CD497 /* CWSitemapController.h */,
 				ADDF76871D8D4C3F008CD497 /* CWSitemapController.m */,
+				ADBC83D624F1908A009ED4D7 /* CWGithubHelper.h */,
+				ADBC83D724F1908A009ED4D7 /* CWGithubHelper.m */,
 			);
 			path = "Criollo Web";
 			sourceTree = "<group>";
@@ -707,6 +712,7 @@
 				AD5F02231CE0BC3500D810B6 /* CWBlogViewController.m in Sources */,
 				ADB5AF991D49661A003C14B6 /* CWAPIBlogAuthor.m in Sources */,
 				ADD680031C6CBEC600FC41EE /* main.m in Sources */,
+				ADBC83D824F1908A009ED4D7 /* CWGithubHelper.m in Sources */,
 				ADB5AF9A1D49661A003C14B6 /* CWAPIBlogPost.m in Sources */,
 				4A52F6D324E2C58C00C3ABF3 /* CWTwitterConfiguration.m in Sources */,
 				AD5F02201CE0936000D810B6 /* CWLayoutViewController.m in Sources */,

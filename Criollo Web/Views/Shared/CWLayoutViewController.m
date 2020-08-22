@@ -9,6 +9,7 @@
 #import "CWLayoutViewController.h"
 #import "CWAppDelegate.h"
 #import "CWBlog.h"
+#import "CWGithubHelper.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,10 +35,10 @@ NS_ASSUME_NONNULL_END
     self.vars[@"image"] = self.vars[@"image"] ? : [NSURL URLWithString:[NSString stringWithFormat:@"%@/criollo-icon-square-padded.png", CWStaticDirPath] relativeToURL:CWAppDelegate.baseURL].absoluteString;
 
     // These vars are not overriden
-    self.vars[@"github-url"] = CWGitHubURL;
+    self.vars[@"github-url"] = CWAppDelegate.githubRepo.htmlUrl;
     self.vars[@"criollo-web-github-url"] = CWWebGitHubURL;
     self.vars[@"static-dir"] = CWStaticDirPath;
-    self.vars[@"criollo-ver"] = [CWAppDelegate criolloVersion];
+    self.vars[@"criollo-ver"] = CWAppDelegate.githubRelease.name;
     self.vars[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
     self.vars[@"etag"] = [CWAppDelegate ETag];
     self.vars[@"redirect"] = request.query[@"redirect"] ? : @"";

@@ -8,7 +8,7 @@
 
 #import <Criollo/Criollo.h>
 
-@class CWBlog;  
+@class CWGithubRepo, CWGithubRelease;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,21 +23,22 @@ FOUNDATION_EXPORT NSString * const CWLoginPath;
 
 @interface CWAppDelegate : NSObject <CRApplicationDelegate>
 
-+ (NSURL *)baseDirectory;
-+ (NSURL *)baseURL;
-+ (dispatch_queue_t)backgroundQueue;
+@property (class, nonatomic, readonly, strong) dispatch_queue_t backgroundQueue;
 
-+ (NSString *)serverSpecString;
+@property (class, nonatomic, readonly, strong) NSURL *baseDirectory;
+@property (class, nonatomic, readonly, strong) NSURL *baseURL;
 
-+ (NSString *)processName;
-+ (NSString *)processRunningTime;
+@property (class, nonatomic, readonly, strong) NSString *serverSpecString;
+@property (class, nonatomic, readonly, strong) NSString *requestsServed;
 
-+ (NSString *)requestsServed;
+@property (class, nonatomic, readonly, strong) NSString *processName;
+@property (class, nonatomic, readonly, strong) NSString *processRunningTime;
+@property (class, nonatomic, readonly, strong) NSString *bundleVersion;
 
-+ (NSString *)criolloVersion;
-+ (NSString *)bundleVersion;
+@property (class, nonatomic, readonly, strong) NSString *ETag;
 
-+ (NSString *)ETag;
+@property (class, nonatomic, readonly, strong) CWGithubRepo *githubRepo;
+@property (class, nonatomic, readonly, strong) CWGithubRelease *githubRelease;
 
 @end
 

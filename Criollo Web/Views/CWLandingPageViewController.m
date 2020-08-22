@@ -7,14 +7,14 @@
 //
 
 #import "CWLandingPageViewController.h"
-
-NS_ASSUME_NONNULL_BEGIN
-@interface CWLandingPageViewController ()
-
-
-@end
-NS_ASSUME_NONNULL_END
+#import "CWAppDelegate.h"
+#import "CWGithubHelper.h"
 
 @implementation CWLandingPageViewController
+
+- (NSString *)presentViewControllerWithRequest:(CRRequest *)request response:(CRResponse *)response {
+    self.vars[@"tagline"] = CWAppDelegate.githubRepo.desc ?: @"";
+    return [super presentViewControllerWithRequest:request response:response];
+}
 
 @end

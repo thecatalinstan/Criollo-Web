@@ -16,6 +16,7 @@
 #import "CWBlog.h"
 #import "CWAPIController.h"
 #import "CWSitemapController.h"
+#import "CWGithubHelper.h"
 
 NSNotificationName const CWRoutesChangedNotificationName = @"CWRoutesChangedNotification";
 NSString * const CWGitHubURL = @"https://github.com/thecatalinstan/Criollo";
@@ -35,10 +36,12 @@ static NSUInteger portNumber;
 static dispatch_queue_t backgroundQueue;
 static NSString *serverSpecString;
 static NSString *processName;
-static NSString *criolloVersion;
 static NSString *bundleVersion;
 static NSURL *baseDirectory;
 static NSString *ETag;
+static CWGithubRepo *githubRepo;
+static CWGithubRelease *githubRelease;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -60,6 +63,8 @@ NS_ASSUME_NONNULL_END
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [self setupBaseDirectory];
     [self setupBlog];
+    
+    [self setupGithubPolling];
 
     // Setup server
     BOOL isFastCGI = [NSUserDefaults.standardUserDefaults boolForKey:@"FastCGI"];
@@ -252,6 +257,34 @@ NS_ASSUME_NONNULL_END
     }
 }
 
+- (void)setupGithubPolling {
+    NSTimer *timer = [[NSTimer alloc] initWithFireDate:NSDate.date interval:3600 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        
+        NSError *error;
+        CWGithubHelper *helper = [CWGithubHelper new];
+
+        CWGithubRepo *repo;
+        if (!(repo = [helper fetchRepo:@"thecatalinstan/Criollo" error:&error])) {
+            [CRApp logErrorFormat:@"%@ Failed to get github repo details. %@", NSDate.date, error.localizedDescription];
+            return;
+        }
+        
+        githubRepo = repo;
+        [CRApp logFormat:@"%@ Successfully updated github repo info for %@", NSDate.date, githubRepo.fullName];
+        
+        CWGithubRelease *release;
+        if(!(release = [helper fetchLatestReleaseForRepo:githubRepo error:&error])) {
+            [CRApp logErrorFormat:@"%@ Failed to get release details. %@", NSDate.date, error.localizedDescription];
+            return;
+        }
+        
+        githubRelease = release;
+        [CRApp logFormat:@"%@ Successfully updated details for release %@.", NSDate.date, githubRelease.name];
+    }];
+    
+    [NSRunLoop.mainRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
+}
+
 #if LogConnections
 - (void)server:(CRServer *)server didAcceptConnection:(CRConnection *)connection {
     NSString* remoteAddress = connection.remoteAddress.copy;
@@ -295,9 +328,6 @@ NS_ASSUME_NONNULL_END
     
     NSBundle *bundle = [NSBundle mainBundle];
     bundleVersion = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-
-    NSBundle *criollo = [NSBundle bundleWithPath:[bundle.bundlePath.stringByStandardizingPath stringByAppendingPathComponent:@"Contents/Frameworks/Criollo.framework"]];
-    criolloVersion = [criollo objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     
     serverSpecString = [NSString stringWithFormat:@"%@, v%@ build %@", bundle.bundleIdentifier, [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [bundle objectForInfoDictionaryKey:@"CFBundleVersion"]];
     
@@ -330,10 +360,6 @@ NS_ASSUME_NONNULL_END
     return [NSString stringWithFormat:@"about %@", [CSLargeNumberFormatter stringFromNumber:@(requestsServed)]];
 }
 
-+ (NSString *)criolloVersion {
-    return criolloVersion;
-}
-
 + (NSString *)bundleVersion {
     return bundleVersion;
 }
@@ -352,6 +378,14 @@ NS_ASSUME_NONNULL_END
 
 + (dispatch_queue_t)backgroundQueue {
     return backgroundQueue;
+}
+
++ (CWGithubRepo *)githubRepo {
+    return githubRepo;
+}
+
++ (CWGithubRelease *)githubRelease {
+    return githubRelease;
 }
 
 @end
