@@ -1,7 +1,7 @@
 article.article(id="article-{{id}}")
   header.article-header.content 
     h2.article-title
-      a(href="{{permalink}}") {{title}}
+      a(href="{{permalink}}",title="{{title}}") {{title}}
     p.article-info Posted by
       span.article-author
         a(href="{{author-url}}") {{author}}
@@ -9,7 +9,8 @@ article.article(id="article-{{id}}")
       span.article-toolbar {{toolbar}}
   .article-content.content 
     figure.article-thumbnail(class="{{article-thumbnail-class}}")
-      img.article-thumbnail-image(src="{{article-thumbnail-url}}",width="{{article-thumbnail-width}}",height="{{article-thumbnail-height}}")
+      a(href="{{permalink}}")
+       img.article-thumbnail-image(src="{{article-thumbnail-url}}",width="{{article-thumbnail-width}}",height="{{article-thumbnail-height}}")
     p.excerpt(class="{{article-excerpt-class}}") 
       span.text {{content}} ...
       a.read-more(href="{{permalink}}") continue reading
