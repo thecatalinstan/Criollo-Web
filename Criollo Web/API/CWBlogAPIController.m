@@ -146,7 +146,7 @@
         }
         
         // Delete the old image and its representations
-        if (previousImage) {
+        if (previousImage && ![previousImage.uid isEqualToString:image.uid]) {
             NSString *uid = previousImage.uid, *publicPath = previousImage.publicPath;
             NSArray<CWImageSizeRepresentation *> *representations = previousImage.sizeRepresentations;
             
