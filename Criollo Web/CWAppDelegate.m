@@ -19,8 +19,7 @@
 #import "CWGithubHelper.h"
 
 NSNotificationName const CWRoutesChangedNotificationName = @"CWRoutesChangedNotification";
-NSString * const CWGitHubURL = @"https://github.com/thecatalinstan/Criollo";
-NSString * const CWWebGitHubURL = @"https://github.com/thecatalinstan/Criollo-Web";
+
 NSString * const CWStaticDirPath = @"/static";
 NSString * const CWLoginPath = @"/login";
 
@@ -41,6 +40,7 @@ static NSURL *baseDirectory;
 static NSString *ETag;
 static CWGithubRepo *githubRepo;
 static CWGithubRelease *githubRelease;
+static CWGithubRepo *webGithubRepo;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -259,27 +259,32 @@ NS_ASSUME_NONNULL_END
 
 - (void)setupGithubPolling {
     NSTimer *timer = [[NSTimer alloc] initWithFireDate:NSDate.date interval:3600 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        
         NSError *error;
         CWGithubHelper *helper = [CWGithubHelper new];
 
         CWGithubRepo *repo;
-        if (!(repo = [helper fetchRepo:@"thecatalinstan/Criollo" error:&error])) {
+        if ((repo = [helper fetchRepo:@"thecatalinstan/Criollo" error:&error])) {
+            githubRepo = repo;
+            [CRApp logFormat:@"%@ Successfully updated github repo info for %@", NSDate.date, githubRepo.fullName];
+            
+            CWGithubRelease *release;
+            if((release = [helper fetchLatestReleaseForRepo:githubRepo error:&error])) {
+                githubRelease = release;
+                [CRApp logFormat:@"%@ Successfully updated details for release %@.", NSDate.date, githubRelease.name];
+            } else {
+                [CRApp logErrorFormat:@"%@ Failed to get release details. %@", NSDate.date, error.localizedDescription];
+            }
+        } else {
             [CRApp logErrorFormat:@"%@ Failed to get github repo details. %@", NSDate.date, error.localizedDescription];
-            return;
         }
         
-        githubRepo = repo;
-        [CRApp logFormat:@"%@ Successfully updated github repo info for %@", NSDate.date, githubRepo.fullName];
-        
-        CWGithubRelease *release;
-        if(!(release = [helper fetchLatestReleaseForRepo:githubRepo error:&error])) {
-            [CRApp logErrorFormat:@"%@ Failed to get release details. %@", NSDate.date, error.localizedDescription];
-            return;
+        CWGithubRepo *webRepo;
+        if ((webRepo = [helper fetchRepo:@"thecatalinstan/Criollo-Web" error:&error])) {
+            webGithubRepo = webRepo;
+            [CRApp logFormat:@"%@ Successfully updated website github repo info for %@", NSDate.date, githubRepo.fullName];
+        } else {
+            [CRApp logErrorFormat:@"%@ Failed to get website github repo details. %@", NSDate.date, error.localizedDescription];
         }
-        
-        githubRelease = release;
-        [CRApp logFormat:@"%@ Successfully updated details for release %@.", NSDate.date, githubRelease.name];
     }];
     
     [NSRunLoop.mainRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
@@ -386,6 +391,10 @@ NS_ASSUME_NONNULL_END
 
 + (CWGithubRelease *)githubRelease {
     return githubRelease;
+}
+
++ (CWGithubRepo *)webGithubRepo {
+    return webGithubRepo;
 }
 
 @end

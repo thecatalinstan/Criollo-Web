@@ -14,9 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT NSNotificationName const CWRoutesChangedNotificationName;
 
-FOUNDATION_EXPORT NSString * const CWGitHubURL;
-FOUNDATION_EXPORT NSString * const CWWebGitHubURL;
-
 FOUNDATION_EXPORT NSString * const CWStaticDirPath;
 FOUNDATION_EXPORT NSString * const CWLoginPath;
 
@@ -39,6 +36,7 @@ FOUNDATION_EXPORT NSString * const CWLoginPath;
 
 @property (class, nonatomic, readonly, strong) CWGithubRepo *githubRepo;
 @property (class, nonatomic, readonly, strong) CWGithubRelease *githubRelease;
+@property (class, nonatomic, readonly, strong) CWGithubRepo *webGithubRepo;
 
 @end
 

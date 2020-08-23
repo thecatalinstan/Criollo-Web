@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_END
 
     // These vars are not overriden
     self.vars[@"github-url"] = CWAppDelegate.githubRepo.htmlUrl;
-    self.vars[@"criollo-web-github-url"] = CWWebGitHubURL;
+    self.vars[@"criollo-web-github-url"] = CWAppDelegate.webGithubRepo.htmlUrl;;
     self.vars[@"static-dir"] = CWStaticDirPath;
     self.vars[@"criollo-ver"] = CWAppDelegate.githubRelease.name;
     self.vars[@"criollo-web-ver"] = [CWAppDelegate bundleVersion];
