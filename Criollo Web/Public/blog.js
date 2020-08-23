@@ -97,6 +97,16 @@ const setupEditor = (postElement, post) => {
   }
   authorElement.innerHTML = authorDisplayName
 
+  const publishedDateElement = postElement.querySelector('span.article-date')
+  if (!post.publishedDate) {
+    const date  = new Date()
+    publishedDateElement.innerHTML = `, ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
+  }
+
+  const editLink = postElement.querySelector('span.article-toolbar a')
+  editLink.parentNode.removeChild(editLink.nextSibling)
+  editLink.parentNode.removeChild(editLink)
+
   // Edit the handle
   const handleContainer = document.createElement('div')
   handleContainer.className = 'article-handle-container'
