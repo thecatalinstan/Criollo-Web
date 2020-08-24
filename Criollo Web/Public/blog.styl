@@ -60,10 +60,13 @@ body.blog
           padding 0.07em 0.07em 0 0.07em
           border 1px solid criollo-light-gray
           
+            
+          
           @media screen and (prefers-color-scheme: dark)
             border 1px solid criollo-dark-gray
 
-          &.placeholder
+          &:empty:before
+            content attr(data-placeholder)        
             color criollo-light-gray
             
             @media screen and (prefers-color-scheme: dark)

@@ -48,32 +48,6 @@ const savePost = (post, success, failure) => {
   }, success, failure)
 }
 
-const addPlaceholder = (element, placeholder) => {
-  if (element.textContent.trim() == '') {
-    element.innerHTML = placeholder
-    element.classList.add('placeholder')
-  }
-}
-
-const removePlaceholder = (element, placeholder) => {
-  if (element.textContent.trim() == placeholder) {
-    element.innerHTML = ''
-    element.classList.remove('placeholder')
-  }
-}
-
-const setupPlaceholder = (element, placeholder) => {
-  addPlaceholder(element, placeholder)
-  // element.addEventListener('focus', removePlaceholder.bind(null, element, placeholder))
-  // element.addEventListener('blur', addPlaceholder.bind(null, element, placeholder))
-  element.addEventListener('keydown', removePlaceholder.bind(null, element, placeholder))
-  element.addEventListener('keyup', addPlaceholder.bind(null, element, placeholder))
-  element.addEventListener('click', (e) => {
-    element.focus()
-    element.select()
-  })
-}
-
 const autosize = (element) => {
   const scrollOffset = document.scrollingElement.scrollTop
   const minHeight = parseInt(window.getComputedStyle(element,null).getPropertyValue("min-height"), 10)   
@@ -98,6 +72,7 @@ const setupEditor = (postElement, post) => {
   // Set the title as editable
   const titleElement = postElement.querySelector('h1.article-title')
   titleElement.contentEditable = true
+  titleElement.dataset.placeholder = titlePlaceholder
   if (post.title) {
     titleElement.innerHTML = post.title
   }
@@ -105,7 +80,11 @@ const setupEditor = (postElement, post) => {
     e.preventDefault()
     document.execCommand('insertHTML', false, e.clipboardData.getData('text/plain'))
   })
-  setupPlaceholder(titleElement, titlePlaceholder)
+  titleElement.addEventListener('keyup', (e) => {
+    if (!e.target.textContent.trim().length) {
+      e.target.innerHTML = ''
+    }
+  })
 
   // Setup the post meta data (author and date)
   const authorElement = postElement.querySelector('span.article-author')
