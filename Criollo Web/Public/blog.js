@@ -100,9 +100,14 @@ const setupEditor = (postElement, post) => {
     publishedDateElement.innerHTML = `, ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
   }
 
-  const editLink = postElement.querySelector('span.article-toolbar a')
-  editLink.parentNode.removeChild(editLink.nextSibling)
-  editLink.parentNode.removeChild(editLink)
+  if (!post.uid) {
+    const toolbar = postElement.querySelector('span.article-toolbar')
+    toolbar.parentNode.removeChild(toolbar)    
+  } else {
+    const editLink = postElement.querySelector('span.article-toolbar a:first-of-type')
+    editLink.parentNode.removeChild(editLink.nextSibling)
+    editLink.parentNode.removeChild(editLink)    
+  }
 
   // Edit the handle
   const handleContainer = document.createElement('div')
