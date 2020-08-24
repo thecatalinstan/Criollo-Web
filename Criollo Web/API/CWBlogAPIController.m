@@ -79,15 +79,14 @@
         }
         
         NSString *renderedContent;
-        if (!(renderedContent = [CWBlog renderMarkdown:receivedPost.content error:&error])) {
+        if (receivedPost.content.length && !(renderedContent = [CWBlog renderMarkdown:receivedPost.content error:&error])) {
             [CWAPIController failWithError:error request:request response:response];
             return;
         }
         
         // Auto-generate the excerpt if there is none.
-        NSString *excerpt = receivedPost.excerpt;
-        if ([excerpt stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet].length == 0 &&
-            !(excerpt = [CWBlog excerptFromHTML:renderedContent error:&error])) {
+        NSString *excerpt = [receivedPost.excerpt stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+        if (renderedContent.length && !excerpt.length && !(excerpt = [CWBlog excerptFromHTML:renderedContent error:&error])) {
             [CWAPIController failWithError:error request:request response:response];
             return;
         }
@@ -106,21 +105,23 @@
         }
         
         CWBlogImage *image;
-        if (receivedPost.image.uid.length) {
-            if (!(image = [CWBlogImage getByUID:receivedPost.image.uid])) {
-                error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownImage userInfo:nil];
-                [CWAPIController failWithError:error request:request response:response];
-                return;
-            }
+        if (receivedPost.image.uid.length && !(image = [CWBlogImage getByUID:receivedPost.image.uid])) {
+            error = [NSError errorWithDomain:CWBlogErrorDomain code:CWBlogUnknownImage userInfo:nil];
+            [CWAPIController failWithError:error request:request response:response];
+            return;
         }
                 
         RLMRealm *realm = [CWBlog realm];
-        
         [realm beginWriteTransaction];
         
-        // Save the current image uid
-        CWBlogImage *previousImage = [CWBlogPost getByUID:receivedPost.uid].image;
-        
+        CWBlogPost *previousPost;
+        CWBlogImage *previousImage;
+        NSString *previousHandle;
+        if (receivedPost.uid.length && (previousPost = [CWBlogPost getByUID:receivedPost.uid])) {
+            previousImage = previousPost.image;
+            previousHandle = previousPost.handle;
+        }
+                
         // Update the post
         CWBlogPost *post = (CWBlogPost *)receivedPost.schemaObject;
         post.renderedContent = renderedContent;
@@ -133,6 +134,8 @@
         }
         if (!post.handle.length) {
             post.handle = post.title.URLFriendlyHandle;
+        } else if (previousHandle && ![post.handle isEqualToString:previousHandle]) {
+            post.handle = post.handle.URLFriendlyHandle;
         }
         for (CWBlogTag* tag in post.tags) {
             tag.handle = tag.name.URLFriendlyHandle;
@@ -146,6 +149,7 @@
         }
         
         // Delete the old image and its representations
+        
         if (previousImage && ![previousImage.uid isEqualToString:image.uid]) {
             NSString *uid = previousImage.uid, *publicPath = previousImage.publicPath;
             NSArray<CWImageSizeRepresentation *> *representations = previousImage.sizeRepresentations;
