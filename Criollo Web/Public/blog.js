@@ -49,7 +49,6 @@ const savePost = (post, success, failure) => {
 }
 
 const setupPlaceholder = (element, placeholder) => {
-
   element.contentEditable = true
   if (element.textContent.trim() == '') {
     element.innerHTML = placeholder
@@ -67,11 +66,29 @@ const setupPlaceholder = (element, placeholder) => {
     } catch(e) {}
   })
 
-  element.addEventListener('blur', () => {
+  element.addEventListener('blur', (e) => {
     if (element.textContent.trim() == '') {
       element.innerHTML = placeholder
     }
   })
+}
+
+const autosize = (element) => {
+  const scrollOffset = document.scrollingElement.scrollTop
+  const minHeight = parseInt(window.getComputedStyle(element,null).getPropertyValue("min-height"), 10)   
+  element.style.height = 'auto'
+  element.style.height = `${Math.max(minHeight || 138, element.scrollHeight)}px`
+  document.scrollingElement.scrollTop = scrollOffset
+}
+
+const setupAutosize = (element) => {
+  autosize(element)
+  element.addEventListener('change', autosize.bind(null, element))
+  element.addEventListener('cut', window.setTimeout.bind(null, autosize.bind(null, element), 0), false)
+  element.addEventListener('paste', window.setTimeout.bind(null, autosize.bind(null, element), 0), false)
+  element.addEventListener('drop', window.setTimeout.bind(null, autosize.bind(null, element), 0), false)
+  element.addEventListener('keydown', window.setTimeout.bind(null, autosize.bind(null, element), 0), false)
+  element.addEventListener('focus', window.setTimeout.bind(null, autosize.bind(null, element), 0), false)
 }
 
 const setupEditor = (postElement, post) => {
@@ -199,12 +216,11 @@ const setupEditor = (postElement, post) => {
   // Create a 'textarea' that we can edit the markdown in
   const contentEditor = document.createElement('textarea')
   contentEditor.className = 'article-content-editor'
-  contentEditor.contentEditable = true
   if (post.content) {
     contentEditor.value = post.content    
   }
   contentElement.appendChild(contentEditor)
-  contentEditor.style.height = contentEditor.scrollHeight + 'px'
+  setupAutosize(contentEditor)
 
   // Create the excerpt label and editor element
   const excerptLabel = document.createElement('label')
@@ -214,12 +230,12 @@ const setupEditor = (postElement, post) => {
 
   const excerptEditor = document.createElement('textarea')
   excerptEditor.className = 'article-excerpt-editor'
-  excerptEditor.contentEditable = true
   if (post.excerpt) {
-    excerptEditor.innerHTML = post.excerpt
+    excerptEditor.value = post.excerpt
   }
   excerptEditor.placeholder = excerptPlaceholder
   contentElement.appendChild(excerptEditor)
+  setupAutosize(excerptEditor)
 
   // Create the tags label and editor element
   const tagsLabel = document.createElement('label')
