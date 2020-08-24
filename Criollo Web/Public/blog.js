@@ -48,28 +48,29 @@ const savePost = (post, success, failure) => {
   }, success, failure)
 }
 
-const setupPlaceholder = (element, placeholder) => {
-  element.contentEditable = true
+const addPlaceholder = (element, placeholder) => {
   if (element.textContent.trim() == '') {
     element.innerHTML = placeholder
+    element.classList.add('placeholder')
   }
+}
 
-  element.addEventListener('focus', () => {
-    if (element.textContent.trim() == placeholder) {
-      element.innerHTML = ''
-    }
-  })
+const removePlaceholder = (element, placeholder) => {
+  if (element.textContent.trim() == placeholder) {
+    element.innerHTML = ''
+    element.classList.remove('placeholder')
+  }
+}
 
+const setupPlaceholder = (element, placeholder) => {
+  addPlaceholder(element, placeholder)
+  // element.addEventListener('focus', removePlaceholder.bind(null, element, placeholder))
+  // element.addEventListener('blur', addPlaceholder.bind(null, element, placeholder))
+  element.addEventListener('keydown', removePlaceholder.bind(null, element, placeholder))
+  element.addEventListener('keyup', addPlaceholder.bind(null, element, placeholder))
   element.addEventListener('click', (e) => {
-    try {
-      element.focus()
-    } catch(e) {}
-  })
-
-  element.addEventListener('blur', (e) => {
-    if (element.textContent.trim() == '') {
-      element.innerHTML = placeholder
-    }
+    element.focus()
+    element.select()
   })
 }
 
@@ -96,15 +97,15 @@ const setupEditor = (postElement, post) => {
 
   // Set the title as editable
   const titleElement = postElement.querySelector('h1.article-title')
-  setupPlaceholder(titleElement, titlePlaceholder)
+  titleElement.contentEditable = true
   if (post.title) {
     titleElement.innerHTML = post.title
   }
   titleElement.addEventListener('paste', (e) => {
     e.preventDefault()
-    const text = e.clipboardData.getData('text/plain')
-    document.execCommand('insertHTML', false, text)
+    document.execCommand('insertHTML', false, e.clipboardData.getData('text/plain'))
   })
+  setupPlaceholder(titleElement, titlePlaceholder)
 
   // Setup the post meta data (author and date)
   const authorElement = postElement.querySelector('span.article-author')
@@ -219,6 +220,7 @@ const setupEditor = (postElement, post) => {
   if (post.content) {
     contentEditor.value = post.content    
   }
+  contentEditor.placeholder = contentPlaceholder
   contentElement.appendChild(contentEditor)
   setupAutosize(contentEditor)
 
