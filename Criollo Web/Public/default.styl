@@ -16,19 +16,28 @@ body
   font-family body-font-family
   font-weight 300
   color criollo-dark-gray
-  background-color criollo-black
+  background-color criollo-black  
   
   @media screen and (prefers-color-scheme: dark)
     color criollo-light-gray
 
 h1
   font-size 3.6em
+  
+  @media screen and (max-width: phone-cutoff)
+    font-size 2.5em
 
 h2
   font-size 2em
 
+  @media screen and (max-width: phone-cutoff)
+    font-size 1.75em
+
 h3
   font-size 1.2em
+  
+  @media screen and (max-width: phone-cutoff)
+    font-size 1em
 
 h1, h2, h3
   font-family heading-font-family
@@ -36,12 +45,16 @@ h1, h2, h3
   line-height 1.5em
   letter-spacing -0.05em
   color criollo-dark-orange
+  hyphens auto
   
   @media screen and (prefers-color-scheme: dark)
     color criollo-light-orange
 
 body
   font-size 1.2em
+  
+  @media screen and (max-width: phone-cutoff)
+    font-size 1em
 
 p
   margin 1.5em 0
@@ -157,7 +170,7 @@ body
   &>nav
     .content
       margin 0 auto
-      min-width 300px
+      min-width 288px
       max-width 1136px
       height 100%
       vertical-align middle
@@ -245,13 +258,13 @@ body
   section
 
     .page-header
-
+      padding 1em
+      margin-bottom 2.5em
+      
       .page-title
         margin-top 1.5em
         line-height 1.2em
-        letter-spacing -0.1em !important
-        margin-left -0.075em !important
-        
+        letter-spacing -0.1em !important        
 
     h2
       margin-top 1.4em

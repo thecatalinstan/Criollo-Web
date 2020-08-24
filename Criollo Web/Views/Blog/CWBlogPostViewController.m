@@ -61,8 +61,6 @@
         self.vars[@"article-excerpt-class"] = @"no-thumb";
     }
     self.vars[@"article-thumbnail-url"] = [largeImage permalinkForRequest:request];
-    self.vars[@"article-thumbnail-width"] = [NSString stringWithFormat:@"%lu", (unsigned long)largeImage.width];
-    self.vars[@"article-thumbnail-height"] = [NSString stringWithFormat:@"%lu", (unsigned long)largeImage.height];
 
     return [super presentViewControllerWithRequest:request response:response];
 }

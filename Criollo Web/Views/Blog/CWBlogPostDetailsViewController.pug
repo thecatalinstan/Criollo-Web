@@ -1,15 +1,15 @@
-article.article.single(id="article-{{id}}",data-post="{{id}}")
-  header.article-header.content 
+article.article.single.content(id="article-{{id}}",data-post="{{id}}")
+  header.article-header 
     h1.article-title {{title}}
     p.article-info Posted by
       span.article-author
         a(href="{{author-url}}") {{author}}
       span.article-date {{publishedDate}}
       span.article-toolbar {{toolbar}}
-  .article-image-container.content(class="{{article-image-class}}")
+  .article-image-container(class="{{article-image-class}}")
     .article-image(style="background-image:url({{article-image-url}})")
-  .article-content.content {{content}}
-  footer.article-footer.content
+  .article-content {{content}}
+  footer.article-footer
     .sharing
       .addthis_inline_share_toolbox
     .tags(style="{{tags-style}}")
