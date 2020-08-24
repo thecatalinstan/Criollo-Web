@@ -84,12 +84,14 @@ code
     border 1px solid alpha(criollo-medium-gray, 0.25)
     
   &.hljs
-    color criollo-light-gray
     padding @padding
     box-sizing border-box
-    
+    color criollo-dark-gray
+    background-color criollo-lighter-gray
+          
     @media screen and (prefers-color-scheme: dark)
-      color criollo-medium-gray
+      color criollo-light-gray
+      background-color criollo-dark-gray
 
 strong
   font-weight 600

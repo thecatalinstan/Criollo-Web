@@ -35,7 +35,7 @@ html(lang="en")
               |server.startListening()
           p ... and in Objective-C:
           pre
-            code.objc
+            code.objectivec
               |CRServer* server = [[CRHTTPServer alloc] init];
               |[server get:@"/" block:^(CRRequest *req, CRResponse *res, CRRouteCompletionBlock next) {
               |  [res send:@"Hello world!"];
@@ -125,7 +125,7 @@ html(lang="en")
         p It incorporates an HTTP web server and a&nbsp;
           a(href="http://fastcgi.com") FastCGI
           |&nbsp;application server that are used to deliver content. The server is built on Grand Central Dispatch and designed for speed.
-    link(rel="stylesheet",href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/monokai-sublime.min.css")
+    link(rel="stylesheet",href="/hljs.css")
     script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js")
     script hljs.initHighlightingOnLoad()
 

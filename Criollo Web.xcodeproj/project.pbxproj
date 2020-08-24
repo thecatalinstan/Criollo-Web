@@ -51,6 +51,7 @@
 		ADD5F4A71CCC3908006019FF /* app.js in Resources */ = {isa = PBXBuildFile; fileRef = AD0BA9971C962922005206A1 /* app.js */; };
 		ADD680001C6CBEC600FC41EE /* CWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */; };
 		ADD680031C6CBEC600FC41EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD680021C6CBEC600FC41EE /* main.m */; };
+		ADD722A524F4674D0039F253 /* hljs.styl in Resources */ = {isa = PBXBuildFile; fileRef = ADD722A424F4674D0039F253 /* hljs.styl */; };
 		ADD859761C98B2D500C0950B /* criollo-icon-square-padded.png in Copy Public Resources */ = {isa = PBXBuildFile; fileRef = ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */; };
 		ADDF76881D8D4C3F008CD497 /* CWSitemapController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADDF76871D8D4C3F008CD497 /* CWSitemapController.m */; };
 		ADE62C951D490E7C0023837F /* CWAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE62C921D490E7C0023837F /* CWAPIError.m */; };
@@ -211,6 +212,7 @@
 		ADD67FFF1C6CBEC600FC41EE /* CWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CWAppDelegate.m; sourceTree = "<group>"; };
 		ADD680021C6CBEC600FC41EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADD680091C6CBEC600FC41EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADD722A424F4674D0039F253 /* hljs.styl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hljs.styl; sourceTree = "<group>"; };
 		ADD859741C98B2B400C0950B /* criollo-icon-square-padded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "criollo-icon-square-padded.png"; sourceTree = "<group>"; };
 		ADDF76861D8D4C3F008CD497 /* CWSitemapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSitemapController.h; sourceTree = "<group>"; };
 		ADDF76871D8D4C3F008CD497 /* CWSitemapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSitemapController.m; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 		AD7290E91C7058C90079AD76 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				ADD722A424F4674D0039F253 /* hljs.styl */,
 				AD6F6C9124DA0FC200B5EDFF /* editor.styl */,
 				AD6F6C9024DA0FC100B5EDFF /* tokenfield.styl */,
 				AD0BA84B1D1C26AB00F0C865 /* Login */,
@@ -605,6 +608,7 @@
 				ADF347021CF1F7F800EFC211 /* CWLoginPageViewController.pug in Resources */,
 				AD64C11124E33BD4005ED688 /* image-sizes.json in Resources */,
 				AD5200611D2C1A4D00DAF7BC /* CWBlogPostDetailsViewController.pug in Resources */,
+				ADD722A524F4674D0039F253 /* hljs.styl in Resources */,
 				AD5F02291CE0BD8900D810B6 /* CWBlogViewController.pug in Resources */,
 				AD6F6C9224DA0FC200B5EDFF /* tokenfield.styl in Resources */,
 				AD4A13F61C9068DD00A3616E /* Assets.xcassets in Resources */,

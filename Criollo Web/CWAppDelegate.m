@@ -137,7 +137,10 @@ NS_ASSUME_NONNULL_END
     
 //    // editor.css
 //    [self.server mount:@"/editor.css" fileAtPath:[NSBundle.mainBundle pathForResource:@"editor" ofType:@"css"]];
-    
+
+    // hljs.css
+    [self.server mount:@"/hljs.css" fileAtPath:[NSBundle.mainBundle pathForResource:@"hljs" ofType:@"css"]];
+
     // tokenfield.css
     [self.server mount:@"/tokenfield.css" fileAtPath:[NSBundle.mainBundle pathForResource:@"tokenfield" ofType:@"css"]];
     
