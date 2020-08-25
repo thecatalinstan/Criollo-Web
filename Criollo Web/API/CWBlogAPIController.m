@@ -133,7 +133,11 @@
             post.publishedDate = [NSDate date];
         }
         if (!post.handle.length) {
-            post.handle = post.title.URLFriendlyHandle;
+            if (post.title.length) {
+                post.handle = post.title.URLFriendlyHandle;
+            } else {
+                post.handle = NSString.randomURLFriendlyHandle;
+            }
         } else if (previousHandle && ![post.handle isEqualToString:previousHandle]) {
             post.handle = post.handle.URLFriendlyHandle;
         }
