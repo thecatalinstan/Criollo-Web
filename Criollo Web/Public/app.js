@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     blog.setup()
   }, (err) => {
     window.currentUser = null
-  } )
+  })
 
   // Footer info
   getStats(document.getElementById('stats-info'))

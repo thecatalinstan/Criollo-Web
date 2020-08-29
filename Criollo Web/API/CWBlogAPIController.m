@@ -65,8 +65,25 @@
     }}];
 
     [self delete:CWBlogAPISinglePostPath block:^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {
-        NSError *error = [NSError errorWithDomain:CWAPIErrorDomain code:CWAPIErrorNotImplemented userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"Not implemented",)}];
-        [CWAPIController failWithError:error request:request response:response];
+        NSString* pid = request.query[@"pid"];
+        CWBlogPost* post;
+        if (!(post = [CWBlogPost getByUID:pid])) {
+            [response setStatusCode:404 description:nil];
+            [CWAPIController failWithError:nil request:request response:response];
+        }
+        
+        NSString *title = [NSString stringWithFormat:@"%@%@ %@", post.title, post.published ? @"" : @" [draft]", post.title.length ? @"" : pid];
+        
+        RLMRealm *realm = CWBlog.realm;
+        [realm beginWriteTransaction];
+        [realm deleteObject:post];
+        NSError *error;
+        if (![realm commitWriteTransaction:&error]) {
+            [CWAPIController failWithError:error request:request response:response];
+            return;
+        }
+                
+        [CWAPIController succeedWithPayload:@{@"uid":pid, @"title":title} request:request response:response];
     }}];
 
     CRRouteBlock createOrUpdatePostBlock = ^(CRRequest * _Nonnull request, CRResponse * _Nonnull response, CRRouteCompletionBlock  _Nonnull completionHandler) { @autoreleasepool {

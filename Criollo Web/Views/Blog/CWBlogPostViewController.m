@@ -49,6 +49,7 @@
         [toolbar appendString:@"&nbsp;&nbsp;&middot;&nbsp;&nbsp;"];
         [toolbar appendFormat:@"<a href=\"%@/edit\">edit</a>", [self.post permalinkForRequest:request]];
         [toolbar appendFormat:@"&nbsp;&nbsp;<a href=\"%@%@\">new post</a>", CWBlogPath, CWBlogNewPostPath];
+        [toolbar appendFormat:@"&nbsp;&nbsp;<a class=\"delete-post\" data-post=\"%@\" href=\"\">delete post</a>", self.post.uid];
     }
     self.vars[@"toolbar"] = toolbar;
     

@@ -48,6 +48,13 @@ const savePost = (post, success, failure) => {
   }, success, failure)
 }
 
+const deletePost = (uid, success, failure) => {
+  api({
+    url: `/api/blog/posts/${uid}?${Math.random()}`,
+    method: 'delete',
+  }, success, failure)
+}
+
 const autosize = (element) => {
   const scrollOffset = document.scrollingElement.scrollTop
   const minHeight = parseInt(window.getComputedStyle(element,null).getPropertyValue("min-height"), 10)   
@@ -445,6 +452,35 @@ const makeHandle = (input, success, failure) => {
 blog.getPost = getPost
 
 blog.setup = () => {
+  // Add delete link
+  const deleteLinks = document.querySelectorAll('.blog article.article .article-toolbar a.delete-post')
+  console.log(deleteLinks)
+  deleteLinks.forEach((item, index) => {
+    const pid = item.dataset.post
+    const title = document.querySelector(`#article-${pid} .article-title a`).textContent
+    item.onclick = (e) => {
+      e.preventDefault()      
+      if (!confirm(`Are you sure you want to delete '${title}'`)) {
+        return
+      }
+      
+      deletePost(pid, (data) => {
+        console.log('Deleted post:', data)
+        window.notifier.confirm('Succcessfully deleted post', data.title)
+        const article = document.querySelector(`#article-${pid}`)
+        article.classList.add('deleting')
+        setTimeout(() => {
+          article.parentNode.removeChild(article)
+        }, 750)
+      }, (err) => {
+        console.error(err)
+        window.notifier.error('Unable to delete post', err.message)
+      })
+      
+    }
+  })
+
+  // Setup edit post
   const postElement = document.querySelector('.blog article.article.single')
   if (!postElement) {
     console.log(`There is no post element. Exiting.`)
@@ -471,7 +507,7 @@ blog.setup = () => {
 blog.relatedPosts = () => {
   const postElement = document.querySelector('.content article.article')
   if (!postElement) {
-    console.log(`There is no post element. Exiting.`)
+    // console.log(`There is no post element. Exiting.`)
     return
   }
 
