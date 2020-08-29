@@ -1,0 +1,99 @@
+@import globals
+@import nib
+
+checkbox-size = 24px
+
+.checkbox-container
+  display inline-block
+  margin-top -1px
+  height checkbox-size
+  
+  .input-title
+    display inline-block
+    height checkbox-size
+    line-height @height
+    margin-left 4px
+    position relative
+    top -5px
+    left -5px
+    cursor pointer
+
+  /* Styling Checkbox Starts */
+  .checkbox-label
+    display inline-block
+    position relative
+    margin 0 0.5em 0 0
+    cursor pointer
+    font-size 22px
+    width checkbox-size
+    height @width
+    line-height @height
+    display inline-block
+    background-color 
+
+    input
+      position absolute
+      opacity 0
+      cursor pointer
+      
+      &:checked ~ .checkbox-custom
+        border-radius 4px
+        transform rotate(0deg) scale(1)
+        opacity 1
+        background-color criollo-lighter-gray
+        border 2px solid criollo-medium-gray
+        color criollo-dark-gray
+
+        @media screen and (prefers-color-scheme: dark)
+          background-color criollo-dark-gray
+          border 2px solid criollo-medium-gray
+          color criollo-light-gray
+          
+        &::after
+          transform rotate(45deg) scale(1)
+          opacity 1
+          left (checkbox-size / 3 - 4px)
+          top (checkbox-size / 8 - 3px)
+          width (checkbox-size / 3 + 1px) 
+          height (checkbox-size / 2)
+          background-color transparent
+          border-radius 0
+          border-top none
+          border-right 3px solid criollo-orange
+          border-bottom @border-right
+          border-left  @border-top
+
+    .checkbox-custom
+      position absolute
+      top 0px
+      left 0px
+      box-sizing border-box
+      width checkbox-size
+      height @width
+      background-color transparent
+      border-radius 4px
+      transition all 0.3s ease-out
+      background-color criollo-lighter-gray
+      border 2px solid criollo-medium-gray
+      color criollo-dark-gray
+
+      @media screen and (prefers-color-scheme: dark)
+        background-color criollo-dark-gray
+        border 2px solid criollo-medium-gray
+        color criollo-light-gray
+
+      &::after
+        position absolute
+        content ""
+        left (checkbox-size / 2)
+        top (checkbox-size / 2)
+        width 0
+        height @height
+        transform rotate(0deg) scale(0)
+        opacity 1
+        transition all 0.3s ease-out
+        border-radius 4px
+        border-top none
+        border-right 3px solid criollo-orange
+        border-bottom @border-right
+        border-left  @border-top

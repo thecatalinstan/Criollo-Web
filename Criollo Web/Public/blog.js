@@ -242,6 +242,7 @@ const setupEditor = (postElement, post) => {
   const footerElement = postElement.querySelector('.article-footer')
   footerElement.innerHTML = ''
 
+
   // Create the published checkbox and label
   const publishedContainer = document.createElement('div')
   publishedContainer.className = 'article-published-container'
@@ -256,18 +257,35 @@ const setupEditor = (postElement, post) => {
   publishedPermalink.target = '_blank'
   publishedContainer.appendChild(publishedPermalink)
 
+  // <div class="checkbox-container">
+  const publishedEditorContainer = document.createElement('div')
+  publishedEditorContainer.className = 'checkbox-container'
+  publishedContainer.appendChild(publishedEditorContainer)
+
+  //   <label class="checkbox-label">
+  const publishedEditorContainerLabel = document.createElement('label')
+  publishedEditorContainerLabel.className = 'checkbox-label'
+  publishedEditorContainer.appendChild(publishedEditorContainerLabel)
+
+  //       <input type="checkbox">
   const publishedEditor = document.createElement('input')
   publishedEditor.type = 'checkbox'
   publishedEditor.className = 'article-published-editor'
   publishedEditor.id = 'article-published-editor-' + post.uid
   publishedEditor.checked = post.published
-  publishedContainer.appendChild(publishedEditor)
+  publishedEditorContainerLabel.appendChild(publishedEditor)
 
+  //       <span class="checkbox-custom rectangular"></span>
+  const publishedEditorCheckboxOverlay = document.createElement('span')
+  publishedEditorCheckboxOverlay.className = 'checkbox-custom rectangular'
+  publishedEditorContainerLabel.appendChild(publishedEditorCheckboxOverlay)  
+
+  //   <label class="input-title">Published</label>
   const publishedLabel = document.createElement('label')
   publishedLabel.htmlFor = publishedEditor.id
-  publishedLabel.className = 'article-published-editor-label'
+  publishedLabel.className = 'article-published-editor-label input-title'
   publishedLabel.innerHTML = 'Published'
-  publishedContainer.appendChild(publishedLabel)
+  publishedEditorContainer.appendChild(publishedLabel)
   
   footerElement.appendChild(publishedContainer)
 
@@ -276,7 +294,6 @@ const setupEditor = (postElement, post) => {
   saveButton.className = 'save-button'
   saveButton.id = saveButton.className
   saveButton.onclick = (e) => {
-
     const submitPost = () => {
       post.title = titleElement.textContent
       if (post.uid) {
