@@ -261,6 +261,33 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)setupGithubPolling {
+    NSURL *githubCacheURL = [CWAppDelegate.baseDirectory URLByAppendingPathComponent:@"github.json"];
+    
+    NSData *data;
+    NSError *error;
+    if ((data = [[NSData alloc] initWithContentsOfURL:githubCacheURL options:NSDataReadingUncached error:&error])) {
+        NSArray<NSDictionary *> *objects;
+        if ((objects = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error])) {
+            if (!(githubRepo = [[CWGithubRepo alloc] initWithDictionary:objects[0] error:&error])) {
+                [CRApp logErrorFormat:@"%@ Failed to read cached github repo info. %@", [NSDate date], error.localizedDescription];
+                error = nil;
+            }
+            if (!(githubRelease = [[CWGithubRelease alloc] initWithDictionary:objects[1] error:&error])) {
+                [CRApp logErrorFormat:@"%@ Failed to read cached release info. %@", [NSDate date], error.localizedDescription];
+                error = nil;
+            }
+            if (!(webGithubRepo = [[CWGithubRepo alloc] initWithDictionary:objects[2] error:&error])) {
+                [CRApp logErrorFormat:@"%@ Failed to read cached website github repo info. %@", [NSDate date], error.localizedDescription];
+                error = nil;
+            }
+            [CRApp logFormat:@"%@ Successfully initialized github info from cache.", NSDate.date];
+        } else {
+            [CRApp logErrorFormat:@"%@ Failed to deserialize github github info cache. %@", [NSDate date], error.localizedDescription];
+        }
+    } else {
+        [CRApp logErrorFormat:@"%@ Error reading github github info cache. %@", [NSDate date], error.localizedDescription];
+    }
+    
     NSTimer *timer = [[NSTimer alloc] initWithFireDate:NSDate.date interval:3600 repeats:YES block:^(NSTimer * _Nonnull timer) {
         NSError *error;
         CWGithubHelper *helper = [CWGithubHelper new];
@@ -284,10 +311,28 @@ NS_ASSUME_NONNULL_END
         CWGithubRepo *webRepo;
         if ((webRepo = [helper fetchRepo:@"thecatalinstan/Criollo-Web" error:&error])) {
             webGithubRepo = webRepo;
-            [CRApp logFormat:@"%@ Successfully updated website github repo info for %@", NSDate.date, githubRepo.fullName];
+            [CRApp logFormat:@"%@ Successfully updated website github repo info for %@", NSDate.date, webRepo.fullName];
         } else {
             [CRApp logErrorFormat:@"%@ Failed to get website github repo details. %@", NSDate.date, error.localizedDescription];
         }
+        
+        NSMutableArray<CWGithubModel *> *githubInfo = [NSMutableArray arrayWithCapacity:3];
+        [githubInfo addObject:githubRepo ?: [CWGithubRepo new]];
+        [githubInfo addObject:githubRelease ?: [CWGithubRelease new]];
+        [githubInfo addObject:webGithubRepo ?: [CWGithubRepo new]];
+        
+        NSArray *objects = [CWGithubModel arrayOfDictionariesFromModels:githubInfo];
+        NSData *data;
+        if ((data = [NSJSONSerialization dataWithJSONObject:objects options:NSJSONWritingPrettyPrinted error:&error])) {
+            if ([data writeToURL:githubCacheURL options:NSDataWritingAtomic error:&error]) {
+                [CRApp logFormat:@"%@ Successfully persisted github info cache.", NSDate.date];
+            } else {
+                [CRApp logErrorFormat:@"%@ Failed to persist github info cache. %@", NSDate.date, error.localizedDescription];
+            }
+        } else {
+            [CRApp logErrorFormat:@"%@ Failed to serialize github info cache. %@", NSDate.date, error.localizedDescription];
+        }
+        
     }];
     
     [NSRunLoop.mainRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
