@@ -103,8 +103,10 @@ const setupEditor = (postElement, post) => {
 
   const publishedDateElement = postElement.querySelector('span.article-date')
   if (!post.publishedDate) {
+    // 24 aug 2020 at 08:52
     const date  = new Date()
-    publishedDateElement.innerHTML = `, ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
+    publishedDateElement.innerHTML = `, ${date.toLocaleDateString(['en-DK'], { year: 'numeric', month: 'short', day: 'numeric' })} at ${date.toLocaleTimeString(['en-DK'], { hour: '2-digit', minute: '2-digit', hour12: false })}`
+
   }
 
   if (!post.uid) {

@@ -194,9 +194,10 @@ static NSUInteger const CWExcerptLength = 400;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.doesRelativeDateFormatting = YES;
+        dateFormatter.doesRelativeDateFormatting = NO;
         dateFormatter.dateStyle = NSDateFormatterMediumStyle;
         dateFormatter.timeStyle = NSDateFormatterNoStyle;
+        dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_DK"];
     });
     return [dateFormatter stringFromDate:date];
 }
@@ -208,7 +209,9 @@ static NSUInteger const CWExcerptLength = 400;
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateStyle = NSDateFormatterNoStyle;
         dateFormatter.timeStyle = NSDateFormatterShortStyle;
+        dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_DK"];
     });
+    
     return [dateFormatter stringFromDate:date];
 }
 
