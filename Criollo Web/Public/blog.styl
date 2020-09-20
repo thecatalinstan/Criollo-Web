@@ -93,6 +93,39 @@ body.blog
         .article-date
           text-transform lowercase
           
+          &[contenteditable="true"]        
+            position relative
+            top -0.1em     
+            text-transform uppercase  
+            vertical-align middle
+            display inline-block
+            background-color white
+            border-radius 4px
+            padding 0.3em 0.5em 0.2em 0.5em
+            margin-left 0.3em
+            margin-right @margin-left
+            box-sizing border-box
+            cursor text
+            line-height 1.5em
+            font-family monotype-font-family
+            font-size 0.9em
+            font-weight 400
+            background-color criollo-lighter-gray
+            border 1px solid criollo-light-gray
+            color criollo-dark-gray
+
+            @media screen and (prefers-color-scheme: dark)
+              background-color criollo-dark-gray
+              border 1px solid criollo-darker-gray
+              color criollo-light-gray
+
+            @media screen and (max-width: phone-cutoff)
+              width 100%
+              display block
+
+            &:focus
+              outline none            
+          
         .article-toolbar
           a.delete-post
             font-size 0.9em
