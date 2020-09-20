@@ -7,6 +7,37 @@ const contentPlaceholder = 'Enter the post content as markdown here'
 const excerptPlaceholder = 'The post excerpt (leave blank to autogenerate)'
 const tagsPlaceholder = 'Enter some tags'
 
+const formatISO8601Date = (str) => {  
+  const len = 19
+  let offset = 0, zulu = ""
+  if (str.length <= len) {
+    zulu = str
+  } else {
+    zulu = str.substr(0, len)
+    str = str.substr(len)    
+    let idx
+    if ((idx = str.lastIndexOf("+")) >= 0 || (idx = str.lastIndexOf("-")) >= 0) {
+      str = str.substr(idx)
+      if (str.length == 1) {
+        str = "0"
+      }
+    } else {
+      str = "0"
+    }
+    offset = parseInt(str, 10)
+  }
+
+  let t = new Date(zulu)
+  if (isNaN(t.getTime())) {
+    return "(invalid date)"
+  }
+
+  t.setSeconds(t.getSeconds() - offset * 36)
+
+  // fx. 24 aug 2020 at 08:52
+  return `${t.toLocaleDateString(['en-DK'], { year: 'numeric', month: 'short', day: 'numeric' })} at ${t.toLocaleTimeString(['en-DK'], { hour: '2-digit', minute: '2-digit', hour12: false })}`
+}
+
 const displayValidationError = (element, message) => {
   if (window.notifier) {
     window.notifier.error('Unable to Save Post', message)
@@ -101,9 +132,8 @@ const setupEditor = (postElement, post) => {
   }
   authorElement.innerHTML = authorDisplayName
 
-  // 24 aug 2020 at 08:52
-  // publishedDateElement.innerHTML = `, ${date.toLocaleDateString(['en-DK'], { year: 'numeric', month: 'short', day: 'numeric' })} at ${date.toLocaleTimeString(['en-DK'], { hour: '2-digit', minute: '2-digit', hour12: false })}`    
-  const publishedDateElement = postElement.querySelector('span.article-date')
+  const publishedDateElement = postElement.querySelector('span.article-date')  
+  const publishedDatePreviewElement = publishedDateElement.cloneNode()
   let date;
   if (!(date = post.publishedDate)) {
     date  = (new Date()).toISOString()
@@ -111,17 +141,17 @@ const setupEditor = (postElement, post) => {
   publishedDateElement.innerHTML = date
   publishedDateElement.contentEditable = true
   publishedDateElement.addEventListener('keydown', (e) => {
-    var charCode = (e.which) ? e.which : evt.keyCode    
-    if (charCode == 8 || (charCode >= 37 && charCode <= 40)) {
-      return
+    let charCode = (e.which) ? e.which : evt.keyCode    
+    let valid = charCode == 8 || (charCode >= 37 && charCode <= 40) || /^[0-9:\-TtZz+]{1}$/.test(e.key)
+    if (!valid) {
+      e.preventDefault()  
     }
-
-    if (/^[0-9:\-TtZz+]{1}$/.test(e.key)) {
-      return
-    }
-
-    e.preventDefault()
   })
+  publishedDateElement.addEventListener('keyup', (e) => {
+    publishedDatePreviewElement.innerHTML = formatISO8601Date(publishedDateElement.textContent)
+  })
+  publishedDatePreviewElement.innerHTML = formatISO8601Date(publishedDateElement.textContent)
+  publishedDateElement.after(publishedDatePreviewElement)
 
   if (!post.uid) {
     const toolbar = postElement.querySelector('span.article-toolbar')
