@@ -101,13 +101,15 @@ const setupEditor = (postElement, post) => {
   }
   authorElement.innerHTML = authorDisplayName
 
+  // 24 aug 2020 at 08:52
+  // publishedDateElement.innerHTML = `, ${date.toLocaleDateString(['en-DK'], { year: 'numeric', month: 'short', day: 'numeric' })} at ${date.toLocaleTimeString(['en-DK'], { hour: '2-digit', minute: '2-digit', hour12: false })}`    
   const publishedDateElement = postElement.querySelector('span.article-date')
-  if (!post.publishedDate) {
-    // 24 aug 2020 at 08:52
-    const date  = new Date()
-    publishedDateElement.innerHTML = `, ${date.toLocaleDateString(['en-DK'], { year: 'numeric', month: 'short', day: 'numeric' })} at ${date.toLocaleTimeString(['en-DK'], { hour: '2-digit', minute: '2-digit', hour12: false })}`
-
+  let date;
+  if (!(date = post.publishedDate)) {
+    date  = (new Date()).toISOString()
   }
+  publishedDateElement.innerHTML = date
+  publishedDateElement.contentEditable = true
 
   if (!post.uid) {
     const toolbar = postElement.querySelector('span.article-toolbar')
@@ -308,6 +310,7 @@ const setupEditor = (postElement, post) => {
       if (post.uid) {
         post.handle = handleEditor.value
       }
+      post.publishedDate = publishedDateElement.textContent
       post.content = contentEditor.value
       post.excerpt = excerptEditor.value
       post.tags = tokenField.getItems().map ( (item) => {
