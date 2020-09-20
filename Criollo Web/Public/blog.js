@@ -110,6 +110,18 @@ const setupEditor = (postElement, post) => {
   }
   publishedDateElement.innerHTML = date
   publishedDateElement.contentEditable = true
+  publishedDateElement.addEventListener('keydown', (e) => {
+    var charCode = (e.which) ? e.which : evt.keyCode    
+    if (charCode == 8 || (charCode >= 37 && charCode <= 40)) {
+      return
+    }
+
+    if (/^[0-9:\-TtZz+]{1}$/.test(e.key)) {
+      return
+    }
+
+    e.preventDefault()
+  })
 
   if (!post.uid) {
     const toolbar = postElement.querySelector('span.article-toolbar')
@@ -459,7 +471,6 @@ blog.getPost = getPost
 blog.setup = () => {
   // Add delete link
   const deleteLinks = document.querySelectorAll('.blog article.article .article-toolbar a.delete-post')
-  console.log(deleteLinks)
   deleteLinks.forEach((item, index) => {
     const pid = item.dataset.post
     const title = document.querySelector(`#article-${pid} .article-title a`).textContent
