@@ -288,10 +288,10 @@ NS_ASSUME_NONNULL_END
         [CRApp logErrorFormat:@"%@ Error reading github github info cache. %@", [NSDate date], error.localizedDescription];
     }
     
-    NSTimer *timer = [[NSTimer alloc] initWithFireDate:NSDate.date interval:3600 repeats:YES block:^(NSTimer * _Nonnull timer) {
+    dispatch_block_t update = ^{
         NSError *error;
         CWGithubHelper *helper = [CWGithubHelper new];
-
+        
         CWGithubRepo *repo;
         if ((repo = [helper fetchRepo:@"thecatalinstan/Criollo" error:&error])) {
             githubRepo = repo;
@@ -332,10 +332,14 @@ NS_ASSUME_NONNULL_END
         } else {
             [CRApp logErrorFormat:@"%@ Failed to serialize github info cache. %@", NSDate.date, error.localizedDescription];
         }
-        
-    }];
+    };
     
-    [NSRunLoop.mainRunLoop addTimer:timer forMode:NSDefaultRunLoopMode];
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 3600 * NSEC_PER_SEC, 60 * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(timer, update);
+    dispatch_resume(timer);
+
+    dispatch_async(dispatch_get_main_queue(), update);    
 }
 
 #if LogConnections
