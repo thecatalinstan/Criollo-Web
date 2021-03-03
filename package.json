@@ -21,7 +21,7 @@
     "@babel/preset-env": "^7.10.4",
     "@rollup/plugin-babel": "^5.1.0",
     "nib": "^1.1.2",
-    "pug": "^3.0.0",
+    "pug": "^3.0.1",
     "pug-cli": "^1.0.0-alpha6",
     "rollup": "^2.21.0",
     "rollup-plugin-terser": "^6.1.0",
